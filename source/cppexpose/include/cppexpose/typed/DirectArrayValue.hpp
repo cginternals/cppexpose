@@ -16,8 +16,20 @@ DirectArrayValue<T>::DirectArrayValue()
 }
 
 template <typename T>
+DirectArrayValue<T>::DirectArrayValue(const T & value)
+: m_value(value)
+{
+}
+
+template <typename T>
 DirectArrayValue<T>::~DirectArrayValue()
 {
+}
+
+template <typename T>
+AbstractTyped * DirectArrayValue<T>::clone() const
+{
+    return new DirectArrayValue<T>(m_value);
 }
 
 template <typename T>
@@ -52,8 +64,20 @@ DirectArrayValue<const T>::DirectArrayValue()
 }
 
 template <typename T>
+DirectArrayValue<const T>::DirectArrayValue(const T & value)
+: DirectArrayValue<T>::DirectArrayValue(value)
+{
+}
+
+template <typename T>
 DirectArrayValue<const T>::~DirectArrayValue()
 {
+}
+
+template <typename T>
+AbstractTyped * DirectArrayValue<const T>::clone() const
+{
+    return new DirectArrayValue<const T>(this->m_value);
 }
 
 template <typename T>

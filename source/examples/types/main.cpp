@@ -94,7 +94,8 @@ int main(int /*argc*/, char * /*argv*/[])
     StoredValue<const int> int2(&getValue); //, &setValue);
     StoredValue<int> int3(
         std::bind(&MyValue::value, &myValue),
-        std::bind(&MyValue::setValue, &myValue, _1));
+        std::bind(&MyValue::setValue, &myValue, _1)
+    );
 //  DirectArrayValue< std::array<int, 3> > ints;
     StoredArrayValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
 

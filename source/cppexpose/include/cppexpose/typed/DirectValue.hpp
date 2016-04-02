@@ -16,8 +16,20 @@ DirectValue<T>::DirectValue()
 }
 
 template <typename T>
+DirectValue<T>::DirectValue(const T & value)
+: m_value(value)
+{
+}
+
+template <typename T>
 DirectValue<T>::~DirectValue()
 {
+}
+
+template <typename T>
+AbstractTyped * DirectValue<T>::clone() const
+{
+    return new DirectValue<T>(m_value);
 }
 
 template <typename T>
@@ -40,8 +52,20 @@ DirectValue<const T>::DirectValue()
 }
 
 template <typename T>
+DirectValue<const T>::DirectValue(const T & value)
+: DirectValue<T>::DirectValue(value)
+{
+}
+
+template <typename T>
 DirectValue<const T>::~DirectValue()
 {
+}
+
+template <typename T>
+AbstractTyped * DirectValue<const T>::clone() const
+{
+    return new DirectValue<const T>(this->m_value);
 }
 
 template <typename T>

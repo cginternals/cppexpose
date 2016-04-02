@@ -25,6 +25,12 @@ StoredValue<T>::~StoredValue()
 }
 
 template <typename T>
+AbstractTyped * StoredValue<T>::clone() const
+{
+    return new StoredValue<T>(m_getter, m_setter);
+}
+
+template <typename T>
 T StoredValue<T>::value() const
 {
     return m_getter();
@@ -53,6 +59,12 @@ StoredValue<const T>::StoredValue(std::function<T ()> getter)
 template <typename T>
 StoredValue<const T>::~StoredValue()
 {
+}
+
+template <typename T>
+AbstractTyped * StoredValue<const T>::clone() const
+{
+    return new StoredValue<const T>(this->m_getter);
 }
 
 template <typename T>

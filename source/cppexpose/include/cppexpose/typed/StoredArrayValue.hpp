@@ -29,6 +29,12 @@ StoredArrayValue<T>::~StoredArrayValue()
 }
 
 template <typename T>
+AbstractTyped * StoredArrayValue<T>::clone() const
+{
+    return new StoredArrayValue<T>(m_getter, m_setter, m_elementGetter, m_elementSetter);
+}
+
+template <typename T>
 T StoredArrayValue<T>::value() const
 {
     return m_getter();
@@ -74,6 +80,17 @@ StoredArrayValue<const T>::StoredArrayValue(
 template <typename T>
 StoredArrayValue<const T>::~StoredArrayValue()
 {
+}
+
+template <typename T>
+AbstractTyped * StoredArrayValue<const T>::clone() const
+{
+    return new StoredArrayValue<const T>(
+      this->m_getter,
+      this->m_setter,
+      this->m_elementGetter,
+      this->m_elementSetter
+    );
 }
 
 template <typename T>

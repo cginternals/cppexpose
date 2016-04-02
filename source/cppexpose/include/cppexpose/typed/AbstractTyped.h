@@ -30,6 +30,15 @@ public:
 
     /**
     *  @brief
+    *    Create a copy of the typed value
+    *
+    *  @return
+    *    Pointer to the cloned value
+    */
+    virtual AbstractTyped * clone() const = 0;
+
+    /**
+    *  @brief
     *    Get value type
     *
     *  @return

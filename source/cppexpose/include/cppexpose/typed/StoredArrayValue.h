@@ -47,6 +47,9 @@ public:
     */
     virtual ~StoredArrayValue();
 
+    // Virtual AbstractTyped interface
+    virtual AbstractTyped * clone() const override;
+
     // Virtual Typed<T> interface
     virtual T value() const override;
     virtual void setValue(const T & value) override;
@@ -109,6 +112,7 @@ public:
     virtual ~StoredArrayValue();
 
     // Virtual AbstractTyped interface
+    virtual AbstractTyped * clone() const override;
     virtual bool isReadOnly() const override;
 
     // Virtual Typed<T> interface

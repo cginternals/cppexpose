@@ -25,9 +25,21 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] value
+    *    Initial value
+    */
+    DirectValue(const T & value);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~DirectValue();
+
+    // Virtual AbstractTyped interface
+    virtual AbstractTyped * clone() const override;
 
     // Virtual Typed<T> interface
     virtual T value() const override;
@@ -55,11 +67,21 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] value
+    *    Initial value
+    */
+    DirectValue(const T & value);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~DirectValue();
 
     // Virtual AbstractTyped interface
+    virtual AbstractTyped * clone() const override;
     virtual bool isReadOnly() const override;
 
     // Virtual Typed<T> interface
