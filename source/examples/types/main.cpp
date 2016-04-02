@@ -90,7 +90,7 @@ int main(int /*argc*/, char * /*argv*/[])
 
     MyValue myValue;
 
-    DirectValue<int>       int1;
+    DirectValue<unsigned int> int1;
     StoredValue<const int> int2(&getValue); //, &setValue);
     StoredValue<int> int3(
         std::bind(&MyValue::value, &myValue),
@@ -98,7 +98,11 @@ int main(int /*argc*/, char * /*argv*/[])
     );
 //  DirectArrayValue< std::array<int, 3> > ints;
     StoredArrayValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
+    DirectValue<std::string> str1;
+    DirectValue<bool> bln1;
 
+    std::cout << "Type(bln1): " << bln1.type().name() << std::endl;
+    std::cout << "Type(str1): " << str1.type().name() << std::endl;
     std::cout << "Type(int1): " << int1.type().name() << std::endl;
     std::cout << "Type(int2): " << int2.type().name() << std::endl;
     std::cout << "Type(int3): " << int3.type().name() << std::endl;

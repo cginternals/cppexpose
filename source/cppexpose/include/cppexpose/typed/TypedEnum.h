@@ -11,27 +11,30 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of an int value
+*    Representation of an enum value
 */
 template <typename T>
-class TypedInt : public Typed<T>
+class TypedEnum : public Typed<T>
 {
 public:
     /**
     *  @brief
     *    Constructor
     */
-    TypedInt();
+    TypedEnum();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypedInt();
+    virtual ~TypedEnum();
+
+    // Virtual Typed<T> interface
+    virtual std::string typeName() const override;
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/typed/TypedInt.hpp>
+#include <cppexpose/typed/TypedEnum.hpp>

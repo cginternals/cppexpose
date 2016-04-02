@@ -59,7 +59,8 @@ public:
     virtual void setElement(size_t i, const T & value) = 0;
 
     // Virtual Typed<T> interface
-    virtual bool isReadOnly() const override;
+    virtual std::string typeName() const override;
+    virtual bool isArray() const override;
 };
 
 

@@ -37,8 +37,24 @@ set(headers
     ${include_path}/typed/TypeSelector.h
     ${include_path}/typed/Typed.h
     ${include_path}/typed/Typed.hpp
-    ${include_path}/typed/TypedInt.h
-    ${include_path}/typed/TypedInt.hpp
+    ${include_path}/typed/TypedGeneric.h
+    ${include_path}/typed/TypedGeneric.hpp
+    ${include_path}/typed/TypedBool.h
+    ${include_path}/typed/TypedBool.hpp
+    ${include_path}/typed/TypedString.h
+    ${include_path}/typed/TypedString.hpp
+    ${include_path}/typed/TypedSignedIntegral.h
+    ${include_path}/typed/TypedSignedIntegral.hpp
+    ${include_path}/typed/TypedUnsignedIntegral.h
+    ${include_path}/typed/TypedUnsignedIntegral.hpp
+    ${include_path}/typed/TypedFloatingPoint.h
+    ${include_path}/typed/TypedFloatingPoint.hpp
+    ${include_path}/typed/TypedEnum.h
+    ${include_path}/typed/TypedEnum.hpp
+    ${include_path}/typed/TypedArray.h
+    ${include_path}/typed/TypedArray.h
+    ${include_path}/typed/TypedVariant.hpp
+    ${include_path}/typed/TypedVariant.hpp
     ${include_path}/typed/DirectValue.h
     ${include_path}/typed/DirectValue.hpp
     ${include_path}/typed/DirectArrayValue.h

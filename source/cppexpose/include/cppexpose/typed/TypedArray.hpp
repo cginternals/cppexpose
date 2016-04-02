@@ -20,9 +20,15 @@ TypedArray<T, Size, BaseType>::~TypedArray()
 }
 
 template <typename T, size_t Size, typename BaseType>
-bool TypedArray<T, Size, BaseType>::isReadOnly() const
+std::string TypedArray<T, Size, BaseType>::typeName() const
 {
-    return false;
+    return "array";
+}
+
+template <typename T, size_t Size, typename BaseType>
+bool TypedArray<T, Size, BaseType>::isArray() const
+{
+    return true;
 }
 
 
