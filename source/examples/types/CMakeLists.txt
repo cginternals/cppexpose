@@ -9,7 +9,7 @@
 # 
 
 # Target name
-set(target type)
+set(target types)
 
 # Exit here if required dependencies are not met
 message(STATUS "Example ${target}")

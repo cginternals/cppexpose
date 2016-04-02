@@ -30,10 +30,41 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${include_path}/cppexpose.h
+
+    ${include_path}/base/template_helpers.h
+
+    ${include_path}/typed/AbstractTyped.h
+    ${include_path}/typed/TypeSelector.h
+    ${include_path}/typed/Typed.h
+    ${include_path}/typed/Typed.hpp
+    ${include_path}/typed/TypedInt.h
+    ${include_path}/typed/TypedInt.hpp
+    ${include_path}/typed/DirectValue.h
+    ${include_path}/typed/DirectValue.hpp
+    ${include_path}/typed/DirectArrayValue.h
+    ${include_path}/typed/DirectArrayValue.hpp
+    ${include_path}/typed/StoredValue.h
+    ${include_path}/typed/StoredValue.hpp
+    ${include_path}/typed/StoredArrayValue.h
+    ${include_path}/typed/StoredArrayValue.hpp
+
+    ${include_path}/function/AbstractFunction.h
+    ${include_path}/function/Function.h
+    ${include_path}/function/Function.hpp
+    ${include_path}/function/Method.h
+    ${include_path}/function/Method.hpp
+
+    ${include_path}/variant/Variant.h
 )
 
 set(sources
     ${source_path}/cppexpose.cpp
+
+    ${source_path}/typed/AbstractTyped.cpp
+
+    ${source_path}/function/AbstractFunction.cpp
+
+    ${source_path}/variant/Variant.cpp
 )
 
 # Group source files
