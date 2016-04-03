@@ -40,6 +40,18 @@ bool Typed<T>::isComposite() const
 }
 
 template <typename T>
+size_t Typed<T>::numSubValues() const
+{
+    return 0;
+}
+
+template <typename T>
+AbstractTyped * Typed<T>::subValue(size_t)
+{
+    return nullptr;
+}
+
+template <typename T>
 bool Typed<T>::isArray() const
 {
     return false;

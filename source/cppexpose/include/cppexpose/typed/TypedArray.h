@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <vector>
 #include <array>
 
 #include <cppexpose/typed/Typed.h>
@@ -37,6 +38,15 @@ public:
 
     /**
     *  @brief
+    *    Get number of element
+    *
+    *  @return
+    *    Number of elements
+    */
+    size_t numElements() const;
+
+    /**
+    *  @brief
     *    Get array element
     *
     *  @param[in] i
@@ -58,9 +68,16 @@ public:
     */
     virtual void setElement(size_t i, const T & value) = 0;
 
-    // Virtual Typed<T> interface
+    // Virtual AbstractTyped interface
     virtual std::string typeName() const override;
+    virtual bool isComposite() const override;
+    virtual size_t numSubValues() const override;
+    virtual AbstractTyped * subValue(size_t i) override;
     virtual bool isArray() const override;
+
+
+protected:
+    std::vector<AbstractTyped *> m_subValues; ///< Typed accessors for sub-values (lazy initialized)
 };
 
 

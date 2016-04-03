@@ -53,9 +53,12 @@ public:
 
     // Virtual AbstractTyped interface
     virtual const std::type_info & type() const override;
-
     virtual bool isReadOnly() const override;
+
     virtual bool isComposite() const override;
+    virtual size_t numSubValues() const override;
+    virtual AbstractTyped * subValue(size_t i) override;
+
     virtual bool isArray() const override;
     virtual bool isVariant() const override;
     virtual bool isString() const override;

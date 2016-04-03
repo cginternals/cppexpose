@@ -101,12 +101,13 @@ int main(int /*argc*/, char * /*argv*/[])
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
 
-    std::cout << "Type(bln1): " << bln1.type().name() << std::endl;
-    std::cout << "Type(str1): " << str1.type().name() << std::endl;
-    std::cout << "Type(int1): " << int1.type().name() << std::endl;
-    std::cout << "Type(int2): " << int2.type().name() << std::endl;
-    std::cout << "Type(int3): " << int3.type().name() << std::endl;
-    std::cout << "Type(ints): " << ints.type().name() << std::endl;
+    std::cout << "type(bln1): " << bln1.typeName() << " (" << bln1.type().name() << ")" << std::endl;
+    std::cout << "type(str1): " << str1.typeName() << " (" << str1.type().name() << ")" << std::endl;
+    std::cout << "type(int1): " << int1.typeName() << " (" << int1.type().name() << ")" << std::endl;
+    std::cout << "type(int2): " << int2.typeName() << " (" << int2.type().name() << ")" << std::endl;
+    std::cout << "type(int3): " << int3.typeName() << " (" << int3.type().name() << ")" << std::endl;
+    std::cout << "type(ints): " << ints.typeName() << " (" << ints.type().name() << ")" << std::endl;
+    std::cout << "Size(ints): " << ints.numElements() << std::endl;
     std::cout << std::endl;
 
     ints.setValue({{1, 2, 3}});
@@ -143,6 +144,21 @@ int main(int /*argc*/, char * /*argv*/[])
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
     std::cout << "int3: " << int3.value() << std::endl;
+    std::cout << "ints: " << ints.value()[0] << ", " << ints.value()[1] << ", " << ints.value()[2] << std::endl;
+    std::cout << std::endl;
+
+    for (size_t i=0; i<ints.numSubValues(); i++)
+    {
+        Typed<int> * subValue = static_cast<Typed<int> *>(ints.subValue(i));
+
+        std::cout << "type(ints[" << i << "]): " << subValue->type().name() << std::endl;
+        std::cout << "type(ints[" << i << "]): " << subValue->typeName() << std::endl;
+        std::cout << "ints[" << i << "]:       " << subValue->value() << std::endl;
+
+        subValue->setValue(42);
+    }
+
+    std::cout << std::endl;
     std::cout << "ints: " << ints.value()[0] << ", " << ints.value()[1] << ", " << ints.value()[2] << std::endl;
     std::cout << std::endl;
 

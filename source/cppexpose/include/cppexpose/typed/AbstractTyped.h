@@ -65,7 +65,10 @@ public:
     *    'true' if value is read-only, else 'false'
     */
     virtual bool isReadOnly() const = 0;
+
     virtual bool isComposite() const = 0;
+    virtual size_t numSubValues() const = 0;
+    virtual AbstractTyped * subValue(size_t i) = 0;
 
     virtual bool isArray() const = 0;
     virtual bool isVariant() const = 0;
