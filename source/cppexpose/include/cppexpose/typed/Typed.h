@@ -59,6 +59,7 @@ public:
     virtual size_t numSubValues() const override;
     virtual AbstractTyped * subValue(size_t i) override;
 
+    virtual bool isEnum() const override;
     virtual bool isArray() const override;
     virtual bool isVariant() const override;
     virtual bool isString() const override;

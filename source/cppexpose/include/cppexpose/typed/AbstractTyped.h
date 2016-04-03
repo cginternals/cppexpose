@@ -70,6 +70,7 @@ public:
     virtual size_t numSubValues() const = 0;
     virtual AbstractTyped * subValue(size_t i) = 0;
 
+    virtual bool isEnum() const = 0;
     virtual bool isArray() const = 0;
     virtual bool isVariant() const = 0;
     virtual bool isString() const = 0;

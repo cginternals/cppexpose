@@ -52,6 +52,12 @@ AbstractTyped * Typed<T>::subValue(size_t)
 }
 
 template <typename T>
+bool Typed<T>::isEnum() const
+{
+    return false;
+}
+
+template <typename T>
 bool Typed<T>::isArray() const
 {
     return false;

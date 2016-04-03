@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <map>
+#include <string>
+
 #include <cppexpose/typed/Typed.h>
 
 
@@ -29,8 +32,28 @@ public:
     */
     virtual ~TypedEnum();
 
+    /**
+    *  @brief
+    *    Get available enum values as strings
+    *
+    *  @return
+    *    List of values
+    */
+    std::vector<std::string> strings() const;
+
+    /**
+    *  @brief
+    *    Set available enum values
+    *
+    *  @param[in] pairs
+    *    List of values and names
+    */
+    void setStrings(const std::map<T, std::string> & pairs);
+
     // Virtual Typed<T> interface
     virtual std::string typeName() const override;
+    virtual bool isNumber() const override;
+    virtual bool isIntegral() const override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
     virtual bool toBool() const override;
@@ -41,6 +64,31 @@ public:
     virtual bool fromULongLong(unsigned long long value) override;
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
+
+
+protected:
+    std::map<T, std::string> m_stringMap;
+    std::map<std::string, T> m_enumMap;
+};
+
+
+/**
+*  @brief
+*    Default value mapping for enum type
+*
+*    Specialize this template to provide a default string mapping for an enum.
+*/
+template <typename T>
+struct EnumDefaultStrings
+{
+    /**
+    *  @brief
+    *    Return available enum values and their string representations
+    *
+    *  @return
+    *    Map of values and strings
+    */
+    std::map<T, std::string> operator()();
 };
 
 

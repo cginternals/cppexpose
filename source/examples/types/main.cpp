@@ -74,6 +74,31 @@ void setElement(int index, int value)
     three[index] = value;
 }
 
+enum class Mood : int
+{
+    Neutral = 0,
+    Happy = 1,
+    Sad = -1
+};
+
+namespace cppexpose
+{
+
+template <>
+struct EnumDefaultStrings<Mood>
+{
+    std::map<Mood, std::string> operator()()
+    {
+        std::map<Mood, std::string> values;
+        values[Mood::Neutral] = "Neutral";
+        values[Mood::Happy]   = "Happy";
+        values[Mood::Sad]     = "Sad";
+        return values;
+    }
+};
+
+}
+
 int main(int /*argc*/, char * /*argv*/[])
 {
     using namespace std::placeholders;
@@ -90,6 +115,7 @@ int main(int /*argc*/, char * /*argv*/[])
     StoredArrayValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
+    DirectValue<Mood> mood(Mood::Sad);
 
     std::cout << "type(bln1): " << bln1.typeName() << " (" << bln1.type().name() << ")" << std::endl;
     std::cout << "type(str1): " << str1.typeName() << " (" << str1.type().name() << ")" << std::endl;
@@ -163,6 +189,13 @@ int main(int /*argc*/, char * /*argv*/[])
         std::cout << "ints.toString(): " << ints.toString() << std::endl;
         std::cout << std::endl;
     }
+
+    std::cout << "mood.toString(): " << mood.toString() << std::endl;
+    std::cout << std::endl;
+
+    mood.fromString("Happy");
+    std::cout << "mood.toString(): " << mood.toString() << std::endl;
+    std::cout << std::endl;
 
     return 0;
 }
