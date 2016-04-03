@@ -8,16 +8,6 @@
 #include <cppexpose/typed/StoredArrayValue.h>
 
 
-/*
-AbstractTyped
-Typed<int>
-SignedIntegral<int>
-TypeSelector<int>::type
-DirectValue<int>
-DirectValue<const int>
-*/
-
-
 using namespace cppexpose;
 
 
@@ -161,6 +151,18 @@ int main(int /*argc*/, char * /*argv*/[])
     std::cout << std::endl;
     std::cout << "ints: " << ints.value()[0] << ", " << ints.value()[1] << ", " << ints.value()[2] << std::endl;
     std::cout << std::endl;
+
+    std::cout << "bln1.toString(): " << bln1.toString() << std::endl;
+    std::cout << "int2.toString(): " << int2.toString() << std::endl;
+    std::cout << "ints[1].toString(): " << ints.subValue(1)->toString() << std::endl;
+    std::cout << "ints.toString(): " << ints.toString() << std::endl;
+    std::cout << std::endl;
+
+    if (ints.fromString("(101, 102, 103)"))
+    {
+        std::cout << "ints.toString(): " << ints.toString() << std::endl;
+        std::cout << std::endl;
+    }
 
     return 0;
 }

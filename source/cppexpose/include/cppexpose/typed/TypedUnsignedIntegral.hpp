@@ -26,12 +26,6 @@ std::string TypedUnsignedIntegral<T>::typeName() const
 }
 
 template <typename T>
-bool TypedUnsignedIntegral<T>::isNumber() const
-{
-    return true;
-}
-
-template <typename T>
 bool TypedUnsignedIntegral<T>::isIntegral() const
 {
     return true;

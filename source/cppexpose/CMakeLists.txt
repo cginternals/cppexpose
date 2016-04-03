@@ -3,6 +3,22 @@
 # External dependencies
 # 
 
+set(ADDITIONAL_LIBRARIES)
+set(ADDITIONAL_INCLUDES)
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    find_package(Boost COMPONENTS regex REQUIRED)
+    
+    if (Boost_FOUND)
+        message(STATUS "Use Boost for regex.")
+        
+        set(ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} ${Boost_LIBRARIES})
+        set(ADDITIONAL_INCLUDES ${ADDITIONAL_INCLUDES} ${Boost_INCLUDE_DIRS})
+    else()
+        message(WARNING "OPTION_BUILD_WITH_STD_REGEX is set to Off: Boost not found.")
+        message(WARNING "Defaulting to C++11 regex.")
+    endif()
+endif()
+
 
 # 
 # Library name and options
@@ -31,7 +47,8 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${include_path}/cppexpose.h
 
-    ${include_path}/base/template_helpers.h
+    ${include_path}/base/string_helpers.h
+    ${include_path}/base/string_helpers.hpp
 
     ${include_path}/typed/AbstractTyped.h
     ${include_path}/typed/TypeSelector.h
@@ -43,6 +60,8 @@ set(headers
     ${include_path}/typed/TypedBool.hpp
     ${include_path}/typed/TypedString.h
     ${include_path}/typed/TypedString.hpp
+    ${include_path}/typed/TypedNumber.h
+    ${include_path}/typed/TypedNumber.hpp
     ${include_path}/typed/TypedSignedIntegral.h
     ${include_path}/typed/TypedSignedIntegral.hpp
     ${include_path}/typed/TypedUnsignedIntegral.h
@@ -75,6 +94,8 @@ set(headers
 
 set(sources
     ${source_path}/cppexpose.cpp
+
+    ${source_path}/base/string_helpers.cpp
 
     ${source_path}/typed/AbstractTyped.cpp
 
@@ -156,6 +177,7 @@ target_include_directories(${target}
     ${PROJECT_BINARY_DIR}/source/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_BINARY_DIR}/include
+    ${ADDITIONAL_INCLUDES}
 
     PUBLIC
     ${DEFAULT_INCLUDE_DIRECTORIES}
@@ -173,6 +195,7 @@ target_include_directories(${target}
 
 target_link_libraries(${target}
     PRIVATE
+    ${ADDITIONAL_LIBRARIES}
 
     PUBLIC
     ${DEFAULT_LIBRARIES}
@@ -187,6 +210,7 @@ target_link_libraries(${target}
 
 target_compile_definitions(${target}
     PRIVATE
+    $<$<BOOL:${OPTION_BUILD_WITH_STD_REGEX}>:USE_STD_REGEX>
 
     PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_upper}_STATIC_DEFINE>

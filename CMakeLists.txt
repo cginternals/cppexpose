@@ -54,11 +54,12 @@ set(META_NAME_VERSION        "${META_PROJECT_NAME} v${META_VERSION} (${META_VERS
 # 
 
 # Project options
-option(BUILD_SHARED_LIBS     "Build shared instead of static libraries."              ON)
-option(OPTION_SELF_CONTAINED "Create a self-contained install with all dependencies." OFF)
-option(OPTION_BUILD_TESTS    "Build tests."                                           ON)
-option(OPTION_BUILD_DOCS     "Build documentation."                                   OFF)
-option(OPTION_BUILD_EXAMPLES "Build examples."                                        OFF)
+option(BUILD_SHARED_LIBS            "Build shared instead of static libraries."              ON)
+option(OPTION_SELF_CONTAINED        "Create a self-contained install with all dependencies." OFF)
+option(OPTION_BUILD_TESTS           "Build tests."                                           ON)
+option(OPTION_BUILD_DOCS            "Build documentation."                                   OFF)
+option(OPTION_BUILD_EXAMPLES        "Build examples."                                        OFF)
+option(OPTION_BUILD_WITH_STD_REGEX  "Use std::regex instead of Boost"                        ON)
 
 
 # 

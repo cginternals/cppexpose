@@ -26,12 +26,6 @@ std::string TypedSignedIntegral<T>::typeName() const
 }
 
 template <typename T>
-bool TypedSignedIntegral<T>::isNumber() const
-{
-    return true;
-}
-
-template <typename T>
 bool TypedSignedIntegral<T>::isIntegral() const
 {
     return true;

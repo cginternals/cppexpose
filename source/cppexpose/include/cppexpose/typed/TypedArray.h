@@ -74,6 +74,8 @@ public:
     virtual size_t numSubValues() const override;
     virtual AbstractTyped * subValue(size_t i) override;
     virtual bool isArray() const override;
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & value) override;
 
 
 protected:

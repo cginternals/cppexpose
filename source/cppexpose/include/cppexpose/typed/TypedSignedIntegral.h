@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/Typed.h>
+#include <cppexpose/typed/TypedNumber.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    Representation of a signed integral value
 */
 template <typename T>
-class TypedSignedIntegral : public Typed<T>
+class TypedSignedIntegral : public TypedNumber<T>
 {
 public:
     /**
@@ -31,7 +31,6 @@ public:
 
     // Virtual AbstractTyped interface
     virtual std::string typeName() const override;
-    virtual bool isNumber() const override;
     virtual bool isIntegral() const override;
     virtual bool isSignedIntegral() const override;
 };

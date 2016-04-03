@@ -11,27 +11,26 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of a boolean value
+*    Representation of a number value
 */
 template <typename T>
-class TypedBool : public Typed<T>
+class TypedNumber : public Typed<T>
 {
 public:
     /**
     *  @brief
     *    Constructor
     */
-    TypedBool();
+    TypedNumber();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypedBool();
+    virtual ~TypedNumber();
 
     // Virtual AbstractTyped interface
-    virtual std::string typeName() const override;
-    virtual bool isBool() const override;
+    virtual bool isNumber() const override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
     virtual bool toBool() const override;
@@ -48,4 +47,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/typed/TypedBool.hpp>
+#include <cppexpose/typed/TypedNumber.hpp>

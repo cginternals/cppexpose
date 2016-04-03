@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/Typed.h>
+#include <cppexpose/typed/TypedNumber.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    Representation of a floating point value
 */
 template <typename T>
-class TypedFloatingPoint : public Typed<T>
+class TypedFloatingPoint : public TypedNumber<T>
 {
 public:
     /**
@@ -31,7 +31,6 @@ public:
 
     // Virtual AbstractTyped interface
     virtual std::string typeName() const override;
-    virtual bool isNumber() const override;
     virtual bool isFloatingPoint() const override;
 };
 

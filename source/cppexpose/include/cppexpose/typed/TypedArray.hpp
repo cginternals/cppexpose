@@ -4,8 +4,11 @@
 
 #include <cppexpose/typed/TypedArray.h>
 
+#include <vector>
 #include <functional>
 #include <sstream>
+
+#include <cppexpose/base/string_helpers.h>
 
 
 namespace cppexpose
@@ -101,6 +104,39 @@ AbstractTyped * TypedArray<T, Size, BaseType>::subValue(size_t index)
 template <typename T, size_t Size, typename BaseType>
 bool TypedArray<T, Size, BaseType>::isArray() const
 {
+    return true;
+}
+
+template <typename T, size_t Size, typename BaseType>
+std::string TypedArray<T, Size, BaseType>::toString() const
+{
+    std::string str = "(";
+
+    for (size_t i=0; i<Size; i++) {
+        if (i > 0) str += ", ";
+        str += const_cast<TypedArray<T, Size, BaseType> *>(this)->subValue(i)->toString();
+    }
+
+    str += ")";
+
+    return str;
+}
+
+template <typename T, size_t Size, typename BaseType>
+bool TypedArray<T, Size, BaseType>::fromString(const std::string & value)
+{
+    std::vector<std::string> elementStrings = string_helpers::parseArray(value, Size);
+    if (elementStrings.size() != Size) {
+        return false;
+    }
+
+    for (size_t i=0; i<Size; i++)
+    {
+        if (!this->subValue(i)->fromString(elementStrings[i])) {
+            return false;
+        }
+    }
+
     return true;
 }
 
