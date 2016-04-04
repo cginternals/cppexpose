@@ -4,6 +4,8 @@
 
 #include <cppexpose/typed/TypedSignedIntegral.h>
 
+#include <sstream>
+
 
 namespace cppexpose
 {
@@ -22,7 +24,10 @@ TypedSignedIntegral<T>::~TypedSignedIntegral()
 template <typename T>
 std::string TypedSignedIntegral<T>::typeName() const
 {
-    return "int";
+    std::stringstream s;
+    s << "int";
+    s << sizeof(T) * 8;
+    return s.str();
 }
 
 template <typename T>

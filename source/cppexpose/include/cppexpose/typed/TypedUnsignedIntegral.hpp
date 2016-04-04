@@ -4,6 +4,8 @@
 
 #include <cppexpose/typed/TypedUnsignedIntegral.h>
 
+#include <sstream>
+
 
 namespace cppexpose
 {
@@ -22,7 +24,10 @@ TypedUnsignedIntegral<T>::~TypedUnsignedIntegral()
 template <typename T>
 std::string TypedUnsignedIntegral<T>::typeName() const
 {
-    return "unsigned";
+    std::stringstream s;
+    s << "uint";
+    s << sizeof(T) * 8;
+    return s.str();
 }
 
 template <typename T>

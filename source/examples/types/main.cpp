@@ -116,12 +116,16 @@ int main(int /*argc*/, char * /*argv*/[])
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
     DirectValue<Mood> mood(Mood::Sad);
+    DirectValue<float>  flt1;
+    DirectValue<double> flt2;
 
     std::cout << "type(bln1): " << bln1.typeName() << " (" << bln1.type().name() << ")" << std::endl;
     std::cout << "type(str1): " << str1.typeName() << " (" << str1.type().name() << ")" << std::endl;
     std::cout << "type(int1): " << int1.typeName() << " (" << int1.type().name() << ")" << std::endl;
     std::cout << "type(int2): " << int2.typeName() << " (" << int2.type().name() << ")" << std::endl;
     std::cout << "type(int3): " << int3.typeName() << " (" << int3.type().name() << ")" << std::endl;
+    std::cout << "type(flt1): " << flt1.typeName() << " (" << flt1.type().name() << ")" << std::endl;
+    std::cout << "type(flt2): " << flt2.typeName() << " (" << flt2.type().name() << ")" << std::endl;
     std::cout << "type(ints): " << ints.typeName() << " (" << ints.type().name() << ")" << std::endl;
     std::cout << "Size(ints): " << ints.numElements() << std::endl;
     std::cout << std::endl;
