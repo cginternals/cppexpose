@@ -158,9 +158,9 @@ int main(int, char * [])
     std::cout << "ints: " << ints.value()[0] << ", " << ints.value()[1] << ", " << ints.value()[2] << std::endl;
     std::cout << std::endl;
 
-    int1.setValue(0);
-    int2.setValue(0);
-    int3.setValue(0);
+    int1.setValue(50);
+    int2.setValue(50);
+    int3.setValue(50);
     ints.setElement(2, 0);
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
@@ -206,6 +206,21 @@ int main(int, char * [])
     std::cout << "v: " << v.value<float>() << std::endl;
     *v.ptr<float>() = 1.23f;
     std::cout << "v: " << v.value<float>() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "int1:        " << int1.value() << std::endl;
+    if (int1.canConvert<int>()) {
+        std::cout << "(int)int1:   " << int1.convert<int>() << std::endl;
+    }
+    if (int1.canConvert<float>()) {
+        std::cout << "(float)int1: " << int1.convert<float>() << std::endl;
+    }
+    if (int1.canConvert<std::string>()) {
+        std::cout << "(string)int1: " << int1.convert<std::string>() << std::endl;
+    }
+    if (!int1.canConvert<MyValue>()) {
+        std::cout << "(MyValue)int1: UNSUPPORTED" << std::endl;
+    }
     std::cout << std::endl;
 
     return 0;

@@ -6,31 +6,33 @@
 
 #include <typeinfo>
 
+#include <cppexpose/typed/AbstractTyped.h>
 
-/*
+
 namespace
 {
 
 
-template <typename ValueType>
-struct ConvertTo
+template <typename T>
+struct ConvertVariant
 {
-    static ValueType convertTo(const cppexpose::Variant &) {
-        return ValueType();
+    static T convertTo(const cppexpose::Variant &)
+    {
+        return T();
     }
 };
 
 template <>
-struct ConvertTo<std::string>
+struct ConvertVariant<std::string>
 {
-    static std::string convertTo(const cppexpose::Variant & variant) {
+    static std::string convertTo(const cppexpose::Variant & variant)
+    {
         return variant.toJSON();
     }
 };
 
 
 } // namespace
-*/
 
 
 namespace cppexpose
@@ -72,25 +74,22 @@ template <typename T>
 T Variant::value(const T & defaultValue) const
 {
     // Type of variant is the wanted type
-    if (m_value && typeid(T) == this->type()) {
+    if (m_value && typeid(T) == this->type())
+    {
         return static_cast<DirectValue<T> *>(m_value)->value();
     }
 
-    /*
-    // Variant has to be converted
-    else if (m_value && m_value->canConvert(typeid(T))) {
-        // Try to convert value
-        T converted;
-        if (m_value->convert(static_cast<void*>(&converted), typeid(T))) {
-            return converted;
-        }
+    // Variant map or array to string conversion
+    else if (isMap() || isArray())
+    {
+        return ConvertVariant<T>::convertTo(*this);
     }
 
-    // Variant map or array to string conversion
-    else if (isMap() || isArray()) {
-        return ConvertTo<T>::convertTo(*this);
+    // Variant has to be converted
+    else if (m_value && m_value->canConvert<T>())
+    {
+        return m_value->convert<T>(defaultValue);
     }
-    */
 
     // No conversion possible
     return defaultValue;

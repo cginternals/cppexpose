@@ -4,11 +4,14 @@
 
 #include <string>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
 {
+
+
+class Variant;
 
 
 /**
@@ -93,7 +96,39 @@ public:
     virtual bool fromULongLong(unsigned long long value) = 0;
     virtual double toDouble() const = 0;
     virtual bool fromDouble(double value) = 0;
+
+    /**
+    *  @brief
+    *    Check if variant type can be converted
+    *
+    *  @return
+    *    'true' if variant can be converted into type ValueType, else 'false'.
+    *
+    *  @remarks
+    *    Conversion is only supported for the following primitive data types:
+    *      bool, char, unsigned char, short, unsigned short, int, unsigned int,
+    *      long, unsigned long, long long, unsigned long long, float, double,
+    *      std::string
+    */
+    template <typename ValueType>
+    bool canConvert() const;
+
+    /**
+    *  @brief
+    *    Get stored value
+    *
+    *  @param[in] defaultValue
+    *    Default value that is returned if the value cannot be returned or converted
+    *
+    *  @return
+    *    Stored value of type ValueType, or defaultValue if type does not match and cannot be converted
+    */
+    template <typename ValueType>
+    ValueType convert(const ValueType & defaultValue = ValueType()) const;
 };
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/typed/AbstractTyped.hpp>
