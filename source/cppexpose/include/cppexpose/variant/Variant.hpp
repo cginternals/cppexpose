@@ -54,7 +54,7 @@ bool Variant::hasType() const
         return false;
     }
 
-    return typeid(T) == this->type();
+    return typeid(T) == m_value->type();
 }
 
 template <typename T>
@@ -74,7 +74,7 @@ template <typename T>
 T Variant::value(const T & defaultValue) const
 {
     // Type of variant is the wanted type
-    if (m_value && typeid(T) == this->type())
+    if (m_value && typeid(T) == m_value->type())
     {
         return static_cast<DirectValue<T> *>(m_value)->value();
     }
@@ -98,7 +98,7 @@ T Variant::value(const T & defaultValue) const
 template <typename T>
 T * Variant::ptr()
 {
-    if (m_value && typeid(T) == this->type()) {
+    if (m_value && typeid(T) == m_value->type()) {
         return static_cast<DirectValue<T> *>(m_value)->ptr();
     } else {
         return nullptr;
@@ -108,7 +108,7 @@ T * Variant::ptr()
 template <typename T>
 const T * Variant::ptr() const
 {
-    if (m_value && typeid(T) == this->type()) {
+    if (m_value && typeid(T) == m_value->type()) {
         return static_cast<const DirectValue<T> *>(m_value)->ptr();
     } else {
         return nullptr;
