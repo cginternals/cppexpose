@@ -90,6 +90,7 @@ set(headers
     ${include_path}/function/Method.hpp
 
     ${include_path}/variant/Variant.h
+    ${include_path}/variant/Variant.hpp
 )
 
 set(sources

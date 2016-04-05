@@ -2,11 +2,37 @@
 #pragma once
 
 
+#include <vector>
+#include <map>
+
 #include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
 {
+
+
+class AbstractTyped;
+class Variant;
+
+template <typename T>
+class Typed;
+
+template <typename T>
+class DirectValue;
+
+
+/**
+*  @brief
+*    Variant array (analog to a JSON array)
+*/
+using VariantArray = std::vector<Variant>;
+
+/**
+*  @brief
+*    Variant map (analog to a JSON object)
+*/
+using VariantMap = std::map<std::string, Variant>;
 
 
 /**
@@ -33,25 +59,250 @@ namespace cppexpose
 class CPPEXPOSE_API Variant
 {
 public:
+    //@{
     /**
     *  @brief
-    *    Constructor
+    *    Create a variant from an arbitrary typed value
+    *
+    *  @param[in] value
+    *    Value
+    *
+    *  @return
+    *    Variant instance
+    */
+    template <typename T>
+    static Variant fromValue(const T & value);
+
+    /**
+    *  @brief
+    *    Create an empty or specifically sized variant array
+    *
+    *  @param count
+    *    The initial size of the array
+    *
+    *  @return
+    *    Variant instance
+    */
+    static Variant array();
+    static Variant array(size_t count);
+
+    /**
+    *  @brief
+    *    Create an empty variant map
+    *
+    *  @return
+    *    Variant instance
+    */
+    static Variant map();
+    //@}
+
+
+public:
+    //@{
+    /**
+    *  @brief
+    *    Constructor for an empty value
     */
     Variant();
 
     /**
     *  @brief
+    *    Copy constructor
+    *
+    *  @param[in] variant
+    *    Variant whose value will be copied
+    */
+    Variant(const Variant & variant);
+    //@}
+
+    /**
+    *  @brief
+    *    Constructor for a primitive data type
+    *
+    *  @param[in] value
+    *    Primitive value
+    */
+    //@{
+    Variant(bool value);
+    Variant(char value);
+    Variant(unsigned char value);
+    Variant(short value);
+    Variant(unsigned short value);
+    Variant(int value);
+    Variant(unsigned int value);
+    Variant(long value);
+    Variant(unsigned long value);
+    Variant(long long value);
+    Variant(unsigned long long value);
+    Variant(float value);
+    Variant(double value);
+    Variant(const char * value);
+    Variant(const std::string & value);
+    Variant(const std::vector<std::string> & value);
+    Variant(const VariantArray & array);
+    Variant(const VariantMap & map);
+    //@}
+
+    //@{
+    /**
+    *  @brief
     *    Destructor
     */
     ~Variant();
+    //@}
 
-    template <typename T>
-    T value() const
-    {
-        T v;
-        return v;
-    }
+    /**
+    *  @brief
+    *    Copy operator
+    *
+    *  @param[in] variant
+    *    Variant whose value will be copied
+    *
+    *  @return
+    *    Variant
+    */
+    Variant & operator=(const Variant & variant);
+
+    /**
+    *  @brief
+    *    Check if variant is empty
+    *
+    *  @return
+    *    'true' if variant does not contain a value, else 'false'
+    */
+    bool isNull() const;
+
+    /**
+    *  @brief
+    *    Check if variant contains an array
+    *
+    *  @return
+    *    'true' if variant has type VariantArray, else 'false'
+    */
+    bool isArray() const;
+
+    /**
+    *  @brief
+    *    Check if variant contains a map
+    *
+    *  @return
+    *    'true' if variant has type VariantMap, else 'false'
+    */
+    bool isMap() const;
+
+    /**
+    *  @brief
+    *    Get type of variant value
+    *
+    *  @return
+    *    Type id
+    */
+    const std::type_info & type() const;
+
+    /**
+    *  @brief
+    *    Check type of variant value
+    *
+    *  @return
+    *    'true' if variant value has the template type ValueType, else 'false'
+    */
+    template <typename ValueType>
+    bool hasType() const;
+
+    /**
+    *  @brief
+    *    Check if variant type can be converted
+    *
+    *  @return
+    *    'true' if variant can be converted into type ValueType, else 'false'.
+    *
+    *  @remarks
+    *    Conversion is only supported for the following primitive data types:
+    *      bool, char, unsigned char, short, unsigned short, int, unsigned int,
+    *      long, unsigned long, long long, unsigned long long, float, double,
+    *      std::string
+    */
+    template <typename ValueType>
+    bool canConvert() const;
+
+    /**
+    *  @brief
+    *    Get stored value
+    *
+    *  @param[in] defaultValue
+    *    Default value that is returned if the value cannot be returned or converted
+    *
+    *  @return
+    *    Stored value of type ValueType, or defaultValue if type does not match and cannot be converted
+    */
+    template <typename ValueType>
+    ValueType value(const ValueType & defaultValue = ValueType()) const;
+
+    //@{
+    /**
+    *  @brief
+    *    Get pointer to the stored value
+    *
+    *  @return
+    *    Pointer to stored value of type ValueType, or nullptr if type does not match and cannot be converted
+    */
+    template <typename ValueType>
+    ValueType * ptr();
+    template <typename ValueType>
+    const ValueType * ptr() const;
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Get pointer to the stored VariantArray
+    *
+    *  @return
+    *    Pointer to VariantArray, or nullptr if the variant does not contain a variant array
+    *
+    *  @remarks
+    *    Does the same as calling \code variant.ptr<VariantArray>() \endcode
+    */
+    VariantArray * asArray();
+    const VariantArray * asArray() const;
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Get pointer to the stored VariantMap
+    *
+    *  @return
+    *    Pointer to VariantMap, or nullptr if the variant does not contain a variant map
+    *
+    *  @remarks
+    *    Does the same as calling \code variant.ptr<VariantMap>() \endcode
+    */
+    VariantMap * asMap();
+    const VariantMap * asMap() const;
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Get JSON representation of variant
+    *
+    *  @return
+    *    JSON representation
+    *
+    *  @see
+    *    SerializerJSON
+    */
+    std::string toJSON() const;
+    //@}
+
+
+protected:
+    AbstractTyped * m_value;
 };
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/variant/Variant.hpp>
