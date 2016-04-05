@@ -27,6 +27,18 @@ DirectValue<T>::~DirectValue()
 }
 
 template <typename T>
+const T * DirectValue<T>::ptr() const
+{
+    return &m_value;
+}
+
+template <typename T>
+T * DirectValue<T>::ptr()
+{
+    return &m_value;
+}
+
+template <typename T>
 AbstractTyped * DirectValue<T>::clone() const
 {
     return new DirectValue<T>(m_value);

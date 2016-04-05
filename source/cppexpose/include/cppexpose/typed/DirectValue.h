@@ -38,6 +38,24 @@ public:
     */
     virtual ~DirectValue();
 
+    /**
+    *  @brief
+    *    Get a direct pointer to the stored value
+    *
+    *  @return
+    *    Pointer to the value
+    */
+    const T * ptr() const;
+
+    /**
+    *  @brief
+    *    Get a direct pointer to the stored value
+    *
+    *  @return
+    *    Pointer to the value
+    */
+    T * ptr();
+
     // Virtual AbstractTyped interface
     virtual AbstractTyped * clone() const override;
 

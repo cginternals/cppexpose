@@ -71,12 +71,12 @@ bool Variant::canConvert() const
 template <typename T>
 T Variant::value(const T & defaultValue) const
 {
-    /*
     // Type of variant is the wanted type
-    if (m_value && typeid(T) == m_value->type()) {
+    if (m_value && typeid(T) == this->type()) {
         return static_cast<DirectValue<T> *>(m_value)->value();
     }
 
+    /*
     // Variant has to be converted
     else if (m_value && m_value->canConvert(typeid(T))) {
         // Try to convert value
@@ -99,27 +99,21 @@ T Variant::value(const T & defaultValue) const
 template <typename T>
 T * Variant::ptr()
 {
-    /*
     if (m_value && typeid(T) == this->type()) {
         return static_cast<DirectValue<T> *>(m_value)->ptr();
     } else {
         return nullptr;
     }
-    */
-    return nullptr;
 }
 
 template <typename T>
 const T * Variant::ptr() const
 {
-    /*
     if (m_value && typeid(T) == this->type()) {
         return static_cast<const DirectValue<T> *>(m_value)->ptr();
     } else {
         return nullptr;
     }
-    */
-    return nullptr;
 }
 
 

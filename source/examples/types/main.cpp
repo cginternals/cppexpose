@@ -6,12 +6,12 @@
 #include <cppexpose/typed/DirectArrayValue.h>
 #include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/typed/StoredArrayValue.h>
+#include <cppexpose/variant/Variant.h>
 
 
 using namespace cppexpose;
 
 
-/*
 // Class containing a value
 class MyValue
 {
@@ -202,68 +202,11 @@ int main(int, char * [])
     std::cout << "mood.toString(): " << mood.toString() << std::endl;
     std::cout << std::endl;
 
+    Variant v = 3.14f;
+    std::cout << "v: " << v.value<float>() << std::endl;
+    *v.ptr<float>() = 1.23f;
+    std::cout << "v: " << v.value<float>() << std::endl;
+    std::cout << std::endl;
+
     return 0;
-}
-*/
-
-template <typename T>
-class Variant2;
-
-template <typename T>
-class Variant1
-{
-public:
-    Variant1(const T & value) : m_value(value)
-    {
-    }
-
-    ~Variant1()
-    {
-    }
-
-    T value() const
-    {
-        return m_value;
-    }
-
-    Variant2<T> toVariant2() const
-    {
-        return Variant2<T>(m_value);
-    }
-
-protected:
-    T m_value;
-};
-
-template <typename T>
-class Variant2
-{
-public:
-    Variant2(const T & value) : m_value(value)
-    {
-    }
-
-    ~Variant2()
-    {
-    }
-
-    T value() const
-    {
-        return m_value;
-    }
-
-    Variant1<T> toVariant1() const
-    {
-        return Variant1<T>(m_value);
-    }
-
-protected:
-    T m_value;
-};
-
-
-int main(int, char * [])
-{
-    Variant2<int> v2(10);
-    Variant1<int> v1 = v2.toVariant1();
 }
