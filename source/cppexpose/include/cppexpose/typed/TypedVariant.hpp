@@ -34,71 +34,66 @@ bool TypedVariant<T>::isVariant() const
 template <typename T>
 std::string TypedVariant<T>::toString() const
 {
-    // [TODO]
-    return "";
+    return this->value().toString();
 }
 
 template <typename T>
 bool TypedVariant<T>::fromString(const std::string & value)
 {
-    // [TODO]
-    return false;
+    this->setValue(Variant(value));
+    return true;
 }
 
 template <typename T>
 bool TypedVariant<T>::toBool() const
 {
-    // [TODO]
-    return false;
+    return this->value().toBool();
 }
 
 template <typename T>
 bool TypedVariant<T>::fromBool(bool value)
 {
-    // [TODO]
-    return false;
+    this->setValue(Variant(value));
+    return true;
 }
 
 template <typename T>
 long long TypedVariant<T>::toLongLong() const
 {
-    // [TODO]
-    return 0ll;
+    return this->value().toLongLong();
 }
 
 template <typename T>
 bool TypedVariant<T>::fromLongLong(long long value)
 {
-    // [TODO]
-    return false;
+    this->setValue(Variant(value));
+    return true;
 }
 
 template <typename T>
 unsigned long long TypedVariant<T>::toULongLong() const
 {
-    // [TODO]
-    return 0ull;
+    return this->value().toULongLong();
 }
 
 template <typename T>
 bool TypedVariant<T>::fromULongLong(unsigned long long value)
 {
-    // [TODO]
-    return false;
+    this->setValue(Variant(value));
+    return true;
 }
 
 template <typename T>
 double TypedVariant<T>::toDouble() const
 {
-    // [TODO]
-    return 0.0;
+    return this->value().toDouble();
 }
 
 template <typename T>
 bool TypedVariant<T>::fromDouble(double value)
 {
-    // [TODO]
-    return false;
+    this->setValue(Variant(value));
+    return true;
 }
 
 

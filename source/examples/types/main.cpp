@@ -119,6 +119,7 @@ int main(int, char * [])
     DirectValue<Mood> mood(Mood::Sad);
     DirectValue<float>  flt1;
     DirectValue<double> flt2;
+    DirectValue<Variant> var1;
 
     std::cout << "type(bln1): " << bln1.typeName() << " (" << bln1.type().name() << ")" << std::endl;
     std::cout << "type(str1): " << str1.typeName() << " (" << str1.type().name() << ")" << std::endl;
