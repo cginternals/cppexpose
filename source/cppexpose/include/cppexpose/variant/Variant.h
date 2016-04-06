@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/typed/TypeInterface.h>
 
 
 namespace cppexpose
@@ -57,7 +57,7 @@ using VariantMap = std::map<std::string, Variant>;
 *    be interpreted as JSON arrays or objects within scriptzeug and can be serialized by the
 *    JSON tool class.
 */
-class CPPEXPOSE_API Variant
+class CPPEXPOSE_API Variant : public TypeInterface
 {
 public:
     //@{
@@ -180,7 +180,7 @@ public:
     *  @return
     *    'true' if variant has type VariantArray, else 'false'
     */
-    bool isArray() const;
+    bool isVariantArray() const;
 
     /**
     *  @brief
@@ -189,7 +189,7 @@ public:
     *  @return
     *    'true' if variant has type VariantMap, else 'false'
     */
-    bool isMap() const;
+    bool isVariantMap() const;
 
     /**
     *  @brief
@@ -296,6 +296,30 @@ public:
     */
     std::string toJSON() const;
     //@}
+
+    // Virtual TypeInterface interface
+    virtual bool isEnum() const override;
+    virtual bool isArray() const override;
+    virtual bool isVariant() const override;
+    virtual bool isString() const override;
+    virtual bool isBool() const override;
+    virtual bool isNumber() const override;
+    virtual bool isIntegral() const override;
+    virtual bool isSignedIntegral() const override;
+    virtual bool isUnsignedIntegral() const override;
+    virtual bool isFloatingPoint() const override;
+    virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & value) override;
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & value) override;
+    virtual bool toBool() const override;
+    virtual bool fromBool(bool value) override;
+    virtual long long toLongLong() const override;
+    virtual bool fromLongLong(long long value) override;
+    virtual unsigned long long toULongLong() const override;
+    virtual bool fromULongLong(unsigned long long value) override;
+    virtual double toDouble() const override;
+    virtual bool fromDouble(double value) override;
 
 
 protected:

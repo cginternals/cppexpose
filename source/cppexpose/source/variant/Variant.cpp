@@ -153,12 +153,12 @@ bool Variant::isNull() const
     return !m_value;
 }
 
-bool Variant::isArray() const
+bool Variant::isVariantArray() const
 {
     return hasType<VariantArray>();
 }
 
-bool Variant::isMap() const
+bool Variant::isVariantMap() const
 {
     return hasType<VariantMap>();
 }
@@ -199,6 +199,138 @@ std::string Variant::toJSON() const
     return json.toString(*this);
     */
     return "";
+}
+
+bool Variant::isEnum() const
+{
+    if (m_value) return m_value->isEnum();
+    else         return false;
+}
+
+bool Variant::isArray() const
+{
+    if (m_value) return m_value->isArray();
+    else         return false;
+}
+
+bool Variant::isVariant() const
+{
+    if (m_value) return m_value->isVariant();
+    else         return false;
+}
+
+bool Variant::isString() const
+{
+    if (m_value) return m_value->isString();
+    else         return false;
+}
+
+bool Variant::isBool() const
+{
+    if (m_value) return m_value->isBool();
+    else         return false;
+}
+
+bool Variant::isNumber() const
+{
+    if (m_value) return m_value->isNumber();
+    else         return false;
+}
+
+bool Variant::isIntegral() const
+{
+    if (m_value) return m_value->isIntegral();
+    else         return false;
+}
+
+bool Variant::isSignedIntegral() const
+{
+    if (m_value) return m_value->isSignedIntegral();
+    else         return false;
+}
+
+bool Variant::isUnsignedIntegral() const
+{
+    if (m_value) return m_value->isUnsignedIntegral();
+    else         return false;
+}
+
+bool Variant::isFloatingPoint() const
+{
+    if (m_value) return m_value->isFloatingPoint();
+    else         return false;
+}
+
+Variant Variant::toVariant() const
+{
+    if (m_value) return m_value->toVariant();
+    else         return Variant();
+}
+
+bool Variant::fromVariant(const Variant & value)
+{
+    if (m_value) return m_value->fromVariant(value);
+    else         return false;
+}
+
+std::string Variant::toString() const
+{
+    if (m_value) return m_value->toString();
+    else         return "";
+}
+
+bool Variant::fromString(const std::string & value)
+{
+    if (m_value) return m_value->fromString(value);
+    else         return false;
+}
+
+bool Variant::toBool() const
+{
+    if (m_value) return m_value->toBool();
+    else         return false;
+}
+
+bool Variant::fromBool(bool value)
+{
+    if (m_value) return m_value->fromBool(value);
+    else         return false;
+}
+
+long long Variant::toLongLong() const
+{
+    if (m_value) return m_value->toLongLong();
+    else         return 0ll;
+}
+
+bool Variant::fromLongLong(long long value)
+{
+    if (m_value) return m_value->fromLongLong(value);
+    else         return false;
+}
+
+unsigned long long Variant::toULongLong() const
+{
+    if (m_value) return m_value->toULongLong();
+    else         return 0ull;
+}
+
+bool Variant::fromULongLong(unsigned long long value)
+{
+    if (m_value) return m_value->fromULongLong(value);
+    else         return false;
+}
+
+double Variant::toDouble() const
+{
+    if (m_value) return m_value->toDouble();
+    else         return 0.0;
+}
+
+bool Variant::fromDouble(double value)
+{
+    if (m_value) return m_value->fromDouble(value);
+    else         return false;
 }
 
 

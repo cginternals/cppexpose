@@ -4,21 +4,18 @@
 
 #include <string>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/typed/TypeInterface.h>
 
 
 namespace cppexpose
 {
 
 
-class Variant;
-
-
 /**
 *  @brief
-*    Base interface for typed values
+*    Abstract base class for typed values
 */
-class CPPEXPOSE_API AbstractTyped
+class CPPEXPOSE_API AbstractTyped : public TypeInterface
 {
 public:
     /**
@@ -101,222 +98,6 @@ public:
 
     /**
     *  @brief
-    *    Check if value is of enum-type
-    *
-    *  @return
-    *    'true' if value is an enum, else 'false'
-    */
-    virtual bool isEnum() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is of array-type
-    *
-    *  @return
-    *    'true' if value is an array, else 'false'
-    */
-    virtual bool isArray() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is of type cppexpose::Variant
-    *
-    *  @return
-    *    'true' if value is a variant, else 'false'
-    */
-    virtual bool isVariant() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is of type string
-    *
-    *  @return
-    *    'true' if value is a string, else 'false'
-    */
-    virtual bool isString() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is of type bool
-    *
-    *  @return
-    *    'true' if value is a bool, else 'false'
-    */
-    virtual bool isBool() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is a number
-    *
-    *  @return
-    *    'true' if value is a number, else 'false'
-    */
-    virtual bool isNumber() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is an integral
-    *
-    *  @return
-    *    'true' if value is a integral, else 'false'
-    */
-    virtual bool isIntegral() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is a signed integral
-    *
-    *  @return
-    *    'true' if value is a signed integral, else 'false'
-    */
-    virtual bool isSignedIntegral() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is an unsigned integral
-    *
-    *  @return
-    *    'true' if value is an unsigned integral, else 'false'
-    */
-    virtual bool isUnsignedIntegral() const = 0;
-
-    /**
-    *  @brief
-    *    Check if value is a floating point number
-    *
-    *  @return
-    *    'true' if value is a floating point number, else 'false'
-    */
-    virtual bool isFloatingPoint() const = 0;
-
-    /**
-    *  @brief
-    *    Convert value into variant
-    *
-    *  @return
-    *    Variant representation of the value
-    */
-    virtual Variant toVariant() const = 0;
-
-    /**
-    *  @brief
-    *    Set value from variant
-    *
-    *  @param[in] value
-    *    Variant value
-    *
-    *  @return
-    *    'true' if value could be set, else 'false'
-    */
-    virtual bool fromVariant(const Variant & value) = 0;
-
-    /**
-    *  @brief
-    *    Convert value into string
-    *
-    *  @return
-    *    String representation of the value
-    */
-    virtual std::string toString() const = 0;
-
-    /**
-    *  @brief
-    *    Set value from string
-    *
-    *  @param[in] value
-    *    String value
-    *
-    *  @return
-    *    'true' if value could be set, else 'false'
-    */
-    virtual bool fromString(const std::string & value) = 0;
-
-    /**
-    *  @brief
-    *    Convert value into bool
-    *
-    *  @return
-    *    Converted value
-    */
-    virtual bool toBool() const = 0;
-
-    /**
-    *  @brief
-    *    Set value from bool
-    *
-    *  @param[in] value
-    *    Input value
-    *
-    *  @return
-    *    'true' if value could be set, else 'false'
-    */
-    virtual bool fromBool(bool value) = 0;
-
-    /**
-    *  @brief
-    *    Convert value into long long
-    *
-    *  @return
-    *    Converted value
-    */
-    virtual long long toLongLong() const = 0;
-
-    /**
-    *  @brief
-    *    Set value from long long
-    *
-    *  @param[in] value
-    *    Input value
-    *
-    *  @return
-    *    'true' if value could be set, else 'false'
-    */
-    virtual bool fromLongLong(long long value) = 0;
-
-    /**
-    *  @brief
-    *    Convert value into unsigned long long
-    *
-    *  @return
-    *    Converted value
-    */
-    virtual unsigned long long toULongLong() const = 0;
-
-    /**
-    *  @brief
-    *    Set value from unsigned long long
-    *
-    *  @param[in] value
-    *    Input value
-    *
-    *  @return
-    *    'true' if value could be set, else 'false'
-    */
-    virtual bool fromULongLong(unsigned long long value) = 0;
-
-    /**
-    *  @brief
-    *    Convert value into double
-    *
-    *  @return
-    *    Converted value
-    */
-    virtual double toDouble() const = 0;
-
-    /**
-    *  @brief
-    *    Set value from double
-    *
-    *  @param[in] value
-    *    Input value
-    *
-    *  @return
-    *    'true' if value could be set, else 'false'
-    */
-    virtual bool fromDouble(double value) = 0;
-
-    /**
-    *  @brief
     *    Check if variant type can be converted
     *
     *  @return
@@ -343,6 +124,30 @@ public:
     */
     template <typename ValueType>
     ValueType convert(const ValueType & defaultValue = ValueType()) const;
+
+    // Virtual TypeInterface interface
+    virtual bool isEnum() const override = 0;
+    virtual bool isArray() const override = 0;
+    virtual bool isVariant() const override = 0;
+    virtual bool isString() const override = 0;
+    virtual bool isBool() const override = 0;
+    virtual bool isNumber() const override = 0;
+    virtual bool isIntegral() const override = 0;
+    virtual bool isSignedIntegral() const override = 0;
+    virtual bool isUnsignedIntegral() const override = 0;
+    virtual bool isFloatingPoint() const override = 0;
+    virtual Variant toVariant() const override = 0;
+    virtual bool fromVariant(const Variant & value) override = 0;
+    virtual std::string toString() const override = 0;
+    virtual bool fromString(const std::string & value) override = 0;
+    virtual bool toBool() const override = 0;
+    virtual bool fromBool(bool value) override = 0;
+    virtual long long toLongLong() const override = 0;
+    virtual bool fromLongLong(long long value) override = 0;
+    virtual unsigned long long toULongLong() const override = 0;
+    virtual bool fromULongLong(unsigned long long value) override = 0;
+    virtual double toDouble() const override = 0;
+    virtual bool fromDouble(double value) override = 0;
 };
 
 

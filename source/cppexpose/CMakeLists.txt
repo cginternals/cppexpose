@@ -50,6 +50,7 @@ set(headers
     ${include_path}/base/string_helpers.h
     ${include_path}/base/string_helpers.hpp
 
+    ${include_path}/typed/TypeInterface.h
     ${include_path}/typed/AbstractTyped.h
     ${include_path}/typed/AbstractTyped.hpp
     ${include_path}/typed/TypeSelector.h
@@ -99,6 +100,7 @@ set(sources
 
     ${source_path}/base/string_helpers.cpp
 
+    ${source_path}/typed/TypeInterface.cpp
     ${source_path}/typed/AbstractTyped.cpp
 
     ${source_path}/function/AbstractFunction.cpp

@@ -80,7 +80,7 @@ T Variant::value(const T & defaultValue) const
     }
 
     // Variant map or array to string conversion
-    else if (isMap() || isArray())
+    else if (isVariantMap() || isVariantArray())
     {
         return ConvertVariant<T>::convertTo(*this);
     }
