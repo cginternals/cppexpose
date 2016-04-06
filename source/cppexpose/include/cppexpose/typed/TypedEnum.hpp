@@ -5,6 +5,7 @@
 #include <cppexpose/typed/TypedEnum.h>
 
 #include <cassert>
+#include <type_traits>
 
 
 namespace cppexpose
@@ -144,7 +145,7 @@ double TypedEnum<T>::toDouble() const
 template <typename T>
 bool TypedEnum<T>::fromDouble(double value)
 {
-    this->setValue((T)value);
+    this->setValue((T)static_cast<typename std::underlying_type<T>::type>(value));
     return true;
 }
 
