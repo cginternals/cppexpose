@@ -41,7 +41,6 @@ static std::string escapeString(const std::string & in)
 
 static std::string stringify(const cppexpose::Variant & obj, bool beautify = false, const std::string & indent = "")
 {
-std::cout << "1\n";
     // Variant is an object
     if (obj.isVariantMap()) {
         // Quick output: {} if empty

@@ -23,6 +23,9 @@ class Typed;
 template <typename T>
 class DirectValue;
 
+template <typename T>
+class DirectArrayValue;
+
 
 /**
 *  @brief

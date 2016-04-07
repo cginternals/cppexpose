@@ -6,10 +6,11 @@
 
 #include <typeinfo>
 
+#include <cppexpose/base/template_helpers.h>
 #include <cppexpose/typed/AbstractTyped.h>
 
 
-namespace
+namespace cppexpose
 {
 
 
@@ -21,7 +22,7 @@ struct ConvertVariant
         return false;
     }
 
-    static T convertTo(const cppexpose::Variant &)
+    static T convertTo(const Variant &)
     {
         return T();
     }
@@ -35,25 +36,30 @@ struct ConvertVariant<std::string>
         return true;
     }
 
-    static std::string convertTo(const cppexpose::Variant & variant)
+    static std::string convertTo(const Variant & variant)
     {
         return variant.toJSON();
     }
 };
 
-
-} // namespace
-
-
-namespace cppexpose
+template <typename T, typename = void>
+struct DirectValueType
 {
+    using Type = DirectValue<T>;
+};
+
+template <typename T>
+struct DirectValueType<T, helper::EnableIf<helper::isArray<T>>>
+{
+    using Type = DirectArrayValue<T>;
+};
 
 
 template <typename T>
 Variant Variant::fromValue(const T & value)
 {
     Variant variant;
-    variant.m_value = new DirectValue<T>(value);
+    variant.m_value = new typename DirectValueType<T>::Type(value);
     return variant;
 }
 

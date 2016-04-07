@@ -230,10 +230,14 @@ int main(int, char * [])
     std::cout << "mood.toString(): " << mood.toString() << std::endl;
     std::cout << std::endl;
 
+    mood.fromVariant(Variant::fromValue<Mood>(Mood::Neutral));
+    std::cout << "mood.toString(): " << mood.toString() << std::endl;
+    std::cout << std::endl;
+
     Variant v = 3.14f;
     std::cout << "v: " << v.value<float>() << std::endl;
-    *v.ptr<float>() = 1.23f;
 
+    *v.ptr<float>() = 1.23f;
     std::cout << "v: " << v.value<float>() << std::endl;
     std::cout << std::endl;
 
@@ -253,7 +257,7 @@ int main(int, char * [])
     std::cout << std::endl;
 
     Variant obj = Variant::map();
-    createObject(obj, 3, 4);
+    createObject(obj, 2, 2);
 
     std::cout << obj.toJSON(SerializerJSON::Beautify);
     std::cout << std::endl;

@@ -49,6 +49,8 @@ set(headers
 
     ${include_path}/base/string_helpers.h
     ${include_path}/base/string_helpers.hpp
+    ${include_path}/base/template_helpers.h
+    ${include_path}/base/function_helpers.h
     ${include_path}/base/JSONReader.h
     ${include_path}/base/Serializer.h
     ${include_path}/base/SerializerJSON.h
