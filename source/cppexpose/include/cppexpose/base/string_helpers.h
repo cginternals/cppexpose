@@ -12,7 +12,7 @@
 namespace cppexpose
 {
 
-namespace string_helpers
+namespace helper
 {
 
 
@@ -92,7 +92,7 @@ CPPEXPOSE_API std::vector<std::string> parseArray(const std::string & string, si
 //@}
 
 
-} // namespace string_helpers
+} // namespace helper
 
 } // namespace cppexpose
 

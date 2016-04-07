@@ -62,13 +62,13 @@ bool TypedString<T>::fromBool(bool value)
 template <typename T>
 long long TypedString<T>::toLongLong() const
 {
-    return string_helpers::fromString<long long>(this->value());
+    return helper::fromString<long long>(this->value());
 }
 
 template <typename T>
 bool TypedString<T>::fromLongLong(long long value)
 {
-    std::string str = string_helpers::toString<long long>(value);
+    std::string str = helper::toString<long long>(value);
 
     if (str != "") {
         this->setValue(str);
@@ -81,13 +81,13 @@ bool TypedString<T>::fromLongLong(long long value)
 template <typename T>
 unsigned long long TypedString<T>::toULongLong() const
 {
-    return string_helpers::fromString<unsigned long long>(this->value());
+    return helper::fromString<unsigned long long>(this->value());
 }
 
 template <typename T>
 bool TypedString<T>::fromULongLong(unsigned long long value)
 {
-    std::string str = string_helpers::toString<unsigned long long>(value);
+    std::string str = helper::toString<unsigned long long>(value);
 
     if (str != "") {
         this->setValue(str);
@@ -100,13 +100,13 @@ bool TypedString<T>::fromULongLong(unsigned long long value)
 template <typename T>
 double TypedString<T>::toDouble() const
 {
-    return string_helpers::fromString<double>(this->value());
+    return helper::fromString<double>(this->value());
 }
 
 template <typename T>
 bool TypedString<T>::fromDouble(double value)
 {
-    std::string str = string_helpers::toString<double>(value);
+    std::string str = helper::toString<double>(value);
 
     if (str != "") {
         this->setValue(str);

@@ -120,7 +120,7 @@ void createObject(Variant & obj, int numLevels, int numObjects, const std::strin
         std::string subName = "";
         for (int i=0; i<level; i++) subName += "Sub";
         if (level == 0) subName = "Obj";
-        subName += string_helpers::toString<int>(i+1);
+        subName += helper::toString<int>(i+1);
 
         map[subName] = Variant::map();
         createObject(map[subName], numLevels, numObjects, subName, num, level+1, i);

@@ -563,7 +563,7 @@ bool JSONReader::decodeDouble(Token & token)
     //bool ok = false;
 
     std::string buffer(token.begin, token.end-token.begin);
-    value = string_helpers::fromString<double>(buffer);
+    value = helper::fromString<double>(buffer);
 
     //if (ok)
     //    return addError( "'" + std::string(token.begin, token.end-token.begin) + "' is not a number.", token );

@@ -125,7 +125,7 @@ std::string TypedArray<T, Size, BaseType>::toString() const
 template <typename T, size_t Size, typename BaseType>
 bool TypedArray<T, Size, BaseType>::fromString(const std::string & value)
 {
-    std::vector<std::string> elementStrings = string_helpers::parseArray(value, Size);
+    std::vector<std::string> elementStrings = helper::parseArray(value, Size);
     if (elementStrings.size() != Size) {
         return false;
     }

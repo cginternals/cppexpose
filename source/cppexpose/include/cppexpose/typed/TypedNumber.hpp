@@ -30,13 +30,13 @@ bool TypedNumber<T>::isNumber() const
 template <typename T>
 std::string TypedNumber<T>::toString() const
 {
-    return string_helpers::toString<T>(this->value());
+    return helper::toString<T>(this->value());
 }
 
 template <typename T>
 bool TypedNumber<T>::fromString(const std::string & value)
 {
-    this->setValue(string_helpers::fromString<T>(value));
+    this->setValue(helper::fromString<T>(value));
     return true;
 }
 
