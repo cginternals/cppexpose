@@ -49,6 +49,9 @@ set(headers
 
     ${include_path}/base/string_helpers.h
     ${include_path}/base/string_helpers.hpp
+    ${include_path}/base/JSONReader.h
+    ${include_path}/base/Serializer.h
+    ${include_path}/base/SerializerJSON.h
 
     ${include_path}/typed/TypeInterface.h
     ${include_path}/typed/AbstractTyped.h
@@ -99,6 +102,9 @@ set(sources
     ${source_path}/cppexpose.cpp
 
     ${source_path}/base/string_helpers.cpp
+    ${source_path}/base/JSONReader.cpp
+    ${source_path}/base/Serializer.cpp
+    ${source_path}/base/SerializerJSON.cpp
 
     ${source_path}/typed/TypeInterface.cpp
     ${source_path}/typed/AbstractTyped.cpp

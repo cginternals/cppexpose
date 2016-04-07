@@ -16,6 +16,11 @@ namespace
 template <typename T>
 struct ConvertVariant
 {
+    static bool canConvert()
+    {
+        return false;
+    }
+
     static T convertTo(const cppexpose::Variant &)
     {
         return T();
@@ -25,6 +30,11 @@ struct ConvertVariant
 template <>
 struct ConvertVariant<std::string>
 {
+    static bool canConvert()
+    {
+        return true;
+    }
+
     static std::string convertTo(const cppexpose::Variant & variant)
     {
         return variant.toJSON();
@@ -60,13 +70,15 @@ bool Variant::hasType() const
 template <typename T>
 bool Variant::canConvert() const
 {
-    /*
-    if (!m_value) {
-        return false;
+    if (isVariantMap() || isVariantArray())
+    {
+        return ConvertVariant<T>::canConvert();
     }
 
-    return m_value->canConvert(typeid(T)) || hasType<T>();
-    */
+    else if (m_value) {
+        return m_value->canConvert<T>();
+    }
+
     return false;
 }
 

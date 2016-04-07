@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 
+#include <cppexpose/base/SerializerJSON.h>
 #include <cppexpose/typed/TypeInterface.h>
 
 
@@ -288,13 +289,16 @@ public:
     *  @brief
     *    Get JSON representation of variant
     *
+    *  @param[in] outputMode
+    *    JSON output mode
+    *
     *  @return
     *    JSON representation
     *
     *  @see
     *    SerializerJSON
     */
-    std::string toJSON() const;
+    std::string toJSON(SerializerJSON::OutputMode outputMode = SerializerJSON::Compact) const;
     //@}
 
     // Virtual TypeInterface interface
