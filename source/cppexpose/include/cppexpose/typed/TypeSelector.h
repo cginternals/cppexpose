@@ -119,7 +119,7 @@ struct TypeSelector<T, helper::EnableIf<std::is_enum<T>>>
 template <typename T>
 struct TypeSelector<T, helper::EnableIf<helper::isArray<T>>>
 {
-    using Type = TypedArray<typename T::value_type, std::tuple_size<T>::value, T>;
+    using Type = TypedArray<T, typename T::value_type, std::tuple_size<T>::value>;
 };
 
 /**

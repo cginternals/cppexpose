@@ -10,7 +10,7 @@
 namespace cppexpose
 {
 
-namespace string_helpers
+namespace helper
 {
 
 
@@ -32,6 +32,6 @@ std::string toString(const Type & value)
 }
 
 
-} // namespace string_helpers
+} // namespace helper
     
 } // namespace cppexpose

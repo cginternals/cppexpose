@@ -11,21 +11,17 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Typed array value (read/write) that is stored directly
+*    Typed value (read/write) that is stored directly
 */
 template <typename T>
-class DirectArrayValue : public TypeSelector<T>::Type
+class DirectValueSingle : public TypeSelector<T>::Type
 {
-public:
-    typedef typename TypeSelector<T>::Type::ElementType ElementType;
-
-
 public:
     /**
     *  @brief
     *    Constructor
     */
-    DirectArrayValue();
+    DirectValueSingle();
 
     /**
     *  @brief
@@ -34,13 +30,31 @@ public:
     *  @param[in] value
     *    Initial value
     */
-    DirectArrayValue(const T & value);
+    DirectValueSingle(const T & value);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~DirectArrayValue();
+    virtual ~DirectValueSingle();
+
+    /**
+    *  @brief
+    *    Get a direct pointer to the stored value
+    *
+    *  @return
+    *    Pointer to the value
+    */
+    const T * ptr() const;
+
+    /**
+    *  @brief
+    *    Get a direct pointer to the stored value
+    *
+    *  @return
+    *    Pointer to the value
+    */
+    T * ptr();
 
     // Virtual AbstractTyped interface
     virtual AbstractTyped * clone() const override;
@@ -48,10 +62,6 @@ public:
     // Virtual Typed<T> interface
     virtual T value() const override;
     virtual void setValue(const T & value) override;
-
-    // Virtual TypedArray<T> interface
-    virtual ElementType getElement(size_t i) const override;
-    virtual void setElement(size_t i, const ElementType & value) override;
 
 
 protected:
@@ -61,17 +71,17 @@ protected:
 
 /**
 *  @brief
-*    Typed array value (read-only) that is stored directly
+*    Typed value (read-only) that is stored directly
 */
 template <typename T>
-class DirectArrayValue<const T> : public DirectArrayValue<T>
+class DirectValueSingle<const T> : public DirectValueSingle<T>
 {
 public:
     /**
     *  @brief
     *    Constructor
     */
-    DirectArrayValue();
+    DirectValueSingle();
 
     /**
     *  @brief
@@ -80,13 +90,13 @@ public:
     *  @param[in] value
     *    Initial value
     */
-    DirectArrayValue(const T & value);
+    DirectValueSingle(const T & value);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~DirectArrayValue();
+    virtual ~DirectValueSingle();
 
     // Virtual AbstractTyped interface
     virtual AbstractTyped * clone() const override;
@@ -94,13 +104,10 @@ public:
 
     // Virtual Typed<T> interface
     virtual void setValue(const T & value) override;
-
-    // Virtual TypedArray<T> interface
-    virtual void setElement(size_t i, const typename DirectArrayValue<T>::ElementType & value) override;
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/typed/DirectArrayValue.hpp>
+#include <cppexpose/typed/DirectValueSingle.hpp>

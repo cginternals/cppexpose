@@ -16,11 +16,11 @@ namespace cppexpose
 *  @brief
 *    Representation of a typed array
 */
-template <typename T, size_t Size, typename BaseType>
-class TypedArray : public Typed<BaseType>
+template <typename T, typename ET, size_t Size>
+class TypedArray : public Typed<T>
 {
 public:
-    typedef T ElementType;  ///< Type of an element in the array
+    typedef ET ElementType;  ///< Type of an element in the array
 
 
 public:
@@ -55,7 +55,7 @@ public:
     *  @return
     *    Value
     */
-    virtual T getElement(size_t i) const = 0;
+    virtual ET getElement(size_t i) const = 0;
 
     /**
     *  @brief
@@ -66,7 +66,7 @@ public:
     *  @param[in] value
     *    Value
     */
-    virtual void setElement(size_t i, const T & value) = 0;
+    virtual void setElement(size_t i, const ET & value) = 0;
 
     // Virtual AbstractTyped interface
     virtual std::string typeName() const override;

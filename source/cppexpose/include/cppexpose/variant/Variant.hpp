@@ -6,17 +6,23 @@
 
 #include <typeinfo>
 
+#include <cppexpose/base/template_helpers.h>
 #include <cppexpose/typed/AbstractTyped.h>
 
 
-namespace
+namespace cppexpose
 {
 
 
 template <typename T>
 struct ConvertVariant
 {
-    static T convertTo(const cppexpose::Variant &)
+    static bool canConvert()
+    {
+        return false;
+    }
+
+    static T convertTo(const Variant &)
     {
         return T();
     }
@@ -25,18 +31,16 @@ struct ConvertVariant
 template <>
 struct ConvertVariant<std::string>
 {
-    static std::string convertTo(const cppexpose::Variant & variant)
+    static bool canConvert()
+    {
+        return true;
+    }
+
+    static std::string convertTo(const Variant & variant)
     {
         return variant.toJSON();
     }
 };
-
-
-} // namespace
-
-
-namespace cppexpose
-{
 
 
 template <typename T>
@@ -60,13 +64,15 @@ bool Variant::hasType() const
 template <typename T>
 bool Variant::canConvert() const
 {
-    /*
-    if (!m_value) {
-        return false;
+    if (isVariantMap() || isVariantArray())
+    {
+        return ConvertVariant<T>::canConvert();
     }
 
-    return m_value->canConvert(typeid(T)) || hasType<T>();
-    */
+    else if (m_value) {
+        return m_value->canConvert<T>();
+    }
+
     return false;
 }
 

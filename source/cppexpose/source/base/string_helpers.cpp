@@ -19,7 +19,7 @@
 namespace cppexpose
 {
 
-namespace string_helpers
+namespace helper
 {
 
 
@@ -89,6 +89,6 @@ std::vector<std::string> parseArray(const std::string & string, size_t size)
 }
 
 
-} // namespace string_helpers
+} // namespace helper
 
 } // namespace cppexpose

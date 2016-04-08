@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/StoredArrayValue.h>
+#include <cppexpose/typed/StoredValueArray.h>
 
 
 namespace cppexpose
@@ -11,7 +11,7 @@ namespace cppexpose
 
 // Read/write type
 template <typename T>
-StoredArrayValue<T>::StoredArrayValue(
+StoredValueArray<T>::StoredValueArray(
     std::function<T ()> getter
   , std::function<void(const T &)> setter
   , std::function<ElementType (int)> elementGetter
@@ -24,42 +24,42 @@ StoredArrayValue<T>::StoredArrayValue(
 }
 
 template <typename T>
-StoredArrayValue<T>::~StoredArrayValue()
+StoredValueArray<T>::~StoredValueArray()
 {
 }
 
 template <typename T>
-AbstractTyped * StoredArrayValue<T>::clone() const
+AbstractTyped * StoredValueArray<T>::clone() const
 {
-    return new StoredArrayValue<T>(m_getter, m_setter, m_elementGetter, m_elementSetter);
+    return new StoredValueArray<T>(m_getter, m_setter, m_elementGetter, m_elementSetter);
 }
 
 template <typename T>
-T StoredArrayValue<T>::value() const
+T StoredValueArray<T>::value() const
 {
     return m_getter();
 }
 
 template <typename T>
-void StoredArrayValue<T>::setValue(const T & value)
+void StoredValueArray<T>::setValue(const T & value)
 {
     m_setter(value);
 }
 
 template <typename T>
-typename StoredArrayValue<T>::ElementType StoredArrayValue<T>::getElement(size_t i) const
+typename StoredValueArray<T>::ElementType StoredValueArray<T>::getElement(size_t i) const
 {
     return m_elementGetter(i);
 }
 
 template <typename T>
-void StoredArrayValue<T>::setElement(size_t i, const typename StoredArrayValue<T>::ElementType & value)
+void StoredValueArray<T>::setElement(size_t i, const typename StoredValueArray<T>::ElementType & value)
 {
     m_elementSetter(i, value);
 }
 
 template <typename T>
-StoredArrayValue<T>::StoredArrayValue(
+StoredValueArray<T>::StoredValueArray(
     std::function<T ()> getter
   , std::function<ElementType (int)> elementGetter)
 : m_getter(getter)
@@ -70,22 +70,22 @@ StoredArrayValue<T>::StoredArrayValue(
 
 // Read-only type
 template <typename T>
-StoredArrayValue<const T>::StoredArrayValue(
+StoredValueArray<const T>::StoredValueArray(
     std::function<T ()> getter
-  , std::function<typename StoredArrayValue<T>::ElementType (int)> elementGetter)
-: StoredArrayValue<T>::StoredArrayValue(getter, elementGetter)
+  , std::function<typename StoredValueArray<T>::ElementType (int)> elementGetter)
+: StoredValueArray<T>::StoredValueArray(getter, elementGetter)
 {
 }
 
 template <typename T>
-StoredArrayValue<const T>::~StoredArrayValue()
+StoredValueArray<const T>::~StoredValueArray()
 {
 }
 
 template <typename T>
-AbstractTyped * StoredArrayValue<const T>::clone() const
+AbstractTyped * StoredValueArray<const T>::clone() const
 {
-    return new StoredArrayValue<const T>(
+    return new StoredValueArray<const T>(
       this->m_getter,
       this->m_setter,
       this->m_elementGetter,
@@ -94,20 +94,20 @@ AbstractTyped * StoredArrayValue<const T>::clone() const
 }
 
 template <typename T>
-bool StoredArrayValue<const T>::isReadOnly() const
+bool StoredValueArray<const T>::isReadOnly() const
 {
     // Read-only!
     return true;
 }
 
 template <typename T>
-void StoredArrayValue<const T>::setValue(const T &)
+void StoredValueArray<const T>::setValue(const T &)
 {
     // Read-only!
 }
 
 template <typename T>
-void StoredArrayValue<const T>::setElement(size_t, const typename StoredArrayValue<T>::ElementType &)
+void StoredValueArray<const T>::setElement(size_t, const typename StoredValueArray<T>::ElementType &)
 {
     // Read-only!
 }

@@ -49,6 +49,11 @@ set(headers
 
     ${include_path}/base/string_helpers.h
     ${include_path}/base/string_helpers.hpp
+    ${include_path}/base/template_helpers.h
+    ${include_path}/base/function_helpers.h
+    ${include_path}/base/JSONReader.h
+    ${include_path}/base/Serializer.h
+    ${include_path}/base/SerializerJSON.h
 
     ${include_path}/typed/TypeInterface.h
     ${include_path}/typed/AbstractTyped.h
@@ -78,12 +83,14 @@ set(headers
     ${include_path}/typed/TypedVariant.hpp
     ${include_path}/typed/DirectValue.h
     ${include_path}/typed/DirectValue.hpp
-    ${include_path}/typed/DirectArrayValue.h
-    ${include_path}/typed/DirectArrayValue.hpp
-    ${include_path}/typed/StoredValue.h
-    ${include_path}/typed/StoredValue.hpp
-    ${include_path}/typed/StoredArrayValue.h
-    ${include_path}/typed/StoredArrayValue.hpp
+    ${include_path}/typed/DirectValueSingle.h
+    ${include_path}/typed/DirectValueSingle.hpp
+    ${include_path}/typed/DirectValueArray.h
+    ${include_path}/typed/DirectValueArray.hpp
+    ${include_path}/typed/StoredValueSingle.h
+    ${include_path}/typed/StoredValueSingle.hpp
+    ${include_path}/typed/StoredValueArray.h
+    ${include_path}/typed/StoredValueArray.hpp
 
     ${include_path}/function/AbstractFunction.h
     ${include_path}/function/Function.h
@@ -99,6 +106,9 @@ set(sources
     ${source_path}/cppexpose.cpp
 
     ${source_path}/base/string_helpers.cpp
+    ${source_path}/base/JSONReader.cpp
+    ${source_path}/base/Serializer.cpp
+    ${source_path}/base/SerializerJSON.cpp
 
     ${source_path}/typed/TypeInterface.cpp
     ${source_path}/typed/AbstractTyped.cpp

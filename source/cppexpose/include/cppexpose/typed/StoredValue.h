@@ -2,107 +2,60 @@
 #pragma once
 
 
-#include <functional>
-
-#include <cppexpose/typed/TypeSelector.h>
+#include <cppexpose/typed/StoredValueSingle.h>
+#include <cppexpose/typed/StoredValueArray.h>
 
 
 namespace cppexpose
 {
 
 
-/**
-*  @brief
-*    Typed value (read/write) that is accessed via getter and setter functions
-*/
-template <typename T>
-class StoredValue : public TypeSelector<T>::Type
+template <typename T, typename = void>
+struct StoredValueType
 {
-public:
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] getter
-    *    Function to get the value
-    *  @param[in] setter
-    *    Function to set the value
-    *
-    *  @remarks
-    *    This creates a typed value that is accessed via getter
-    *    and setter methods, which can be provided by global
-    *    functions, member functions, or lambda functions.
-    *
-    *    Examples:
-    *      StoredValue<int> v(&staticGetter, &staticSetter);
-    *      StoredValue<int> v(
-    *        std::bind(&MyValue::value, &myValue),
-    *        std::bind(&MyValue::setValue, &myValue, _1)
-    *      );
-    */
-    StoredValue(std::function<T ()> getter,
-                std::function<void(const T &)> setter);
+    using Type = StoredValueSingle<T>;
+};
 
-    /**
-    *  @brief
-    *    Destructor
-    */
-    virtual ~StoredValue();
-
-    // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
-
-    // Virtual Typed<T> functions
-    virtual T value() const override;
-    virtual void setValue(const T & value) override;
-
-
-protected:
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] getter
-    *    Function to get the value
-    */
-    StoredValue(const std::function<T ()> & getter);
-
-
-protected:
-    std::function<T ()>            m_getter; ///< Function to get the value
-    std::function<void(const T &)> m_setter; ///< Function to set the value
+template <typename T>
+struct StoredValueType<T, helper::EnableIf<helper::isArray<T>>>
+{
+    using Type = StoredValueArray<T>;
 };
 
 
 /**
 *  @brief
-*    Typed value (read-only) that is accessed via getter and setter functions
+*    Typed value (read/write) that is stored directly
 */
 template <typename T>
-class StoredValue<const T> : public StoredValue<T>
+class StoredValue : public StoredValueType<T>::Type
 {
+public:
+    typedef typename StoredValueType<T>::Type BaseType;
+
+
 public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] getter
-    *    Function to get the value
     */
-    StoredValue(std::function<T ()> getter);
+    template <typename... Args>
+    StoredValue(Args&&... args);
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] value
+    *    Initial value
+    */
+    StoredValue(const T & value);
 
     /**
     *  @brief
     *    Destructor
     */
     virtual ~StoredValue();
-
-    // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
-    virtual bool isReadOnly() const override;
-
-    // Virtual Typed<T> functions
-    virtual void setValue(const T & value) override;
 };
 
 

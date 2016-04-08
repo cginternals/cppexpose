@@ -6,6 +6,8 @@
 
 #include <typeinfo>
 
+#include <cppexpose/variant/Variant.h>
+
 
 namespace cppexpose
 {
@@ -114,15 +116,14 @@ bool Typed<T>::isFloatingPoint() const
 template <typename T>
 Variant Typed<T>::toVariant() const
 {
-    // [TODO] Implement!
-    return Variant();
+    return Variant::fromValue<T>(this->value());
 }
 
 template <typename T>
-bool Typed<T>::fromVariant(const Variant &)
+bool Typed<T>::fromVariant(const Variant & variant)
 {
-    // [TODO] Implement!
-    return false;
+    this->setValue(variant.value<T>());
+    return true;
 }
 
 template <typename T>

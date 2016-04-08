@@ -7,6 +7,7 @@
 #include <functional>
 
 #include <cppexpose/base/template_helpers.h>
+#include <cppexpose/base/function_helpers.h>
 #include <cppexpose/variant/Variant.h>
 
 

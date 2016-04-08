@@ -3,9 +3,7 @@
 #include <iostream>
 
 #include <cppexpose/typed/DirectValue.h>
-#include <cppexpose/typed/DirectArrayValue.h>
 #include <cppexpose/typed/StoredValue.h>
-#include <cppexpose/typed/StoredArrayValue.h>
 #include <cppexpose/variant/Variant.h>
 
 
@@ -100,6 +98,33 @@ struct EnumDefaultStrings<Mood>
 
 }
 
+void createObject(Variant & obj, int numLevels, int numObjects, const std::string & name = "", int baseNum = 0, int level = 0, int index = 0)
+{
+    VariantMap & map = *obj.asMap();
+
+    int num = (level > 0) ? baseNum * 10 + index + 1 : 0;
+
+    if (level > 0)
+    {
+        map["name"]  = name;
+        map["value"] = num;
+    }
+
+    if (level >= numLevels)
+        return;
+
+    for (int i=0; i<numObjects; i++)
+    {
+        std::string subName = "";
+        for (int i=0; i<level; i++) subName += "Sub";
+        if (level == 0) subName = "Obj";
+        subName += helper::toString<int>(i+1);
+
+        map[subName] = Variant::map();
+        createObject(map[subName], numLevels, numObjects, subName, num, level+1, i);
+    }
+}
+
 int main(int, char * [])
 {
     using namespace std::placeholders;
@@ -112,8 +137,8 @@ int main(int, char * [])
         std::bind(&MyValue::value, &myValue),
         std::bind(&MyValue::setValue, &myValue, _1)
     );
-//  DirectArrayValue< std::array<int, 3> > ints;
-    StoredArrayValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
+//  DirectValue< std::array<int, 3> > ints;
+    StoredValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
     DirectValue<Mood> mood(Mood::Sad);
@@ -203,8 +228,13 @@ int main(int, char * [])
     std::cout << "mood.toString(): " << mood.toString() << std::endl;
     std::cout << std::endl;
 
+    mood.fromVariant(Variant::fromValue<Mood>(Mood::Neutral));
+    std::cout << "mood.toString(): " << mood.toString() << std::endl;
+    std::cout << std::endl;
+
     Variant v = 3.14f;
     std::cout << "v: " << v.value<float>() << std::endl;
+
     *v.ptr<float>() = 1.23f;
     std::cout << "v: " << v.value<float>() << std::endl;
     std::cout << std::endl;
@@ -222,6 +252,12 @@ int main(int, char * [])
     if (!int1.canConvert<MyValue>()) {
         std::cout << "(MyValue)int1: UNSUPPORTED" << std::endl;
     }
+    std::cout << std::endl;
+
+    Variant obj = Variant::map();
+    createObject(obj, 2, 2);
+
+    std::cout << obj.toJSON(SerializerJSON::Beautify);
     std::cout << std::endl;
 
     return 0;
