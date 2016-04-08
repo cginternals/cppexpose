@@ -12,7 +12,7 @@ namespace cppexpose
 /*
 template <typename T>
 Property<T>::Property(const std::string & name)
-: Named(name)
+: AbstractProperty(name)
 , m_value(new DirectValue<T>())
 {
 }
@@ -21,7 +21,7 @@ Property<T>::Property(const std::string & name)
 template <typename T>
 template <typename... Args>
 Property<T>::Property(const std::string & name, Args&&... args)
-: Named(name)
+: AbstractProperty(name)
 , m_value(new StoredValue<T>(std::forward<Args>(args)...))
 {
 }
@@ -30,6 +30,18 @@ template <typename T>
 Property<T>::~Property()
 {
     delete m_value;
+}
+
+template <typename T>
+AbstractTyped * Property<T>::asTyped()
+{
+    return static_cast<AbstractTyped *>(this);
+}
+
+template <typename T>
+bool Property<T>::isGroup() const
+{
+    return false;
 }
 
 template <typename T>

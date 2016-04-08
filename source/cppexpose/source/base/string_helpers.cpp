@@ -88,6 +88,25 @@ std::vector<std::string> parseArray(const std::string & string, size_t size)
     return result;
 }
 
+std::vector<std::string> split(const std::string & input, char delimiter)
+{
+    std::vector<std::string> result;
+    result.push_back(std::string());
+
+    for (const char & c : input)
+    {
+        if (c == delimiter)
+        {
+            result.push_back(std::string());
+            continue;
+        }
+        
+        result.back().push_back(c);
+    }
+
+    return result;
+}
+
 
 } // namespace helper
 

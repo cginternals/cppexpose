@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <cppexpose/typed/Typed.h>
-#include <cppexpose/reflection/Named.h>
+#include <cppexpose/typed/StoredValue.h>
+#include <cppexpose/reflection/AbstractProperty.h>
 
 
 namespace cppexpose
@@ -15,7 +15,7 @@ namespace cppexpose
 *    Representation for typed properties of an object
 */
 template <typename T>
-class CPPEXPOSE_API Property : public Typed<T>, public Named
+class CPPEXPOSE_API Property : public Typed<T>, public AbstractProperty
 {
 public:
     // [TODO]
@@ -40,6 +40,10 @@ public:
     *    Destructor
     */
     virtual ~Property();
+
+    // Virtual AbstractProperty interface
+    virtual AbstractTyped * asTyped() override;
+    virtual bool isGroup() const override;
 
     // Virtual Typed<T> interface
     virtual T value() const override;
