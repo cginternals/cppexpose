@@ -5,6 +5,7 @@
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/variant/Variant.h>
+#include <cppexpose/reflection/Property.h>
 
 
 using namespace cppexpose;
@@ -132,13 +133,13 @@ int main(int, char * [])
     MyValue myValue;
 
     DirectValue<unsigned int> int1;
-    StoredValue<const int> int2(&getValue); //, &setValue);
-    StoredValue<int> int3(
+    Property<const int> int2("int2", &getValue);
+    Property<int> int3("int3",
         std::bind(&MyValue::value, &myValue),
         std::bind(&MyValue::setValue, &myValue, _1)
     );
 //  DirectValue< std::array<int, 3> > ints;
-    StoredValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
+    Property< std::array<int, 3> > ints("ints", &getArray, &setArray, &getElement, &setElement);
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
     DirectValue<Mood> mood(Mood::Sad);
@@ -154,7 +155,7 @@ int main(int, char * [])
     std::cout << "type(flt1): " << flt1.typeName() << " (" << flt1.type().name() << ")" << std::endl;
     std::cout << "type(flt2): " << flt2.typeName() << " (" << flt2.type().name() << ")" << std::endl;
     std::cout << "type(ints): " << ints.typeName() << " (" << ints.type().name() << ")" << std::endl;
-    std::cout << "Size(ints): " << ints.numElements() << std::endl;
+    std::cout << "Size(ints): " << ints.numSubValues() << std::endl;
     std::cout << std::endl;
 
     ints.setValue({{1, 2, 3}});
@@ -167,7 +168,7 @@ int main(int, char * [])
     int1.setValue(10);
     int2.setValue(10);
     int3.setValue(10);
-    ints.setElement(0, 10);
+    ints.subValue(0)->fromLongLong(10);
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
     std::cout << "int3: " << int3.value() << std::endl;
@@ -177,7 +178,7 @@ int main(int, char * [])
     int1.setValue(23);
     int2.setValue(23);
     int3.setValue(23);
-    ints.setElement(1, 23);
+    ints.subValue(1)->fromLongLong(23);
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
     std::cout << "int3: " << int3.value() << std::endl;
@@ -187,7 +188,7 @@ int main(int, char * [])
     int1.setValue(50);
     int2.setValue(50);
     int3.setValue(50);
-    ints.setElement(2, 0);
+    ints.subValue(2)->fromLongLong(50);
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
     std::cout << "int3: " << int3.value() << std::endl;

@@ -3,6 +3,7 @@
 
 
 #include <cppexpose/typed/AbstractTyped.h>
+#include <cppexpose/reflection/Named.h>
 
 
 namespace cppexpose
@@ -11,54 +12,34 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of a typed value
+*    Base class for reflection-enabled objects
 */
-template <typename T>
-class Typed : public AbstractTyped
+class CPPEXPOSE_API PropertyGroup : public AbstractTyped, public Named
 {
-public:
-    typedef T Type;  ///< Type of the value
-
-
 public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] name
+    *    Name
     */
-    Typed();
+    PropertyGroup(const std::string & name);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~Typed();
-
-    /**
-    *  @brief
-    *    Get value
-    *
-    *  @return
-    *    Value
-    */
-    virtual T value() const = 0;
-
-    /**
-    *  @brief
-    *    Set value
-    *
-    *  @param[in] value
-    *    Value
-    */
-    virtual void setValue(const T & value) = 0;
+    virtual ~PropertyGroup();
 
     // Virtual AbstractTyped interface
-    virtual const std::type_info & type() const override;
-    virtual bool isReadOnly() const override;
-
-    virtual bool isComposite() const override;
-    virtual size_t numSubValues() const override;
-    virtual AbstractTyped * subValue(size_t i) override;
-
+    virtual AbstractTyped * clone() const;
+    virtual const std::type_info & type() const;
+    virtual std::string typeName() const;
+    virtual bool isReadOnly() const;
+    virtual bool isComposite() const;
+    virtual size_t numSubValues() const;
+    virtual AbstractTyped * subValue(size_t i);
     virtual bool isEnum() const override;
     virtual bool isArray() const override;
     virtual bool isVariant() const override;
@@ -69,7 +50,6 @@ public:
     virtual bool isSignedIntegral() const override;
     virtual bool isUnsignedIntegral() const override;
     virtual bool isFloatingPoint() const override;
-
     virtual Variant toVariant() const override;
     virtual bool fromVariant(const Variant & value) override;
     virtual std::string toString() const override;
@@ -82,14 +62,7 @@ public:
     virtual bool fromULongLong(unsigned long long value) override;
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
-
-
-protected:
-    virtual void onValueChanged(const T & value);
 };
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/typed/Typed.hpp>
