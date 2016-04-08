@@ -22,13 +22,13 @@ template <typename T>
 class StoredValue;
 
 
-template <typename T, size_t Size, typename BaseType>
-TypedArray<T, Size, BaseType>::TypedArray()
+template <typename T, typename ET, size_t Size>
+TypedArray<T, ET, Size>::TypedArray()
 {
 }
 
-template <typename T, size_t Size, typename BaseType>
-TypedArray<T, Size, BaseType>::~TypedArray()
+template <typename T, typename ET, size_t Size>
+TypedArray<T, ET, Size>::~TypedArray()
 {
     for (AbstractTyped * subValue : m_subValues)
     {
@@ -36,38 +36,38 @@ TypedArray<T, Size, BaseType>::~TypedArray()
     }
 }
 
-template <typename T, size_t Size, typename BaseType>
-size_t TypedArray<T, Size, BaseType>::numElements() const
+template <typename T, typename ET, size_t Size>
+size_t TypedArray<T, ET, Size>::numElements() const
 {
     return Size;
 }
 
-template <typename T, size_t Size, typename BaseType>
-std::string TypedArray<T, Size, BaseType>::typeName() const
+template <typename T, typename ET, size_t Size>
+std::string TypedArray<T, ET, Size>::typeName() const
 {
     // [TODO] This is not nice and potentially expensive.
     //        Find a better way to get type names.
-    DirectValue<T> dummy;
+    DirectValue<ET> dummy;
 
     std::stringstream s;
     s << "array<" << dummy.typeName() << ", " << Size << ">";
     return s.str();
 }
 
-template <typename T, size_t Size, typename BaseType>
-bool TypedArray<T, Size, BaseType>::isComposite() const
+template <typename T, typename ET, size_t Size>
+bool TypedArray<T, ET, Size>::isComposite() const
 {
     return true;
 }
 
-template <typename T, size_t Size, typename BaseType>
-size_t TypedArray<T, Size, BaseType>::numSubValues() const
+template <typename T, typename ET, size_t Size>
+size_t TypedArray<T, ET, Size>::numSubValues() const
 {
     return Size;
 }
 
-template <typename T, size_t Size, typename BaseType>
-AbstractTyped * TypedArray<T, Size, BaseType>::subValue(size_t index)
+template <typename T, typename ET, size_t Size>
+AbstractTyped * TypedArray<T, ET, Size>::subValue(size_t index)
 {
     using namespace std::placeholders;
 
@@ -79,17 +79,17 @@ AbstractTyped * TypedArray<T, Size, BaseType>::subValue(size_t index)
             // [TODO] This might pose a problem for clang. If so, the same
             // thing can be easily accomplished using lambda expressions.
             // But this is much more elegant :)
-            m_subValues.push_back(new StoredValue<T>(
-                std::bind( &TypedArray<T, Size, BaseType>::getElement, this, i ),
-                std::bind( &TypedArray<T, Size, BaseType>::setElement, this, i, _1 )
+            m_subValues.push_back(new StoredValue<ET>(
+                std::bind( &TypedArray<T, ET, Size>::getElement, this, i ),
+                std::bind( &TypedArray<T, ET, Size>::setElement, this, i, _1 )
             ));
 
             /* Alternative implementation
-            m_subValues.push_back(new StoredValue<T>(
-                [this, i] () -> T {
+            m_subValues.push_back(new StoredValue<ET>(
+                [this, i] () -> ET {
                     return this->getElement(i);
                 },
-                [this, i] (const T & value) {
+                [this, i] (const ET & value) {
                     this->setElement(i, value);
                 }
             ));
@@ -101,20 +101,20 @@ AbstractTyped * TypedArray<T, Size, BaseType>::subValue(size_t index)
     return (index < Size) ? m_subValues[index] : nullptr;
 }
 
-template <typename T, size_t Size, typename BaseType>
-bool TypedArray<T, Size, BaseType>::isArray() const
+template <typename T, typename ET, size_t Size>
+bool TypedArray<T, ET, Size>::isArray() const
 {
     return true;
 }
 
-template <typename T, size_t Size, typename BaseType>
-std::string TypedArray<T, Size, BaseType>::toString() const
+template <typename T, typename ET, size_t Size>
+std::string TypedArray<T, ET, Size>::toString() const
 {
     std::string str = "(";
 
     for (size_t i=0; i<Size; i++) {
         if (i > 0) str += ", ";
-        str += const_cast<TypedArray<T, Size, BaseType> *>(this)->subValue(i)->toString();
+        str += const_cast<TypedArray<T, ET, Size> *>(this)->subValue(i)->toString();
     }
 
     str += ")";
@@ -122,8 +122,8 @@ std::string TypedArray<T, Size, BaseType>::toString() const
     return str;
 }
 
-template <typename T, size_t Size, typename BaseType>
-bool TypedArray<T, Size, BaseType>::fromString(const std::string & value)
+template <typename T, typename ET, size_t Size>
+bool TypedArray<T, ET, Size>::fromString(const std::string & value)
 {
     std::vector<std::string> elementStrings = helper::parseArray(value, Size);
     if (elementStrings.size() != Size) {
