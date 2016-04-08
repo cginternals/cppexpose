@@ -2,11 +2,25 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypeSelector.h>
+#include <cppexpose/typed/DirectValueSingle.h>
+#include <cppexpose/typed/DirectValueArray.h>
 
 
 namespace cppexpose
 {
+
+
+template <typename T, typename = void>
+struct DirectValueBaseType
+{
+    using Type = DirectValueSingle<T>;
+};
+
+template <typename T>
+struct DirectValueBaseType<T, helper::EnableIf<helper::isArray<T>>>
+{
+    using Type = DirectValueArray<T>;
+};
 
 
 /**
@@ -14,8 +28,12 @@ namespace cppexpose
 *    Typed value (read/write) that is stored directly
 */
 template <typename T>
-class DirectValue : public TypeSelector<T>::Type
+class DirectValue : public DirectValueBaseType<T>::Type
 {
+public:
+    typedef typename DirectValueBaseType<T>::Type BaseType;
+
+
 public:
     /**
     *  @brief
@@ -37,73 +55,6 @@ public:
     *    Destructor
     */
     virtual ~DirectValue();
-
-    /**
-    *  @brief
-    *    Get a direct pointer to the stored value
-    *
-    *  @return
-    *    Pointer to the value
-    */
-    const T * ptr() const;
-
-    /**
-    *  @brief
-    *    Get a direct pointer to the stored value
-    *
-    *  @return
-    *    Pointer to the value
-    */
-    T * ptr();
-
-    // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
-
-    // Virtual Typed<T> interface
-    virtual T value() const override;
-    virtual void setValue(const T & value) override;
-
-
-protected:
-    T m_value;  ///< The stored value
-};
-
-
-/**
-*  @brief
-*    Typed value (read-only) that is stored directly
-*/
-template <typename T>
-class DirectValue<const T> : public DirectValue<T>
-{
-public:
-    /**
-    *  @brief
-    *    Constructor
-    */
-    DirectValue();
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] value
-    *    Initial value
-    */
-    DirectValue(const T & value);
-
-    /**
-    *  @brief
-    *    Destructor
-    */
-    virtual ~DirectValue();
-
-    // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
-    virtual bool isReadOnly() const override;
-
-    // Virtual Typed<T> interface
-    virtual void setValue(const T & value) override;
 };
 
 

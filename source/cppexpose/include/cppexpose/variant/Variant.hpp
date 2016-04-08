@@ -42,24 +42,12 @@ struct ConvertVariant<std::string>
     }
 };
 
-template <typename T, typename = void>
-struct DirectValueType
-{
-    using Type = DirectValue<T>;
-};
-
-template <typename T>
-struct DirectValueType<T, helper::EnableIf<helper::isArray<T>>>
-{
-    using Type = DirectArrayValue<T>;
-};
-
 
 template <typename T>
 Variant Variant::fromValue(const T & value)
 {
     Variant variant;
-    variant.m_value = new typename DirectValueType<T>::Type(value);
+    variant.m_value = new DirectValue<T>(value);
     return variant;
 }
 

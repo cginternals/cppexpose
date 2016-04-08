@@ -83,8 +83,10 @@ set(headers
     ${include_path}/typed/TypedVariant.hpp
     ${include_path}/typed/DirectValue.h
     ${include_path}/typed/DirectValue.hpp
-    ${include_path}/typed/DirectArrayValue.h
-    ${include_path}/typed/DirectArrayValue.hpp
+    ${include_path}/typed/DirectValueSingle.h
+    ${include_path}/typed/DirectValueSingle.hpp
+    ${include_path}/typed/DirectValueArray.h
+    ${include_path}/typed/DirectValueArray.hpp
     ${include_path}/typed/StoredValue.h
     ${include_path}/typed/StoredValue.hpp
     ${include_path}/typed/StoredArrayValue.h
