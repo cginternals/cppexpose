@@ -170,41 +170,9 @@ public:
     PropertyGroup * addGroup(const std::string & name);
     //@}
 
-    //@{
-    /**
-    *  @brief
-    *    Get property value
-    *
-    *    Get a property of the group and return its value of type Type.
-    *    If the property is not of the specified type, it will return a default value.
-    *
-    *  @param[in] path
-    *    Path of property relative to the group, e.g. "Prop1", or "Sub1/Sub2/Property"
-    *
-    *  @return
-    *    Value of the property
-    */
-//    template <typename Type>
-//    Type value(const std::string & path) const;
-
-    /**
-    *  @brief
-    *    Set property value
-    *
-    *    Set the value of a property of the group.
-    *    If the property is not of the specified type, the function will fail.
-    *
-    *  @param[in] path
-    *    Path of property relative to the group, e.g. "Prop1", or "Sub1/Sub2/Property"
-    *  @param[in] value
-    *    New value
-    */
-//    template <typename Type>
-//    void setValue(const std::string & path, const Type & value);
-    //@}
-
     // Virtual AbstractProperty interface
     virtual AbstractTyped * asTyped() override;
+    virtual const AbstractTyped * asTyped() const override;
     virtual bool isGroup() const override;
 
     // Virtual AbstractTyped interface
@@ -251,3 +219,6 @@ protected:
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/reflection/PropertyGroup.hpp>

@@ -170,6 +170,11 @@ AbstractTyped * PropertyGroup::asTyped()
     return static_cast<AbstractTyped *>(this);
 }
 
+const AbstractTyped * PropertyGroup::asTyped() const
+{
+    return static_cast<const AbstractTyped *>(this);
+}
+
 bool PropertyGroup::isGroup() const
 {
     return true;

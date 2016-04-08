@@ -5,10 +5,69 @@
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/variant/Variant.h>
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
 
 
 using namespace cppexpose;
+
+
+class MyObject : public Object
+{
+public:
+    MyObject()
+    : Object("Object")
+    , m_string("Hallo")
+    , m_int(100)
+    , m_float(23.42)
+    {
+        using namespace std::placeholders;
+
+        addProperty<std::string>("string", std::bind(&MyObject::getString, this), std::bind(&MyObject::setString, this, _1));
+        addProperty<int>        ("int",    std::bind(&MyObject::getInt,    this), std::bind(&MyObject::setInt, this, _1));
+        addProperty<float>      ("float",  std::bind(&MyObject::getFloat,  this), std::bind(&MyObject::setFloat, this, _1));
+    }
+
+    virtual ~MyObject()
+    {
+    }
+
+protected:
+    std::string getString() const
+    {
+        return m_string;
+    }
+
+    void setString(const std::string & value)
+    {
+        m_string = value;
+    }
+
+    int getInt() const
+    {
+        return m_int;
+    }
+
+    void setInt(int value)
+    {
+        m_int = value;
+    }
+
+    float getFloat() const
+    {
+        return m_float;
+    }
+
+    void setFloat(float value)
+    {
+        m_float = value;
+    }
+
+protected:
+    std::string m_string;
+    int         m_int;
+    float       m_float;
+};
 
 
 // Class containing a value
@@ -259,6 +318,34 @@ int main(int, char * [])
     createObject(obj, 2, 2);
 
     std::cout << obj.toJSON(SerializerJSON::Beautify);
+    std::cout << std::endl;
+
+    MyObject object;
+    std::cout << object.toString() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("double") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("double") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("double") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("double") != nullptr ? "YES" : "NO") << std::endl;
     std::cout << std::endl;
 
     return 0;
