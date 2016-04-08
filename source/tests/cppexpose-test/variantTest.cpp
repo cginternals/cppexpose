@@ -39,18 +39,26 @@ void variantTest::SetUp()
     methods.emplace_back(&Variant::isSignedIntegral);
     methods.emplace_back(&Variant::isUnsignedIntegral);
     methods.emplace_back(&Variant::isFloatingPoint);
+    methods.emplace_back(&Variant::isNull);
+    methods.emplace_back(&Variant::isVariantArray);
+    methods.emplace_back(&Variant::isVariantMap);
 }
 
-void testType(Variant& var, memberFunc trueFunc, const std::vector<memberFunc>& methods)
+void testType(Variant &var, std::vector<memberFunc> trueFuncs, const std::vector<memberFunc>& methods)
 {
     for(auto& method : methods)
     {
         bool test = (var.*method)();
-        if(method == trueFunc)
+        if(std::find(trueFuncs.begin(), trueFuncs.end(), method) != trueFuncs.end())
             ASSERT_TRUE(test);
         else
-            ASSERT_FAILED(test);
+            ASSERT_FALSE(test);
     }
+}
+
+void testType(Variant& var, memberFunc trueFunc, const std::vector<memberFunc>& methods)
+{
+    testType(var, std::vector<memberFunc>({trueFunc}), methods);
 }
 
 TEST_F(variantTest, constructorBool)
@@ -60,7 +68,7 @@ TEST_F(variantTest, constructorBool)
     auto var = Variant(b);
     
     testType(var, &Variant::isBool, methods);
-    ASSERT_TRUE(var.toBool());   
+    ASSERT_TRUE(var.toBool());    
 }
 
 TEST_F(variantTest, constructorString)
@@ -69,7 +77,55 @@ TEST_F(variantTest, constructorString)
     
     auto var = Variant(str);
     
-    ASSERT_TRUE(var.isString());
+    testType(var, &Variant::isString, methods);
     ASSERT_EQ(str, var.toString());
-    ASSERT_FALSE(var.isEnum());
 }
+
+TEST_F(variantTest, constructorSignedIntegral)
+{
+   int i = -10;
+    
+   auto var = Variant(i);
+   
+   testType(var, {&Variant::isIntegral, &Variant::isNumber, &Variant::isSignedIntegral}, methods);
+   ASSERT_EQ(i, var.toLongLong());
+}
+
+TEST_F(variantTest, constructorUnsignedIntegral)
+{
+   unsigned int i = 10;
+    
+   auto var = Variant(i);
+   
+   testType(var, {&Variant::isIntegral, &Variant::isNumber, &Variant::isUnsignedIntegral}, methods);
+   ASSERT_EQ(i, var.toLongLong());
+}
+
+TEST_F(variantTest, constructorFloat)
+{
+    float f = 100.0f;
+    
+    auto var = Variant(f);
+    
+    testType(var, {&Variant::isNumber, &Variant::isFloatingPoint}, methods);
+    ASSERT_EQ(f, var.toDouble());
+}
+
+TEST_F(variantTest, constructorEmpty)
+{
+    auto var = Variant();
+    
+    testType(var, &Variant::isNull, methods);
+}
+
+/*
+    methods.emplace_back(&Variant::isVariant);
+    methods.emplace_back(&Variant::isNumber);
+    methods.emplace_back(&Variant::isIntegral);
+    methods.emplace_back(&Variant::isSignedIntegral);
+    methods.emplace_back(&Variant::isUnsignedIntegral);
+    methods.emplace_back(&Variant::isFloatingPoint);
+    methods.emplace_back(&Variant::isNull);
+    methods.emplace_back(&Variant::isVariantArray);
+    methods.emplace_back(&Variant::isVariantMap);
+}*/
