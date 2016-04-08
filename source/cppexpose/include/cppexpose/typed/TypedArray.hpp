@@ -16,10 +16,10 @@ namespace cppexpose
 
 
 template <typename T>
-class StoredValue;
+class DirectValue;
 
 template <typename T>
-class DirectValue;
+class StoredValue;
 
 
 template <typename T, size_t Size, typename BaseType>

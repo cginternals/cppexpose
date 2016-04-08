@@ -87,10 +87,10 @@ set(headers
     ${include_path}/typed/DirectValueSingle.hpp
     ${include_path}/typed/DirectValueArray.h
     ${include_path}/typed/DirectValueArray.hpp
-    ${include_path}/typed/StoredValue.h
-    ${include_path}/typed/StoredValue.hpp
-    ${include_path}/typed/StoredArrayValue.h
-    ${include_path}/typed/StoredArrayValue.hpp
+    ${include_path}/typed/StoredValueSingle.h
+    ${include_path}/typed/StoredValueSingle.hpp
+    ${include_path}/typed/StoredValueArray.h
+    ${include_path}/typed/StoredValueArray.hpp
 
     ${include_path}/function/AbstractFunction.h
     ${include_path}/function/Function.h

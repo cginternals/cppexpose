@@ -14,7 +14,7 @@ namespace cppexpose
 *    Typed array value (read/write) that is accessed via getter and setter functions
 */
 template <typename T>
-class StoredArrayValue : public TypeSelector<T>::Type
+class StoredValueArray : public TypeSelector<T>::Type
 {
 public:
     typedef typename TypeSelector<T>::Type::ElementType ElementType;
@@ -34,7 +34,7 @@ public:
     *  @param[in] elementSetter
     *    Function to set an array element
     */
-    StoredArrayValue(
+    StoredValueArray(
         std::function<T ()> getter
       , std::function<void(const T &)> setter
       , std::function<ElementType (int)> elementGetter
@@ -45,7 +45,7 @@ public:
     *  @brief
     *    Destructor
     */
-    virtual ~StoredArrayValue();
+    virtual ~StoredValueArray();
 
     // Virtual AbstractTyped interface
     virtual AbstractTyped * clone() const override;
@@ -69,7 +69,7 @@ protected:
     *  @param[in] elementGetter
     *    Function to get an array element
     */
-    StoredArrayValue(
+    StoredValueArray(
         std::function<T ()> getter
       , std::function<ElementType (int)> elementGetter
     );
@@ -88,7 +88,7 @@ protected:
 *    Typed array value (read-only) that is accessed via getter and setter functions
 */
 template <typename T>
-class StoredArrayValue<const T> : public StoredArrayValue<T>
+class StoredValueArray<const T> : public StoredValueArray<T>
 {
 public:
     /**
@@ -100,16 +100,16 @@ public:
     *  @param[in] elementGetter
     *    Function to get an array element
     */
-    StoredArrayValue(
+    StoredValueArray(
         std::function<T ()> getter
-      , std::function<typename StoredArrayValue<T>::ElementType (int)> elementGetter
+      , std::function<typename StoredValueArray<T>::ElementType (int)> elementGetter
     );
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~StoredArrayValue();
+    virtual ~StoredValueArray();
 
     // Virtual AbstractTyped interface
     virtual AbstractTyped * clone() const override;
@@ -119,11 +119,11 @@ public:
     virtual void setValue(const T & value) override;
 
     // Virtual TypedArray<T> interface
-    virtual void setElement(size_t i, const typename StoredArrayValue<T>::ElementType & value) override;
+    virtual void setElement(size_t i, const typename StoredValueArray<T>::ElementType & value) override;
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/typed/StoredArrayValue.hpp>
+#include <cppexpose/typed/StoredValueArray.hpp>

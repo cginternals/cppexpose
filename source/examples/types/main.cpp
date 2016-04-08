@@ -4,7 +4,6 @@
 
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/typed/StoredValue.h>
-#include <cppexpose/typed/StoredArrayValue.h>
 #include <cppexpose/variant/Variant.h>
 
 
@@ -138,8 +137,8 @@ int main(int, char * [])
         std::bind(&MyValue::value, &myValue),
         std::bind(&MyValue::setValue, &myValue, _1)
     );
-    DirectValue< std::array<int, 3> > ints;
-//  StoredArrayValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
+//  DirectValue< std::array<int, 3> > ints;
+    StoredValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
     DirectValue<Mood> mood(Mood::Sad);

@@ -11,13 +11,13 @@ namespace cppexpose
 
 
 template <typename T, typename = void>
-struct DirectValueBaseType
+struct DirectValueType
 {
     using Type = DirectValueSingle<T>;
 };
 
 template <typename T>
-struct DirectValueBaseType<T, helper::EnableIf<helper::isArray<T>>>
+struct DirectValueType<T, helper::EnableIf<helper::isArray<T>>>
 {
     using Type = DirectValueArray<T>;
 };
@@ -28,10 +28,10 @@ struct DirectValueBaseType<T, helper::EnableIf<helper::isArray<T>>>
 *    Typed value (read/write) that is stored directly
 */
 template <typename T>
-class DirectValue : public DirectValueBaseType<T>::Type
+class DirectValue : public DirectValueType<T>::Type
 {
 public:
-    typedef typename DirectValueBaseType<T>::Type BaseType;
+    typedef typename DirectValueType<T>::Type BaseType;
 
 
 public:
