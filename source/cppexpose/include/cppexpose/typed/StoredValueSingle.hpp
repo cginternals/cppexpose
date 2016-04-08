@@ -40,6 +40,7 @@ template <typename T>
 void StoredValueSingle<T>::setValue(const T & value)
 {
     m_setter(value);
+    this->onValueChanged(value);
 }
 
 template <typename T>

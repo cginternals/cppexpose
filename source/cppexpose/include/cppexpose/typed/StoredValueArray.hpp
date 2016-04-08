@@ -44,6 +44,7 @@ template <typename T>
 void StoredValueArray<T>::setValue(const T & value)
 {
     m_setter(value);
+    this->onValueChanged(value);
 }
 
 template <typename T>
@@ -56,6 +57,7 @@ template <typename T>
 void StoredValueArray<T>::setElement(size_t i, const typename StoredValueArray<T>::ElementType & value)
 {
     m_elementSetter(i, value);
+    this->onValueChanged(this->value());
 }
 
 template <typename T>
