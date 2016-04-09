@@ -15,8 +15,8 @@ using namespace cppexpose;
 class MyObject : public Object
 {
 public:
-    MyObject()
-    : Object("Object")
+    MyObject(const std::string & name = "Object")
+    : Object(name)
     , m_string("Hallo")
     , m_int(100)
     , m_float(23.42)
@@ -24,7 +24,7 @@ public:
         using namespace std::placeholders;
 
         addProperty<std::string>("string", std::bind(&MyObject::getString, this), std::bind(&MyObject::setString, this, _1));
-        addProperty<int>        ("int",    std::bind(&MyObject::getInt,    this), std::bind(&MyObject::setInt, this, _1));
+        addProperty<int>        ("int ",   this, &MyObject::getInt, &MyObject::setInt);
         addProperty<float>      ("float",  std::bind(&MyObject::getFloat,  this), std::bind(&MyObject::setFloat, this, _1));
     }
 
@@ -32,7 +32,6 @@ public:
     {
     }
 
-protected:
     std::string getString() const
     {
         return m_string;
@@ -321,6 +320,10 @@ int main(int, char * [])
     std::cout << std::endl;
 
     MyObject object;
+
+    for (int i=0; i<5; i++) {
+        object.addProperty(new MyObject("Sub" + helper::toString<int>(i)));
+    }
     std::cout << object.toString() << std::endl;
     std::cout << std::endl;
 

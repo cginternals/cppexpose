@@ -11,6 +11,20 @@ namespace cppexpose
 
 /**
 *  @brief
+*    Helper template to deduce the types for getter and setter functions
+*/
+template<typename T, typename ElementType, typename Obj>
+struct ArrayValueFunctions
+{
+    typedef std::function<T (Obj *)> getter;
+    typedef std::function<void (Obj *, const T &)> setter;
+    typedef std::function<ElementType (Obj *, int)> elementGetter;
+    typedef std::function<void (Obj *, int, const ElementType &)> elementSetter;
+};
+
+
+/**
+*  @brief
 *    Typed array value (read/write) that is accessed via getter and setter functions
 */
 template <typename T>
@@ -40,6 +54,28 @@ public:
       , std::function<ElementType (int)> elementGetter
       , std::function<void(int, const ElementType &)> elementSetter
     );
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] obj
+    *    Object pointer
+    *  @param[in] getter
+    *    Member function to get the value
+    *  @param[in] setter
+    *    Member function to set the value
+    *  @param[in] elementGetter
+    *    Member function to get an array element
+    *  @param[in] elementSetter
+    *    Member function to set an array element
+    */
+    template <typename Obj>
+    StoredValueArray(Obj * obj,
+                     typename ArrayValueFunctions<T, ElementType, Obj>::getter getter,
+                     typename ArrayValueFunctions<T, ElementType, Obj>::setter setter,
+                     typename ArrayValueFunctions<T, ElementType, Obj>::elementGetter elementGetter,
+                     typename ArrayValueFunctions<T, ElementType, Obj>::elementSetter elementSetter);
 
     /**
     *  @brief
@@ -104,6 +140,22 @@ public:
         std::function<T ()> getter
       , std::function<typename StoredValueArray<T>::ElementType (int)> elementGetter
     );
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] obj
+    *    Object pointer
+    *  @param[in] getter
+    *    Member function to get the value
+    *  @param[in] elementGetter
+    *    Member function to get an array element
+    */
+    template <typename Obj>
+    StoredValueArray(Obj * obj,
+                     typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::getter getter,
+                     typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter elementGetter);
 
     /**
     *  @brief
