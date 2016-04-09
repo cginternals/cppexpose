@@ -9,15 +9,6 @@ namespace cppexpose
 {
 
 
-/*
-template <typename T>
-Property<T>::Property(const std::string & name)
-: AbstractProperty(name)
-, m_value(new DirectValue<T>())
-{
-}
-*/
-
 template <typename T>
 template <typename... Args>
 Property<T>::Property(const std::string & name, Args&&... args)

@@ -35,6 +35,12 @@ void PropertyGroup::afterRemove(size_t)
 }
 
 
+PropertyGroup::PropertyGroup()
+: AbstractProperty()
+, m_ownsProperties(true)
+{
+}
+
 PropertyGroup::PropertyGroup(const std::string & name)
 : AbstractProperty(name)
 , m_ownsProperties(true)

@@ -2,7 +2,9 @@
 #pragma once
 
 
-#include <cppexpose/reflection/Named.h>
+#include <string>
+
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
@@ -16,9 +18,15 @@ class AbstractTyped;
 *  @brief
 *    Base class for properties
 */
-class CPPEXPOSE_API AbstractProperty : public Named
+class CPPEXPOSE_API AbstractProperty
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
+    AbstractProperty();
+
     /**
     *  @brief
     *    Constructor
@@ -33,6 +41,15 @@ public:
     *    Destructor
     */
     virtual ~AbstractProperty();
+
+    /**
+    *  @brief
+    *    Get name
+    *
+    *  @return
+    *    Name
+    */
+    std::string name() const;
 
     /**
     *  @brief
@@ -60,6 +77,10 @@ public:
     *    'true' if property is a property group, else 'false'
     */
     virtual bool isGroup() const = 0;
+
+
+protected:
+    std::string m_name; ///< Name of the property
 };
 
 

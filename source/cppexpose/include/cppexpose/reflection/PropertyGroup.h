@@ -36,6 +36,12 @@ public:
     /**
     *  @brief
     *    Constructor
+    */
+    PropertyGroup();
+
+    /**
+    *  @brief
+    *    Constructor
     *
     *  @param[in] name
     *    Name
