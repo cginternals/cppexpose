@@ -112,6 +112,9 @@ set(headers
     ${include_path}/reflection/PropertyGroup.h
     ${include_path}/reflection/Property.h
     ${include_path}/reflection/Property.hpp
+
+    ${include_path}/scripting/ScriptContext.h
+    ${include_path}/scripting/AbstractScriptBackend.h
 )
 
 set(sources
@@ -136,6 +139,14 @@ set(sources
     ${source_path}/reflection/Object.cpp
     ${source_path}/reflection/AbstractProperty.cpp
     ${source_path}/reflection/PropertyGroup.cpp
+
+    ${source_path}/scripting/duktape-1.4.0/duktape.c
+    ${source_path}/scripting/duktape-1.4.0/duktape.h
+    ${source_path}/scripting/duktape-1.4.0/duk_config.h
+    ${source_path}/scripting/ScriptContext.cpp
+    ${source_path}/scripting/AbstractScriptBackend.cpp
+    ${source_path}/scripting/DuktapeScriptBackend.cpp
+    ${source_path}/scripting/DuktapeScriptBackend.h
 )
 
 # Group source files

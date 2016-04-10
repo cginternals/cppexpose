@@ -77,6 +77,24 @@ bool PropertyGroup::propertyExists(const std::string & name) const
     return m_propertiesMap.find(name) != m_propertiesMap.end();
 }
 
+AbstractProperty * PropertyGroup::property(size_t index)
+{
+    if (index < m_properties.size()) {
+        return m_properties[index];
+    }
+
+    return nullptr;
+}
+
+const AbstractProperty * PropertyGroup::property(size_t index) const
+{
+    if (index < m_properties.size()) {
+        return m_properties[index];
+    }
+
+    return nullptr;
+}
+
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
     std::vector<std::string> splittedPath = helper::split(path, g_separator);

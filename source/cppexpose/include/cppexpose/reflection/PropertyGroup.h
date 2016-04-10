@@ -85,7 +85,22 @@ public:
     //@{
     /**
     *  @brief
-    *    Get property
+    *    Get property by index
+    *
+    *  @param[in] index
+    *    Index of the property
+    *
+    *  @return
+    *    Pointer to the property, or nullptr on error
+    */
+    AbstractProperty * property(size_t index);
+    const AbstractProperty * property(size_t index) const;
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Get property by name
     *
     *  @param[in] path
     *    Path of property relative to the group, e.g. "Prop1", or "Sub1/Sub2/Property"
