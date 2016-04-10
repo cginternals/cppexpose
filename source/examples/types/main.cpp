@@ -205,6 +205,11 @@ int main(int, char * [])
     DirectValue<double> flt2;
     DirectValue<Variant> var1;
 
+    int3.valueChanged.connect([] (const int & value)
+    {
+        std::cout << "int3 changed to " << helper::toString<int>(value) << std::endl;
+    });
+
     std::cout << "type(bln1): " << bln1.typeName() << " (" << bln1.type().name() << ")" << std::endl;
     std::cout << "type(str1): " << str1.typeName() << " (" << str1.type().name() << ")" << std::endl;
     std::cout << "type(int1): " << int1.typeName() << " (" << int1.type().name() << ")" << std::endl;

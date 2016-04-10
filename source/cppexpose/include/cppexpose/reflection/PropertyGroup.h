@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>
 #include <cppexpose/reflection/Property.h>
 
@@ -21,14 +22,10 @@ class CPPEXPOSE_API PropertyGroup : public AbstractTyped, public AbstractPropert
 {
 public:
     // [TODO]
-//  signalzeug::Signal<size_t, AbstractProperty *> beforeAdd;   ///< Called, before a property is added to the group
-//  signalzeug::Signal<size_t, AbstractProperty *> afterAdd;    ///< Called, after a property is added to the group
-//  signalzeug::Signal<size_t> beforeRemove;                    ///< Called, before a property is removed from the group
-//  signalzeug::Signal<size_t> afterRemove;                     ///< Called, after a property is removed from the group
-    void beforeAdd(size_t index, AbstractProperty * property);
-    void afterAdd(size_t index, AbstractProperty * property);
-    void beforeRemove(size_t index);
-    void afterRemove(size_t index);
+    Signal<size_t, AbstractProperty *> beforeAdd;   ///< Called, before a property is added to the group
+    Signal<size_t, AbstractProperty *> afterAdd;    ///< Called, after a property is added to the group
+    Signal<size_t> beforeRemove;                    ///< Called, before a property is removed from the group
+    Signal<size_t> afterRemove;                     ///< Called, after a property is removed from the group
 
 
 public:

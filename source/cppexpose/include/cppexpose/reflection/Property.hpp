@@ -51,6 +51,7 @@ template <typename T>
 void Property<T>::setValue(const T & value)
 {
     m_value->setValue(value);
+    this->onValueChanged(value);
 }
 
 template <typename T>
@@ -228,10 +229,9 @@ bool Property<T>::fromDouble(double value)
 }
 
 template <typename T>
-void Property<T>::onValueChanged(const T &)
+void Property<T>::onValueChanged(const T & value)
 {
-    // [TODO]
-    // this->valueChanged(value);
+    this->valueChanged(value);
 }
 
 

@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/reflection/AbstractProperty.h>
 
@@ -18,8 +19,7 @@ template <typename T>
 class CPPEXPOSE_API Property : public Typed<T>, public AbstractProperty
 {
 public:
-    // [TODO]
-    // Signal<const T &> valueChanged;  ///< Called when the value has been changed
+    Signal<const T &> valueChanged;  ///< Called when the value has been changed
 
 
 public:

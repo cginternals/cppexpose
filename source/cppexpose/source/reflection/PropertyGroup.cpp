@@ -18,23 +18,6 @@ namespace cppexpose
 {
 
 
-void PropertyGroup::beforeAdd(size_t, AbstractProperty *)
-{
-}
-
-void PropertyGroup::afterAdd(size_t, AbstractProperty *)
-{
-}
-
-void PropertyGroup::beforeRemove(size_t)
-{
-}
-
-void PropertyGroup::afterRemove(size_t)
-{
-}
-
-
 PropertyGroup::PropertyGroup()
 : AbstractProperty()
 , m_ownsProperties(true)
