@@ -55,6 +55,12 @@ set(headers
     ${include_path}/base/Serializer.h
     ${include_path}/base/SerializerJSON.h
 
+    ${include_path}/signal/AbstractSignal.h
+    ${include_path}/signal/Connection.h
+    ${include_path}/signal/ScopedConnection.h
+    ${include_path}/signal/Signal.h
+    ${include_path}/signal/Signal.hpp
+
     ${include_path}/typed/TypeInterface.h
     ${include_path}/typed/AbstractTyped.h
     ${include_path}/typed/AbstractTyped.hpp
@@ -115,6 +121,10 @@ set(sources
     ${source_path}/base/JSONReader.cpp
     ${source_path}/base/Serializer.cpp
     ${source_path}/base/SerializerJSON.cpp
+
+    ${source_path}/signal/AbstractSignal.cpp
+    ${source_path}/signal/Connection.cpp
+    ${source_path}/signal/ScopedConnection.cpp
 
     ${source_path}/typed/TypeInterface.cpp
     ${source_path}/typed/AbstractTyped.cpp
