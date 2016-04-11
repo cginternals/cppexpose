@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 
 import os
 import sys
@@ -14,11 +15,11 @@ def getPropertyTestFileContent(datatype, datatypeC):
     content = '''
 #include <gmock/gmock.h>
 
-#include <reflectionzeug/property/Property.h>
+#include <cppexpose/reflection/Property.h>
 
 #include "../MyObject.h"
 
-using namespace reflectionzeug;
+using namespace cppexpose;
 using std::string;
 
 
@@ -52,16 +53,19 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_L
     auto get = [] () {return ${DATATYPE}();};
     auto set = [] (const ${DATATYPE} & /*val*/) {};
 
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", get, set);
+    auto prop = new Property<${DATATYPE}>("${DATATYPE}-test", get, set);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
 
     delete prop;
 }
 
+'''
+
+    commented_out = '''
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
 {
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", &staticGetter, &staticSetter);
+    auto prop = new StoredValue<${DATATYPE}>(&staticGetter, &staticSetter);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
 
@@ -614,6 +618,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWit
     delete prop;
     delete obj;
 }
+
 
 '''
     content = content.replace('${DATATYPE}', datatype)

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <reflectionzeug/Object.h>
+#include <cppexpose/reflection/Object.h>
 
 
 template<typename Type>
-class MyObject : public reflectionzeug::Object
+class MyObject : public cppexpose::Object
 {
 public:
     const Type & constgetterconst() const
