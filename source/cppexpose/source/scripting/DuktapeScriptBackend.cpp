@@ -6,7 +6,7 @@
 
 #include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
-#include <cppexpose/function/Function.h>
+#include <cppexpose/function/AbstractFunction.h>
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
 #include <cppexpose/typed/DirectValue.h>
@@ -35,8 +35,7 @@ class DuktapeFunction : public AbstractFunction
 {
 public:
     DuktapeFunction(duk_context * context, int funcIndex)
-    : AbstractFunction("")
-    , m_scriptContext(nullptr)
+    : m_scriptContext(nullptr)
     , m_context(context)
     , m_duktapeStashIndex(funcIndex)
     {

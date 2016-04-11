@@ -98,11 +98,12 @@ set(headers
     ${include_path}/typed/StoredValueArray.h
     ${include_path}/typed/StoredValueArray.hpp
 
-    ${include_path}/function/AbstractFunction.h
     ${include_path}/function/Function.h
-    ${include_path}/function/Function.hpp
-    ${include_path}/function/Method.h
-    ${include_path}/function/Method.hpp
+    ${include_path}/function/AbstractFunction.h
+    ${include_path}/function/StaticFunction.h
+    ${include_path}/function/StaticFunction.hpp
+    ${include_path}/function/MemberFunction.h
+    ${include_path}/function/MemberFunction.hpp
 
     ${include_path}/variant/Variant.h
     ${include_path}/variant/Variant.hpp
@@ -132,6 +133,7 @@ set(sources
     ${source_path}/typed/TypeInterface.cpp
     ${source_path}/typed/AbstractTyped.cpp
 
+    ${source_path}/function/Function.cpp
     ${source_path}/function/AbstractFunction.cpp
 
     ${source_path}/variant/Variant.cpp
