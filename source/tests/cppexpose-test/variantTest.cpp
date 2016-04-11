@@ -118,14 +118,34 @@ TEST_F(variantTest, constructorEmpty)
     testType(var, &Variant::isNull, methods);
 }
 
-/*
-    methods.emplace_back(&Variant::isVariant);
-    methods.emplace_back(&Variant::isNumber);
-    methods.emplace_back(&Variant::isIntegral);
-    methods.emplace_back(&Variant::isSignedIntegral);
-    methods.emplace_back(&Variant::isUnsignedIntegral);
-    methods.emplace_back(&Variant::isFloatingPoint);
-    methods.emplace_back(&Variant::isNull);
-    methods.emplace_back(&Variant::isVariantArray);
-    methods.emplace_back(&Variant::isVariantMap);
-}*/
+TEST_F(variantTest, constructorVariantArray)
+{
+    auto var = Variant(VariantArray());
+    
+    testType(var, &Variant::isVariantArray, methods);
+}
+
+TEST_F(variantTest, staticConstructorVariantArray)
+{
+    auto var = Variant::array();
+    
+    testType(var, &Variant::isVariantArray, methods);
+    
+    var = Variant::array(100u);
+    
+    testType(var, &Variant::isVariantArray, methods);
+}
+
+TEST_F(variantTest, constructorVariantMap)
+{
+    auto var = Variant(VariantMap());
+    
+    testType(var, &Variant::isVariantMap, methods);
+}
+
+TEST_F(variantTest, staticConstructorVariantMap)
+{
+    auto var = Variant::map();
+    
+    testType(var, &Variant::isVariantMap, methods);
+}
