@@ -2,28 +2,31 @@
 #pragma once
 
 
-#include <cppexpose/function/AbstractFunction.h>
+#include <string>
+#include <vector>
+
+#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
 {
 
 
+class AbstractFunction;
+
+
 /**
 *  @brief
-*    Representation of a static function
+*    Class representing a callable function
+*
+*    Contains a reference to a function, which can be either a global or static function,
+*    a method of an object, a lambda function, or an arbitrary function object.
+*    A Function object can be copied and duplicated, and the function can be invoked
+*    with a list of Variants as arguments (making it usable in an abstract way, e.g.,
+*    via GUI or scripting).
 */
-template <typename RET, typename... Arguments>
-class Function : public AbstractFunction
+class CPPEXPOSE_API Function
 {
-public:
-    /**
-    *  @brief
-    *    Typed function pointer for a static function
-    */
-    typedef RET (*FuncPtr) (Arguments...);
-
-
 public:
     /**
     *  @brief
@@ -32,32 +35,63 @@ public:
     *  @param[in] name
     *    Function name
     *  @param[in] func
-    *    Pointer to a static function
+    *    Function object (can be null)
     */
-    Function(const std::string & name, FuncPtr func);
+    Function(const std::string & name, AbstractFunction * func = nullptr);
+
+    /**
+    *  @brief
+    *    Copy constructor
+    *
+    *  @param[in] other
+    *    Function to copy
+    */
+    Function(const Function & other);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~Function();
+    ~Function();
 
-    // Virtual AbstractFunction interface
-    virtual AbstractFunction * clone() override;
-    virtual Variant call(const std::vector<Variant> & args) override;
+    /**
+    *  @brief
+    *    Copy operator
+    *
+    *  @param[in] other
+    *    Function to copy
+    *
+    *  @return
+    *    Reference to this object
+    */
+    Function & operator=(const Function & other);
+
+    /**
+    *  @brief
+    *    Get name
+    *
+    *  @return
+    *    Function name
+    */
+    std::string name() const;
+
+    /**
+    *  @brief
+    *    Call function
+    *
+    *  @param[in] args
+    *    List of arguments as Variants
+    *
+    *  @return
+    *    Return value of the function
+    */
+    Variant call(const std::vector<Variant> & args);
 
 
 protected:
-    template<size_t... I>
-    Variant callFunction(helper::Seq<I...>, const std::vector<Variant> & args);
-
-
-protected:
-    FuncPtr m_func; ///< Pointer to static function
+    std::string        m_name; ///< Function name
+    AbstractFunction * m_func; ///< Function implementation
 };
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/function/Function.hpp>

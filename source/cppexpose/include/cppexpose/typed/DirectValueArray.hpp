@@ -42,6 +42,7 @@ template <typename T>
 void DirectValueArray<T>::setValue(const T & value)
 {
     m_value = value;
+    this->onValueChanged(m_value);
 }
 
 template <typename T>
@@ -54,6 +55,7 @@ template <typename T>
 void DirectValueArray<T>::setElement(size_t i, const typename DirectValueArray<T>::ElementType & value)
 {
     m_value[i] = value;
+    this->onValueChanged(m_value);
 }
 
 

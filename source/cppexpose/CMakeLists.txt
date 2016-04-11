@@ -55,6 +55,12 @@ set(headers
     ${include_path}/base/Serializer.h
     ${include_path}/base/SerializerJSON.h
 
+    ${include_path}/signal/AbstractSignal.h
+    ${include_path}/signal/Connection.h
+    ${include_path}/signal/ScopedConnection.h
+    ${include_path}/signal/Signal.h
+    ${include_path}/signal/Signal.hpp
+
     ${include_path}/typed/TypeInterface.h
     ${include_path}/typed/AbstractTyped.h
     ${include_path}/typed/AbstractTyped.hpp
@@ -92,14 +98,24 @@ set(headers
     ${include_path}/typed/StoredValueArray.h
     ${include_path}/typed/StoredValueArray.hpp
 
-    ${include_path}/function/AbstractFunction.h
     ${include_path}/function/Function.h
-    ${include_path}/function/Function.hpp
-    ${include_path}/function/Method.h
-    ${include_path}/function/Method.hpp
+    ${include_path}/function/AbstractFunction.h
+    ${include_path}/function/StaticFunction.h
+    ${include_path}/function/StaticFunction.hpp
+    ${include_path}/function/MemberFunction.h
+    ${include_path}/function/MemberFunction.hpp
 
     ${include_path}/variant/Variant.h
     ${include_path}/variant/Variant.hpp
+
+    ${include_path}/reflection/Object.h
+    ${include_path}/reflection/AbstractProperty.h
+    ${include_path}/reflection/PropertyGroup.h
+    ${include_path}/reflection/Property.h
+    ${include_path}/reflection/Property.hpp
+
+    ${include_path}/scripting/ScriptContext.h
+    ${include_path}/scripting/AbstractScriptBackend.h
 )
 
 set(sources
@@ -110,12 +126,29 @@ set(sources
     ${source_path}/base/Serializer.cpp
     ${source_path}/base/SerializerJSON.cpp
 
+    ${source_path}/signal/AbstractSignal.cpp
+    ${source_path}/signal/Connection.cpp
+    ${source_path}/signal/ScopedConnection.cpp
+
     ${source_path}/typed/TypeInterface.cpp
     ${source_path}/typed/AbstractTyped.cpp
 
+    ${source_path}/function/Function.cpp
     ${source_path}/function/AbstractFunction.cpp
 
     ${source_path}/variant/Variant.cpp
+
+    ${source_path}/reflection/Object.cpp
+    ${source_path}/reflection/AbstractProperty.cpp
+    ${source_path}/reflection/PropertyGroup.cpp
+
+    ${source_path}/scripting/duktape-1.4.0/duktape.c
+    ${source_path}/scripting/duktape-1.4.0/duktape.h
+    ${source_path}/scripting/duktape-1.4.0/duk_config.h
+    ${source_path}/scripting/ScriptContext.cpp
+    ${source_path}/scripting/AbstractScriptBackend.cpp
+    ${source_path}/scripting/DuktapeScriptBackend.cpp
+    ${source_path}/scripting/DuktapeScriptBackend.h
 )
 
 # Group source files

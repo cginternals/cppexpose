@@ -73,9 +73,7 @@ CPPEXPOSE_API std::string toString<unsigned char>(const unsigned char & value);
 *    String
 */
 CPPEXPOSE_API std::string trim(const std::string & string, bool removeAllWhitespace);
-//@}
 
-//@{
 /**
 *  @brief
 *    Split string into substrings
@@ -89,6 +87,20 @@ CPPEXPOSE_API std::string trim(const std::string & string, bool removeAllWhitesp
 *    List of strings
 */
 CPPEXPOSE_API std::vector<std::string> parseArray(const std::string & string, size_t size);
+
+/**
+*  @brief
+*    Split string into substrings
+*
+*  @param[in] string
+*    Input string
+*  @param[in] delimiter
+*    Character that marks the next element
+*
+*  @return
+*    List of strings
+*/
+CPPEXPOSE_API std::vector<std::string> split(const std::string & string, char delimiter);
 //@}
 
 

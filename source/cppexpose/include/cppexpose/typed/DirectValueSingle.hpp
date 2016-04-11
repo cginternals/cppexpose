@@ -54,6 +54,7 @@ template <typename T>
 void DirectValueSingle<T>::setValue(const T & value)
 {
     m_value = value;
+    this->onValueChanged(m_value);
 }
 
 

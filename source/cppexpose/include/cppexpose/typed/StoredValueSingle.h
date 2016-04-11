@@ -13,6 +13,18 @@ namespace cppexpose
 
 /**
 *  @brief
+*    Helper template to deduce the types for getter and setter functions
+*/
+template<typename T, typename Obj>
+struct SingleValueFunctions
+{
+    typedef std::function<T (Obj *)> getter;
+    typedef std::function<void (Obj *, const T &)> setter;
+};
+
+
+/**
+*  @brief
 *    Typed value (read/write) that is accessed via getter and setter functions
 */
 template <typename T>
@@ -42,6 +54,22 @@ public:
     */
     StoredValueSingle(std::function<T ()> getter,
                       std::function<void(const T &)> setter);
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] obj
+    *    Object pointer
+    *  @param[in] getter
+    *    Member function to get the value
+    *  @param[in] setter
+    *    Member function to set the value
+    */
+    template <typename Obj>
+    StoredValueSingle(Obj * obj,
+                      typename SingleValueFunctions<T, Obj>::getter getter,
+                      typename SingleValueFunctions<T, Obj>::setter setter);
 
     /**
     *  @brief
@@ -90,6 +118,19 @@ public:
     *    Function to get the value
     */
     StoredValueSingle(std::function<T ()> getter);
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] obj
+    *    Object pointer
+    *  @param[in] getter
+    *    Member function to get the value
+    */
+    template <typename Obj>
+    StoredValueSingle(Obj * obj,
+                      typename SingleValueFunctions<T, Obj>::getter getter);
 
     /**
     *  @brief

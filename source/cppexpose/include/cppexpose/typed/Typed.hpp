@@ -196,5 +196,11 @@ bool Typed<T>::fromDouble(double)
     return false;
 }
 
+template <typename T>
+void Typed<T>::onValueChanged(const T &)
+{
+    // To be implemented in derived classes
+}
+
 
 } // namespace cppexpose

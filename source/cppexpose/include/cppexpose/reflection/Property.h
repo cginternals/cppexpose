@@ -2,7 +2,9 @@
 #pragma once
 
 
-#include <cppexpose/typed/AbstractTyped.h>
+#include <cppexpose/signal/Signal.h>
+#include <cppexpose/typed/StoredValue.h>
+#include <cppexpose/reflection/AbstractProperty.h>
 
 
 namespace cppexpose
@@ -11,54 +13,51 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of a typed value
+*    Representation for typed properties of an object
 */
 template <typename T>
-class Typed : public AbstractTyped
+class CPPEXPOSE_API Property : public Typed<T>, public AbstractProperty
 {
 public:
-    typedef T Type;  ///< Type of the value
+    Signal<const T &> valueChanged;  ///< Called when the value has been changed
 
 
 public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] name
+    *    Property name
+    *  @param[in] args
+    *    Arguments for the typed value (see StoredValueSingle and StoredValueArray)
     */
-    Typed();
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~Typed();
+    virtual ~Property();
 
-    /**
-    *  @brief
-    *    Get value
-    *
-    *  @return
-    *    Value
-    */
-    virtual T value() const = 0;
+    // Virtual AbstractProperty interface
+    virtual AbstractTyped * asTyped() override;
+    virtual const AbstractTyped * asTyped() const override;
+    virtual bool isGroup() const override;
 
-    /**
-    *  @brief
-    *    Set value
-    *
-    *  @param[in] value
-    *    Value
-    */
-    virtual void setValue(const T & value) = 0;
+    // Virtual Typed<T> interface
+    virtual T value() const override;
+    virtual void setValue(const T & value) override;
 
     // Virtual AbstractTyped interface
-    virtual const std::type_info & type() const override;
-    virtual bool isReadOnly() const override;
-
-    virtual bool isComposite() const override;
-    virtual size_t numSubValues() const override;
-    virtual AbstractTyped * subValue(size_t i) override;
-
+    virtual AbstractTyped * clone() const;
+    virtual const std::type_info & type() const;
+    virtual std::string typeName() const;
+    virtual bool isReadOnly() const;
+    virtual bool isComposite() const;
+    virtual size_t numSubValues() const;
+    virtual AbstractTyped * subValue(size_t i);
     virtual bool isEnum() const override;
     virtual bool isArray() const override;
     virtual bool isVariant() const override;
@@ -69,7 +68,6 @@ public:
     virtual bool isSignedIntegral() const override;
     virtual bool isUnsignedIntegral() const override;
     virtual bool isFloatingPoint() const override;
-
     virtual Variant toVariant() const override;
     virtual bool fromVariant(const Variant & value) override;
     virtual std::string toString() const override;
@@ -85,11 +83,15 @@ public:
 
 
 protected:
-    virtual void onValueChanged(const T & value);
+    virtual void onValueChanged(const T & value) override;
+
+
+protected:
+    StoredValue<T> * m_value;
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/typed/Typed.hpp>
+#include <cppexpose/reflection/Property.hpp>

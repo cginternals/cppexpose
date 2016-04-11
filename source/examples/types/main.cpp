@@ -5,9 +5,68 @@
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/variant/Variant.h>
+#include <cppexpose/reflection/Object.h>
+#include <cppexpose/reflection/Property.h>
 
 
 using namespace cppexpose;
+
+
+class MyObject : public Object
+{
+public:
+    MyObject(const std::string & name = "Object")
+    : Object(name)
+    , m_string("Hallo")
+    , m_int(100)
+    , m_float(23.42)
+    {
+        using namespace std::placeholders;
+
+        addProperty<std::string>("string", std::bind(&MyObject::getString, this), std::bind(&MyObject::setString, this, _1));
+        addProperty<int>        ("int ",   this, &MyObject::getInt, &MyObject::setInt);
+        addProperty<float>      ("float",  std::bind(&MyObject::getFloat,  this), std::bind(&MyObject::setFloat, this, _1));
+    }
+
+    virtual ~MyObject()
+    {
+    }
+
+    std::string getString() const
+    {
+        return m_string;
+    }
+
+    void setString(const std::string & value)
+    {
+        m_string = value;
+    }
+
+    int getInt() const
+    {
+        return m_int;
+    }
+
+    void setInt(int value)
+    {
+        m_int = value;
+    }
+
+    float getFloat() const
+    {
+        return m_float;
+    }
+
+    void setFloat(float value)
+    {
+        m_float = value;
+    }
+
+protected:
+    std::string m_string;
+    int         m_int;
+    float       m_float;
+};
 
 
 // Class containing a value
@@ -132,19 +191,24 @@ int main(int, char * [])
     MyValue myValue;
 
     DirectValue<unsigned int> int1;
-    StoredValue<const int> int2(&getValue); //, &setValue);
-    StoredValue<int> int3(
+    Property<const int> int2("int2", &getValue);
+    Property<int> int3("int3",
         std::bind(&MyValue::value, &myValue),
         std::bind(&MyValue::setValue, &myValue, _1)
     );
 //  DirectValue< std::array<int, 3> > ints;
-    StoredValue< std::array<int, 3> > ints(&getArray, &setArray, &getElement, &setElement);
+    Property< std::array<int, 3> > ints("ints", &getArray, &setArray, &getElement, &setElement);
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
     DirectValue<Mood> mood(Mood::Sad);
     DirectValue<float>  flt1;
     DirectValue<double> flt2;
     DirectValue<Variant> var1;
+
+    int3.valueChanged.connect([] (const int & value)
+    {
+        std::cout << "int3 changed to " << helper::toString<int>(value) << std::endl;
+    });
 
     std::cout << "type(bln1): " << bln1.typeName() << " (" << bln1.type().name() << ")" << std::endl;
     std::cout << "type(str1): " << str1.typeName() << " (" << str1.type().name() << ")" << std::endl;
@@ -154,7 +218,7 @@ int main(int, char * [])
     std::cout << "type(flt1): " << flt1.typeName() << " (" << flt1.type().name() << ")" << std::endl;
     std::cout << "type(flt2): " << flt2.typeName() << " (" << flt2.type().name() << ")" << std::endl;
     std::cout << "type(ints): " << ints.typeName() << " (" << ints.type().name() << ")" << std::endl;
-    std::cout << "Size(ints): " << ints.numElements() << std::endl;
+    std::cout << "Size(ints): " << ints.numSubValues() << std::endl;
     std::cout << std::endl;
 
     ints.setValue({{1, 2, 3}});
@@ -167,7 +231,7 @@ int main(int, char * [])
     int1.setValue(10);
     int2.setValue(10);
     int3.setValue(10);
-    ints.setElement(0, 10);
+    ints.subValue(0)->fromLongLong(10);
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
     std::cout << "int3: " << int3.value() << std::endl;
@@ -177,7 +241,7 @@ int main(int, char * [])
     int1.setValue(23);
     int2.setValue(23);
     int3.setValue(23);
-    ints.setElement(1, 23);
+    ints.subValue(1)->fromLongLong(23);
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
     std::cout << "int3: " << int3.value() << std::endl;
@@ -187,7 +251,7 @@ int main(int, char * [])
     int1.setValue(50);
     int2.setValue(50);
     int3.setValue(50);
-    ints.setElement(2, 0);
+    ints.subValue(2)->fromLongLong(50);
     std::cout << "int1: " << int1.value() << std::endl;
     std::cout << "int2: " << int2.value() << std::endl;
     std::cout << "int3: " << int3.value() << std::endl;
@@ -258,6 +322,38 @@ int main(int, char * [])
     createObject(obj, 2, 2);
 
     std::cout << obj.toJSON(SerializerJSON::Beautify);
+    std::cout << std::endl;
+
+    MyObject object;
+
+    for (int i=0; i<5; i++) {
+        object.addProperty(new MyObject("Sub" + helper::toString<int>(i)));
+    }
+    std::cout << object.toString() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("string") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("int") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("float") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << std::endl;
+
+    std::cout << (object.property<std::string>("double") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<int>        ("double") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<float>      ("double") != nullptr ? "YES" : "NO") << std::endl;
+    std::cout << (object.property<double>     ("double") != nullptr ? "YES" : "NO") << std::endl;
     std::cout << std::endl;
 
     return 0;

@@ -24,6 +24,42 @@ StoredValueArray<T>::StoredValueArray(
 }
 
 template <typename T>
+template <typename Obj>
+StoredValueArray<T>::StoredValueArray(
+    Obj * o,
+    typename ArrayValueFunctions<T, ElementType, Obj>::getter g,
+    typename ArrayValueFunctions<T, ElementType, Obj>::setter s,
+    typename ArrayValueFunctions<T, ElementType, Obj>::elementGetter eg,
+    typename ArrayValueFunctions<T, ElementType, Obj>::elementSetter es)
+{
+    Obj * obj = obj;
+    std::function<T (Obj *)>              getter = g;
+    std::function<void(Obj *, const T &)> setter = s;
+    std::function<ElementType (Obj *, int)>              elementGetter = eg;
+    std::function<void(Obj *, int, const ElementType &)> elementSetter = es;
+
+    m_getter = [obj, getter] () -> T
+    {
+        return getter(obj);
+    };
+
+    m_setter = [obj, setter] (const T & value)
+    {
+        setter(obj, value);
+    };
+
+    m_elementGetter = [obj, elementGetter] (int index) -> ElementType
+    {
+        return elementGetter(obj, index);
+    };
+
+    m_elementSetter = [obj, elementSetter] (int index, const ElementType & value)
+    {
+        elementSetter(obj, index, value);
+    };
+}
+
+template <typename T>
 StoredValueArray<T>::~StoredValueArray()
 {
 }
@@ -44,6 +80,7 @@ template <typename T>
 void StoredValueArray<T>::setValue(const T & value)
 {
     m_setter(value);
+    this->onValueChanged(value);
 }
 
 template <typename T>
@@ -56,6 +93,7 @@ template <typename T>
 void StoredValueArray<T>::setElement(size_t i, const typename StoredValueArray<T>::ElementType & value)
 {
     m_elementSetter(i, value);
+    this->onValueChanged(this->value());
 }
 
 template <typename T>
@@ -75,6 +113,28 @@ StoredValueArray<const T>::StoredValueArray(
   , std::function<typename StoredValueArray<T>::ElementType (int)> elementGetter)
 : StoredValueArray<T>::StoredValueArray(getter, elementGetter)
 {
+}
+
+template <typename T>
+template <typename Obj>
+StoredValueArray<const T>::StoredValueArray(
+    Obj * o,
+    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::getter g,
+    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter eg)
+{
+    Obj * obj = obj;
+    std::function<T (Obj *)>                getter = g;
+    std::function<typename StoredValueArray<T>::ElementType (Obj *, int)> elementGetter = eg;
+
+    this->m_getter = [obj, getter] () -> T
+    {
+        return getter(obj);
+    };
+
+    this->m_elementGetter = [obj, elementGetter] (int index) -> typename StoredValueArray<T>::ElementType
+    {
+        return elementGetter(obj, index);
+    };
 }
 
 template <typename T>
