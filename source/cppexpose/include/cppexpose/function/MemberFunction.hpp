@@ -30,7 +30,7 @@ AbstractFunction * MemberFunction<T, RET, Arguments...>::clone()
 template <class T, typename RET, typename... Arguments>
 Variant MemberFunction<T, RET, Arguments...>::call(const std::vector<Variant> & args)
 {
-    return callMethod(typename helper::GenSeq<sizeof...(Arguments)>::Type(), args);
+    return this->callMethod(typename helper::GenSeq<sizeof...(Arguments)>::Type(), args);
 }
 
 template <class T, typename RET, typename... Arguments>

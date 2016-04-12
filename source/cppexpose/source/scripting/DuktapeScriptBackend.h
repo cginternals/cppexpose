@@ -4,9 +4,11 @@
 
 #include "duktape-1.4.0/duktape.h"
 
+#include <vector>
 #include <string>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
+#include <cppexpose/function/Function.h>
 
 
 namespace cppexpose
@@ -45,8 +47,9 @@ protected:
 
 
 protected:
-    duk_context * m_context;    ///< Duktape context
-    std::string   m_namespace;  ///< Global namespace
+    duk_context * m_context;            ///< Duktape context
+    std::string   m_namespace;          ///< Global namespace
+    std::vector<Function> m_functions;  ///< List of wrapped functions
 };
 
 

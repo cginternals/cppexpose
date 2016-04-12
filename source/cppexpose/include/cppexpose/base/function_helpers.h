@@ -162,10 +162,10 @@ template <typename RET, typename... Arguments>
 class CallFunction
 {
 public:
-    typedef RET (*FuncPtr) (Arguments...);
+    typedef std::function<RET (Arguments...)> FuncPtr;
 
     static Variant call(FuncPtr func, Arguments... args) {
-        return Variant( (*func)(args...) );
+        return Variant( func(args...) );
     }
 };
 
@@ -177,10 +177,10 @@ template <typename... Arguments>
 class CallFunction<void, Arguments...>
 {
 public:
-    typedef void (*FuncPtr) (Arguments...);
+    typedef std::function<void (Arguments...)> FuncPtr;
 
     static Variant call(FuncPtr func, Arguments... args) {
-        (*func)(args...);
+        func(args...);
         return Variant();
     }
 };
@@ -193,10 +193,10 @@ template <typename T, typename RET, typename... Arguments>
 class CallMethod
 {
 public:
-    typedef RET (T::*MethodPtr) (Arguments...);
+    typedef std::function<RET (T *, Arguments...)> MethodPtr;
 
     static Variant call(T * obj, MethodPtr method, Arguments... args) {
-        return Variant( (obj->*method)(args...) );
+        return Variant( method(obj, args...) );
     }
 };
 
@@ -208,10 +208,10 @@ template <typename T, typename... Arguments>
 class CallMethod<T, void, Arguments...>
 {
 public:
-    typedef void (T::*MethodPtr) (Arguments...);
+    typedef std::function<void (T *, Arguments...)> MethodPtr;
 
     static Variant call(T * obj, MethodPtr method, Arguments... args) {
-        (obj->*method)(args...);
+        method(obj, args...);
         return Variant();
     }
 };

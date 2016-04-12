@@ -92,9 +92,9 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
     // Duktape/C function
     if (duk_is_c_function(context, index)) {
         duk_get_prop_string(context, index, c_duktapeFunctionPointerKey);
-        AbstractFunction * funcptr = static_cast<AbstractFunction *>(duk_get_pointer(context, -1));
+        Function * funcptr = static_cast<Function *>(duk_get_pointer(context, -1));
         duk_pop(context);
-        return Variant::fromValue<AbstractFunction *>(funcptr);
+        return Variant::fromValue<Function>(*funcptr);
     }
 
     // Ecmascript function - will be stored in global stash for access from C++ later.
@@ -126,8 +126,8 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
         //        it would be hard to determine the right use of function-variants.
         //        The script context could of course manage a list of created functions an delete them on destruction,
         //        but that would not solve the problem of "memory leak" while the program is running.
-        DuktapeFunction * function = new DuktapeFunction(context, funcIndex);
-        return Variant::fromValue<AbstractFunction *>(function);
+        Function function("", new DuktapeFunction(context, funcIndex));
+        return Variant::fromValue<Function>(function);
     }
 
     // Number
@@ -338,7 +338,7 @@ static duk_ret_t wrapFunction(duk_context * context)
 
     if (ptr)
     {
-        AbstractFunction * func = static_cast<AbstractFunction *>(ptr);
+        Function * func = static_cast<Function *>(ptr);
 
         std::vector<Variant> arguments(nargs);
         for (int i = 0; i < nargs; ++i){
@@ -488,18 +488,17 @@ void DuktapeScriptBackend::registerObj(duk_idx_t parentId, PropertyGroup * obj)
     // Register object functions
     Object * scriptable = dynamic_cast<Object *>(obj);
     if (scriptable) {
-        // [TODO]
-        /*
-        const std::vector<AbstractFunction *> & funcs = scriptable->functions();
-        for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
-            AbstractFunction * func = *it;
+        const std::vector<Function> & funcs = scriptable->functions();
+        for (std::vector<Function>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
+        {
+            m_functions.push_back(*it);
+            Function * funcptr = &(m_functions[m_functions.size() - 1]);
 
             duk_push_c_function(m_context, wrapFunction, DUK_VARARGS);
-            duk_push_pointer(m_context, static_cast<void *>(func));
+            duk_push_pointer(m_context, static_cast<void *>(funcptr));
             duk_put_prop_string(m_context, -2, c_duktapeFunctionPointerKey);
-            duk_put_prop_string(m_context, objIndex, func->name().c_str());
+            duk_put_prop_string(m_context, objIndex, funcptr->name().c_str());
         }
-        */
     }
 
     // Register sub-objects

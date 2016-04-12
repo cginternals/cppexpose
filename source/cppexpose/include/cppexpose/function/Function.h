@@ -37,7 +37,7 @@ public:
     *  @param[in] func
     *    Function object (can be null)
     */
-    Function(const std::string & name, AbstractFunction * func = nullptr);
+    Function(const std::string & name = "", AbstractFunction * func = nullptr);
 
     /**
     *  @brief
