@@ -16,7 +16,7 @@ namespace cppexpose
 *    Representation for typed properties of an object
 */
 template <typename T>
-class CPPEXPOSE_API Property : public Typed<T>, public AbstractProperty
+class Property : public Typed<T>, public AbstractProperty
 {
 public:
     Signal<const T &> valueChanged;  ///< Called when the value has been changed
