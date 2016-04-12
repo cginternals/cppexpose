@@ -71,7 +71,7 @@ Variant::Variant(int value)
 }
 
 Variant::Variant(unsigned int value)
-: m_value(new DirectValue<int>(value))
+: m_value(new DirectValue<unsigned int>(value))
 {
 }
 
