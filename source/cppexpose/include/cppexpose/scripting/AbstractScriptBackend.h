@@ -36,6 +36,15 @@ public:
 
     /**
     *  @brief
+    *    Get script context that owns the backend
+    *
+    *  @return
+    *    Script context that owns the backend (can be null)
+    */
+    ScriptContext * scriptContext() const;
+
+    /**
+    *  @brief
     *    Initialize scripting backend
     *
     *  @param[in] scriptContext

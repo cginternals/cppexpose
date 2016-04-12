@@ -21,6 +21,9 @@ namespace cppexpose
 */
 class CPPEXPOSE_API DuktapeScriptBackend : public AbstractScriptBackend
 {
+friend Function & getFunction(duk_context * context, size_t index);
+
+
 public:
     /**
     *  @brief
@@ -47,9 +50,9 @@ protected:
 
 
 protected:
-    duk_context * m_context;            ///< Duktape context
-    std::string   m_namespace;          ///< Global namespace
-    std::vector<Function> m_functions;  ///< List of wrapped functions
+    duk_context           * m_context;   ///< Duktape context
+    std::string             m_namespace; ///< Global namespace
+    std::vector<Function>   m_functions; ///< List of wrapped functions
 };
 
 

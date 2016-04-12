@@ -26,7 +26,10 @@ public:
         addProperty<int>        ("int",    this, &MyObject::getInt, &MyObject::setInt);
         addProperty<float>      ("float",  std::bind(&MyObject::getFloat,  this), std::bind(&MyObject::setFloat, this, _1));
 
-        addFunction("testFunction", this, &MyObject::testFunction);
+        addFunction("print",        this, &MyObject::print);
+        addFunction("test",         this, &MyObject::test);
+        addFunction("setFunction",  this, &MyObject::setFunction);
+        addFunction("callFunction", this, &MyObject::callFunction);
     }
 
     virtual ~MyObject()
@@ -65,10 +68,30 @@ public:
 
 
 protected:
-    void testFunction(int a, float b)
+    void print(const Variant & value)
+    {
+        std::cout << ":: " << value.toString() << std::endl;
+    }
+
+    void test(int a, float b)
     {
         std::cout << "a = " << a << std::endl;
         std::cout << "b = " << b << std::endl;
+    }
+
+    void setFunction(const Variant & func)
+    {
+        if (func.hasType<Function>()) {
+            std::cout << "Setting function." << std::endl;
+            m_func = func.value<Function>();
+        } else {
+            std::cout << "Parameter is not a function." << std::endl;
+        }
+    }
+
+    void callFunction()
+    {
+        m_func.call(std::vector<Variant>());
     }
 
 
@@ -76,6 +99,7 @@ protected:
     std::string m_string;
     int         m_int;
     float       m_float;
+    Function    m_func;
 };
 
 int main(int, char * [])

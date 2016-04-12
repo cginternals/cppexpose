@@ -27,9 +27,14 @@ namespace cppexpose
 
 
 static ScriptContext * getScriptContext(duk_context * context);
+static DuktapeScriptBackend * getScriptBackend(duk_context * context);
 static Variant fromDukValue(duk_context * context, duk_idx_t index);
 static void pushToDukStack(duk_context * context, const Variant & var);
 
+Function & getFunction(duk_context * context, size_t index)
+{
+    return getScriptBackend(context)->m_functions[index];
+}
 
 class DuktapeFunction : public AbstractFunction
 {
@@ -84,7 +89,20 @@ static ScriptContext * getScriptContext(duk_context * context)
     duk_get_prop_string(context, -1, c_duktapeStashContextPointer);
     void * context_ptr = duk_get_pointer(context, -1);
     duk_pop_2(context);
-    return static_cast<ScriptContext *>(context_ptr);
+
+    DuktapeScriptBackend * backend = static_cast<DuktapeScriptBackend *>(context_ptr);
+    return backend->scriptContext();
+}
+
+static DuktapeScriptBackend * getScriptBackend(duk_context * context)
+{
+    duk_push_global_stash(context);
+    duk_get_prop_string(context, -1, c_duktapeStashContextPointer);
+    void * context_ptr = duk_get_pointer(context, -1);
+    duk_pop_2(context);
+
+    DuktapeScriptBackend * backend = static_cast<DuktapeScriptBackend *>(context_ptr);
+    return backend;
 }
 
 static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
@@ -92,9 +110,10 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
     // Duktape/C function
     if (duk_is_c_function(context, index)) {
         duk_get_prop_string(context, index, c_duktapeFunctionPointerKey);
-        Function * funcptr = static_cast<Function *>(duk_get_pointer(context, -1));
+        int funcIndex = duk_get_int(context, -1);
+        Function & func = getFunction(context, funcIndex);
         duk_pop(context);
-        return Variant::fromValue<Function>(*funcptr);
+        return Variant::fromValue<Function>(func);
     }
 
     // Ecmascript function - will be stored in global stash for access from C++ later.
@@ -120,12 +139,7 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
         duk_put_prop(context, -3);
         duk_pop(context);
 
-        // [TODO] This produces a memory leak, since the pointer to the function object will never be deleted.
-        //        A solution would be to wrap a ref_ptr into the variant, but since there are also function objects
-        //        which are not memory-managed (e.g., a C-function that has been passed to the scripting engine),
-        //        it would be hard to determine the right use of function-variants.
-        //        The script context could of course manage a list of created functions an delete them on destruction,
-        //        but that would not solve the problem of "memory leak" while the program is running.
+        // Return callable function
         Function function("", new DuktapeFunction(context, funcIndex));
         return Variant::fromValue<Function>(function);
     }
@@ -332,13 +346,13 @@ static duk_ret_t wrapFunction(duk_context * context)
 
     duk_push_current_function(context);
     duk_get_prop_string(context, -1, c_duktapeFunctionPointerKey);
-    void * ptr = duk_get_pointer(context, -1);
+    int funcIndex = duk_get_int(context, -1);
 
     duk_pop_2(context);
 
-    if (ptr)
+    if (funcIndex >= 0)
     {
-        Function * func = static_cast<Function *>(ptr);
+        Function & func = getFunction(context, funcIndex);
 
         std::vector<Variant> arguments(nargs);
         for (int i = 0; i < nargs; ++i){
@@ -346,7 +360,7 @@ static duk_ret_t wrapFunction(duk_context * context)
             duk_remove(context, 0);
         }
 
-        Variant value = func->call(arguments);
+        Variant value = func.call(arguments);
 
         if (!value.isNull())
         {
@@ -386,7 +400,7 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
 
     // Make ScriptContext pointer available through duktape context
     duk_push_global_stash(m_context);
-    void * context_ptr = static_cast<void *>(scriptContext);
+    void * context_ptr = static_cast<void *>(this);
     duk_push_pointer(m_context, context_ptr);
     duk_put_prop_string(m_context, -2, c_duktapeStashContextPointer);
     duk_pop(m_context);
@@ -491,13 +505,13 @@ void DuktapeScriptBackend::registerObj(duk_idx_t parentId, PropertyGroup * obj)
         const std::vector<Function> & funcs = scriptable->functions();
         for (std::vector<Function>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
         {
-            m_functions.push_back(*it);
-            Function * funcptr = &(m_functions[m_functions.size() - 1]);
+            Function func = *it;
+            m_functions.push_back(func);
 
             duk_push_c_function(m_context, wrapFunction, DUK_VARARGS);
-            duk_push_pointer(m_context, static_cast<void *>(funcptr));
+            duk_push_int(m_context, m_functions.size() - 1);
             duk_put_prop_string(m_context, -2, c_duktapeFunctionPointerKey);
-            duk_put_prop_string(m_context, objIndex, funcptr->name().c_str());
+            duk_put_prop_string(m_context, objIndex, func.name().c_str());
         }
     }
 
