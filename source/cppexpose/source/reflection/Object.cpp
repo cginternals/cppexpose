@@ -15,5 +15,10 @@ Object::~Object()
 {
 }
 
+const std::vector<Function> & Object::functions() const
+{
+    return m_functions;
+}
+
 
 } // namespace cppexpose

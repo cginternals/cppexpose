@@ -6,3 +6,4 @@ endif()
 
 # Example applications
 add_subdirectory(types)
+add_subdirectory(scripting)

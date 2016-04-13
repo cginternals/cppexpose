@@ -15,5 +15,10 @@ AbstractScriptBackend::~AbstractScriptBackend()
 {
 }
 
+ScriptContext * AbstractScriptBackend::scriptContext() const
+{
+    return m_scriptContext;
+}
+
 
 } // namespace cppexpose
