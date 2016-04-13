@@ -7,6 +7,12 @@ template<typename Type>
 class MyObject : public cppexpose::Object
 {
 public:
+    MyObject(const std::string & name)
+    : Object(name)
+    {
+        
+    }
+    
     const Type & constgetterconst() const
     {
         return m_var;

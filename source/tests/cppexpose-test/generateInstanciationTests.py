@@ -16,6 +16,7 @@ def getPropertyTestFileContent(datatype, datatypeC):
 #include <gmock/gmock.h>
 
 #include <cppexpose/reflection/Property.h>
+#include <cppexpose/typed/DirectValue.h>
 
 #include "../MyObject.h"
 
@@ -60,9 +61,6 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_L
     delete prop;
 }
 
-'''
-
-    commented_out = '''
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
 {
     auto prop = new StoredValue<${DATATYPE}>(&staticGetter, &staticSetter);
@@ -74,7 +72,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_S
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_Object_ConstGetterConst_SetterConst)
 {
-    auto obj = new MyObject<${DATATYPE}>;
+    auto obj = new MyObject<${DATATYPE}>("TestObject");
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::constgetterconst, &MyObject<${DATATYPE}>::setterconst);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
@@ -86,7 +84,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_O
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_Object_GetterConst_SetterConst)
 {
-    auto obj = new MyObject<${DATATYPE}>;
+    auto obj = new MyObject<${DATATYPE}>("TestObject");
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::getterconst, &MyObject<${DATATYPE}>::setterconst);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
@@ -98,7 +96,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_O
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_Object_GetterConst_Setter)
 {
-    auto obj = new MyObject<${DATATYPE}>;
+    auto obj = new MyObject<${DATATYPE}>("TestObject");
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::getterconst, &MyObject<${DATATYPE}>::setter);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
@@ -107,7 +105,6 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_O
     delete prop;
     delete obj;
 }
-
 
 // Propterty instanciaton (read only)
 
@@ -122,6 +119,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_Str
     delete prop;
 }
 
+
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_StaticGetter)
 {
     auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", &staticGetter);
@@ -131,9 +129,9 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_Str
     delete prop;
 }
 
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
+/*TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
 {
-    auto obj = new MyObject<${DATATYPE}>;
+    auto obj = new MyObject<${DATATYPE}>("TestObject");
     auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::constgetterconst);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
@@ -145,7 +143,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_Str
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_Object_GetterConst)
 {
-    auto obj = new MyObject<${DATATYPE}>;
+    auto obj = new MyObject<${DATATYPE}>("TestObject");
     auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::getterconst);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
@@ -153,166 +151,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_Str
 
     delete prop;
     delete obj;
-}
-
-
-
-// Propterty instanciaton with Accessor (read/write)
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String)
-{
-    auto accessor = new AccessorValue<${DATATYPE}>();
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_Value)
-{
-    auto accessor = new AccessorValue<${DATATYPE}>(${DATATYPE}());
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
-{
-    auto get = [] () {return ${DATATYPE}();};
-    auto set = [] (const ${DATATYPE} & /*val*/) {};
-    auto accessor = new AccessorGetSet<${DATATYPE}>(get, set);
-
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_StaticGetter_StaticSetter)
-{
-    auto accessor = new AccessorGetSet<${DATATYPE}>(&staticGetter, &staticSetter);
-
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_Object_ConstGetterConst_SetterConst)
-{
-    auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new AccessorGetSet<${DATATYPE}>(obj, &MyObject<${DATATYPE}>::constgetterconst, &MyObject<${DATATYPE}>::setterconst);
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-
-    delete prop;
-    delete obj;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_Object_GetterConst_SetterConst)
-{
-    auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new AccessorGetSet<${DATATYPE}>(obj, &MyObject<${DATATYPE}>::getterconst, &MyObject<${DATATYPE}>::setterconst);
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-
-    delete prop;
-    delete obj;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_Object_GetterConst_Setter)
-{
-    auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new AccessorGetSet<${DATATYPE}>(obj, &MyObject<${DATATYPE}>::getterconst, &MyObject<${DATATYPE}>::setter);
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-
-    delete prop;
-    delete obj;
-}
-
-
-// Propterty instanciaton with Accessor (read only)
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String)
-{
-    auto accessor = new AccessorValue<const ${DATATYPE}>();
-    auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Value)
-{
-    auto accessor = new AccessorValue<const ${DATATYPE}>(${DATATYPE}());
-    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_LambdaGetter)
-{
-    auto get = [] () {return ${DATATYPE}();};
-    auto accessor = new AccessorGetSet<const ${DATATYPE}>(get);
-
-    auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_StaticGetter)
-{
-    auto accessor = new AccessorGetSet<const ${DATATYPE}>(&staticGetter);
-
-    auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-    delete prop;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Object_ConstGetterConst)
-{
-    auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new AccessorGetSet<const ${DATATYPE}>(obj, &MyObject<${DATATYPE}>::constgetterconst);
-    auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-
-    delete prop;
-    delete obj;
-}
-
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Object_GetterConst)
-{
-    auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new AccessorGetSet<const ${DATATYPE}>(obj, &MyObject<${DATATYPE}>::getterconst);
-    auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", accessor);
-
-    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
-
-
-    delete prop;
-    delete obj;
-}
+} */
 '''
     content = content.replace('${DATATYPE}', datatype)
     content = content.replace('${CAPITALDATATYPE}', datatypeC)
@@ -323,13 +162,13 @@ def getPropertyArrayTestFileContent(datatype, datatypeC):
 
 #include <gmock/gmock.h>
 
-#include <reflectionzeug/property/Property.h>
+#include <cppexpose/reflection/Property.h>
+#include <cppexpose/typed/DirectValue.h>
 
 #include "../MyObject.h"
 
-using namespace reflectionzeug;
+using namespace cppexpose;
 using std::string;
-
 
 
 class PropertyInstance${CAPITALDATATYPE}Array_test : public testing::Test
@@ -353,6 +192,9 @@ void staticSetter(size_t, ${DATATYPE} /*value*/)
 }
 }
 
+
+'''
+    test = '''
 
 // Propterty instanciaton (read/write)
 
