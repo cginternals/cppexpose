@@ -20,19 +20,19 @@ namespace
 {
     const int RTLD_LAZY(0); // Ignore lazy-flag for win32 - see dlopen
 
-    inline HMODULE dlopen(LPCSTR lpFileName, int ignore)
+    inline void * dlopen(LPCSTR lpFileName, int)
     {
-        return LoadLibraryA(lpFileName);
+        return static_cast<void *>(LoadLibraryA(lpFileName));
     }
 
-    inline FARPROC dlsym(HMODULE hModule, LPCSTR lpProcName)
+    inline FARPROC dlsym(void * hModule, LPCSTR lpProcName)
     {
-        return GetProcAddress(hModule, lpProcName);
+		return GetProcAddress((HMODULE)hModule, lpProcName);
     }
 
-    inline BOOL dlclose(HMODULE hModule)
+    inline BOOL dlclose(void * hModule)
     {
-        return FreeLibrary(hModule);
+		return FreeLibrary((HMODULE)hModule);
     }
 
     inline DWORD dlerror()
@@ -67,16 +67,16 @@ PluginLibrary::PluginLibrary(const std::string & filePath)
 
     // Get pointers to exported functions
     *reinterpret_cast<void**>(&m_initPtr)          = dlsym(m_handle, "initialize");
-    *reinterpret_cast<void**>(&m_deinitPtr)        = dlsym(m_handle, "deinitialize");
-    *reinterpret_cast<void**>(&m_numComponentsPtr) = dlsym(m_handle, "numComponents");
-    *reinterpret_cast<void**>(&m_componentPtr)     = dlsym(m_handle, "component");
+	*reinterpret_cast<void**>(&m_deinitPtr)        = dlsym(m_handle, "deinitialize");
+	*reinterpret_cast<void**>(&m_numComponentsPtr) = dlsym(m_handle, "numComponents");
+	*reinterpret_cast<void**>(&m_componentPtr)     = dlsym(m_handle, "component");
 }
 
 PluginLibrary::~PluginLibrary()
 {
     // Close library
     if (m_handle) {
-        dlclose(m_handle);
+		dlclose(m_handle);
     }
 }
 
