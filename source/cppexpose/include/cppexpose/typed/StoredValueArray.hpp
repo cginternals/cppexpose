@@ -124,8 +124,8 @@ StoredValueArray<const T>::StoredValueArray(
     typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter eg)
 {
     Obj * obj = obj;
-    typename ArrayValueFunctions<T, ElementType, Obj>::getter getter = g;
-    typename ArrayValueFunctions<T, ElementType, Obj>::elementGetter elementGetter = eg;
+    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::getter getter = g;
+    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter elementGetter = eg;
 
     this->m_getter = [obj, getter] () -> T
     {
