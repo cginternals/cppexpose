@@ -11,7 +11,7 @@
 *  @brief
 *    Hello world example
 */
-class CPPEXPOSE_API HelloWorld : public cppexpose::Example
+class HelloWorld : public cppexpose::Example
 {
 CPPEXPOSE_DECLARE_COMPONENT(HelloWorld, cppexpose::Example)
 

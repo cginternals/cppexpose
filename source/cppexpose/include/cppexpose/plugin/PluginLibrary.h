@@ -115,12 +115,7 @@ public:
 
 protected:
     std::string       m_filePath; ///< Path to the loaded library
-
-#ifdef WIN32
-    HMODULE           m_handle;   ///< Library handle
-#else
     void            * m_handle;   ///< Library handle
-#endif
 
     init_ptr          m_initPtr;          ///< Pointer to function init()
     deinit_ptr        m_deinitPtr;        ///< Pointer to function deinit()

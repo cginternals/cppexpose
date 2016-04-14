@@ -11,7 +11,7 @@
 *  @brief
 *    99 bottles of beer example
 */
-class CPPEXPOSE_API BottlesOfBeer : public cppexpose::Example
+class BottlesOfBeer : public cppexpose::Example
 {
 CPPEXPOSE_DECLARE_COMPONENT(BottlesOfBeer, cppexpose::Example)
 
