@@ -18,8 +18,8 @@ namespace cppexpose
 template<typename T, typename Obj>
 struct SingleValueFunctions
 {
-    typedef std::function<T (Obj *)> getter;
-    typedef std::function<void (Obj *, const T &)> setter;
+    typedef T (Obj::*getter) () const;
+    typedef void (Obj::*setter) (const T &);
 };
 
 
@@ -47,10 +47,7 @@ public:
     *
     *    Examples:
     *      StoredValueSingle<int> v(&staticGetter, &staticSetter);
-    *      StoredValueSingle<int> v(
-    *          std::bind(&MyValue::value, &myValue),
-    *          std::bind(&MyValue::setValue, &myValue, _1)
-    *      );
+    *      StoredValueSingle<int> v(myValue, &MyValue::value, &MyValue::setValue);
     */
     StoredValueSingle(std::function<T ()> getter,
                       std::function<void(const T &)> setter);

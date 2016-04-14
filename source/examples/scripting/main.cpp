@@ -20,11 +20,9 @@ public:
     , m_int(100)
     , m_float(23.42)
     {
-        using namespace std::placeholders;
-
-        addProperty<std::string>("string", std::bind(&MyObject::getString, this), std::bind(&MyObject::setString, this, _1));
+        addProperty<std::string>("string", this, &MyObject::getString, &MyObject::setString);
         addProperty<int>        ("int",    this, &MyObject::getInt, &MyObject::setInt);
-        addProperty<float>      ("float",  std::bind(&MyObject::getFloat,  this), std::bind(&MyObject::setFloat, this, _1));
+        addProperty<float>      ("float",  this, &MyObject::getFloat,  &MyObject::setFloat);
 
         addFunction("print",        this, &MyObject::print);
         addFunction("test",         this, &MyObject::test);
@@ -51,7 +49,7 @@ public:
         return m_int;
     }
 
-    void setInt(int value)
+    void setInt(const int & value)
     {
         m_int = value;
     }
@@ -61,7 +59,7 @@ public:
         return m_float;
     }
 
-    void setFloat(float value)
+    void setFloat(const float & value)
     {
         m_float = value;
     }

@@ -16,10 +16,10 @@ namespace cppexpose
 template<typename T, typename ElementType, typename Obj>
 struct ArrayValueFunctions
 {
-    typedef std::function<T (Obj *)> getter;
-    typedef std::function<void (Obj *, const T &)> setter;
-    typedef std::function<ElementType (Obj *, int)> elementGetter;
-    typedef std::function<void (Obj *, int, const ElementType &)> elementSetter;
+    typedef T (Obj::*getter) () const;
+    typedef void (Obj::*setter) (const T &);
+    typedef ElementType (Obj::*elementGetter) (int) const;
+    typedef void (Obj::*elementSetter) (int, const ElementType &);
 };
 
 

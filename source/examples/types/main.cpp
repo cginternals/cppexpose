@@ -21,11 +21,9 @@ public:
     , m_int(100)
     , m_float(23.42)
     {
-        using namespace std::placeholders;
-
-        addProperty<std::string>("string", std::bind(&MyObject::getString, this), std::bind(&MyObject::setString, this, _1));
+        addProperty<std::string>("string", this, &MyObject::getString, &MyObject::setString);
         addProperty<int>        ("int ",   this, &MyObject::getInt, &MyObject::setInt);
-        addProperty<float>      ("float",  std::bind(&MyObject::getFloat,  this), std::bind(&MyObject::setFloat, this, _1));
+        addProperty<float>      ("float",  this, &MyObject::getFloat, &MyObject::setFloat);
     }
 
     virtual ~MyObject()
@@ -47,7 +45,7 @@ public:
         return m_int;
     }
 
-    void setInt(int value)
+    void setInt(const int & value)
     {
         m_int = value;
     }
@@ -57,7 +55,7 @@ public:
         return m_float;
     }
 
-    void setFloat(float value)
+    void setFloat(const float & value)
     {
         m_float = value;
     }
@@ -87,7 +85,7 @@ public:
         return m_value;
     }
 
-    void setValue(int value)
+    void setValue(const int & value)
     {
         m_value = value;
     }
@@ -186,16 +184,11 @@ void createObject(Variant & obj, int numLevels, int numObjects, const std::strin
 
 int main(int, char * [])
 {
-    using namespace std::placeholders;
-
     MyValue myValue;
 
     DirectValue<unsigned int> int1;
     Property<const int> int2("int2", &getValue);
-    Property<int> int3("int3",
-        std::bind(&MyValue::value, &myValue),
-        std::bind(&MyValue::setValue, &myValue, _1)
-    );
+    Property<int> int3("int3", &myValue, &MyValue::value, &MyValue::setValue);
 //  DirectValue< std::array<int, 3> > ints;
     Property< std::array<int, 3> > ints("ints", &getArray, &setArray, &getElement, &setElement);
     DirectValue<std::string> str1;

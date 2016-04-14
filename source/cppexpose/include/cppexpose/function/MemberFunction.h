@@ -24,7 +24,7 @@ public:
     *  @brief
     *    Typed function pointer for a member function of class T
     */
-    typedef std::function<RET (T *, Arguments...)> Func;
+    typedef RET (T::*Func) (Arguments...);
 
 
 public:
