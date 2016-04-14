@@ -237,8 +237,8 @@ public:
     *  @return
     *    Stored value of type ValueType, or defaultValue if type does not match and cannot be converted
     */
-    template <typename ValueType>
-    ValueType value(const ValueType & defaultValue = ValueType()) const;
+    template <typename T>
+    T value(const T & defaultValue = T()) const;
 
     //@{
     /**

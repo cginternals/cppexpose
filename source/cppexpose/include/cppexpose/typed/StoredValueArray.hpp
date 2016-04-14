@@ -33,29 +33,30 @@ StoredValueArray<T>::StoredValueArray(
     typename ArrayValueFunctions<T, ElementType, Obj>::elementSetter es)
 {
     Obj * obj = obj;
-    std::function<T (Obj *)>              getter = g;
-    std::function<void(Obj *, const T &)> setter = s;
-    std::function<ElementType (Obj *, int)>              elementGetter = eg;
-    std::function<void(Obj *, int, const ElementType &)> elementSetter = es;
+
+    typename ArrayValueFunctions<T, ElementType, Obj>::getter getter = g;
+    typename ArrayValueFunctions<T, ElementType, Obj>::setter setter = s;
+    typename ArrayValueFunctions<T, ElementType, Obj>::elementGetter elementGetter = eg;
+    typename ArrayValueFunctions<T, ElementType, Obj>::elementSetter elementSetter = es;
 
     m_getter = [obj, getter] () -> T
     {
-        return getter(obj);
+        return (obj->*getter)();
     };
 
     m_setter = [obj, setter] (const T & value)
     {
-        setter(obj, value);
+        (obj->*setter)(value);
     };
 
     m_elementGetter = [obj, elementGetter] (int index) -> ElementType
     {
-        return elementGetter(obj, index);
+        return (obj->*elementGetter)(index);
     };
 
     m_elementSetter = [obj, elementSetter] (int index, const ElementType & value)
     {
-        elementSetter(obj, index, value);
+        (obj->*elementSetter)(index, value);
     };
 }
 
@@ -123,17 +124,17 @@ StoredValueArray<const T>::StoredValueArray(
     typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter eg)
 {
     Obj * obj = obj;
-    std::function<T (Obj *)>                getter = g;
-    std::function<typename StoredValueArray<T>::ElementType (Obj *, int)> elementGetter = eg;
+    typename ArrayValueFunctions<T, ElementType, Obj>::getter getter = g;
+    typename ArrayValueFunctions<T, ElementType, Obj>::elementGetter elementGetter = eg;
 
     this->m_getter = [obj, getter] () -> T
     {
-        return getter(obj);
+        return (obj->*getter)();
     };
 
     this->m_elementGetter = [obj, elementGetter] (int index) -> typename StoredValueArray<T>::ElementType
     {
-        return elementGetter(obj, index);
+        return (obj->*elementGetter)(index);
     };
 }
 

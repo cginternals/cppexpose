@@ -65,7 +65,7 @@ public:
     *    Method pointer
     */
     template <class T, typename RET, typename... Arguments>
-    void addFunction(const std::string & name, T * obj, RET (T::*member)(Arguments...));
+    void addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...));
 
 
 protected:
