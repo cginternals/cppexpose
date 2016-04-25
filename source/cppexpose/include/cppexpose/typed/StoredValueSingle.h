@@ -86,6 +86,12 @@ protected:
     /**
     *  @brief
     *    Constructor
+    */
+    StoredValueSingle();
+
+    /**
+    *  @brief
+    *    Constructor
     *
     *  @param[in] getter
     *    Function to get the value

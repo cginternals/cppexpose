@@ -98,6 +98,11 @@ void StoredValueArray<T>::setElement(size_t i, const typename StoredValueArray<T
 }
 
 template <typename T>
+StoredValueArray<T>::StoredValueArray()
+{
+}
+
+template <typename T>
 StoredValueArray<T>::StoredValueArray(
     std::function<T ()> getter
   , std::function<ElementType (int)> elementGetter)

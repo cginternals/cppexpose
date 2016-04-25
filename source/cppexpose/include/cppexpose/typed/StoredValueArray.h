@@ -99,6 +99,12 @@ protected:
     /**
     *  @brief
     *    Constructor
+    */
+    StoredValueArray();
+
+    /**
+    *  @brief
+    *    Constructor
     *
     *  @param[in] getter
     *    Function to get the value

@@ -66,6 +66,11 @@ void StoredValueSingle<T>::setValue(const T & value)
 }
 
 template <typename T>
+StoredValueSingle<T>::StoredValueSingle()
+{
+}
+
+template <typename T>
 StoredValueSingle<T>::StoredValueSingle(const std::function<T ()> & getter)
 : m_getter(getter)
 {
