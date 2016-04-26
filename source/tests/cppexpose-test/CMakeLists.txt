@@ -20,7 +20,7 @@ add_custom_target("generatePropertyTests" COMMAND python ${testdir}/generateInst
 
 set(sources
     main.cpp
-    variantTest.cpp
+    VariantTest.cpp
 )
 
 #
