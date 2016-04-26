@@ -41,6 +41,7 @@ void staticSetter(T /*value*/)
 
 
 // Propterty instanciaton (read/write)
+// Property instantiaton (read/write)
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGetter_LambdaSetter)
 {

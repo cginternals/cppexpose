@@ -29,7 +29,7 @@ namespace {
 }
 
 
-// Propterty instanciaton (read/write)
+// DirectValue instantiaton (read/write)
 
 TYPED_TEST(DirectValueInstantiation_test, instantiateDirectValue)
 {
