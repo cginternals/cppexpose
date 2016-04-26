@@ -27,17 +27,17 @@ StoredValueSingle<T>::StoredValueSingle(
     typename SingleValueFunctions<T, Obj>::setter s)
 {
     Obj * obj = o;
-    std::function<T (Obj *)>              getter = g;
-    std::function<void(Obj *, const T &)> setter = s;
+    typename SingleValueFunctions<T, Obj>::getter getter = g;
+    typename SingleValueFunctions<T, Obj>::setter setter = s;
 
     m_getter = [obj, getter] () -> T
     {
-        return getter(obj);
+        return (obj->*getter)();
     };
 
     m_setter = [obj, setter] (const T & value)
     {
-        setter(obj, value);
+        (obj->*setter)(value);
     };
 }
 
@@ -66,6 +66,11 @@ void StoredValueSingle<T>::setValue(const T & value)
 }
 
 template <typename T>
+StoredValueSingle<T>::StoredValueSingle()
+{
+}
+
+template <typename T>
 StoredValueSingle<T>::StoredValueSingle(const std::function<T ()> & getter)
 : m_getter(getter)
 {
@@ -86,11 +91,11 @@ StoredValueSingle<const T>::StoredValueSingle(
     typename SingleValueFunctions<T, Obj>::getter g)
 {
     Obj * obj = o;
-    std::function<T (Obj *)> getter = g;
+    typename SingleValueFunctions<T, Obj>::getter getter = g;
 
     this->m_getter = [obj, getter] () -> T
     {
-        return getter(obj);
+        return (obj->*getter)();
     };
 }
 

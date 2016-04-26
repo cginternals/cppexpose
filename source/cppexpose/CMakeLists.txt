@@ -3,8 +3,12 @@
 # External dependencies
 # 
 
+find_package(cpplocate REQUIRED)
+find_package(libzeug REQUIRED)
+
 set(ADDITIONAL_LIBRARIES)
 set(ADDITIONAL_INCLUDES)
+
 if(NOT OPTION_BUILD_WITH_STD_REGEX)
     find_package(Boost COMPONENTS regex REQUIRED)
     
@@ -17,6 +21,10 @@ if(NOT OPTION_BUILD_WITH_STD_REGEX)
         message(WARNING "OPTION_BUILD_WITH_STD_REGEX is set to Off: Boost not found.")
         message(WARNING "Defaulting to C++11 regex.")
     endif()
+endif()
+
+if(UNIX)
+    set(ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} dl)
 endif()
 
 
@@ -116,6 +124,15 @@ set(headers
 
     ${include_path}/scripting/ScriptContext.h
     ${include_path}/scripting/AbstractScriptBackend.h
+
+    ${include_path}/plugin/ComponentManager.h
+    ${include_path}/plugin/AbstractComponent.h
+    ${include_path}/plugin/TypedComponent.h
+    ${include_path}/plugin/TypedComponent.hpp
+    ${include_path}/plugin/Component.h
+    ${include_path}/plugin/Component.hpp
+    ${include_path}/plugin/PluginLibrary.h
+    ${include_path}/plugin/Example.h
 )
 
 set(sources
@@ -149,6 +166,11 @@ set(sources
     ${source_path}/scripting/AbstractScriptBackend.cpp
     ${source_path}/scripting/DuktapeScriptBackend.cpp
     ${source_path}/scripting/DuktapeScriptBackend.h
+
+    ${source_path}/plugin/ComponentManager.cpp
+    ${source_path}/plugin/AbstractComponent.cpp
+    ${source_path}/plugin/PluginLibrary.cpp
+    ${source_path}/plugin/Example.cpp
 )
 
 # Group source files
@@ -243,6 +265,9 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${ADDITIONAL_LIBRARIES}
+    cpplocate::cpplocate
+    libzeug::iozeug
+    libzeug::loggingzeug
 
     PUBLIC
     ${DEFAULT_LIBRARIES}

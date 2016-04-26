@@ -69,22 +69,11 @@ size_t TypedArray<T, ET, Size>::numSubValues() const
 template <typename T, typename ET, size_t Size>
 AbstractTyped * TypedArray<T, ET, Size>::subValue(size_t index)
 {
-    using namespace std::placeholders;
-
     // Create typed accessor for sub-values on first call to this function
     if (m_subValues.size() == 0)
     {
         for (size_t i=0; i<Size; i++)
         {
-            // [TODO] This might pose a problem for clang. If so, the same
-            // thing can be easily accomplished using lambda expressions.
-            // But this is much more elegant :)
-            m_subValues.push_back(new StoredValue<ET>(
-                std::bind( &TypedArray<T, ET, Size>::getElement, this, i ),
-                std::bind( &TypedArray<T, ET, Size>::setElement, this, i, _1 )
-            ));
-
-            /* Alternative implementation
             m_subValues.push_back(new StoredValue<ET>(
                 [this, i] () -> ET {
                     return this->getElement(i);
@@ -93,7 +82,6 @@ AbstractTyped * TypedArray<T, ET, Size>::subValue(size_t index)
                     this->setElement(i, value);
                 }
             ));
-            */
         }
     }
 

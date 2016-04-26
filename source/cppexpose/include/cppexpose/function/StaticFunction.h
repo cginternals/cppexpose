@@ -24,7 +24,7 @@ public:
     *  @brief
     *    Typed function pointer for a static function
     */
-    typedef std::function<RET (Arguments...)> Func;
+    typedef RET (*Func) (Arguments...);
 
 
 public:

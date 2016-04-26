@@ -122,8 +122,8 @@ public:
     *  @return
     *    Stored value of type ValueType, or defaultValue if type does not match and cannot be converted
     */
-    template <typename ValueType>
-    ValueType convert(const ValueType & defaultValue = ValueType()) const;
+    template <typename T>
+    T convert(const T & defaultValue = T()) const;
 
     // Virtual TypeInterface interface
     virtual bool isEnum() const override = 0;
