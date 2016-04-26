@@ -8,12 +8,6 @@ set(target cppexpose-test)
 message(STATUS "Test ${target}")
 
 
-# Generate Property Instanciation Tests
-set(testdir ${CMAKE_SOURCE_DIR}/source/tests/cppexpose-test)
-set(filelist ${testdir}/instanciationTestsFiles.txt)
-add_custom_target("generatePropertyTests" COMMAND python ${testdir}/generateInstanciationTests.py ${testdir} ${filelist})
-
-
 # 
 # Sources
 # 
@@ -21,21 +15,8 @@ add_custom_target("generatePropertyTests" COMMAND python ${testdir}/generateInst
 set(sources
     main.cpp
     VariantTest.cpp
+    PropertyInstantiationTest.cpp
 )
-
-#
-# Add generated instanciation tests to sources
-#
-if(EXISTS ${filelist})
-    FILE(READ ${filelist} contents)
-    STRING(REGEX REPLACE ";" "\\\\;" contents "${contents}")
-    STRING(REGEX REPLACE "\n" ";" contents "${contents}")
-    set(sources
-        ${sources}
-        ${contents}
-    )
-endif()
-
 
 # 
 # Create executable
