@@ -7,11 +7,14 @@
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>
-#include <cppexpose/reflection/Property.h>
+#include <cppexpose/reflection/AbstractProperty.h>
 
 
 namespace cppexpose
 {
+
+template <typename T>
+class Property;
 
 
 /**
