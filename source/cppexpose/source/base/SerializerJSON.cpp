@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include <cppexpose/variant/Variant.h>
 #include <cppexpose/base/JSONReader.h>
 
 

@@ -4,6 +4,8 @@
 
 #include <cppexpose/reflection/Property.h>
 
+#include <cppexpose/typed/StoredValue.h>
+
 
 namespace cppexpose
 {

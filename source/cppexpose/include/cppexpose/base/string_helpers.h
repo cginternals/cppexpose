@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <string>
-#include <functional>
 
 #include <cppexpose/cppexpose_api.h>
 

@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
@@ -13,6 +13,7 @@ namespace cppexpose
 
 class PropertyGroup;
 class ScriptContext;
+class Variant;
 
 
 /**

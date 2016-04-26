@@ -3,8 +3,8 @@
 
 
 #include <vector>
-#include <array>
 #include <type_traits>
+#include <functional>
 
 #include <cppexpose/variant/Variant.h>
 

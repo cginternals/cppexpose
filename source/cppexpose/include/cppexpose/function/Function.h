@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
@@ -13,6 +13,7 @@ namespace cppexpose
 
 
 class AbstractFunction;
+class Variant;
 
 
 /**

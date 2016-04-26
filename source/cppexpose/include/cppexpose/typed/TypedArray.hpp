@@ -4,8 +4,6 @@
 
 #include <cppexpose/typed/TypedArray.h>
 
-#include <vector>
-#include <functional>
 #include <sstream>
 
 #include <cppexpose/base/string_helpers.h>

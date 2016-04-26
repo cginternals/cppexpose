@@ -24,7 +24,7 @@ public:
     *  @brief
     *    Signature for callbacks
     */
-    typedef std::function<void(Arguments...)> Callback;
+    using Callback = std::function<void(Arguments...)>;
 
 
 public:

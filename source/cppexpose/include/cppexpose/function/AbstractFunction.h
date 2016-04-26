@@ -4,11 +4,13 @@
 
 #include <vector>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
 {
+
+class Variant;
 
 
 /**

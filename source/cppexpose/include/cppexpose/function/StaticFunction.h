@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <functional>
-
 #include <cppexpose/base/function_helpers.h>
 #include <cppexpose/function/AbstractFunction.h>
 

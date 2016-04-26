@@ -8,7 +8,6 @@
 
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/base/template_helpers.h>
-#include <cppexpose/typed/AbstractTyped.h>
 
 
 namespace cppexpose

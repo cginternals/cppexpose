@@ -3,12 +3,15 @@
 
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/reflection/AbstractProperty.h>
 
 
 namespace cppexpose
 {
+
+
+template <typename T>
+class StoredValue;
 
 
 /**

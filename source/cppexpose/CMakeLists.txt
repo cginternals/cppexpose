@@ -92,8 +92,8 @@ set(headers
     ${include_path}/typed/TypedEnum.h
     ${include_path}/typed/TypedEnum.hpp
     ${include_path}/typed/TypedArray.h
-    ${include_path}/typed/TypedArray.h
-    ${include_path}/typed/TypedVariant.hpp
+    ${include_path}/typed/TypedArray.hpp
+    ${include_path}/typed/TypedVariant.h
     ${include_path}/typed/TypedVariant.hpp
     ${include_path}/typed/DirectValue.h
     ${include_path}/typed/DirectValue.hpp
