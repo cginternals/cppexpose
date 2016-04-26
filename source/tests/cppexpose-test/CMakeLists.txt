@@ -17,6 +17,7 @@ set(sources
     VariantTest.cpp
     PropertyInstantiationTest.cpp
     DirectValueInstantiationTest.cpp
+    StoredValueInstantiationTest.cpp
 )
 
 # 
