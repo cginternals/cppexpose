@@ -2,12 +2,12 @@
 #pragma once
 
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/variant_impl/Variant.h>
 
 #include <typeinfo>
 
-#include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/base/template_helpers.h>
+#include <cppexpose/typed_impl/DirectValue.h>
 
 
 namespace cppexpose

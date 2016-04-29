@@ -1,0 +1,44 @@
+
+#pragma once
+
+#include <cppexpose/typed_impl/TypeInterface.h>
+#include <cppexpose/typed_impl/AbstractTyped.h>
+#include <cppexpose/typed_impl/DirectValue.h>
+#include <cppexpose/typed_impl/DirectValueSingle.h>
+#include <cppexpose/typed_impl/DirectValueArray.h>
+#include <cppexpose/typed_impl/StoredValue.h>
+#include <cppexpose/typed_impl/StoredValueSingle.h>
+#include <cppexpose/typed_impl/StoredValueArray.h>
+#include <cppexpose/typed_impl/Typed.h>
+#include <cppexpose/typed_impl/TypedGeneric.h>
+#include <cppexpose/typed_impl/TypedNumber.h>
+#include <cppexpose/typed_impl/TypedSignedIntegral.h>
+#include <cppexpose/typed_impl/TypedArray.h>
+#include <cppexpose/typed_impl/TypedBool.h>
+#include <cppexpose/typed_impl/TypedEnum.h>
+#include <cppexpose/typed_impl/TypedFloatingPoint.h>
+#include <cppexpose/typed_impl/TypedString.h>
+#include <cppexpose/typed_impl/TypedUnsignedIntegral.h>
+#include <cppexpose/typed_impl/TypedVariant.h>
+#include <cppexpose/typed_impl/TypeSelector.h>
+#include <cppexpose/variant_impl/Variant.h>
+
+#include <cppexpose/typed_impl/AbstractTyped.hpp>
+#include <cppexpose/typed_impl/DirectValue.hpp>
+#include <cppexpose/typed_impl/DirectValueSingle.hpp>
+#include <cppexpose/typed_impl/DirectValueArray.hpp>
+#include <cppexpose/typed_impl/StoredValue.hpp>
+#include <cppexpose/typed_impl/StoredValueSingle.hpp>
+#include <cppexpose/typed_impl/StoredValueArray.hpp>
+#include <cppexpose/typed_impl/Typed.hpp>
+#include <cppexpose/typed_impl/TypedArray.hpp>
+#include <cppexpose/typed_impl/TypedBool.hpp>
+#include <cppexpose/typed_impl/TypedEnum.hpp>
+#include <cppexpose/typed_impl/TypedFloatingPoint.hpp>
+#include <cppexpose/typed_impl/TypedGeneric.hpp>
+#include <cppexpose/typed_impl/TypedNumber.hpp>
+#include <cppexpose/typed_impl/TypedSignedIntegral.hpp>
+#include <cppexpose/typed_impl/TypedString.hpp>
+#include <cppexpose/typed_impl/TypedUnsignedIntegral.hpp>
+#include <cppexpose/typed_impl/TypedVariant.hpp>
+#include <cppexpose/variant_impl/Variant.hpp>
