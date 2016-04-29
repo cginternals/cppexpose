@@ -2,6 +2,7 @@
 #include <cppexpose/scripting/ScriptContext.h>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
+#include <cppexpose/variant/Variant.h>
 
 #include "DuktapeScriptBackend.h"
 

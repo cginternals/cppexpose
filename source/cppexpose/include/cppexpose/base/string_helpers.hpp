@@ -4,6 +4,7 @@
 
 #include <cppexpose/base/string_helpers.h>
 
+#include <type_traits>
 #include <sstream>
 
 

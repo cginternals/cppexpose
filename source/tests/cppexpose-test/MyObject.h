@@ -1,4 +1,6 @@
+
 #pragma once
+
 
 #include <cppexpose/reflection/Object.h>
 
@@ -10,7 +12,6 @@ public:
     MyObject(const std::string & name)
     : Object(name)
     {
-        
     }
     
     const Type & constgetterconst() const
@@ -52,6 +53,7 @@ public:
     {
         m_array[index] = val;
     }
+
 
 protected:
     Type m_var;

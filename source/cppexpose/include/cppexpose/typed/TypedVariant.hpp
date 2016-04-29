@@ -4,6 +4,8 @@
 
 #include <cppexpose/typed/TypedVariant.h>
 
+#include <cppexpose/variant/Variant.h>
+
 
 namespace cppexpose
 {

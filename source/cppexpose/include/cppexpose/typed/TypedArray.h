@@ -3,7 +3,6 @@
 
 
 #include <vector>
-#include <array>
 
 #include <cppexpose/typed/Typed.h>
 

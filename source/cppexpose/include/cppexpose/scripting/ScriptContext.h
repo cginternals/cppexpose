@@ -5,7 +5,6 @@
 #include <string>
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
@@ -14,7 +13,7 @@ namespace cppexpose
 
 class PropertyGroup;
 class AbstractScriptBackend;
-
+class Variant;
 
 /**
 *  @brief
