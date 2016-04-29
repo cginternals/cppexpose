@@ -64,6 +64,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_StaticGett
     delete prop;
 }
 
+/*
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_ConstGetterConst_SetterConst)
 {
     auto obj = new MyObject<TypeParam>("TestObject");
@@ -75,6 +76,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Con
     delete prop;
     delete obj;
 }
+*/
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_GetterConst_SetterConst)
 {
@@ -88,6 +90,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Get
     delete obj;
 }
 
+/*
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_GetterConst_Setter)
 {
     auto obj = new MyObject<TypeParam>("TestObject");
@@ -99,6 +102,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Get
     delete prop;
     delete obj;
 }
+*/
 
 // Propterty instanciaton (read only)
 

@@ -4,6 +4,7 @@
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/reflection/AbstractProperty.h>
+#include <cppexpose/typed/Typed.h>
 
 
 namespace cppexpose
