@@ -2,4 +2,4 @@
 #pragma once
 
 
-#include <cppexpose/typed_impl/typed_impl.hpp>
+#include <cppexpose/typed/typed_includes.hpp>
