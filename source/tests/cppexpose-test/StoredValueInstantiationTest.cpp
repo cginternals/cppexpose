@@ -1,8 +1,8 @@
 
 #include <gmock/gmock.h>
 
-#include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/typed/DirectValue.h>
+#include <cppexpose/typed/StoredValue.h>
 #include <utility>
 
 #include "MyObject.h"
