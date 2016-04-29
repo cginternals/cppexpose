@@ -7,7 +7,7 @@
 #include <string>
 
 #include <cppexpose/base/SerializerJSON.h>
-#include <cppexpose/typed/TypeInterface.hh>
+#include <cppexpose/typed/TypeInterface.h>
 
 
 namespace cppexpose

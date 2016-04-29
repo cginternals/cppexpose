@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypeInterface.hh>
+#include <cppexpose/typed/TypeInterface.h>
 #include <cppexpose/typed/AbstractTyped.hh>
 #include <cppexpose/typed/Typed.hh>
 #include <cppexpose/typed/TypedGeneric.hh>

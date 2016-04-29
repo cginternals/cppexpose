@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <cppexpose/typed/TypeInterface.hh>
+#include <cppexpose/typed/TypeInterface.h>
 
 
 namespace cppexpose
