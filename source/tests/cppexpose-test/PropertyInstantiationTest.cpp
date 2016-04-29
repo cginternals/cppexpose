@@ -6,6 +6,7 @@
 
 #include "MyObject.h"
 
+
 using namespace cppexpose;
 using std::string;
 
@@ -17,14 +18,16 @@ public:
     PropertyInstantiation_test()
     {
     }
-
-protected:
 };
+
 
 typedef ::testing::Types<bool, float, double, int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, string> InstantiationTypes;
 TYPED_TEST_CASE(PropertyInstantiation_test, InstantiationTypes);
 
-namespace {
+
+namespace
+{
+
 
 template <typename T>
 T staticGetter()
@@ -37,15 +40,22 @@ void staticSetter(T /*value*/)
 {
 }
 
+
 }
 
 
-// Propterty instanciaton (read/write)
+// Property instantiaton (read/write)
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return TypeParam();};
-    auto set = [] (const TypeParam & /*val*/) {};
+    auto get = [] ()
+    {
+        return TypeParam();
+    };
+
+    auto set = [] (const TypeParam & /*val*/)
+    {
+    };
 
     auto prop = new Property<TypeParam>("Property", get, set);
 
@@ -72,7 +82,6 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Con
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
-
     delete prop;
     delete obj;
 }
@@ -84,7 +93,6 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Get
     auto prop = new Property<TypeParam>("Property", obj, &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setterconst);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
-
 
     delete prop;
     delete obj;
@@ -98,17 +106,19 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Get
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
-
     delete prop;
     delete obj;
 }
 */
 
-// Propterty instanciaton (read only)
+// Property instantiaton (read only)
 
 TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_LambdaGetter)
 {
-    auto get = [] () {return TypeParam();};
+    auto get = [] ()
+    {
+        return TypeParam();
+    };
 
     auto prop = new Property<const TypeParam>("Property", get);
 
@@ -127,26 +137,26 @@ TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_Stati
     delete prop;
 }
 
-/*TYPED_TEST(PropertyInstanceBool_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
+/*
+TYPED_TEST(PropertyInstanceBool_test, instantiateConstPropertyWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<bool>("TestObject");
     auto prop = new Property<const bool>("boolProperty", obj, &MyObject<bool>::constgetterconst);
 
     ASSERT_EQ(typeid(bool), prop->type());
 
-
     delete prop;
     delete obj;
 }
 
-TYPED_TEST(PropertyInstanceBool_test, instanciateConstPropertyWith_String_Object_GetterConst)
+TYPED_TEST(PropertyInstanceBool_test, instantiateConstPropertyWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<bool>("TestObject");
     auto prop = new Property<const bool>("boolProperty", obj, &MyObject<bool>::getterconst);
 
     ASSERT_EQ(typeid(bool), prop->type());
 
-
     delete prop;
     delete obj;
-} */
+}
+*/

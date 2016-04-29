@@ -1,10 +1,13 @@
-#include <gmock/gmock.h>
 
 #include <string>
 
+#include <gmock/gmock.h>
+
 #include <reflectionzeug/base/Color.h>
 
+
 using namespace reflectionzeug;
+
 
 class Color_test : public testing::Test
 {
@@ -12,9 +15,8 @@ public:
     Color_test()
     {
     }
-
-protected:
 };
+
 
 TEST_F(Color_test, FromStringShouldFail)
 {

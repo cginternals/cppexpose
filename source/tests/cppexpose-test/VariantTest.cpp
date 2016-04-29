@@ -1,17 +1,21 @@
+
+#include <utility>
+
 #include <gmock/gmock.h>
 
 #include <cppexpose/variant/Variant.h>
-#include <utility>
+
 
 using namespace cppexpose;
 
+
 using memberFunc = bool (Variant::*)() const;
+
 
 bool equal(memberFunc first, memberFunc second)
 {
     return first == second;
 }
-
 
 
 class variantTest : public testing::Test
@@ -22,11 +26,12 @@ public:
     }
     
     virtual void SetUp() override;
+
     
 protected:
-    
     std::vector<memberFunc> methods;
 };
+
 
 void variantTest::SetUp()
 {
@@ -44,9 +49,9 @@ void variantTest::SetUp()
     methods.emplace_back(&Variant::isVariantMap);
 }
 
-void testType(Variant &var, std::vector<memberFunc> trueFuncs, const std::vector<memberFunc>& methods)
+void testType(Variant & var, std::vector<memberFunc> trueFuncs, const std::vector<memberFunc> & methods)
 {
-    for(auto& method : methods)
+    for (auto & method : methods)
     {
         bool test = (var.*method)();
         if(std::find(trueFuncs.begin(), trueFuncs.end(), method) != trueFuncs.end())
@@ -56,7 +61,7 @@ void testType(Variant &var, std::vector<memberFunc> trueFuncs, const std::vector
     }
 }
 
-void testType(Variant& var, memberFunc trueFunc, const std::vector<memberFunc>& methods)
+void testType(Variant & var, memberFunc trueFunc, const std::vector<memberFunc> & methods)
 {
     testType(var, std::vector<memberFunc>({trueFunc}), methods);
 }
