@@ -3,6 +3,7 @@
 
 
 #include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Property.h>
 
 #include <typeinfo>
 
