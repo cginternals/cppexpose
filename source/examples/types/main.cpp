@@ -22,8 +22,8 @@ public:
     , m_float(23.42)
     {
         addProperty<std::string>("string", this, &MyObject::getString, &MyObject::setString);
-        addProperty<int>        ("int ",   this, &MyObject::getInt, &MyObject::setInt);
-        addProperty<float>      ("float",  this, &MyObject::getFloat, &MyObject::setFloat);
+        addProperty<int>        ("int",    this, &MyObject::getInt,    &MyObject::setInt);
+        addProperty<float>      ("float",  this, &MyObject::getFloat,  &MyObject::setFloat);
     }
 
     virtual ~MyObject()
