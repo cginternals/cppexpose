@@ -55,7 +55,7 @@ using VariantMap = std::map<std::string, Variant>;
 *    VariantArray and VariantMap can be used to store collections or hierarchies of variants.
 *    For simplified usage, use the convenience functions array() or map() to create such variants,
 *    and asArray() or asMap() to access their data. These composite variants will automatically
-*    be interpreted as JSON arrays or objects within scriptzeug and can be serialized by the
+*    be interpreted as JSON arrays or objects within scripting and can be serialized by the
 *    JSON tool class.
 */
 class CPPEXPOSE_API Variant : public TypeInterface

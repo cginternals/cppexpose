@@ -14,12 +14,11 @@
 
 #include <cpplocate/ModuleInfo.h>
 
-#include <iozeug/filename.h>
-#include <iozeug/FilePath.h>
-#include <iozeug/directorytraversal.h>
-#include <iozeug/SystemInfo.h>
+#include <cppassist/io/SystemInfo.h>
+#include <cppassist/io/FilePath.h>
+#include <cppassist/io/directorytraversal.h>
 
-#include <loggingzeug/logging.h>
+#include <cppassist/logging/logging.h>
 
 #include <cppexpose/plugin/PluginLibrary.h>
 #include <cppexpose/plugin/AbstractComponent.h>
@@ -54,7 +53,7 @@ void ComponentManager::setSearchPaths(const std::vector<std::string> & paths)
     m_paths.clear();
 
     for (std::string path : paths) {
-        m_paths.push_back(iozeug::removeTrailingPathSeparator(path));
+        m_paths.push_back(cppassist::FilePath(path).path());
     }
 }
 
@@ -65,7 +64,7 @@ void ComponentManager::addSearchPath(const std::string & path)
         return;
 
     // Remove slash
-    const std::string p = iozeug::removeTrailingPathSeparator(path);
+    const std::string p = cppassist::FilePath(path).path();
 
     // Check if search path is already in the list
     const std::vector<std::string>::const_iterator it = std::find(m_paths.cbegin(), m_paths.cend(), p);
@@ -80,7 +79,7 @@ void ComponentManager::addSearchPath(const std::string & path)
 void ComponentManager::removeSearchPath(const std::string & path)
 {
     // Remove slash
-    const std::string p = iozeug::removeTrailingPathSeparator(path);
+    const std::string p = cppassist::FilePath(path).path();
 
     // Check if search path is in the list
     const std::vector<std::string>::iterator it = std::find(m_paths.begin(), m_paths.end(), p);
@@ -95,15 +94,15 @@ void ComponentManager::removeSearchPath(const std::string & path)
 void ComponentManager::scan(const std::string & identifier, bool reload)
 {
     // List all files in all search paths
-    const std::vector<std::string> files = iozeug::getFiles(m_paths, true);
+    const std::vector<std::string> files = cppassist::getFiles(m_paths, true);
     for (const std::string & file : files)
     {
         // Check if file is a library
-        if (iozeug::getExtension(file) != iozeug::SystemInfo::libExtension())
+        if (cppassist::FilePath(file).extension() != cppassist::SystemInfo::libExtension())
             continue;
 
         // Check if library name corresponds to search criteria
-        std::string query = identifier + "." + iozeug::SystemInfo::libExtension();
+        std::string query = identifier + "." + cppassist::SystemInfo::libExtension();
         if (identifier.empty() || file.find(query, file.find_last_of('/')) != std::string::npos)
             loadLibrary(file, reload);
     }
@@ -160,11 +159,11 @@ void ComponentManager::printComponents() const
     // Print info about each plugin
     for (AbstractComponent * component : m_components)
     {
-        loggingzeug::info() << " PLUGIN name: " << component->name() << " (" << component->type() << ")";
-        loggingzeug::info() << " description: " << component->description();
-        loggingzeug::info() << "     version: " << component->version();
-        loggingzeug::info() << "      vendor: " << component->vendor();
-        loggingzeug::info();
+        cppassist::info() << " PLUGIN name: " << component->name() << " (" << component->type() << ")";
+        cppassist::info() << " description: " << component->description();
+        cppassist::info() << "     version: " << component->version();
+        cppassist::info() << "      vendor: " << component->vendor();
+        cppassist::info();
     }
 }
 
@@ -191,7 +190,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
     if (!library->isValid())
     {
         // Loading failed. Destroy library object and return failure.
-        loggingzeug::warning() << (previous ? "Reloading" : "Loading") << " plugin(s) from '" << filePath << "' failed.";
+        cppassist::warning() << (previous ? "Reloading" : "Loading") << " plugin(s) from '" << filePath << "' failed.";
 
         delete library;
         return false;

@@ -9,7 +9,7 @@
     #include <dirent.h>
 #endif
 
-#include <loggingzeug/logging.h>
+#include <cppassist/logging/logging.h>
 
 #include <cppexpose/plugin/AbstractComponent.h>
 
@@ -61,7 +61,7 @@ PluginLibrary::PluginLibrary(const std::string & filePath)
     if (!m_handle)
     {
         // Could not be opened
-        loggingzeug::warning() << dlerror();
+        cppassist::warning() << dlerror();
         return;
     }
 

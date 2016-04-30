@@ -4,7 +4,7 @@
 # 
 
 find_package(cpplocate REQUIRED)
-find_package(libzeug REQUIRED)
+find_package(cppassist REQUIRED)
 
 set(ADDITIONAL_LIBRARIES)
 set(ADDITIONAL_INCLUDES)
@@ -288,8 +288,7 @@ target_link_libraries(${target}
     PRIVATE
     ${ADDITIONAL_LIBRARIES}
     cpplocate::cpplocate
-    libzeug::iozeug
-    libzeug::loggingzeug
+    cppassist::cppassist
 
     PUBLIC
     ${DEFAULT_LIBRARIES}
