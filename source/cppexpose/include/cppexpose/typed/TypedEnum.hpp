@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedEnum.h>
+#include <cppexpose/typed/TypedEnum.hh>
 
 #include <cassert>
 #include <type_traits>

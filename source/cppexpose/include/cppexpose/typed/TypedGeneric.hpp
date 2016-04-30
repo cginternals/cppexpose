@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedGeneric.h>
+#include <cppexpose/typed/TypedGeneric.hh>
 
 
 namespace cppexpose

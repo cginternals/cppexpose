@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedArray.h>
+#include <cppexpose/typed/TypedArray.hh>
 
 #include <sstream>
 

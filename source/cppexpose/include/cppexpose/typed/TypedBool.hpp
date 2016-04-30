@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedBool.h>
+#include <cppexpose/typed/TypedBool.hh>
 
 
 namespace cppexpose

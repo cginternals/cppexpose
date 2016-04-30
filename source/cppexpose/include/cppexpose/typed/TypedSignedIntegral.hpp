@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedSignedIntegral.h>
+#include <cppexpose/typed/TypedSignedIntegral.hh>
 
 #include <sstream>
 

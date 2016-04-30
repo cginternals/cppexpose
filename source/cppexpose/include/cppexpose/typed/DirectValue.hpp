@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/DirectValue.h>
+#include <cppexpose/typed/DirectValue.hh>
 
 
 namespace cppexpose

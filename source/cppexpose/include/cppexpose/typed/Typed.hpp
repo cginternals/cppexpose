@@ -2,11 +2,11 @@
 #pragma once
 
 
-#include <cppexpose/typed/Typed.h>
+#include <cppexpose/typed/Typed.hh>
 
 #include <typeinfo>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/variant/Variant.hh>
 
 
 namespace cppexpose

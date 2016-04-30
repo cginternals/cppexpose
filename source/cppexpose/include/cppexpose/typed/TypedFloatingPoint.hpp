@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedFloatingPoint.h>
+#include <cppexpose/typed/TypedFloatingPoint.hh>
 
 
 namespace cppexpose

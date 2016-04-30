@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/StoredValue.h>
+#include <cppexpose/typed/StoredValue.hh>
 
 
 namespace cppexpose

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedString.h>
+#include <cppexpose/typed/TypedString.hh>
 
 #include <cppexpose/base/string_helpers.h>
 
