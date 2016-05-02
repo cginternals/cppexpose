@@ -19,6 +19,18 @@ class AbstractComponent;
 
 /**
 *  @brief
+*    Search path type (to distinguish between automatic and user-defined paths)
+*/
+enum class SearchPathType
+{
+    All             ///< All search paths
+  , Internal    = 1 ///< Search path defined by the application itself (not to be saved to config)
+  , UserDefined = 2 ///< Search path defined by the user (saved to config)
+};
+
+
+/**
+*  @brief
 *    Class for loading and managing plugins
 */
 class CPPEXPOSE_API ComponentManager
@@ -44,19 +56,13 @@ public:
     *  @brief
     *    Get plugin search paths
     *
+    *  @param[in] type
+    *    Search path type
+    *
     *  @return
     *    List of paths that are searched for plugins
     */
-    const std::vector<std::string> & searchPaths() const;
-
-    /**
-    *  @brief
-    *    Set plugin search paths
-    *
-    *  @param[in] paths
-    *    List of paths that are searched for plugins
-    */
-    void setSearchPaths(const std::vector<std::string> & paths);
+    const std::vector<std::string> & searchPaths(SearchPathType type = SearchPathType::UserDefined) const;
 
     /**
     *  @brief
@@ -64,12 +70,16 @@ public:
     *
     *  @param[in] path
     *    Plugin search path
+    *  @param[in] type
+    *    Search path type
     *
     *  @remarks
     *    If path is empty or already in the path list, the path list is not changed.
     *    If no plugin path is provided, the default application path is used.
+    *    The type must be either UserDefined or Internal, calls to addSearchPath
+    *    with SearchPathType::All are ignored.
     */
-    void addSearchPath(const std::string & path);
+    void addSearchPath(const std::string & path, SearchPathType type = SearchPathType::UserDefined);
 
     /**
     *  @brief
@@ -182,7 +192,9 @@ protected:
 
 
 protected:
-    std::vector<std::string>                   m_paths;               ///< Search paths for plugins
+    std::vector<std::string>                   m_paths;               ///< Plugin search paths (all)
+    std::vector<std::string>                   m_pathsInternal;       ///< Plugin search paths (internal)
+    std::vector<std::string>                   m_pathsUser;           ///< Plugin search paths (user defined)
     std::vector<AbstractComponent *>           m_components;          ///< Available components
     std::map<std::string, PluginLibrary *>     m_librariesByFilePath; ///< Available components by path
     std::map<std::string, AbstractComponent *> m_componentsByName;    ///< Available components by name

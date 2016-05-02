@@ -43,25 +43,23 @@ ComponentManager::~ComponentManager()
     }
 }
 
-const std::vector<std::string> & ComponentManager::searchPaths() const
+const std::vector<std::string> & ComponentManager::searchPaths(SearchPathType type) const
 {
-    return m_paths;
-}
-
-void ComponentManager::setSearchPaths(const std::vector<std::string> & paths)
-{
-    m_paths.clear();
-
-    for (std::string path : paths) {
-        m_paths.push_back(cppassist::FilePath(path).path());
+    if (type == SearchPathType::Internal) {
+        return m_pathsInternal;
+    } else  if (type == SearchPathType::UserDefined) {
+        return m_pathsUser;
+    } else {
+        return m_paths;
     }
 }
 
-void ComponentManager::addSearchPath(const std::string & path)
+void ComponentManager::addSearchPath(const std::string & path, SearchPathType type)
 {
-    // Ignore empty path
-    if (path.empty())
+    // Ignore empty path or search path type
+    if (path.empty() || type == SearchPathType::All) {
         return;
+    }
 
     // Remove slash
     const std::string p = cppassist::FilePath(path).path();
@@ -74,6 +72,14 @@ void ComponentManager::addSearchPath(const std::string & path)
 
     // Add search path
     m_paths.push_back(p);
+
+    if (type == SearchPathType::Internal) {
+        m_pathsInternal.push_back(p);
+    }
+
+    if (type == SearchPathType::UserDefined) {
+        m_pathsUser.push_back(p);
+    }
 }
 
 void ComponentManager::removeSearchPath(const std::string & path)
@@ -81,14 +87,23 @@ void ComponentManager::removeSearchPath(const std::string & path)
     // Remove slash
     const std::string p = cppassist::FilePath(path).path();
 
-    // Check if search path is in the list
-    const std::vector<std::string>::iterator it = std::find(m_paths.begin(), m_paths.end(), p);
-    if (it == m_paths.end()) {
-        return;
+    // Remove path from list
+    {
+        const std::vector<std::string>::iterator it = std::find(m_paths.begin(), m_paths.end(), p);
+        if (it != m_paths.end()) m_paths.erase(it);
     }
 
-    // Remove search path
-    m_paths.erase(it);
+    // Remove path from internal list
+    {
+        const std::vector<std::string>::iterator it = std::find(m_pathsInternal.begin(), m_pathsInternal.end(), p);
+        if (it != m_pathsInternal.end()) m_pathsInternal.erase(it);
+    }
+
+    // Remove search path from user-defined list
+    {
+        const std::vector<std::string>::iterator it = std::find(m_pathsUser.begin(), m_pathsUser.end(), p);
+        if (it != m_pathsUser.end()) m_pathsUser.erase(it);
+    }
 }
 
 void ComponentManager::scan(const std::string & identifier, bool reload)
