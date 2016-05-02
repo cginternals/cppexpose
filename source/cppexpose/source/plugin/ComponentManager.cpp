@@ -137,17 +137,6 @@ bool ComponentManager::load(const std::string & filePath, const bool reload)
     return res;
 }
 
-const std::vector<AbstractComponent *> & ComponentManager::components() const
-{
-    // Return list of plugins
-    return m_components;
-}
-
-void ComponentManager::addComponent(AbstractComponent * component)
-{
-    m_components.push_back(component);
-}
-
 const std::vector<PluginLibrary *> ComponentManager::pluginLibraries() const
 {
     std::vector<PluginLibrary *> pluginLibraries;
@@ -156,6 +145,12 @@ const std::vector<PluginLibrary *> ComponentManager::pluginLibraries() const
         pluginLibraries.push_back(libraryIterator.second);
 
     return pluginLibraries;
+}
+
+const std::vector<AbstractComponent *> & ComponentManager::components() const
+{
+    // Return list of plugins
+    return m_components;
 }
 
 AbstractComponent * ComponentManager::component(const std::string & name) const
@@ -167,6 +162,11 @@ AbstractComponent * ComponentManager::component(const std::string & name) const
 
     // Return plugin
     return m_componentsByName.at(name);
+}
+
+void ComponentManager::addComponent(AbstractComponent * component)
+{
+    m_components.push_back(component);
 }
 
 void ComponentManager::printComponents() const

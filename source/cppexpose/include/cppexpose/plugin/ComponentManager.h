@@ -7,6 +7,7 @@
 #include <map>
 
 #include <cppexpose/signal/Signal.h>
+#include <cppexpose/plugin/TypedComponent.h>
 
 
 namespace cppexpose
@@ -14,7 +15,6 @@ namespace cppexpose
 
 
 class PluginLibrary;
-class AbstractComponent;
 
 
 /**
@@ -117,6 +117,15 @@ public:
 
     /**
     *  @brief
+    *    Get list of loaded plugin libraries
+    *
+    *  @return
+    *    List of plugin libraries
+    */
+    const std::vector<PluginLibrary *> pluginLibraries() const;
+
+    /**
+    *  @brief
     *    Get list of available components
     *
     *  @return
@@ -126,21 +135,13 @@ public:
 
     /**
     *  @brief
-    *    Add component
-    *
-    *  @param[in] component
-    *    Component
-    */
-    void addComponent(AbstractComponent * component);
-
-    /**
-    *  @brief
-    *    Get list of loaded plugin libraries
+    *    Get list of available components of a specific type
     *
     *  @return
-    *    List of plugin libraries
+    *    List of typed components
     */
-    const std::vector<PluginLibrary *> pluginLibraries() const;
+    template <typename Type>
+    const std::vector<TypedComponent<Type> *> & components() const;
 
     /**
     *  @brief
@@ -153,6 +154,28 @@ public:
     *    Pointer to the component, nullptr if no component with that name exists
     */
     AbstractComponent * component(const std::string & name) const;
+
+    /**
+    *  @brief
+    *    Get typed component
+    *
+    *  @param[in] name
+    *    Component name
+    *
+    *  @return
+    *    Pointer to the component, nullptr if component doesn't exist or has the wrong type
+    */
+    template <typename Type>
+    TypedComponent<Type> * component(const std::string & name) const;
+
+    /**
+    *  @brief
+    *    Add component
+    *
+    *  @param[in] component
+    *    Component
+    */
+    void addComponent(AbstractComponent * component);
 
     /**
     *  @brief
@@ -202,3 +225,6 @@ protected:
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/plugin/ComponentManager.hpp>
