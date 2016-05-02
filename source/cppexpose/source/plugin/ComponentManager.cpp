@@ -121,18 +121,12 @@ void ComponentManager::scan(const std::string & identifier, bool reload)
         if (identifier.empty() || file.find(query, file.find_last_of('/')) != std::string::npos)
             loadLibrary(file, reload);
     }
-
-    // Announce loaded plugins have changed
-    pluginsChanged();
 }
 
 bool ComponentManager::load(const std::string & filePath, const bool reload)
 {
     // Load plugin library
     bool res = loadLibrary(filePath, reload);
-
-    // Announce loaded plugins have changed
-    pluginsChanged();
 
     return res;
 }
@@ -167,6 +161,8 @@ AbstractComponent * ComponentManager::component(const std::string & name) const
 void ComponentManager::addComponent(AbstractComponent * component)
 {
     m_components.push_back(component);
+
+    componentsChanged();
 }
 
 void ComponentManager::printComponents() const

@@ -36,7 +36,7 @@ enum class SearchPathType
 class CPPEXPOSE_API ComponentManager
 {
 public:
-    Signal<> pluginsChanged;
+    Signal<> componentsChanged;
 
 
 public:
