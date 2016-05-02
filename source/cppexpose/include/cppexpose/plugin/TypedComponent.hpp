@@ -15,10 +15,11 @@ TypedComponent<Type>::TypedComponent(
   , const std::string & description
   , const std::string & type
   , const std::string & subtype
+  , const std::string & icon
   , const std::string & annotations
   , const std::string & vendor
   , const std::string & version)
-: AbstractComponent(name, description, type, subtype, annotations, vendor, version)
+: AbstractComponent(name, description, type, subtype, icon, annotations, vendor, version)
 {
 }
 

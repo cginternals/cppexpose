@@ -11,6 +11,7 @@ AbstractComponent::AbstractComponent(
   , const std::string & description
   , const std::string & type
   , const std::string & subtype
+  , const std::string & icon
   , const std::string & annotations
   , const std::string & vendor
   , const std::string & version)
@@ -18,6 +19,7 @@ AbstractComponent::AbstractComponent(
 , m_description(description)
 , m_type(type)
 , m_subtype(subtype)
+, m_icon(icon)
 , m_annotations(annotations)
 , m_vendor(vendor)
 , m_version(version)
@@ -46,6 +48,11 @@ const char * AbstractComponent::type() const
 const char * AbstractComponent::subtype() const
 {
     return m_subtype.c_str();
+}
+
+const char * AbstractComponent::icon() const
+{
+    return m_icon.c_str();
 }
 
 const char * AbstractComponent::annotations() const
