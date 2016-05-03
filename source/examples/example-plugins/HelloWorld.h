@@ -7,6 +7,11 @@
 #include <cppexpose/plugin/plugin_api.h>
 
 
+namespace cpplocate {
+    class ModuleInfo;
+}
+
+
 /**
 *  @brief
 *    Hello world example
@@ -20,8 +25,11 @@ public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] moduleInfo
+    *    Module info of the plugin library containing the component (if any)
     */
-    HelloWorld();
+    HelloWorld(const cpplocate::ModuleInfo & moduleInfo);
 
     /**
     *  @brief

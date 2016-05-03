@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-HelloWorld::HelloWorld()
+HelloWorld::HelloWorld(const cpplocate::ModuleInfo &)
 {
 }
 
