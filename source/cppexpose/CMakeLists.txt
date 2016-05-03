@@ -148,6 +148,7 @@ set(headers
     ${include_path}/scripting/AbstractScriptBackend.h
 
     ${include_path}/plugin/ComponentManager.h
+    ${include_path}/plugin/ComponentManager.hpp
     ${include_path}/plugin/AbstractComponent.h
     ${include_path}/plugin/TypedComponent.h
     ${include_path}/plugin/TypedComponent.hpp

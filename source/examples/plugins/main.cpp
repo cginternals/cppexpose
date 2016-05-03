@@ -21,8 +21,8 @@ int main(int, char * [])
     componentManager.addComponent(&BottlesOfBeer::Component);
 
     // Search for plugins in the current working directory
-    componentManager.addSearchPath(".");
-    componentManager.scan();
+    componentManager.addPluginPath(".");
+    componentManager.scanPlugins();
 
     // List available components
     std::cout << "Components:" << std::endl;

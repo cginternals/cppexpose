@@ -19,24 +19,34 @@ class PluginLibrary;
 
 /**
 *  @brief
-*    Search path type (to distinguish between automatic and user-defined paths)
+*    Plugin path type (to distinguish between automatic and user-defined paths)
 */
-enum class SearchPathType
+enum class PluginPathType
 {
-    All             ///< All search paths
-  , Internal    = 1 ///< Search path defined by the application itself (not to be saved to config)
-  , UserDefined = 2 ///< Search path defined by the user (saved to config)
+    All             ///< All plugin paths
+  , Internal    = 1 ///< Plugin path defined by the application itself (not to be saved to config)
+  , UserDefined = 2 ///< Plugin path defined by the user (saved to config)
 };
 
 
 /**
 *  @brief
-*    Class for loading and managing plugins
+*    Class for managing components and plugins
+*
+*    This class manages a list of components, which can be
+*    instantiated dynamically. A component, which is in fact
+*    a factory object, can either be defined directly inside
+*    a library or application, or be loaded from a plugin library.
+*
+*    The component manager offers functionality to register components,
+*    list components (either all or per type), and get components
+*    by name. It also provides functions for search and loading plugin
+*    libraries, which in turn register components on the component manager.
 */
 class CPPEXPOSE_API ComponentManager
 {
 public:
-    Signal<> componentsChanged;
+    Signal<> componentsChanged; ///< Called when a component has been added
 
 
 public:
@@ -54,41 +64,41 @@ public:
 
     /**
     *  @brief
-    *    Get plugin search paths
+    *    Get plugin paths
     *
     *  @param[in] type
-    *    Search path type
+    *    Plugin path type
     *
     *  @return
     *    List of paths that are searched for plugins
     */
-    const std::vector<std::string> & searchPaths(SearchPathType type = SearchPathType::UserDefined) const;
+    const std::vector<std::string> & pluginPaths(PluginPathType type = PluginPathType::UserDefined) const;
 
     /**
     *  @brief
-    *    Add plugin search path
+    *    Add plugin path
     *
     *  @param[in] path
-    *    Plugin search path
+    *    Plugin path
     *  @param[in] type
-    *    Search path type
+    *    Plugin path type
     *
     *  @remarks
     *    If path is empty or already in the path list, the path list is not changed.
     *    If no plugin path is provided, the default application path is used.
-    *    The type must be either UserDefined or Internal, calls to addSearchPath
-    *    with SearchPathType::All are ignored.
+    *    The type must be either UserDefined or Internal, calls to addPluginPath
+    *    with PluginPathType::All are ignored.
     */
-    void addSearchPath(const std::string & path, SearchPathType type = SearchPathType::UserDefined);
+    void addPluginPath(const std::string & path, PluginPathType type = PluginPathType::UserDefined);
 
     /**
     *  @brief
-    *    Remove plugin search path
+    *    Remove plugin path
     *
     *  @param[in] path
-    *    Plugin search path
+    *    Plugin path
     */
-    void removeSearchPath(const std::string & path);
+    void removePluginPath(const std::string & path);
 
     /**
     *  @brief
@@ -99,7 +109,7 @@ public:
     *  @param[in] reload
     *    Reload plugin libraries that are already loaded?
     */
-    void scan(const std::string & identifier = "", bool reload = false);
+    void scanPlugins(const std::string & identifier = "", bool reload = false);
 
     /**
     *  @brief
@@ -113,7 +123,7 @@ public:
     *  @return
     *    'true' if library has been loaded successfully, else 'false'
     */
-    bool load(const std::string & filePath, bool reload = true);
+    bool loadPlugin(const std::string & filePath, bool reload = true);
 
     /**
     *  @brief
@@ -215,9 +225,9 @@ protected:
 
 
 protected:
-    std::vector<std::string>                   m_paths;               ///< Plugin search paths (all)
-    std::vector<std::string>                   m_pathsInternal;       ///< Plugin search paths (internal)
-    std::vector<std::string>                   m_pathsUser;           ///< Plugin search paths (user defined)
+    std::vector<std::string>                   m_paths;               ///< Plugin paths (all)
+    std::vector<std::string>                   m_pathsInternal;       ///< Plugin paths (internal)
+    std::vector<std::string>                   m_pathsUser;           ///< Plugin paths (user defined)
     std::vector<AbstractComponent *>           m_components;          ///< Available components
     std::map<std::string, PluginLibrary *>     m_librariesByFilePath; ///< Available components by path
     std::map<std::string, AbstractComponent *> m_componentsByName;    ///< Available components by name

@@ -43,46 +43,46 @@ ComponentManager::~ComponentManager()
     }
 }
 
-const std::vector<std::string> & ComponentManager::searchPaths(SearchPathType type) const
+const std::vector<std::string> & ComponentManager::pluginPaths(PluginPathType type) const
 {
-    if (type == SearchPathType::Internal) {
+    if (type == PluginPathType::Internal) {
         return m_pathsInternal;
-    } else  if (type == SearchPathType::UserDefined) {
+    } else  if (type == PluginPathType::UserDefined) {
         return m_pathsUser;
     } else {
         return m_paths;
     }
 }
 
-void ComponentManager::addSearchPath(const std::string & path, SearchPathType type)
+void ComponentManager::addPluginPath(const std::string & path, PluginPathType type)
 {
-    // Ignore empty path or search path type
-    if (path.empty() || type == SearchPathType::All) {
+    // Check path and type
+    if (path.empty() || type == PluginPathType::All) {
         return;
     }
 
     // Remove slash
     const std::string p = cppassist::FilePath(path).path();
 
-    // Check if search path is already in the list
+    // Check if plugin path is already in the list
     const std::vector<std::string>::const_iterator it = std::find(m_paths.cbegin(), m_paths.cend(), p);
     if (it != m_paths.end()) {
         return;
     }
 
-    // Add search path
+    // Add plugin path
     m_paths.push_back(p);
 
-    if (type == SearchPathType::Internal) {
+    if (type == PluginPathType::Internal) {
         m_pathsInternal.push_back(p);
     }
 
-    if (type == SearchPathType::UserDefined) {
+    if (type == PluginPathType::UserDefined) {
         m_pathsUser.push_back(p);
     }
 }
 
-void ComponentManager::removeSearchPath(const std::string & path)
+void ComponentManager::removePluginPath(const std::string & path)
 {
     // Remove slash
     const std::string p = cppassist::FilePath(path).path();
@@ -99,16 +99,16 @@ void ComponentManager::removeSearchPath(const std::string & path)
         if (it != m_pathsInternal.end()) m_pathsInternal.erase(it);
     }
 
-    // Remove search path from user-defined list
+    // Remove path from user-defined list
     {
         const std::vector<std::string>::iterator it = std::find(m_pathsUser.begin(), m_pathsUser.end(), p);
         if (it != m_pathsUser.end()) m_pathsUser.erase(it);
     }
 }
 
-void ComponentManager::scan(const std::string & identifier, bool reload)
+void ComponentManager::scanPlugins(const std::string & identifier, bool reload)
 {
-    // List all files in all search paths
+    // List files in all plugin paths
     const std::vector<std::string> files = cppassist::getFiles(m_paths, true);
     for (const std::string & file : files)
     {
@@ -123,7 +123,7 @@ void ComponentManager::scan(const std::string & identifier, bool reload)
     }
 }
 
-bool ComponentManager::load(const std::string & filePath, const bool reload)
+bool ComponentManager::loadPlugin(const std::string & filePath, const bool reload)
 {
     // Load plugin library
     bool res = loadLibrary(filePath, reload);
