@@ -10,7 +10,7 @@ namespace cppexpose
 
 
 template <typename Type>
-const std::vector<TypedComponent<Type> *> & ComponentManager::components() const
+const std::vector<TypedComponent<Type> *> ComponentManager::components() const
 {
     std::vector<TypedComponent<Type> *> typedComponents;
 
