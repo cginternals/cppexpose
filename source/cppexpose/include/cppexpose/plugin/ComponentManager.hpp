@@ -10,11 +10,15 @@ namespace cppexpose
 
 
 template <typename Type>
-const std::vector<TypedComponent<Type> *> ComponentManager::components() const
+std::vector<TypedComponent<Type> *> ComponentManager::components() const
 {
     std::vector<TypedComponent<Type> *> typedComponents;
 
     const std::vector<AbstractComponent *> & all = this->components();
+
+    // assume that on average, half the components matches Type
+    typedComponents.reserve(all.size() / 2);
+
     for (AbstractComponent * component : all)
     {
         TypedComponent<Type> * typed = dynamic_cast<TypedComponent<Type> *>(component);
@@ -29,15 +33,7 @@ const std::vector<TypedComponent<Type> *> ComponentManager::components() const
 template <typename Type>
 TypedComponent<Type> * ComponentManager::component(const std::string & name) const
 {
-    // Get component
-    AbstractComponent * component = this->component(name);
-    if (!component) {
-        return nullptr;
-    }
-
-    // Cast to typed component
-    TypedComponent<Type> * typed = dynamic_cast<TypedComponent<Type> *>(component);
-    return typed;
+    return dynamic_cast<TypedComponent<Type> *>(this->component(name));
 }
 
 

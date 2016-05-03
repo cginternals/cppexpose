@@ -73,12 +73,14 @@ template <typename T>
 std::string TypedEnum<T>::toString() const
 {
     // Check if value has a string representation
-    if (m_stringMap.count(this->value()) < 1) {
+    const auto it = m_stringMap.find(this->value());
+
+    if (it != m_stringMap.cend()) {
         return "";
     }
 
     // Return string representation
-    return m_stringMap.at(this->value());
+    return it->second;
 }
 
 template <typename T>

@@ -134,6 +134,7 @@ bool ComponentManager::loadPlugin(const std::string & filePath, const bool reloa
 const std::vector<PluginLibrary *> ComponentManager::pluginLibraries() const
 {
     std::vector<PluginLibrary *> pluginLibraries;
+    pluginLibraries.reserve(m_librariesByFilePath.size());
 
     for (auto libraryIterator : m_librariesByFilePath)
         pluginLibraries.push_back(libraryIterator.second);
@@ -150,12 +151,15 @@ const std::vector<AbstractComponent *> & ComponentManager::components() const
 AbstractComponent * ComponentManager::component(const std::string & name) const
 {
     // Check if plugin exists
-    if (m_componentsByName.count(name) == 0) {
+    const auto it = m_componentsByName.find(name);
+
+    if (it == m_componentsByName.cend())
+    {
         return nullptr;
     }
 
     // Return plugin
-    return m_componentsByName.at(name);
+    return it->second;
 }
 
 void ComponentManager::addComponent(AbstractComponent * component)
@@ -168,7 +172,7 @@ void ComponentManager::addComponent(AbstractComponent * component)
 void ComponentManager::printComponents() const
 {
     // Print info about each plugin
-    for (AbstractComponent * component : m_components)
+    for (const AbstractComponent * component : m_components)
     {
         cppassist::info() << " PLUGIN name: " << component->name() << " (" << component->type() << ")";
         cppassist::info() << " description: " << component->description();

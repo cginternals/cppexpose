@@ -151,7 +151,7 @@ public:
     *    List of typed components
     */
     template <typename Type>
-    const std::vector<TypedComponent<Type> *> components() const;
+    std::vector<TypedComponent<Type> *> components() const;
 
     /**
     *  @brief
