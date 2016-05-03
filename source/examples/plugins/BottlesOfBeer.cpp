@@ -10,7 +10,7 @@
 using namespace cppexpose::helper;
 
 
-BottlesOfBeer::BottlesOfBeer(const cpplocate::ModuleInfo &)
+BottlesOfBeer::BottlesOfBeer()
 {
 }
 

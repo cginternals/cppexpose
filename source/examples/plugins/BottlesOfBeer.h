@@ -7,11 +7,6 @@
 #include <cppexpose/plugin/plugin_api.h>
 
 
-namespace cpplocate {
-    class ModuleInfo;
-}
-
-
 /**
 *  @brief
 *    99 bottles of beer example
@@ -25,11 +20,8 @@ public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] moduleInfo
-    *    Module info of the plugin library containing the component (if any)
     */
-    BottlesOfBeer(const cpplocate::ModuleInfo & moduleInfo);
+    BottlesOfBeer();
 
     /**
     *  @brief

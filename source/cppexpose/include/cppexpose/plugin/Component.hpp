@@ -31,7 +31,7 @@ Component<Type, BaseType>::~Component()
 template <typename Type, typename BaseType>
 BaseType * Component<Type, BaseType>::createInstance() const
 {
-    return new Type(this->m_moduleInfo);
+    return new Type();
 }
 
 
