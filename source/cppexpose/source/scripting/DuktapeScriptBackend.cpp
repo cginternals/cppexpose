@@ -6,6 +6,7 @@
 
 #include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
+#include <cppexpose/reflection/Method.h>
 #include <cppexpose/function/AbstractFunction.h>
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
@@ -31,10 +32,12 @@ static DuktapeScriptBackend * getScriptBackend(duk_context * context);
 static Variant fromDukValue(duk_context * context, duk_idx_t index);
 static void pushToDukStack(duk_context * context, const Variant & var);
 
+
 Function & getFunction(duk_context * context, size_t index)
 {
     return getScriptBackend(context)->m_functions[index];
 }
+
 
 class DuktapeFunction : public AbstractFunction
 {
@@ -140,7 +143,7 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
         duk_pop(context);
 
         // Return callable function
-        Function function("", new DuktapeFunction(context, funcIndex));
+        Function function(new DuktapeFunction(context, funcIndex));
         return Variant::fromValue<Function>(function);
     }
 
@@ -502,10 +505,10 @@ void DuktapeScriptBackend::registerObj(duk_idx_t parentId, PropertyGroup * obj)
     // Register object functions
     Object * scriptable = dynamic_cast<Object *>(obj);
     if (scriptable) {
-        const std::vector<Function> & funcs = scriptable->functions();
-        for (std::vector<Function>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
+        const std::vector<Method> & funcs = scriptable->functions();
+        for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
         {
-            Function func = *it;
+            const Method & func = *it;
             m_functions.push_back(func);
 
             duk_push_c_function(m_context, wrapFunction, DUK_VARARGS);

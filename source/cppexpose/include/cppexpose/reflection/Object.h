@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <cppexpose/function/Function.h>
 #include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Method.h>
 
 
 namespace cppexpose
@@ -37,9 +37,9 @@ public:
     *    Get list of functions exported by this object
     *
     *  @return
-    *    List of functions
+    *    List of methods
     */
-    const std::vector<Function> & functions() const;
+    const std::vector<Method> & functions() const;
 
     /**
     *  @brief
@@ -69,7 +69,7 @@ public:
 
 
 protected:
-    std::vector<Function> m_functions; ///< List of exported functions
+    std::vector<Method> m_functions; ///< List of exported functions
 };
 
 

@@ -15,7 +15,7 @@ Object::~Object()
 {
 }
 
-const std::vector<Function> & Object::functions() const
+const std::vector<Method> & Object::functions() const
 {
     return m_functions;
 }

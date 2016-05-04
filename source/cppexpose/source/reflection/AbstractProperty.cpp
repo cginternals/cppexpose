@@ -7,22 +7,17 @@ namespace cppexpose
 
 
 AbstractProperty::AbstractProperty()
-: m_name("")
+: Member("")
 {
 }
 
 AbstractProperty::AbstractProperty(const std::string & name)
-: m_name(name)
+: Member(name)
 {
 }
 
 AbstractProperty::~AbstractProperty()
 {
-}
-
-std::string AbstractProperty::name() const
-{
-    return m_name;
 }
 
 
