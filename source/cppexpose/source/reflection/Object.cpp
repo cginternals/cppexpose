@@ -6,8 +6,8 @@ namespace cppexpose
 {
 
 
-Object::Object(const std::string & name)
-: PropertyGroup(name)
+Object::Object(const std::string & name, PropertyGroup * parent)
+: PropertyGroup(name, parent)
 {
 }
 

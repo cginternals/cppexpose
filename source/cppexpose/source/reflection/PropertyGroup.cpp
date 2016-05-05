@@ -18,14 +18,14 @@ namespace cppexpose
 {
 
 
-PropertyGroup::PropertyGroup()
-: AbstractProperty()
+PropertyGroup::PropertyGroup(PropertyGroup * parent)
+: AbstractProperty(parent)
 , m_ownsProperties(true)
 {
 }
 
-PropertyGroup::PropertyGroup(const std::string & name)
-: AbstractProperty(name)
+PropertyGroup::PropertyGroup(const std::string & name, PropertyGroup * parent)
+: AbstractProperty(name, parent)
 , m_ownsProperties(true)
 {
 }

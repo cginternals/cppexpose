@@ -37,8 +37,11 @@ public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] parent
+    *    Parent object (can be null)
     */
-    PropertyGroup();
+    PropertyGroup(PropertyGroup * parent = nullptr);
 
     /**
     *  @brief
@@ -46,8 +49,10 @@ public:
     *
     *  @param[in] name
     *    Name
+    *  @param[in] parent
+    *    Parent object (can be null)
     */
-    PropertyGroup(const std::string & name);
+    PropertyGroup(const std::string & name, PropertyGroup * parent = nullptr);
 
     /**
     *  @brief
