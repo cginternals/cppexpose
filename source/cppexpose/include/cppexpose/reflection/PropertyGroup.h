@@ -25,7 +25,6 @@ class Property;
 class CPPEXPOSE_API PropertyGroup : public AbstractTyped, public AbstractProperty
 {
 public:
-    // [TODO]
     Signal<size_t, AbstractProperty *> beforeAdd;   ///< Called, before a property is added to the group
     Signal<size_t, AbstractProperty *> afterAdd;    ///< Called, after a property is added to the group
     Signal<size_t> beforeRemove;                    ///< Called, before a property is removed from the group
