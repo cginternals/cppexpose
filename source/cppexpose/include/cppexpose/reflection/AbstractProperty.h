@@ -2,7 +2,9 @@
 #pragma once
 
 
-#include <cppexpose/reflection/Member.h>
+#include <string>
+
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
@@ -10,20 +12,24 @@ namespace cppexpose
 
 
 class AbstractTyped;
+class PropertyGroup;
 
 
 /**
 *  @brief
 *    Base class for properties
 */
-class CPPEXPOSE_API AbstractProperty : public Member
+class CPPEXPOSE_API AbstractProperty
 {
 public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] parent
+    *    Parent object (can be null)
     */
-    AbstractProperty();
+    AbstractProperty(PropertyGroup * parent = nullptr);
 
     /**
     *  @brief
@@ -31,14 +37,34 @@ public:
     *
     *  @param[in] name
     *    Name
+    *  @param[in] parent
+    *    Parent object (can be null)
     */
-    AbstractProperty(const std::string & name);
+    AbstractProperty(const std::string & name, PropertyGroup * parent = nullptr);
 
     /**
     *  @brief
     *    Destructor
     */
     virtual ~AbstractProperty();
+
+    /**
+    *  @brief
+    *    Get name
+    *
+    *  @return
+    *    Name
+    */
+    std::string name() const;
+
+    /**
+    *  @brief
+    *    Get parent object
+    *
+    *  @return
+    *    Parent (can be null)
+    */
+    PropertyGroup * parent() const;
 
     /**
     *  @brief
@@ -66,6 +92,11 @@ public:
     *    'true' if property is a property group, else 'false'
     */
     virtual bool isGroup() const = 0;
+
+
+protected:
+    std::string     m_name;   ///< Name of the property
+    PropertyGroup * m_parent; ///< Parent object
 };
 
 

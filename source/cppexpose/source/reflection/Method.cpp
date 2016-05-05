@@ -8,15 +8,17 @@ namespace cppexpose
 {
 
 
-Method::Method(const std::string & name, AbstractFunction * func)
+Method::Method(AbstractFunction * func, PropertyGroup * parent)
 : Function(func)
-, Member(name)
+, m_name("")
+, m_parent(parent)
 {
 }
 
-Method::Method(const Method & other)
-: Function(static_cast<const Function &>(other))
-, Member(other.m_name)
+Method::Method(const std::string & name, AbstractFunction * func, PropertyGroup * parent)
+: Function(func)
+, m_name(name)
+, m_parent(parent)
 {
 }
 
@@ -24,17 +26,14 @@ Method::~Method()
 {
 }
 
-Method & Method::operator=(const Method & other)
+std::string Method::name() const
 {
-    // Delete old function
-    if (m_func) {
-        delete m_func;
-    }
+    return m_name;
+}
 
-    // Copy function
-    m_name = other.m_name;
-    m_func = other.m_func ? other.m_func->clone() : nullptr;
-    return *this;
+PropertyGroup * Method::parent() const
+{
+    return m_parent;
 }
 
 

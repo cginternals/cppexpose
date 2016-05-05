@@ -13,6 +13,7 @@
 namespace cppexpose
 {
 
+
 template <typename T>
 class Property;
 
