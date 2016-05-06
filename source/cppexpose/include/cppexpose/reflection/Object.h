@@ -26,7 +26,7 @@ public:
     *  @param[in] parent
     *    Parent object (can be null)
     */
-    Object(const std::string & name, PropertyGroup * parent = nullptr);
+    Object(const std::string & name = "", PropertyGroup * parent = nullptr);
 
     /**
     *  @brief

@@ -15,7 +15,6 @@ DynamicProperty<T>::DynamicProperty(PropertyGroup * parent, const std::string & 
 : DirectValue<T>(std::forward<Args>(args)...)
 , AbstractProperty(name, parent)
 {
-    parent->addProperty(this, Ownership::Object);
 }
 
 template <typename T>

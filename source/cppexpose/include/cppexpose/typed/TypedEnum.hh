@@ -55,6 +55,7 @@ public:
     virtual std::string typeName() const override;
     virtual bool isNumber() const override;
     virtual bool isIntegral() const override;
+    virtual bool fromVariant(const Variant & variant) override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
     virtual bool toBool() const override;

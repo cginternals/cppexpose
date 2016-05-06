@@ -70,17 +70,31 @@ bool TypedEnum<T>::isIntegral() const
 }
 
 template <typename T>
+bool TypedEnum<T>::fromVariant(const Variant & variant)
+{
+    if (variant.hasType<T>()) {
+        this->setValue(variant.value<T>());
+        return true;
+    } else {
+        this->setValue((T)variant.value<int>());
+        return true;
+    }
+
+    return false;
+}
+
+template <typename T>
 std::string TypedEnum<T>::toString() const
 {
     // Check if value has a string representation
     const auto it = m_stringMap.find(this->value());
 
+    // Return string representation
     if (it != m_stringMap.cend()) {
-        return "";
+        return it->second;
     }
 
-    // Return string representation
-    return it->second;
+    return "";
 }
 
 template <typename T>
