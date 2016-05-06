@@ -4,23 +4,33 @@
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/reflection/AbstractProperty.h>
-#include <cppexpose/typed/Typed.h>
+#include <cppexpose/typed/StoredValue.hh>
 
 
 namespace cppexpose
 {
 
 
-template <typename T>
-class StoredValue;
-
-
 /**
 *  @brief
-*    Representation for typed properties of an object
+*    Representation of object properties
+*
+*    A property describes a variable value that belongs to an object.
+*    It defines name and value type and provides an interface through
+*    which this value can be accessed at runtime. For example, the type
+*    and value can be queried, and automatic type conversions can be
+*    invoked. Properties are for example used to expose object values
+*    for UI and scripting interfaces.
+*
+*    Regular properties defined by this class use getter and setter
+*    methods to access the actual property value. Those are specified
+*    when declaring the property. This kind of property is regarded
+*    as static, since the property is defined on a class and is always
+*    present when an object of that class is created. For creating
+*    properties on objects dynamically at runtime, see DynamicProperty.
 */
 template <typename T>
-class Property : public Typed<T>, public AbstractProperty
+class Property : public StoredValue<T>, public AbstractProperty
 {
 public:
     Signal<const T &> valueChanged;  ///< Called when the value has been changed
@@ -31,13 +41,20 @@ public:
     *  @brief
     *    Constructor
     *
+    *  @param[in] parent
+    *    Parent object (must NOT be null!)
     *  @param[in] name
     *    Property name
     *  @param[in] args
     *    Arguments for the typed value (see StoredValueSingle and StoredValueArray)
+    *
+    *  @remarks
+    *    The property is created and added to the given parent object.
+    *    The parent object does NOT take ownership over the property, so it must
+    *    be managed from the outside, e.g., by direct instantiation.
     */
     template <typename... Args>
-    Property(const std::string & name, Args&&... args);
+    Property(PropertyGroup * parent, const std::string & name, Args&&... args);
 
     /**
     *  @brief
@@ -50,48 +67,10 @@ public:
     virtual const AbstractTyped * asTyped() const override;
     virtual bool isGroup() const override;
 
+
+protected:
     // Virtual Typed<T> interface
-    virtual T value() const override;
-    virtual void setValue(const T & value) override;
-
-    // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const;
-    virtual const std::type_info & type() const;
-    virtual std::string typeName() const;
-    virtual bool isReadOnly() const;
-    virtual bool isComposite() const;
-    virtual size_t numSubValues() const;
-    virtual AbstractTyped * subValue(size_t i);
-    virtual bool isEnum() const override;
-    virtual bool isArray() const override;
-    virtual bool isVariant() const override;
-    virtual bool isString() const override;
-    virtual bool isBool() const override;
-    virtual bool isNumber() const override;
-    virtual bool isIntegral() const override;
-    virtual bool isSignedIntegral() const override;
-    virtual bool isUnsignedIntegral() const override;
-    virtual bool isFloatingPoint() const override;
-    virtual Variant toVariant() const override;
-    virtual bool fromVariant(const Variant & value) override;
-    virtual std::string toString() const override;
-    virtual bool fromString(const std::string & value) override;
-    virtual bool toBool() const override;
-    virtual bool fromBool(bool value) override;
-    virtual long long toLongLong() const override;
-    virtual bool fromLongLong(long long value) override;
-    virtual unsigned long long toULongLong() const override;
-    virtual bool fromULongLong(unsigned long long value) override;
-    virtual double toDouble() const override;
-    virtual bool fromDouble(double value) override;
-
-
-protected:
     virtual void onValueChanged(const T & value) override;
-
-
-protected:
-    StoredValue<T> * m_value;
 };
 
 

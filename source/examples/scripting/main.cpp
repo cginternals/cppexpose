@@ -14,16 +14,21 @@ using namespace cppexpose;
 class MyObject : public Object
 {
 public:
+    Property<std::string> String;
+    Property<int>         Int;
+    Property<float>       Float;
+
+
+public:
     MyObject(const std::string & name = "obj")
     : Object(name)
+    , String(this, "string", this, &MyObject::getString, &MyObject::setString)
+    , Int   (this, "int"   , this, &MyObject::getInt,    &MyObject::setInt)
+    , Float (this, "float",  this, &MyObject::getFloat,  &MyObject::setFloat)
     , m_string("Hallo")
     , m_int(100)
     , m_float(23.42)
     {
-        addProperty<std::string>("string", this, &MyObject::getString, &MyObject::setString);
-        addProperty<int>        ("int",    this, &MyObject::getInt, &MyObject::setInt);
-        addProperty<float>      ("float",  this, &MyObject::getFloat,  &MyObject::setFloat);
-
         addFunction("print",        this, &MyObject::print);
         addFunction("test",         this, &MyObject::test);
         addFunction("setFunction",  this, &MyObject::setFunction);

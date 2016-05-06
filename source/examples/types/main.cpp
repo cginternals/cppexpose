@@ -15,15 +15,21 @@ using namespace cppexpose;
 class MyObject : public Object
 {
 public:
+    Property<std::string> String;
+    Property<int>         Int;
+    Property<float>       Float;
+
+
+public:
     MyObject(const std::string & name = "Object")
     : Object(name)
+    , String(this, "string", this, &MyObject::getString, &MyObject::setString)
+    , Int   (this, "int"   , this, &MyObject::getInt,    &MyObject::setInt)
+    , Float (this, "float",  this, &MyObject::getFloat,  &MyObject::setFloat)
     , m_string("Hallo")
     , m_int(100)
     , m_float(23.42)
     {
-        addProperty<std::string>("string", this, &MyObject::getString, &MyObject::setString);
-        addProperty<int>        ("int",    this, &MyObject::getInt,    &MyObject::setInt);
-        addProperty<float>      ("float",  this, &MyObject::getFloat,  &MyObject::setFloat);
     }
 
     virtual ~MyObject()
@@ -187,10 +193,11 @@ int main(int, char * [])
     MyValue myValue;
 
     DirectValue<unsigned int> int1;
-    Property<const int> int2("int2", &getValue);
-    Property<int> int3("int3", &myValue, &MyValue::value, &MyValue::setValue);
+    PropertyGroup group;
+    Property<const int> int2(&group, "int2", &getValue);
+    Property<int> int3(&group, "int3", &myValue, &MyValue::value, &MyValue::setValue);
 //  DirectValue< std::array<int, 3> > ints;
-    Property< std::array<int, 3> > ints("ints", &getArray, &setArray, &getElement, &setElement);
+    Property< std::array<int, 3> > ints(&group, "ints", &getArray, &setArray, &getElement, &setElement);
     DirectValue<std::string> str1;
     DirectValue<bool> bln1;
     DirectValue<Mood> mood(Mood::Sad);

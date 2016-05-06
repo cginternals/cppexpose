@@ -4,6 +4,7 @@
 
 #include <cppexpose/reflection/PropertyGroup.h>
 #include <cppexpose/reflection/Property.h>
+#include <cppexpose/reflection/DynamicProperty.h>
 
 #include <typeinfo>
 
@@ -33,21 +34,6 @@ const Property<T> * PropertyGroup::property(const std::string & path) const
         return static_cast<const Property<T> *>(this->property(path));
     }
 
-    return nullptr;
-}
-
-template <typename T, typename... Args>
-Property<T> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
-{
-    // Create new property
-    auto property = new Property<T>(name, std::forward<Args>(args)...);
-    if (this->addProperty(property))
-    {
-        return property;
-    }
-
-    // Error, delete property and return
-    delete property;
     return nullptr;
 }
 

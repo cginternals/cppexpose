@@ -143,6 +143,8 @@ set(headers
     ${include_path}/reflection/PropertyGroup.h
     ${include_path}/reflection/Property.h
     ${include_path}/reflection/Property.hpp
+    ${include_path}/reflection/DynamicProperty.h
+    ${include_path}/reflection/DynamicProperty.hpp
     ${include_path}/reflection/Method.h
 
     ${include_path}/scripting/ScriptContext.h

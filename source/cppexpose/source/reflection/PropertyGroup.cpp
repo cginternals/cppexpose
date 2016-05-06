@@ -20,13 +20,11 @@ namespace cppexpose
 
 PropertyGroup::PropertyGroup(PropertyGroup * parent)
 : AbstractProperty(parent)
-, m_ownsProperties(true)
 {
 }
 
 PropertyGroup::PropertyGroup(const std::string & name, PropertyGroup * parent)
 : AbstractProperty(name, parent)
-, m_ownsProperties(true)
 {
 }
 
@@ -37,6 +35,13 @@ PropertyGroup::~PropertyGroup()
 
 void PropertyGroup::clear()
 {
+    // Destroy managed properties
+    for (AbstractProperty * property : m_managedProperties)
+    {
+        delete property;
+    }
+    m_managedProperties.clear();
+
     // Remove all properties
     auto it = m_properties.begin();
     while (it != m_properties.end())
@@ -46,13 +51,6 @@ void PropertyGroup::clear()
 
         // Invoke callback
         beforeRemove(index);
-
-        // Delete property
-        if (m_ownsProperties)
-        {
-            AbstractProperty * property = *it;
-            delete property;
-        }
 
         // Remove property
         m_propertiesMap.erase((*it)->name());
@@ -136,12 +134,12 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     return static_cast<const PropertyGroup *>(property);
 }
 
-AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
+void PropertyGroup::addProperty(AbstractProperty * property, Ownership ownership)
 {
     // Reject properties that have no name or whose name already exists
     if (!property || this->propertyExists(property->name()))
     {
-        return nullptr;
+        return;
     }
 
     // Invoke callback
@@ -151,25 +149,14 @@ AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
     m_properties.push_back(property);
     m_propertiesMap.insert(std::make_pair(property->name(), property));
 
-    // Invoke callback
-    afterAdd(m_properties.size(), property);
-
-    // Return property
-    return property;
-}
-
-PropertyGroup * PropertyGroup::addGroup(const std::string & name)
-{
-    // Create group
-    PropertyGroup * group = new PropertyGroup(name);
-    if (!this->addProperty(group))
+    // If ownership is on the object, put property into managed list
+    if (ownership == Ownership::Object)
     {
-        // Abort, if group could not be added
-        delete group;
-        return nullptr;
+        m_managedProperties.push_back(property);
     }
 
-    return group;
+    // Invoke callback
+    afterAdd(m_properties.size(), property);
 }
 
 AbstractTyped * PropertyGroup::asTyped()

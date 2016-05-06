@@ -20,6 +20,17 @@ class Property;
 
 /**
 *  @brief
+*    Property ownership
+*/
+enum class Ownership
+{
+    Self = 1, ///< The property owns itself, deletion must be managed from the outside
+    Object    ///< The object owns the property and takes care of it's deletion
+};
+
+
+/**
+*  @brief
 *    Base class for reflection-enabled objects
 */
 class CPPEXPOSE_API PropertyGroup : public AbstractTyped, public AbstractProperty
@@ -64,7 +75,7 @@ public:
     *    Clear properties
     *
     *    Removes all properties from the group.
-    *    If m_ownsProperties is 'true', the removed properties are deleted.
+    *    Properties which have been added with Ownership::Object are deleted.
     */
     void clear();
 
@@ -162,38 +173,10 @@ public:
     *
     *  @param[in] property
     *    Property
-    *
-    *  @return
-    *    Pointer to the new property, or nullptr on error
+    *  @param[in] ownership
+    *    Ownership of the property
     */
-    AbstractProperty * addProperty(AbstractProperty * property);
-
-    /**
-    *  @brief
-    *    Create and add property
-    *
-    *  @param[in] name
-    *    Property name
-    *  @param[in] args
-    *    Property arguments
-    *
-    *  @return
-    *    Pointer to the new property, or nullptr on error
-    */
-    template <typename Type, typename... Args>
-    Property<Type> * addProperty(const std::string & name, Args&&... args);
-
-    /**
-    *  @brief
-    *    Create and add property group
-    *
-    *  @param[in] name
-    *    Name of property group
-    *
-    *  @return
-    *    Pointer to the new property group, or nullptr on error
-    */
-    PropertyGroup * addGroup(const std::string & name);
+    void addProperty(AbstractProperty * property, Ownership ownership = Ownership::Object);
     //@}
 
     // Virtual AbstractProperty interface
@@ -238,9 +221,9 @@ protected:
 
 
 protected:
-    std::vector<AbstractProperty *>                     m_properties;    ///< List of properties in the group
-    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap; ///< Map of names and properties
-    bool m_ownsProperties; ///< [TODO] Remove!
+    std::vector<AbstractProperty *>                     m_properties;        ///< List of properties in the group
+    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;     ///< Map of names and properties
+    std::vector<AbstractProperty *>                     m_managedProperties; ///< Property that are managed by the property group
 };
 
 
