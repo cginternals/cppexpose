@@ -3,13 +3,15 @@
 # External dependencies
 # 
 
+find_package(cpplocate REQUIRED)
+
 
 # 
 # Executable name and options
 # 
 
 # Target name
-set(target types)
+set(target plugin-example)
 
 # Exit here if required dependencies are not met
 message(STATUS "Example ${target}")
@@ -21,6 +23,8 @@ message(STATUS "Example ${target}")
 
 set(sources
     main.cpp
+    BottlesOfBeer.cpp
+    BottlesOfBeer.h
 )
 
 
@@ -67,6 +71,7 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
+    cpplocate::cpplocate
     ${META_PROJECT_NAME}::cppexpose
 )
 

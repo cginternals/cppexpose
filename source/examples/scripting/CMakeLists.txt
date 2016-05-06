@@ -9,7 +9,7 @@
 # 
 
 # Target name
-set(target scripting)
+set(target scripting-example)
 
 # Exit here if required dependencies are not met
 message(STATUS "Example ${target}")

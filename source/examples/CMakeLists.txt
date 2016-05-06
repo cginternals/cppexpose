@@ -4,9 +4,10 @@ if(NOT OPTION_BUILD_EXAMPLES)
     return()
 endif()
 
+# Example plugins
+add_subdirectory(example-plugins)
+
 # Example applications
-add_subdirectory(types)
 add_subdirectory(property)
 add_subdirectory(scripting)
-add_subdirectory(plugins)
-add_subdirectory(example-plugins)
+add_subdirectory(plugin)
