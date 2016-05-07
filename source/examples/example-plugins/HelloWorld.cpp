@@ -22,7 +22,7 @@ void HelloWorld::run()
 
 CPPEXPOSE_COMPONENT(
     HelloWorld, cppexpose::Example,
-    "", // Subtype
+    "", // Tags
     "", // Icon
     "", // Annotations
     "Prints 'Hello World' to the console",

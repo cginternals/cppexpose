@@ -29,7 +29,7 @@ void BottlesOfBeer::run()
 
 CPPEXPOSE_COMPONENT(
     BottlesOfBeer, cppexpose::Example,
-    "", // Subtype
+    "", // Tags
     "", // Icon
     "", // Annotations
     "Drinks and counts",

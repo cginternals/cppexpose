@@ -33,7 +33,7 @@ int main(int, char * [])
         std::cout << "name:        " << component->name() << std::endl;
         std::cout << "description: " << component->description() << std::endl;
         std::cout << "type:        " << component->type() << std::endl;
-        std::cout << "subtype:     " << component->subtype() << std::endl;
+        std::cout << "tags:        " << component->tags() << std::endl;
         std::cout << "annotations: " << component->annotations() << std::endl;
         std::cout << "vendor:      " << component->vendor() << std::endl;
         std::cout << "version:     " << component->version() << std::endl;

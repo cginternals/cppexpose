@@ -20,12 +20,12 @@
     public: \
         static cppexpose::Component<TYPE, BASETYPE> Component;
 
-#define CPPEXPOSE_COMPONENT(TYPE, BASETYPE, SUBTYPE, ICON, ANNOTATIONS, DESCRIPTION, VENDOR, VERSION) \
+#define CPPEXPOSE_COMPONENT(TYPE, BASETYPE, TAGS, ICON, ANNOTATIONS, DESCRIPTION, VENDOR, VERSION) \
     cppexpose::Component<TYPE, BASETYPE> TYPE::Component( \
         #TYPE, \
         DESCRIPTION, \
         #BASETYPE, \
-        SUBTYPE, \
+        TAGS, \
         ICON, \
         ANNOTATIONS, \
         VENDOR, \
