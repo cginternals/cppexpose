@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>
@@ -16,17 +17,6 @@ namespace cppexpose
 
 template <typename T>
 class Property;
-
-
-/**
-*  @brief
-*    Property ownership
-*/
-enum class Ownership
-{
-    Self = 1, ///< The property owns itself, deletion must be managed from the outside
-    Object    ///< The object owns the property and takes care of it's deletion
-};
 
 
 /**
@@ -75,7 +65,7 @@ public:
     *    Clear properties
     *
     *    Removes all properties from the group.
-    *    Properties which have been added with Ownership::Object are deleted.
+    *    Properties which have been added with takeOwnership() are deleted.
     */
     void clear();
 
@@ -172,11 +162,33 @@ public:
     *    Add property
     *
     *  @param[in] property
-    *    Property
-    *  @param[in] ownership
-    *    Ownership of the property
+    *    Property (must NOT be null!)
+    *
+    *  @return
+    *    Property (must NOT be null!)
+    *
+    *  @remarks
+    *    There is no automatic transfer of ownership to the property group.
+    *    If you want the property group to manage destruction of properties,
+    *    use takeOwnership();
     */
-    void addProperty(AbstractProperty * property, Ownership ownership = Ownership::Object);
+    AbstractProperty * addProperty(AbstractProperty * property);
+
+    /**
+    *  @brief
+    *    Take ownership over a property
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @remarks
+    *    With this function, the property group takes over ownership
+    *    over the specified property, so the property will be deleted
+    *    together with the object in its destructor. Use this function
+    *    after adding properties, if you are not managing their
+    *    destruction by yourself.
+    */
+    void takeOwnership(AbstractProperty * property);
     //@}
 
     // Virtual AbstractProperty interface

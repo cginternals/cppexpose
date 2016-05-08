@@ -15,9 +15,8 @@ template <typename T>
 template <typename... Args>
 Property<T>::Property(PropertyGroup * parent, const std::string & name, Args&&... args)
 : StoredValue<T>(std::forward<Args>(args)...)
-, AbstractProperty(name)
+, AbstractProperty(name, parent)
 {
-    parent->addProperty(this, Ownership::Self);
 }
 
 template <typename T>

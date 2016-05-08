@@ -134,12 +134,12 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     return static_cast<const PropertyGroup *>(property);
 }
 
-void PropertyGroup::addProperty(AbstractProperty * property, Ownership ownership)
+AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
 {
     // Reject properties that have no name or whose name already exists
     if (!property || this->propertyExists(property->name()))
     {
-        return;
+        return nullptr;
     }
 
     // Invoke callback
@@ -149,14 +149,24 @@ void PropertyGroup::addProperty(AbstractProperty * property, Ownership ownership
     m_properties.push_back(property);
     m_propertiesMap.insert(std::make_pair(property->name(), property));
 
-    // If ownership is on the object, put property into managed list
-    if (ownership == Ownership::Object)
-    {
-        m_managedProperties.push_back(property);
-    }
-
     // Invoke callback
     afterAdd(m_properties.size(), property);
+
+    // Return pointer to property
+    return property;
+}
+
+void PropertyGroup::takeOwnership(AbstractProperty * property)
+{
+    // Check property
+    if (!property ||
+        std::find(m_managedProperties.begin(), m_managedProperties.end(), property) != m_managedProperties.end())
+    {
+        return;
+    }
+
+    // Put property into managed list
+    m_managedProperties.push_back(property);
 }
 
 AbstractTyped * PropertyGroup::asTyped()

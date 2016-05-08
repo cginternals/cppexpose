@@ -77,12 +77,14 @@ int main(int, char * [])
     {
         std::string name = "sub" + toString<int>(i);
         Object * sub = new Object(name, root);
-        root->addProperty(sub);
+        root->takeOwnership(sub);
 
         for (int j=1; j<=4; j++)
         {
             std::string name = "value" + toString<int>(j);
-            sub->addProperty(new DynamicProperty<int>(sub, name, i * 10 + j));
+            sub->takeOwnership(
+                new DynamicProperty<int>(sub, name, i * 10 + j)
+            );
         }
     }
 

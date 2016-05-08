@@ -44,7 +44,7 @@ public:
     *  @param[in] name
     *    Property name
     *  @param[in] args
-    *    Arguments for the typed value (see StoredValueSingle and StoredValueArray)
+    *    Arguments for the typed value (see DirectValueSingle and DirectValueArray)
     *
     *  @remarks
     *    The property is created and added to the given parent object.
