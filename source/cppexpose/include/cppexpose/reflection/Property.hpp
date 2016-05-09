@@ -15,7 +15,7 @@ template <typename T>
 template <typename... Args>
 Property<T>::Property(PropertyGroup * parent, const std::string & name, Args&&... args)
 : StoredValue<T>(std::forward<Args>(args)...)
-, AbstractProperty(name, parent)
+, TypedProperty<T>(parent, name)
 {
 }
 
@@ -34,12 +34,6 @@ template <typename T>
 const AbstractTyped * Property<T>::asTyped() const
 {
     return static_cast<const AbstractTyped *>(this);
-}
-
-template <typename T>
-bool Property<T>::isGroup() const
-{
-    return false;
 }
 
 template <typename T>

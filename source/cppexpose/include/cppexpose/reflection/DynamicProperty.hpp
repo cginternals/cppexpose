@@ -13,7 +13,7 @@ template <typename T>
 template <typename... Args>
 DynamicProperty<T>::DynamicProperty(PropertyGroup * parent, const std::string & name, Args&&... args)
 : DirectValue<T>(std::forward<Args>(args)...)
-, AbstractProperty(name, parent)
+, TypedProperty<T>(parent, name)
 {
 }
 
@@ -32,12 +32,6 @@ template <typename T>
 const AbstractTyped * DynamicProperty<T>::asTyped() const
 {
     return static_cast<const AbstractTyped *>(this);
-}
-
-template <typename T>
-bool DynamicProperty<T>::isGroup() const
-{
-    return false;
 }
 
 template <typename T>

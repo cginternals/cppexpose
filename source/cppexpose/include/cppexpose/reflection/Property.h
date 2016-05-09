@@ -2,8 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/signal/Signal.h>
-#include <cppexpose/reflection/AbstractProperty.h>
+#include <cppexpose/reflection/TypedProperty.h>
 #include <cppexpose/typed/StoredValue.hh>
 
 
@@ -30,12 +29,8 @@ namespace cppexpose
 *    properties on objects dynamically at runtime, see DynamicProperty.
 */
 template <typename T>
-class Property : public StoredValue<T>, public AbstractProperty
+class Property : public StoredValue<T>, public TypedProperty<T>
 {
-public:
-    Signal<const T &> valueChanged;  ///< Called when the value has been changed
-
-
 public:
     /**
     *  @brief
@@ -50,8 +45,6 @@ public:
     *
     *  @remarks
     *    The property is created and added to the given parent object.
-    *    The parent object does NOT take ownership over the property, so it must
-    *    be managed from the outside, e.g., by direct instantiation.
     */
     template <typename... Args>
     Property(PropertyGroup * parent, const std::string & name, Args&&... args);
@@ -65,7 +58,6 @@ public:
     // Virtual AbstractProperty interface
     virtual AbstractTyped * asTyped() override;
     virtual const AbstractTyped * asTyped() const override;
-    virtual bool isGroup() const override;
 
 
 protected:

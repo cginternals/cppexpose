@@ -2,8 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/signal/Signal.h>
-#include <cppexpose/reflection/AbstractProperty.h>
+#include <cppexpose/reflection/TypedProperty.h>
 #include <cppexpose/typed/StoredValue.hh>
 
 
@@ -16,10 +15,8 @@ namespace cppexpose
 *    Representation of dynamic object properties
 *
 *    Dynamic properties are defined and added to an object
-*    at runtime rather than at compile time. They are usually
-*    managed by the object itself which will release them
-*    on destruction.
-
+*    at runtime rather than at compile time.
+*
 *    Dynamic properties store the property value themselves,
 *    no using getter or setter functions. Other than that,
 *    they behave exactly like normal properties.
@@ -28,12 +25,8 @@ namespace cppexpose
 *    Property
 */
 template <typename T>
-class DynamicProperty : public DirectValue<T>, public AbstractProperty
+class DynamicProperty : public DirectValue<T>, public TypedProperty<T>
 {
-public:
-    Signal<const T &> valueChanged;  ///< Called when the value has been changed
-
-
 public:
     /**
     *  @brief
@@ -63,7 +56,6 @@ public:
     // Virtual AbstractProperty interface
     virtual AbstractTyped * asTyped() override;
     virtual const AbstractTyped * asTyped() const override;
-    virtual bool isGroup() const override;
 
 
 protected:
