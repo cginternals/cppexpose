@@ -46,6 +46,18 @@ void DirectValueArray<T>::setValue(const T & value)
 }
 
 template <typename T>
+const T * DirectValueArray<T>::ptr() const
+{
+    return &m_value;
+}
+
+template <typename T>
+T * DirectValueArray<T>::ptr()
+{
+    return &m_value;
+}
+
+template <typename T>
 typename DirectValueArray<T>::ElementType DirectValueArray<T>::getElement(size_t i) const
 {
     return m_value[i];
@@ -93,6 +105,13 @@ template <typename T>
 void DirectValueArray<const T>::setValue(const T &)
 {
     // Read-only!
+}
+
+template <typename T>
+T * DirectValueArray<const T>::ptr()
+{
+    // Read-only!
+    return nullptr;
 }
 
 template <typename T>

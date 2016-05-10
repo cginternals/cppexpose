@@ -89,6 +89,8 @@ public:
     // Virtual Typed<T> interface
     virtual T value() const override;
     virtual void setValue(const T & value) override;
+    virtual const T * ptr() const override;
+    virtual T * ptr() override;
 
     // Virtual TypedArray<T> interface
     virtual ElementType getElement(size_t i) const override;

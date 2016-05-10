@@ -85,6 +85,18 @@ void StoredValueArray<T>::setValue(const T & value)
 }
 
 template <typename T>
+const T * StoredValueArray<T>::ptr() const
+{
+    return nullptr;
+}
+
+template <typename T>
+T * StoredValueArray<T>::ptr()
+{
+    return nullptr;
+}
+
+template <typename T>
 typename StoredValueArray<T>::ElementType StoredValueArray<T>::getElement(size_t i) const
 {
     return m_elementGetter(i);

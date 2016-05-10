@@ -48,6 +48,8 @@ public:
     // Virtual Typed<T> interface
     virtual T value() const override;
     virtual void setValue(const T & value) override;
+    virtual const T * ptr() const override;
+    virtual T * ptr() override;
 
     // Virtual TypedArray<T> interface
     virtual ElementType getElement(size_t i) const override;
@@ -94,6 +96,7 @@ public:
 
     // Virtual Typed<T> interface
     virtual void setValue(const T & value) override;
+    virtual T * ptr() override;
 
     // Virtual TypedArray<T> interface
     virtual void setElement(size_t i, const typename DirectValueArray<T>::ElementType & value) override;

@@ -27,18 +27,6 @@ DirectValueSingle<T>::~DirectValueSingle()
 }
 
 template <typename T>
-const T * DirectValueSingle<T>::ptr() const
-{
-    return &m_value;
-}
-
-template <typename T>
-T * DirectValueSingle<T>::ptr()
-{
-    return &m_value;
-}
-
-template <typename T>
 AbstractTyped * DirectValueSingle<T>::clone() const
 {
     return new DirectValueSingle<T>(m_value);
@@ -55,6 +43,18 @@ void DirectValueSingle<T>::setValue(const T & value)
 {
     m_value = value;
     this->onValueChanged(m_value);
+}
+
+template <typename T>
+const T * DirectValueSingle<T>::ptr() const
+{
+    return &m_value;
+}
+
+template <typename T>
+T * DirectValueSingle<T>::ptr()
+{
+    return &m_value;
 }
 
 
@@ -92,6 +92,13 @@ template <typename T>
 void DirectValueSingle<const T>::setValue(const T &)
 {
     // Read-only!
+}
+
+template <typename T>
+T * DirectValueSingle<const T>::ptr()
+{
+    // Read-only!
+    return nullptr;
 }
 
 

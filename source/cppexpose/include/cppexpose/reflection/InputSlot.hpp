@@ -55,7 +55,7 @@ bool InputSlot<T>::connect(const AbstractProperty * property)
 
         // Emit events
         this->connectionChanged();
-        this->changed(m_source->value());
+        this->changed( static_cast< Typed<T> *>(m_source->asTyped())->value() );
 
         return true;
     }
@@ -95,6 +95,26 @@ template <typename T>
 void InputSlot<T>::setValue(const T &)
 {
     // Not supported for input slots!
+}
+
+template <typename T>
+const T * InputSlot<T>::ptr() const
+{
+    if (m_source) {
+        return static_cast< const Typed<T> *>(m_source->asTyped())->ptr();
+    } else {
+        return nullptr;
+    }
+}
+
+template <typename T>
+T * InputSlot<T>::ptr()
+{
+    if (m_source) {
+        return static_cast< Typed<T> *>(m_source->asTyped())->ptr();
+    } else {
+        return nullptr;
+    }
 }
 
 template <typename T>

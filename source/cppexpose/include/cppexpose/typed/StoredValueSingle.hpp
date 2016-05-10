@@ -66,6 +66,18 @@ void StoredValueSingle<T>::setValue(const T & value)
 }
 
 template <typename T>
+const T * StoredValueSingle<T>::ptr() const
+{
+    return nullptr;
+}
+
+template <typename T>
+T * StoredValueSingle<T>::ptr()
+{
+    return nullptr;
+}
+
+template <typename T>
 StoredValueSingle<T>::StoredValueSingle()
 {
 }

@@ -51,6 +51,36 @@ public:
     */
     virtual void setValue(const T & value) = 0;
 
+    /**
+    *  @brief
+    *    Get pointer to value
+    *
+    *  @return
+    *    Pointer to value (can be null)
+    *
+    *  @remarks
+    *    Whether or not a pointer to the value can be returned
+    *    depends on the actual storage type. So be aware that
+    *    is function can return nullptr if it is called for example
+    *    on a StoredValue.
+    */
+    virtual const T * ptr() const = 0;
+
+    /**
+    *  @brief
+    *    Get pointer to value
+    *
+    *  @return
+    *    Pointer to value (can be null)
+    *
+    *  @remarks
+    *    Whether or not a pointer to the value can be returned
+    *    depends on the actual storage type. So be aware that
+    *    is function can return nullptr if it is called for example
+    *    on a StoredValue.
+    */
+    virtual T * ptr() = 0;
+
     // Virtual AbstractTyped interface
     virtual const std::type_info & type() const override;
     virtual bool isReadOnly() const override;

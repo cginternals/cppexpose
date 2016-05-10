@@ -80,6 +80,8 @@ public:
     // Virtual Typed<T> functions
     virtual T value() const override;
     virtual void setValue(const T & value) override;
+    virtual const T * ptr() const override;
+    virtual T * ptr() override;
 
 
 protected:

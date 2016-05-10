@@ -38,30 +38,14 @@ public:
     */
     virtual ~DirectValueSingle();
 
-    /**
-    *  @brief
-    *    Get a direct pointer to the stored value
-    *
-    *  @return
-    *    Pointer to the value
-    */
-    const T * ptr() const;
-
-    /**
-    *  @brief
-    *    Get a direct pointer to the stored value
-    *
-    *  @return
-    *    Pointer to the value
-    */
-    T * ptr();
-
     // Virtual AbstractTyped interface
     virtual AbstractTyped * clone() const override;
 
     // Virtual Typed<T> interface
     virtual T value() const override;
     virtual void setValue(const T & value) override;
+    virtual const T * ptr() const override;
+    virtual T * ptr() override;
 
 
 protected:
@@ -104,6 +88,7 @@ public:
 
     // Virtual Typed<T> interface
     virtual void setValue(const T & value) override;
+    virtual T * ptr() override;
 };
 
 
