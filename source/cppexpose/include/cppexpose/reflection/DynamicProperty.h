@@ -3,7 +3,7 @@
 
 
 #include <cppexpose/reflection/TypedProperty.h>
-#include <cppexpose/typed/StoredValue.hh>
+#include <cppexpose/typed/StoredValue.h>
 
 
 namespace cppexpose
