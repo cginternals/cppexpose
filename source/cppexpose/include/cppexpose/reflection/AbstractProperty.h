@@ -4,14 +4,13 @@
 
 #include <string>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/typed/AbstractTyped.h>
 
 
 namespace cppexpose
 {
 
 
-class AbstractTyped;
 class PropertyGroup;
 
 
@@ -19,7 +18,7 @@ class PropertyGroup;
 *  @brief
 *    Base class for properties
 */
-class CPPEXPOSE_API AbstractProperty
+class CPPEXPOSE_API AbstractProperty// : public AbstractTyped
 {
 public:
     /**

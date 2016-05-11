@@ -2,8 +2,9 @@
 #pragma once
 
 
-#include <cppexpose/reflection/TypedProperty.h>
+#include <cppexpose/reflection/AbstractProperty.h>
 #include <cppexpose/typed/StoredValue.h>
+#include <cppexpose/signal/Signal.h>
 
 
 namespace cppexpose
@@ -25,8 +26,12 @@ namespace cppexpose
 *    Property
 */
 template <typename T>
-class DynamicProperty : public DirectValue<T>, public TypedProperty<T>
+class DynamicProperty : public DirectValue<T>, public AbstractProperty
 {
+public:
+    Signal<const T &> valueChanged;  ///< Called when the value has been changed
+
+
 public:
     /**
     *  @brief
@@ -56,6 +61,7 @@ public:
     // Virtual AbstractProperty interface
     virtual AbstractTyped * asTyped() override;
     virtual const AbstractTyped * asTyped() const override;
+    virtual bool isGroup() const override;
 
 
 protected:
