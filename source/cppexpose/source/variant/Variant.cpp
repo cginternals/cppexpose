@@ -12,21 +12,21 @@ namespace cppexpose
 Variant Variant::array()
 {
     Variant variant;
-    variant.m_value = new DirectValue<VariantArray, AbstractDummy>(VariantArray());
+    variant.m_value = new DirectValue<VariantArray>(VariantArray());
     return variant;
 }
 
 Variant Variant::array(size_t count)
 {
     Variant variant;
-    variant.m_value = new DirectValue<VariantArray, AbstractDummy>(VariantArray(count));
+    variant.m_value = new DirectValue<VariantArray>(VariantArray(count));
     return variant;
 }
 
 Variant Variant::map()
 {
     Variant variant;
-    variant.m_value = new DirectValue<VariantMap, AbstractDummy>(VariantMap());
+    variant.m_value = new DirectValue<VariantMap>(VariantMap());
     return variant;
 }
 
@@ -41,92 +41,92 @@ Variant::Variant(const Variant & variant)
 }
 
 Variant::Variant(bool value)
-: m_value(new DirectValue<bool, AbstractDummy>(value))
+: m_value(new DirectValue<bool>(value))
 {
 }
 
 Variant::Variant(char value)
-: m_value(new DirectValue<char, AbstractDummy>(value))
+: m_value(new DirectValue<char>(value))
 {
 }
 
 Variant::Variant(unsigned char value)
-: m_value(new DirectValue<unsigned char, AbstractDummy>(value))
+: m_value(new DirectValue<unsigned char>(value))
 {
 }
 
 Variant::Variant(short value)
-: m_value(new DirectValue<short, AbstractDummy>(value))
+: m_value(new DirectValue<short>(value))
 {
 }
 
 Variant::Variant(unsigned short value)
-: m_value(new DirectValue<unsigned short, AbstractDummy>(value))
+: m_value(new DirectValue<unsigned short>(value))
 {
 }
 
 Variant::Variant(int value)
-: m_value(new DirectValue<int, AbstractDummy>(value))
+: m_value(new DirectValue<int>(value))
 {
 }
 
 Variant::Variant(unsigned int value)
-: m_value(new DirectValue<unsigned int, AbstractDummy>(value))
+: m_value(new DirectValue<unsigned int>(value))
 {
 }
 
 Variant::Variant(long value)
-: m_value(new DirectValue<long, AbstractDummy>(value))
+: m_value(new DirectValue<long>(value))
 {
 }
 
 Variant::Variant(unsigned long value)
-: m_value(new DirectValue<unsigned long, AbstractDummy>(value))
+: m_value(new DirectValue<unsigned long>(value))
 {
 }
 
 Variant::Variant(long long value)
-: m_value(new DirectValue<long long, AbstractDummy>(value))
+: m_value(new DirectValue<long long>(value))
 {
 }
 
 Variant::Variant(unsigned long long value)
-: m_value(new DirectValue<unsigned long long, AbstractDummy>(value))
+: m_value(new DirectValue<unsigned long long>(value))
 {
 }
 
 Variant::Variant(float value)
-: m_value(new DirectValue<float, AbstractDummy>(value))
+: m_value(new DirectValue<float>(value))
 {
 }
 
 Variant::Variant(double value)
-: m_value(new DirectValue<double, AbstractDummy>(value))
+: m_value(new DirectValue<double>(value))
 {
 }
 
 Variant::Variant(const char * value)
-: m_value(new DirectValue<std::string, AbstractDummy>(std::string(value)))
+: m_value(new DirectValue<std::string>(std::string(value)))
 {
 }
 
 Variant::Variant(const std::string & value)
-: m_value(new DirectValue<std::string, AbstractDummy>(value))
+: m_value(new DirectValue<std::string>(value))
 {
 }
 
 Variant::Variant(const std::vector<std::string> & value)
-: m_value(new DirectValue< std::vector<std::string>, AbstractDummy >(value))
+: m_value(new DirectValue< std::vector<std::string> >(value))
 {
 }
 
 Variant::Variant(const VariantArray & array)
-: m_value(new DirectValue<VariantArray, AbstractDummy>(array))
+: m_value(new DirectValue<VariantArray>(array))
 {
 }
 
 Variant::Variant(const VariantMap & map)
-: m_value(new DirectValue<VariantMap, AbstractDummy>(map))
+: m_value(new DirectValue<VariantMap>(map))
 {
 }
 

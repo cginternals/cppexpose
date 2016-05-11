@@ -29,7 +29,7 @@ DirectValueArray<T, BASE>::~DirectValueArray()
 template <typename T, typename BASE>
 AbstractTyped * DirectValueArray<T, BASE>::clone() const
 {
-    return new DirectValueArray<T, AbstractDummy>(m_value);
+    return new DirectValueArray<T, AbstractTyped>(m_value);
 }
 
 template <typename T, typename BASE>
@@ -91,7 +91,7 @@ DirectValueArray<const T, BASE>::~DirectValueArray()
 template <typename T, typename BASE>
 AbstractTyped * DirectValueArray<const T, BASE>::clone() const
 {
-    return new DirectValueArray<const T, AbstractDummy>(this->m_value);
+    return new DirectValueArray<const T, AbstractTyped>(this->m_value);
 }
 
 template <typename T, typename BASE>

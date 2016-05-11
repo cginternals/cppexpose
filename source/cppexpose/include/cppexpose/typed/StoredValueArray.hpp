@@ -68,7 +68,7 @@ StoredValueArray<T, BASE>::~StoredValueArray()
 template <typename T, typename BASE>
 AbstractTyped * StoredValueArray<T, BASE>::clone() const
 {
-    return new StoredValueArray<T, AbstractDummy>(m_getter, m_setter, m_elementGetter, m_elementSetter);
+    return new StoredValueArray<T, AbstractTyped>(m_getter, m_setter, m_elementGetter, m_elementSetter);
 }
 
 template <typename T, typename BASE>
@@ -163,7 +163,7 @@ StoredValueArray<const T, BASE>::~StoredValueArray()
 template <typename T, typename BASE>
 AbstractTyped * StoredValueArray<const T, BASE>::clone() const
 {
-    return new StoredValueArray<const T, AbstractDummy>(
+    return new StoredValueArray<const T, AbstractTyped>(
       this->m_getter,
       this->m_setter,
       this->m_elementGetter,

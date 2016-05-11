@@ -45,7 +45,7 @@ std::string TypedArray<T, ET, Size, BASE>::typeName() const
 {
     // [TODO] This is not nice and potentially expensive.
     //        Find a better way to get type names.
-    DirectValue<ET, AbstractDummy> dummy;
+    DirectValue<ET> dummy;
 
     std::stringstream s;
     s << "array<" << dummy.typeName() << ", " << Size << ">";
@@ -72,7 +72,7 @@ AbstractTyped * TypedArray<T, ET, Size, BASE>::subValue(size_t index)
     {
         for (size_t i=0; i<Size; i++)
         {
-            m_subValues.push_back(new StoredValue<ET, AbstractDummy>(
+            m_subValues.push_back(new StoredValue<ET>(
                 [this, i] () -> ET {
                     return this->getElement(i);
                 },

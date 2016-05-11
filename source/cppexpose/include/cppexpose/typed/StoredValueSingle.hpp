@@ -49,7 +49,7 @@ StoredValueSingle<T, BASE>::~StoredValueSingle()
 template <typename T, typename BASE>
 AbstractTyped * StoredValueSingle<T, BASE>::clone() const
 {
-    return new StoredValueSingle<T, AbstractDummy>(m_getter, m_setter);
+    return new StoredValueSingle<T, AbstractTyped>(m_getter, m_setter);
 }
 
 template <typename T, typename BASE>
@@ -119,7 +119,7 @@ StoredValueSingle<const T, BASE>::~StoredValueSingle()
 template <typename T, typename BASE>
 AbstractTyped * StoredValueSingle<const T, BASE>::clone() const
 {
-    return new StoredValueSingle<const T, AbstractDummy>(this->m_getter);
+    return new StoredValueSingle<const T, AbstractTyped>(this->m_getter);
 }
 
 template <typename T, typename BASE>

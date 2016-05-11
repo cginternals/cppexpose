@@ -151,17 +151,4 @@ public:
 };
 
 
-class AbstractDummy : public AbstractTyped
-{
-public:
-    AbstractDummy()
-    {
-    }
-
-    virtual ~AbstractDummy()
-    {
-    }
-};
-
-
 } // namespace cppexpose

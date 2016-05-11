@@ -29,7 +29,7 @@ DirectValueSingle<T, BASE>::~DirectValueSingle()
 template <typename T, typename BASE>
 AbstractTyped * DirectValueSingle<T, BASE>::clone() const
 {
-    return new DirectValueSingle<T, AbstractDummy>(m_value);
+    return new DirectValueSingle<T, AbstractTyped>(m_value);
 }
 
 template <typename T, typename BASE>
@@ -78,7 +78,7 @@ DirectValueSingle<const T, BASE>::~DirectValueSingle()
 template <typename T, typename BASE>
 AbstractTyped * DirectValueSingle<const T, BASE>::clone() const
 {
-    return new DirectValueSingle<const T, AbstractDummy>(this->m_value);
+    return new DirectValueSingle<const T, AbstractTyped>(this->m_value);
 }
 
 template <typename T, typename BASE>

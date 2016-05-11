@@ -27,7 +27,7 @@ struct DirectValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
 *  @brief
 *    Typed value (read/write) that is stored directly
 */
-template <typename T, typename BASE>
+template <typename T, typename BASE = AbstractTyped>
 class DirectValue : public DirectValueType<T, BASE>::Type
 {
 public:
