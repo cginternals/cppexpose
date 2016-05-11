@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    Typed value (read/write) that is stored directly
 */
-template <typename T>
+template <typename T, typename BASE>
 class DirectValueSingle : public TypeSelector<T>::Type
 {
 public:
@@ -57,8 +57,8 @@ protected:
 *  @brief
 *    Typed value (read-only) that is stored directly
 */
-template <typename T>
-class DirectValueSingle<const T> : public DirectValueSingle<T>
+template <typename T, typename BASE>
+class DirectValueSingle<const T, BASE> : public DirectValueSingle<T, BASE>
 {
 public:
     /**

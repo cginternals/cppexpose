@@ -10,8 +10,8 @@ namespace cppexpose
 
 
 // Read/write type
-template <typename T>
-StoredValueSingle<T>::StoredValueSingle(
+template <typename T, typename BASE>
+StoredValueSingle<T, BASE>::StoredValueSingle(
     std::function<T ()> getter
   , std::function<void(const T &)> setter)
 : m_getter(getter)
@@ -19,9 +19,9 @@ StoredValueSingle<T>::StoredValueSingle(
 {
 }
 
-template <typename T>
+template <typename T, typename BASE>
 template <typename Obj>
-StoredValueSingle<T>::StoredValueSingle(
+StoredValueSingle<T, BASE>::StoredValueSingle(
     Obj * o,
     typename SingleValueFunctions<T, Obj>::getter g,
     typename SingleValueFunctions<T, Obj>::setter s)
@@ -41,64 +41,64 @@ StoredValueSingle<T>::StoredValueSingle(
     };
 }
 
-template <typename T>
-StoredValueSingle<T>::~StoredValueSingle()
+template <typename T, typename BASE>
+StoredValueSingle<T, BASE>::~StoredValueSingle()
 {
 }
 
-template <typename T>
-AbstractTyped * StoredValueSingle<T>::clone() const
+template <typename T, typename BASE>
+AbstractTyped * StoredValueSingle<T, BASE>::clone() const
 {
-    return new StoredValueSingle<T>(m_getter, m_setter);
+    return new StoredValueSingle<T, BASE>(m_getter, m_setter);
 }
 
-template <typename T>
-T StoredValueSingle<T>::value() const
+template <typename T, typename BASE>
+T StoredValueSingle<T, BASE>::value() const
 {
     return m_getter();
 }
 
-template <typename T>
-void StoredValueSingle<T>::setValue(const T & value)
+template <typename T, typename BASE>
+void StoredValueSingle<T, BASE>::setValue(const T & value)
 {
     m_setter(value);
     this->onValueChanged(value);
 }
 
-template <typename T>
-const T * StoredValueSingle<T>::ptr() const
+template <typename T, typename BASE>
+const T * StoredValueSingle<T, BASE>::ptr() const
 {
     return nullptr;
 }
 
-template <typename T>
-T * StoredValueSingle<T>::ptr()
+template <typename T, typename BASE>
+T * StoredValueSingle<T, BASE>::ptr()
 {
     return nullptr;
 }
 
-template <typename T>
-StoredValueSingle<T>::StoredValueSingle()
+template <typename T, typename BASE>
+StoredValueSingle<T, BASE>::StoredValueSingle()
 {
 }
 
-template <typename T>
-StoredValueSingle<T>::StoredValueSingle(const std::function<T ()> & getter)
+template <typename T, typename BASE>
+StoredValueSingle<T, BASE>::StoredValueSingle(const std::function<T ()> & getter)
 : m_getter(getter)
 {
 }
 
 
 // Read-only type
-template <typename T>
-StoredValueSingle<const T>::StoredValueSingle(std::function<T ()> getter)
-: StoredValueSingle<T>::StoredValueSingle(getter)
+template <typename T, typename BASE>
+StoredValueSingle<const T, BASE>::StoredValueSingle(std::function<T ()> getter)
+: StoredValueSingle<T, BASE>::StoredValueSingle(getter)
 {
 }
 
-template <typename T>
+template <typename T, typename BASE>
 template <typename Obj>
-StoredValueSingle<const T>::StoredValueSingle(
+StoredValueSingle<const T, BASE>::StoredValueSingle(
     Obj * o,
     typename SingleValueFunctions<T, Obj>::getter g)
 {
@@ -111,26 +111,26 @@ StoredValueSingle<const T>::StoredValueSingle(
     };
 }
 
-template <typename T>
-StoredValueSingle<const T>::~StoredValueSingle()
+template <typename T, typename BASE>
+StoredValueSingle<const T, BASE>::~StoredValueSingle()
 {
 }
 
-template <typename T>
-AbstractTyped * StoredValueSingle<const T>::clone() const
+template <typename T, typename BASE>
+AbstractTyped * StoredValueSingle<const T, BASE>::clone() const
 {
-    return new StoredValueSingle<const T>(this->m_getter);
+    return new StoredValueSingle<const T, BASE>(this->m_getter);
 }
 
-template <typename T>
-bool StoredValueSingle<const T>::isReadOnly() const
+template <typename T, typename BASE>
+bool StoredValueSingle<const T, BASE>::isReadOnly() const
 {
     // Read-only!
     return true;
 }
 
-template <typename T>
-void StoredValueSingle<const T>::setValue(const T &)
+template <typename T, typename BASE>
+void StoredValueSingle<const T, BASE>::setValue(const T &)
 {
     // Read-only!
 }

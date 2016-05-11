@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    Typed array value (read/write) that is stored directly
 */
-template <typename T>
+template <typename T, typename BASE>
 class DirectValueArray : public TypeSelector<T>::Type
 {
 public:
@@ -65,8 +65,8 @@ protected:
 *  @brief
 *    Typed array value (read-only) that is stored directly
 */
-template <typename T>
-class DirectValueArray<const T> : public DirectValueArray<T>
+template <typename T, typename BASE>
+class DirectValueArray<const T, BASE> : public DirectValueArray<T, BASE>
 {
 public:
     /**
@@ -99,7 +99,7 @@ public:
     virtual T * ptr() override;
 
     // Virtual TypedArray<T> interface
-    virtual void setElement(size_t i, const typename DirectValueArray<T>::ElementType & value) override;
+    virtual void setElement(size_t i, const typename DirectValueArray<T, BASE>::ElementType & value) override;
 };
 
 

@@ -27,7 +27,7 @@ struct ArrayValueFunctions
 *  @brief
 *    Typed array value (read/write) that is accessed via getter and setter functions
 */
-template <typename T>
+template <typename T, typename BASE>
 class StoredValueArray : public TypeSelector<T>::Type
 {
 public:
@@ -131,8 +131,8 @@ protected:
 *  @brief
 *    Typed array value (read-only) that is accessed via getter and setter functions
 */
-template <typename T>
-class StoredValueArray<const T> : public StoredValueArray<T>
+template <typename T, typename BASE>
+class StoredValueArray<const T, BASE> : public StoredValueArray<T, BASE>
 {
 public:
     /**
@@ -146,7 +146,7 @@ public:
     */
     StoredValueArray(
         std::function<T ()> getter
-      , std::function<typename StoredValueArray<T>::ElementType (int)> elementGetter
+      , std::function<typename StoredValueArray<T, BASE>::ElementType (int)> elementGetter
     );
 
     /**
@@ -162,8 +162,8 @@ public:
     */
     template <typename Obj>
     StoredValueArray(Obj * obj,
-                     typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::getter getter,
-                     typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter elementGetter);
+                     typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::getter getter,
+                     typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::elementGetter elementGetter);
 
     /**
     *  @brief
@@ -179,7 +179,7 @@ public:
     virtual void setValue(const T & value) override;
 
     // Virtual TypedArray<T> interface
-    virtual void setElement(size_t i, const typename StoredValueArray<T>::ElementType & value) override;
+    virtual void setElement(size_t i, const typename StoredValueArray<T, BASE>::ElementType & value) override;
 };
 
 

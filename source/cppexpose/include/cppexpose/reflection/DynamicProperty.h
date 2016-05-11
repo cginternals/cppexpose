@@ -26,7 +26,7 @@ namespace cppexpose
 *    Property
 */
 template <typename T>
-class DynamicProperty : public DirectValue<T>, public AbstractProperty
+class DynamicProperty : public DirectValue<T, AbstractProperty>, public AbstractProperty
 {
 public:
     Signal<const T &> valueChanged;  ///< Called when the value has been changed

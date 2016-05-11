@@ -12,7 +12,7 @@ namespace cppexpose
 template <typename T>
 template <typename... Args>
 DynamicProperty<T>::DynamicProperty(PropertyGroup * parent, const std::string & name, Args&&... args)
-: DirectValue<T>(std::forward<Args>(args)...)
+: DirectValue<T, AbstractProperty>(std::forward<Args>(args)...)
 , AbstractProperty(name, parent)
 {
 }

@@ -47,7 +47,7 @@ template <typename T>
 Variant Variant::fromValue(const T & value)
 {
     Variant variant;
-    variant.m_value = new DirectValue<T>(value);
+    variant.m_value = new DirectValue<T, AbstractDummy>(value);
     return variant;
 }
 
@@ -82,7 +82,7 @@ T Variant::value(const T & defaultValue) const
     // Type of variant is the wanted type
     if (m_value && typeid(T) == m_value->type())
     {
-        return reinterpret_cast<DirectValue<T> *>(m_value)->value();
+        return reinterpret_cast<DirectValue<T, AbstractDummy> *>(m_value)->value();
     }
 
     // Variant map or array to string conversion
@@ -105,7 +105,7 @@ template <typename T>
 T * Variant::ptr()
 {
     if (m_value && typeid(T) == m_value->type()) {
-        return static_cast<DirectValue<T> *>(m_value)->ptr();
+        return static_cast<DirectValue<T, AbstractDummy> *>(m_value)->ptr();
     } else {
         return nullptr;
     }
@@ -115,7 +115,7 @@ template <typename T>
 const T * Variant::ptr() const
 {
     if (m_value && typeid(T) == m_value->type()) {
-        return static_cast<const DirectValue<T> *>(m_value)->ptr();
+        return static_cast<const DirectValue<T, AbstractDummy> *>(m_value)->ptr();
     } else {
         return nullptr;
     }

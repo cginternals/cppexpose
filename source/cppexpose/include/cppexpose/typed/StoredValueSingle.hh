@@ -27,7 +27,7 @@ struct SingleValueFunctions
 *  @brief
 *    Typed value (read/write) that is accessed via getter and setter functions
 */
-template <typename T>
+template <typename T, typename BASE>
 class StoredValueSingle : public TypeSelector<T>::Type
 {
 public:
@@ -111,8 +111,8 @@ protected:
 *  @brief
 *    Typed value (read-only) that is accessed via getter and setter functions
 */
-template <typename T>
-class StoredValueSingle<const T> : public StoredValueSingle<T>
+template <typename T, typename BASE>
+class StoredValueSingle<const T, BASE> : public StoredValueSingle<T, BASE>
 {
 public:
     /**

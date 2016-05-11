@@ -9,20 +9,20 @@ namespace cppexpose
 {
 
 
-template <typename T>
-DirectValue<T>::DirectValue()
+template <typename T, typename BASE>
+DirectValue<T, BASE>::DirectValue()
 : BaseType()
 {
 }
 
-template <typename T>
-DirectValue<T>::DirectValue(const T & value)
+template <typename T, typename BASE>
+DirectValue<T, BASE>::DirectValue(const T & value)
 : BaseType(value)
 {
 }
 
-template <typename T>
-DirectValue<T>::~DirectValue()
+template <typename T, typename BASE>
+DirectValue<T, BASE>::~DirectValue()
 {
 }
 

@@ -30,7 +30,7 @@ namespace cppexpose
 *    properties on objects dynamically at runtime, see DynamicProperty.
 */
 template <typename T>
-class Property : public StoredValue<T>, public AbstractProperty
+class Property : public StoredValue<T, AbstractProperty>, public AbstractProperty
 {
 public:
     Signal<const T &> valueChanged;  ///< Called when the value has been changed

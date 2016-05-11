@@ -10,16 +10,16 @@ namespace cppexpose
 {
 
 
-template <typename T, typename = void>
+template <typename T, typename BASE, typename = void>
 struct StoredValueType
 {
-    using Type = StoredValueSingle<T>;
+    using Type = StoredValueSingle<T, BASE>;
 };
 
-template <typename T>
-struct StoredValueType<T, helper::EnableIf<helper::isArray<T>>>
+template <typename T, typename BASE>
+struct StoredValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
 {
-    using Type = StoredValueArray<T>;
+    using Type = StoredValueArray<T, BASE>;
 };
 
 
@@ -27,11 +27,11 @@ struct StoredValueType<T, helper::EnableIf<helper::isArray<T>>>
 *  @brief
 *    Typed value (read/write) that is stored directly
 */
-template <typename T>
-class StoredValue : public StoredValueType<T>::Type
+template <typename T, typename BASE>
+class StoredValue : public StoredValueType<T, BASE>::Type
 {
 public:
-    typedef typename StoredValueType<T>::Type BaseType;
+    typedef typename StoredValueType<T, BASE>::Type BaseType;
 
 
 public:

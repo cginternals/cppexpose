@@ -13,10 +13,10 @@ namespace cppexpose
 {
 
 
-template <typename T>
+template <typename T, typename BASE>
 class DirectValue;
 
-template <typename T>
+template <typename T, typename BASE>
 class StoredValue;
 
 
@@ -45,7 +45,7 @@ std::string TypedArray<T, ET, Size>::typeName() const
 {
     // [TODO] This is not nice and potentially expensive.
     //        Find a better way to get type names.
-    DirectValue<ET> dummy;
+    DirectValue<ET, AbstractDummy> dummy;
 
     std::stringstream s;
     s << "array<" << dummy.typeName() << ", " << Size << ">";
@@ -72,7 +72,7 @@ AbstractTyped * TypedArray<T, ET, Size>::subValue(size_t index)
     {
         for (size_t i=0; i<Size; i++)
         {
-            m_subValues.push_back(new StoredValue<ET>(
+            m_subValues.push_back(new StoredValue<ET, AbstractDummy>(
                 [this, i] () -> ET {
                     return this->getElement(i);
                 },

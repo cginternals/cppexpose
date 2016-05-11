@@ -20,9 +20,6 @@ class Variant;
 template <typename T>
 class Typed;
 
-template <typename T>
-class DirectValue;
-
 
 /**
 *  @brief
