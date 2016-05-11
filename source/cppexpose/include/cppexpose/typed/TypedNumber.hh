@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a number value
 */
-template <typename T>
-class TypedNumber : public Typed<T>
+template <typename T, typename BASE>
+class TypedNumber : public Typed<T, BASE>
 {
 public:
     /**

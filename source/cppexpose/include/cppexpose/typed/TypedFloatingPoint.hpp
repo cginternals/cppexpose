@@ -9,26 +9,26 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedFloatingPoint<T>::TypedFloatingPoint()
+template <typename T, typename BASE>
+TypedFloatingPoint<T, BASE>::TypedFloatingPoint()
 {
 }
 
-template <typename T>
-TypedFloatingPoint<T>::~TypedFloatingPoint()
+template <typename T, typename BASE>
+TypedFloatingPoint<T, BASE>::~TypedFloatingPoint()
 {
 }
 
-template <typename T>
-std::string TypedFloatingPoint<T>::typeName() const
+template <typename T, typename BASE>
+std::string TypedFloatingPoint<T, BASE>::typeName() const
 {
          if (sizeof(T)  > sizeof(float)) return "double";
     else if (sizeof(T) == sizeof(float)) return "float";
     else                                 return "half";
 }
 
-template <typename T>
-bool TypedFloatingPoint<T>::isFloatingPoint() const
+template <typename T, typename BASE>
+bool TypedFloatingPoint<T, BASE>::isFloatingPoint() const
 {
     return true;
 }

@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of an unsigned integral value
 */
-template <typename T>
-class TypedUnsignedIntegral : public TypedNumber<T>
+template <typename T, typename BASE>
+class TypedUnsignedIntegral : public TypedNumber<T, BASE>
 {
 public:
     /**

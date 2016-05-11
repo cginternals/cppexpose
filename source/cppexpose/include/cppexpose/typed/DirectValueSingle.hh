@@ -14,7 +14,7 @@ namespace cppexpose
 *    Typed value (read/write) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueSingle : public TypeSelector<T>::Type
+class DirectValueSingle : public TypeSelector<T, BASE>::Type
 {
 public:
     /**

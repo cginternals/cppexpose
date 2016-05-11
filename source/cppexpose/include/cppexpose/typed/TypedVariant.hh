@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a variant value
 */
-template <typename T>
-class TypedVariant : public Typed<T>
+template <typename T, typename BASE>
+class TypedVariant : public Typed<T, BASE>
 {
 public:
     /**

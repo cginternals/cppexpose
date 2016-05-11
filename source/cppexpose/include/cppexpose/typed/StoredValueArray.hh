@@ -28,10 +28,10 @@ struct ArrayValueFunctions
 *    Typed array value (read/write) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueArray : public TypeSelector<T>::Type
+class StoredValueArray : public TypeSelector<T, BASE>::Type
 {
 public:
-    typedef typename TypeSelector<T>::Type::ElementType ElementType;
+    typedef typename TypeSelector<T, BASE>::Type::ElementType ElementType;
 
 
 public:

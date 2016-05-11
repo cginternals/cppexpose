@@ -11,18 +11,18 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedSignedIntegral<T>::TypedSignedIntegral()
+template <typename T, typename BASE>
+TypedSignedIntegral<T, BASE>::TypedSignedIntegral()
 {
 }
 
-template <typename T>
-TypedSignedIntegral<T>::~TypedSignedIntegral()
+template <typename T, typename BASE>
+TypedSignedIntegral<T, BASE>::~TypedSignedIntegral()
 {
 }
 
-template <typename T>
-std::string TypedSignedIntegral<T>::typeName() const
+template <typename T, typename BASE>
+std::string TypedSignedIntegral<T, BASE>::typeName() const
 {
     std::stringstream s;
     s << "int";
@@ -30,14 +30,14 @@ std::string TypedSignedIntegral<T>::typeName() const
     return s.str();
 }
 
-template <typename T>
-bool TypedSignedIntegral<T>::isIntegral() const
+template <typename T, typename BASE>
+bool TypedSignedIntegral<T, BASE>::isIntegral() const
 {
     return true;
 }
 
-template <typename T>
-bool TypedSignedIntegral<T>::isSignedIntegral() const
+template <typename T, typename BASE>
+bool TypedSignedIntegral<T, BASE>::isSignedIntegral() const
 {
     return true;
 }

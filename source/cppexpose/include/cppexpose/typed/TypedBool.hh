@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a boolean value
 */
-template <typename T>
-class TypedBool : public Typed<T>
+template <typename T, typename BASE>
+class TypedBool : public Typed<T, BASE>
 {
 public:
     /**

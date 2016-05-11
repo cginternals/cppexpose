@@ -17,8 +17,8 @@ namespace cppexpose
 *  @brief
 *    Representation of an enum value
 */
-template <typename T>
-class TypedEnum : public Typed<T>
+template <typename T, typename BASE>
+class TypedEnum : public Typed<T, BASE>
 {
 public:
     /**

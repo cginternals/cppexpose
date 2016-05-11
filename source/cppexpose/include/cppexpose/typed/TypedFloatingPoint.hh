@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a floating point value
 */
-template <typename T>
-class TypedFloatingPoint : public TypedNumber<T>
+template <typename T, typename BASE>
+class TypedFloatingPoint : public TypedNumber<T, BASE>
 {
 public:
     /**

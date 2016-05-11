@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a signed integral value
 */
-template <typename T>
-class TypedSignedIntegral : public TypedNumber<T>
+template <typename T, typename BASE>
+class TypedSignedIntegral : public TypedNumber<T, BASE>
 {
 public:
     /**

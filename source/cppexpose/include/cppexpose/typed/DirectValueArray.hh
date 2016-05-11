@@ -14,10 +14,10 @@ namespace cppexpose
 *    Typed array value (read/write) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueArray : public TypeSelector<T>::Type
+class DirectValueArray : public TypeSelector<T, BASE>::Type
 {
 public:
-    typedef typename TypeSelector<T>::Type::ElementType ElementType;
+    typedef typename TypeSelector<T, BASE>::Type::ElementType ElementType;
 
 
 public:

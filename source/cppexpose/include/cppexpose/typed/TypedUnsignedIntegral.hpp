@@ -11,18 +11,18 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedUnsignedIntegral<T>::TypedUnsignedIntegral()
+template <typename T, typename BASE>
+TypedUnsignedIntegral<T, BASE>::TypedUnsignedIntegral()
 {
 }
 
-template <typename T>
-TypedUnsignedIntegral<T>::~TypedUnsignedIntegral()
+template <typename T, typename BASE>
+TypedUnsignedIntegral<T, BASE>::~TypedUnsignedIntegral()
 {
 }
 
-template <typename T>
-std::string TypedUnsignedIntegral<T>::typeName() const
+template <typename T, typename BASE>
+std::string TypedUnsignedIntegral<T, BASE>::typeName() const
 {
     std::stringstream s;
     s << "uint";
@@ -30,14 +30,14 @@ std::string TypedUnsignedIntegral<T>::typeName() const
     return s.str();
 }
 
-template <typename T>
-bool TypedUnsignedIntegral<T>::isIntegral() const
+template <typename T, typename BASE>
+bool TypedUnsignedIntegral<T, BASE>::isIntegral() const
 {
     return true;
 }
 
-template <typename T>
-bool TypedUnsignedIntegral<T>::isUnsignedIntegral() const
+template <typename T, typename BASE>
+bool TypedUnsignedIntegral<T, BASE>::isUnsignedIntegral() const
 {
     return true;
 }

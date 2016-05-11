@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a string value
 */
-template <typename T>
-class TypedString : public Typed<T>
+template <typename T, typename BASE>
+class TypedString : public Typed<T, BASE>
 {
 public:
     /**

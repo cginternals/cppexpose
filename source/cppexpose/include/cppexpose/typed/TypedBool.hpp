@@ -9,88 +9,88 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedBool<T>::TypedBool()
+template <typename T, typename BASE>
+TypedBool<T, BASE>::TypedBool()
 {
 }
 
-template <typename T>
-TypedBool<T>::~TypedBool()
+template <typename T, typename BASE>
+TypedBool<T, BASE>::~TypedBool()
 {
 }
 
-template <typename T>
-std::string TypedBool<T>::typeName() const
+template <typename T, typename BASE>
+std::string TypedBool<T, BASE>::typeName() const
 {
     return "bool";
 }
 
-template <typename T>
-bool TypedBool<T>::isBool() const
+template <typename T, typename BASE>
+bool TypedBool<T, BASE>::isBool() const
 {
     return true;
 }
 
-template <typename T>
-std::string TypedBool<T>::toString() const
+template <typename T, typename BASE>
+std::string TypedBool<T, BASE>::toString() const
 {
     return this->value() ? "true" : "false"; 
 }
 
-template <typename T>
-bool TypedBool<T>::fromString(const std::string & value)
+template <typename T, typename BASE>
+bool TypedBool<T, BASE>::fromString(const std::string & value)
 {
     this->setValue(value == "true");
     return true;
 }
 
-template <typename T>
-bool TypedBool<T>::toBool() const
+template <typename T, typename BASE>
+bool TypedBool<T, BASE>::toBool() const
 {
     return this->value();
 }
 
-template <typename T>
-bool TypedBool<T>::fromBool(bool value)
+template <typename T, typename BASE>
+bool TypedBool<T, BASE>::fromBool(bool value)
 {
     this->setValue(value);
     return true;
 }
 
-template <typename T>
-long long TypedBool<T>::toLongLong() const
+template <typename T, typename BASE>
+long long TypedBool<T, BASE>::toLongLong() const
 {
     return this->value() ? 1ll : 0ll;
 }
 
-template <typename T>
-bool TypedBool<T>::fromLongLong(long long value)
+template <typename T, typename BASE>
+bool TypedBool<T, BASE>::fromLongLong(long long value)
 {
     this->setValue((bool)value);
     return true;
 }
 
-template <typename T>
-unsigned long long TypedBool<T>::toULongLong() const
+template <typename T, typename BASE>
+unsigned long long TypedBool<T, BASE>::toULongLong() const
 {
     return this->value() ? 1ull : 0ull;
 }
 
-template <typename T>
-bool TypedBool<T>::fromULongLong(unsigned long long value)
+template <typename T, typename BASE>
+bool TypedBool<T, BASE>::fromULongLong(unsigned long long value)
 {
     this->setValue((bool)value);
     return true;
 }
 
-template <typename T>
-double TypedBool<T>::toDouble() const
+template <typename T, typename BASE>
+double TypedBool<T, BASE>::toDouble() const
 {
     return this->value() ? 1.0 : 0.0;
 }
 
-template <typename T>
-bool TypedBool<T>::fromDouble(double value)
+template <typename T, typename BASE>
+bool TypedBool<T, BASE>::fromDouble(double value)
 {
     this->setValue((bool)value);
     return true;

@@ -28,7 +28,7 @@ struct SingleValueFunctions
 *    Typed value (read/write) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueSingle : public TypeSelector<T>::Type
+class StoredValueSingle : public TypeSelector<T, BASE>::Type
 {
 public:
     /**

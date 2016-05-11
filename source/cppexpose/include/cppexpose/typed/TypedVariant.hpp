@@ -11,88 +11,88 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedVariant<T>::TypedVariant()
+template <typename T, typename BASE>
+TypedVariant<T, BASE>::TypedVariant()
 {
 }
 
-template <typename T>
-TypedVariant<T>::~TypedVariant()
+template <typename T, typename BASE>
+TypedVariant<T, BASE>::~TypedVariant()
 {
 }
 
-template <typename T>
-std::string TypedVariant<T>::typeName() const
+template <typename T, typename BASE>
+std::string TypedVariant<T, BASE>::typeName() const
 {
     return "variant";
 }
 
-template <typename T>
-bool TypedVariant<T>::isVariant() const
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::isVariant() const
 {
     return true;
 }
 
-template <typename T>
-std::string TypedVariant<T>::toString() const
+template <typename T, typename BASE>
+std::string TypedVariant<T, BASE>::toString() const
 {
     return this->value().toString();
 }
 
-template <typename T>
-bool TypedVariant<T>::fromString(const std::string & value)
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::fromString(const std::string & value)
 {
     this->setValue(Variant(value));
     return true;
 }
 
-template <typename T>
-bool TypedVariant<T>::toBool() const
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::toBool() const
 {
     return this->value().toBool();
 }
 
-template <typename T>
-bool TypedVariant<T>::fromBool(bool value)
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::fromBool(bool value)
 {
     this->setValue(Variant(value));
     return true;
 }
 
-template <typename T>
-long long TypedVariant<T>::toLongLong() const
+template <typename T, typename BASE>
+long long TypedVariant<T, BASE>::toLongLong() const
 {
     return this->value().toLongLong();
 }
 
-template <typename T>
-bool TypedVariant<T>::fromLongLong(long long value)
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::fromLongLong(long long value)
 {
     this->setValue(Variant(value));
     return true;
 }
 
-template <typename T>
-unsigned long long TypedVariant<T>::toULongLong() const
+template <typename T, typename BASE>
+unsigned long long TypedVariant<T, BASE>::toULongLong() const
 {
     return this->value().toULongLong();
 }
 
-template <typename T>
-bool TypedVariant<T>::fromULongLong(unsigned long long value)
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::fromULongLong(unsigned long long value)
 {
     this->setValue(Variant(value));
     return true;
 }
 
-template <typename T>
-double TypedVariant<T>::toDouble() const
+template <typename T, typename BASE>
+double TypedVariant<T, BASE>::toDouble() const
 {
     return this->value().toDouble();
 }
 
-template <typename T>
-bool TypedVariant<T>::fromDouble(double value)
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::fromDouble(double value)
 {
     this->setValue(Variant(value));
     return true;

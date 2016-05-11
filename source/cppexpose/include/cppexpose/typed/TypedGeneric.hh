@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of an arbitrary (unknown typed) value
 */
-template <typename T>
-class TypedGeneric : public Typed<T>
+template <typename T, typename BASE>
+class TypedGeneric : public Typed<T, BASE>
 {
 public:
     /**

@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    Representation of a typed value
 */
-template <typename T>
+template <typename T, typename BASE>
 class Typed : public AbstractTyped
 {
 public:

@@ -17,7 +17,7 @@ namespace cppexpose
 class AbstractTyped;
 class Variant;
 
-template <typename T>
+template <typename T, typename BASE>
 class Typed;
 
 
