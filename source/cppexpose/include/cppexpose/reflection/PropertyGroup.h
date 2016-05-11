@@ -23,7 +23,7 @@ class Property;
 *  @brief
 *    Base class for reflection-enabled objects
 */
-class CPPEXPOSE_API PropertyGroup : public AbstractTyped, public AbstractProperty
+class CPPEXPOSE_API PropertyGroup : public AbstractProperty
 {
 public:
     Signal<size_t, AbstractProperty *> beforeAdd;   ///< Called, before a property is added to the group

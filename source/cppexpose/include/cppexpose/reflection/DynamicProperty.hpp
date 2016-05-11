@@ -13,8 +13,8 @@ template <typename T>
 template <typename... Args>
 DynamicProperty<T>::DynamicProperty(PropertyGroup * parent, const std::string & name, Args&&... args)
 : DirectValue<T, AbstractProperty>(std::forward<Args>(args)...)
-, AbstractProperty(name, parent)
 {
+    this->initProperty(parent, name);
 }
 
 template <typename T>

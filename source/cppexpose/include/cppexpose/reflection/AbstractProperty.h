@@ -18,28 +18,14 @@ class PropertyGroup;
 *  @brief
 *    Base class for properties
 */
-class CPPEXPOSE_API AbstractProperty// : public AbstractTyped
+class CPPEXPOSE_API AbstractProperty : public AbstractTyped
 {
 public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] parent
-    *    Parent object (can be null)
     */
-    AbstractProperty(PropertyGroup * parent = nullptr);
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Name
-    *  @param[in] parent
-    *    Parent object (can be null)
-    */
-    AbstractProperty(const std::string & name, PropertyGroup * parent = nullptr);
+    AbstractProperty();
 
     /**
     *  @brief
@@ -49,21 +35,21 @@ public:
 
     /**
     *  @brief
-    *    Get name
-    *
-    *  @return
-    *    Name
-    */
-    std::string name() const;
-
-    /**
-    *  @brief
     *    Get parent object
     *
     *  @return
     *    Parent (can be null)
     */
     PropertyGroup * parent() const;
+
+    /**
+    *  @brief
+    *    Get name
+    *
+    *  @return
+    *    Name
+    */
+    std::string name() const;
 
     /**
     *  @brief
@@ -94,8 +80,21 @@ public:
 
 
 protected:
-    std::string     m_name;   ///< Name of the property
+    /**
+    *  @brief
+    *    Initialize property
+    *
+    *  @param[in] parent
+    *    Parent object (can be null)
+    *  @param[in] name
+    *    Name (can be empty)
+    */
+    void initProperty(PropertyGroup * parent, const std::string & name);
+
+
+protected:
     PropertyGroup * m_parent; ///< Parent object
+    std::string     m_name;   ///< Name of the property
 };
 
 

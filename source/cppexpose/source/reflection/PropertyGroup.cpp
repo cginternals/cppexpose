@@ -19,13 +19,13 @@ namespace cppexpose
 
 
 PropertyGroup::PropertyGroup(PropertyGroup * parent)
-: AbstractProperty(parent)
 {
+    initProperty(parent, "");
 }
 
 PropertyGroup::PropertyGroup(const std::string & name, PropertyGroup * parent)
-: AbstractProperty(name, parent)
 {
+    initProperty(parent, name);
 }
 
 PropertyGroup::~PropertyGroup()
