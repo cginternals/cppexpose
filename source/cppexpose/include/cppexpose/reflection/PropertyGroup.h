@@ -15,10 +15,6 @@ namespace cppexpose
 {
 
 
-template <typename T>
-class Property;
-
-
 /**
 *  @brief
 *    Base class for reflection-enabled objects
@@ -119,12 +115,6 @@ public:
     */
     AbstractProperty * property(const std::string & path);
     const AbstractProperty * property(const std::string & path) const;
-
-    template <typename Type>
-    Property<Type> * property(const std::string & path);
-
-    template <typename Type>
-    const Property<Type> * property(const std::string & path) const;
     //@}
 
     //@{
@@ -238,6 +228,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/reflection/PropertyGroup.hpp>

@@ -4,7 +4,7 @@
 
 #include <cppassist/string/conversion.h>
 
-#include <cppexpose/reflection/AbstractProperty.h>
+#include <cppexpose/reflection/DynamicProperty.h>
 
 #include "MyObject.h"
 

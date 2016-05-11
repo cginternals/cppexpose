@@ -29,8 +29,8 @@ namespace cppexpose
 *    present when an object of that class is created. For creating
 *    properties on objects dynamically at runtime, see DynamicProperty.
 */
-template <typename T>
-class Property : public StoredValue<T, AbstractProperty>
+template <typename T, typename BASE = AbstractProperty>
+class Property : public StoredValue<T, BASE>
 {
 public:
     Signal<const T &> valueChanged;  ///< Called when the value has been changed

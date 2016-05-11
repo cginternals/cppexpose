@@ -11,27 +11,27 @@ namespace cppexpose
 {
 
 
-template <typename T>
+template <typename T, typename BASE>
 template <typename... Args>
-Property<T>::Property(PropertyGroup * parent, const std::string & name, Args&&... args)
-: StoredValue<T, AbstractProperty>(std::forward<Args>(args)...)
+Property<T, BASE>::Property(PropertyGroup * parent, const std::string & name, Args&&... args)
+: StoredValue<T, BASE>(std::forward<Args>(args)...)
 {
     this->initProperty(parent, name);
 }
 
-template <typename T>
-Property<T>::~Property()
+template <typename T, typename BASE>
+Property<T, BASE>::~Property()
 {
 }
 
-template <typename T>
-bool Property<T>::isGroup() const
+template <typename T, typename BASE>
+bool Property<T, BASE>::isGroup() const
 {
     return false;
 }
 
-template <typename T>
-void Property<T>::onValueChanged(const T & value)
+template <typename T, typename BASE>
+void Property<T, BASE>::onValueChanged(const T & value)
 {
     this->valueChanged(value);
 }
