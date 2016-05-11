@@ -29,7 +29,7 @@ void MyObject::print()
     std::cout << "string = '" << m_string << "'" << std::endl;
     std::cout << "int    = "  << m_int << std::endl;
     std::cout << "float  = "  << m_float << std::endl;
-    std::cout << "mood   = "  << (int)m_mood << " (" << MyMood.asTyped()->toString() << ")" << std::endl;
+    std::cout << "mood   = "  << (int)m_mood << " (" << MyMood.toString() << ")" << std::endl;
     std::cout << std::endl;
 }
 

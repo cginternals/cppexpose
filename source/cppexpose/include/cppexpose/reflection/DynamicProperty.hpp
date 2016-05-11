@@ -23,18 +23,6 @@ DynamicProperty<T>::~DynamicProperty()
 }
 
 template <typename T>
-AbstractTyped * DynamicProperty<T>::asTyped()
-{
-    return static_cast<AbstractTyped *>(this);
-}
-
-template <typename T>
-const AbstractTyped * DynamicProperty<T>::asTyped() const
-{
-    return static_cast<const AbstractTyped *>(this);
-}
-
-template <typename T>
 bool DynamicProperty<T>::isGroup() const
 {
     return false;

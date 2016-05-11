@@ -25,18 +25,6 @@ Property<T>::~Property()
 }
 
 template <typename T>
-AbstractTyped * Property<T>::asTyped()
-{
-    return static_cast<AbstractTyped *>(this);
-}
-
-template <typename T>
-const AbstractTyped * Property<T>::asTyped() const
-{
-    return static_cast<const AbstractTyped *>(this);
-}
-
-template <typename T>
 bool Property<T>::isGroup() const
 {
     return false;

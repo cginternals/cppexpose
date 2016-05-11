@@ -263,14 +263,14 @@ static void pushToDukStack(duk_context * context, const Variant & var)
 static Variant getPropertyValue(AbstractProperty * property)
 {
     // Get property value as variant
-    return property->asTyped()->toVariant();
+    return property->toVariant();
 }
 
 static void setPropertyValue(AbstractProperty * property, const Variant & value)
 {
     // Set property value from variant
     if (property) {
-        property->asTyped()->fromVariant(value);
+        property->fromVariant(value);
     }
 }
 

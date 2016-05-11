@@ -59,8 +59,6 @@ public:
     virtual ~DynamicProperty();
 
     // Virtual AbstractProperty interface
-    virtual AbstractTyped * asTyped() override;
-    virtual const AbstractTyped * asTyped() const override;
     virtual bool isGroup() const override;
 
 

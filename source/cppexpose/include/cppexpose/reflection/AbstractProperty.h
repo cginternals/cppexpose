@@ -53,24 +53,6 @@ public:
 
     /**
     *  @brief
-    *    Get this object as AbstractTyped-pointer
-    *
-    *  @return
-    *    Pointer to AbstractTyped interface
-    */
-    virtual AbstractTyped * asTyped() = 0;
-
-    /**
-    *  @brief
-    *    Get this object as AbstractTyped-pointer
-    *
-    *  @return
-    *    Pointer to AbstractTyped interface
-    */
-    virtual const AbstractTyped * asTyped() const = 0;
-
-    /**
-    *  @brief
     *    Check if property is a group
     *
     *  @return

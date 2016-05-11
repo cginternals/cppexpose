@@ -169,16 +169,6 @@ void PropertyGroup::takeOwnership(AbstractProperty * property)
     m_managedProperties.push_back(property);
 }
 
-AbstractTyped * PropertyGroup::asTyped()
-{
-    return static_cast<AbstractTyped *>(this);
-}
-
-const AbstractTyped * PropertyGroup::asTyped() const
-{
-    return static_cast<const AbstractTyped *>(this);
-}
-
 bool PropertyGroup::isGroup() const
 {
     return true;
@@ -218,7 +208,7 @@ size_t PropertyGroup::numSubValues() const
 AbstractTyped * PropertyGroup::subValue(size_t index)
 {
     if (index < m_properties.size()) {
-        return m_properties[index]->asTyped();
+        return m_properties[index];
     }
 
     return nullptr;
@@ -284,7 +274,7 @@ Variant PropertyGroup::toVariant() const
         AbstractProperty * prop = it.second;
 
         // Add to variant map
-        (*map.asMap())[name] = prop->asTyped()->toVariant();
+        (*map.asMap())[name] = prop->toVariant();
     }
 
     // Return variant representation
@@ -307,7 +297,7 @@ bool PropertyGroup::fromVariant(const Variant & value)
         // If this names an existing property, set its value
         AbstractProperty * prop = this->property(name);
         if (prop) {
-            prop->asTyped()->fromVariant(var);
+            prop->fromVariant(var);
         }
     }
 

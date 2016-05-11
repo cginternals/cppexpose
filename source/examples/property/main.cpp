@@ -24,7 +24,7 @@ int main(int, char * [])
     for (auto it : obj.properties())
     {
         AbstractProperty * property = it.second;
-        std::cout << "- " << property->name() << " (" << property->asTyped()->typeName() << ")" << std::endl;
+        std::cout << "- " << property->name() << " (" << property->typeName() << ")" << std::endl;
     }
     std::cout << std::endl;
 
@@ -44,25 +44,25 @@ int main(int, char * [])
     AbstractProperty * property = obj.property("int");
 
     // Set property value from different data types
-    property->asTyped()->fromLongLong(-10);
-    property->asTyped()->fromDouble(2.5);
-    property->asTyped()->fromULongLong(10);
-    property->asTyped()->fromBool(1);
-    property->asTyped()->fromString("Hallo");
-    property->asTyped()->fromString("123");
-    property->asTyped()->fromVariant(Variant(2));
+    property->fromLongLong(-10);
+    property->fromDouble(2.5);
+    property->fromULongLong(10);
+    property->fromBool(1);
+    property->fromString("Hallo");
+    property->fromString("123");
+    property->fromVariant(Variant(2));
     std::cout << std::endl;
 
     // Set enum values
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.asTyped()->toString() << ")" << std::endl;
+    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
     obj.MyMood.setValue(Mood::Neutral);
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.asTyped()->toString() << ")" << std::endl;
-    obj.MyMood.asTyped()->fromString("Happy");
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.asTyped()->toString() << ")" << std::endl;
-    obj.MyMood.asTyped()->fromVariant(Variant(-1));
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.asTyped()->toString() << ")" << std::endl;
-    obj.MyMood.asTyped()->fromULongLong(0);
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.asTyped()->toString() << ")" << std::endl;
+    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
+    obj.MyMood.fromString("Happy");
+    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
+    obj.MyMood.fromVariant(Variant(-1));
+    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
+    obj.MyMood.fromULongLong(0);
+    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
     std::cout << std::endl;
 
     // Serialize object properties

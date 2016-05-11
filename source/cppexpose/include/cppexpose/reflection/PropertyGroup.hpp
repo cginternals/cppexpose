@@ -18,7 +18,7 @@ Property<T> * PropertyGroup::property(const std::string & path)
 {
     AbstractProperty * prop = this->property(path);
 
-    if (prop && prop->asTyped()->type() == typeid(T)) {
+    if (prop && prop->type() == typeid(T)) {
         return static_cast<Property<T> *>(this->property(path));
     }
 
@@ -30,7 +30,7 @@ const Property<T> * PropertyGroup::property(const std::string & path) const
 {
     const AbstractProperty * prop = this->property(path);
 
-    if (prop && prop->asTyped()->type() == typeid(T)) {
+    if (prop && prop->type() == typeid(T)) {
         return static_cast<const Property<T> *>(this->property(path));
     }
 
