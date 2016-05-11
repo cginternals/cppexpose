@@ -6,7 +6,6 @@
 
 #include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
-#include <cppexpose/reflection/InputSlot.h>
 
 #include "Mood.h"
 #include "PropertyExtensions.h"
@@ -20,9 +19,6 @@ public:
     cppexpose::Property<int>         Int;
     cppexpose::Property<float>       Float;
     cppexpose::Property<Mood>        MyMood;
-
-    // Inputs
-    cppexpose::InputSlot<int>        Number;
 
 
 public:

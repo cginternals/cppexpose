@@ -5,7 +5,6 @@
 #include <cppexpose/reflection/PropertyGroup.h>
 #include <cppexpose/reflection/Property.h>
 #include <cppexpose/reflection/DynamicProperty.h>
-#include <cppexpose/reflection/InputSlot.h>
 
 #include <typeinfo>
 
