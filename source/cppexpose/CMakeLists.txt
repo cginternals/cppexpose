@@ -73,8 +73,8 @@ set(headers
     ${include_path}/typed/AbstractTyped.h
     ${include_path}/typed/AbstractTyped.hh
     ${include_path}/typed/AbstractTyped.hpp
-    ${include_path}/typed/TypeSelector.h
-    ${include_path}/typed/TypeSelector.hh
+    ${include_path}/typed/GetTyped.h
+    ${include_path}/typed/GetTyped.hh
     ${include_path}/typed/Typed.h
     ${include_path}/typed/Typed.hh
     ${include_path}/typed/Typed.hpp

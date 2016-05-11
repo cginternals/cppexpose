@@ -4,7 +4,7 @@
 
 #include <functional>
 
-#include <cppexpose/typed/TypeSelector.hh>
+#include <cppexpose/typed/GetTyped.hh>
 
 
 namespace cppexpose
@@ -28,7 +28,7 @@ struct SingleValueFunctions
 *    Typed value (read/write) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueSingle : public TypeSelector<T, BASE>::Type
+class StoredValueSingle : public GetTyped<T, BASE>::Type
 {
 public:
     /**

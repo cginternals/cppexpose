@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypeSelector.hh>
+#include <cppexpose/typed/GetTyped.hh>
 
 
 namespace cppexpose
@@ -28,10 +28,10 @@ struct ArrayValueFunctions
 *    Typed array value (read/write) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueArray : public TypeSelector<T, BASE>::Type
+class StoredValueArray : public GetTyped<T, BASE>::Type
 {
 public:
-    typedef typename TypeSelector<T, BASE>::Type::ElementType ElementType;
+    typedef typename GetTyped<T, BASE>::Type::ElementType ElementType;
 
 
 public:

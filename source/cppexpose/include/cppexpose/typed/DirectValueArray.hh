@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypeSelector.hh>
+#include <cppexpose/typed/GetTyped.hh>
 
 
 namespace cppexpose
@@ -14,10 +14,10 @@ namespace cppexpose
 *    Typed array value (read/write) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueArray : public TypeSelector<T, BASE>::Type
+class DirectValueArray : public GetTyped<T, BASE>::Type
 {
 public:
-    typedef typename TypeSelector<T, BASE>::Type::ElementType ElementType;
+    typedef typename GetTyped<T, BASE>::Type::ElementType ElementType;
 
 
 public:

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypeSelector.hh>
+#include <cppexpose/typed/GetTyped.hh>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    Typed value (read/write) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueSingle : public TypeSelector<T, BASE>::Type
+class DirectValueSingle : public GetTyped<T, BASE>::Type
 {
 public:
     /**

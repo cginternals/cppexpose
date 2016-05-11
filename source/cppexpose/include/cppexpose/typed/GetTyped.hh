@@ -21,13 +21,13 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Helper class for selecting types
+*    Get appropriate Typed<> class for given data type
 *
 *    Specialize this class template to register a new type.
 *    Define the typed class that you want to use as typedef Type.
 */
 template <typename T, typename BASE, typename = void>
-struct TypeSelector
+struct GetTyped
 {
     using Type = TypedGeneric<T, BASE>;
 };
@@ -37,7 +37,7 @@ struct TypeSelector
 *    Type selector for bool
 */
 template <typename BASE>
-struct TypeSelector<bool, BASE>
+struct GetTyped<bool, BASE>
 {
     using Type = TypedBool<bool, BASE>;
 };
@@ -47,7 +47,7 @@ struct TypeSelector<bool, BASE>
 *    Type selector for const bool
 */
 template <typename BASE>
-struct TypeSelector<const bool, BASE>
+struct GetTyped<const bool, BASE>
 {
     using Type = TypedBool<const bool, BASE>;
 };
@@ -57,7 +57,7 @@ struct TypeSelector<const bool, BASE>
 *    Type selector for std::string
 */
 template <typename BASE>
-struct TypeSelector<std::string, BASE>
+struct GetTyped<std::string, BASE>
 {
     using Type = TypedString<std::string, BASE>;
 };
@@ -67,7 +67,7 @@ struct TypeSelector<std::string, BASE>
 *    Type selector for const std::string
 */
 template <typename BASE>
-struct TypeSelector<const std::string, BASE>
+struct GetTyped<const std::string, BASE>
 {
     using Type = TypedString<const std::string, BASE>;
 };
@@ -77,7 +77,7 @@ struct TypeSelector<const std::string, BASE>
 *    Type selector for signed integral types
 */
 template <typename T, typename BASE>
-struct TypeSelector<T, BASE, helper::EnableIf<helper::isSignedIntegral<T>>>
+struct GetTyped<T, BASE, helper::EnableIf<helper::isSignedIntegral<T>>>
 {
     using Type = TypedSignedIntegral<T, BASE>;
 };
@@ -87,7 +87,7 @@ struct TypeSelector<T, BASE, helper::EnableIf<helper::isSignedIntegral<T>>>
 *    Type selector for unsigned integral types
 */
 template <typename T, typename BASE>
-struct TypeSelector<T, BASE, helper::EnableIf<helper::isUnsignedIntegral<T>>>
+struct GetTyped<T, BASE, helper::EnableIf<helper::isUnsignedIntegral<T>>>
 {
     using Type = TypedUnsignedIntegral<T, BASE>;
 };
@@ -97,7 +97,7 @@ struct TypeSelector<T, BASE, helper::EnableIf<helper::isUnsignedIntegral<T>>>
 *    Type selector for floating point types
 */
 template <typename T, typename BASE>
-struct TypeSelector<T, BASE, helper::EnableIf<helper::isFloatingPoint<T>>>
+struct GetTyped<T, BASE, helper::EnableIf<helper::isFloatingPoint<T>>>
 {
     using Type = TypedFloatingPoint<T, BASE>;
 };
@@ -107,7 +107,7 @@ struct TypeSelector<T, BASE, helper::EnableIf<helper::isFloatingPoint<T>>>
 *    Type selector for enum types
 */
 template <typename T, typename BASE>
-struct TypeSelector<T, BASE, helper::EnableIf<std::is_enum<T>>>
+struct GetTyped<T, BASE, helper::EnableIf<std::is_enum<T>>>
 {
     using Type = TypedEnum<T, BASE>;
 };
@@ -117,7 +117,7 @@ struct TypeSelector<T, BASE, helper::EnableIf<std::is_enum<T>>>
 *    Type selector for array types
 */
 template <typename T, typename BASE>
-struct TypeSelector<T, BASE, helper::EnableIf<helper::isArray<T>>>
+struct GetTyped<T, BASE, helper::EnableIf<helper::isArray<T>>>
 {
     using Type = TypedArray<T, typename T::value_type, std::tuple_size<T>::value, BASE>;
 };
@@ -127,7 +127,7 @@ struct TypeSelector<T, BASE, helper::EnableIf<helper::isArray<T>>>
 *    Type selector for cppexpose::Variant
 */
 template <typename BASE>
-struct TypeSelector<cppexpose::Variant, BASE>
+struct GetTyped<cppexpose::Variant, BASE>
 {
     using Type = TypedVariant<cppexpose::Variant, BASE>;
 };
@@ -137,7 +137,7 @@ struct TypeSelector<cppexpose::Variant, BASE>
 *    Type selector for const cppexpose::Variant
 */
 template <typename BASE>
-struct TypeSelector<const cppexpose::Variant, BASE>
+struct GetTyped<const cppexpose::Variant, BASE>
 {
     using Type = TypedVariant<const cppexpose::Variant, BASE>;
 };

@@ -4,6 +4,7 @@
 
 #include <cppexpose/typed/TypeInterface.h>
 #include <cppexpose/typed/AbstractTyped.hh>
+#include <cppexpose/typed/GetTyped.hh>
 #include <cppexpose/typed/Typed.hh>
 #include <cppexpose/typed/TypedGeneric.hh>
 #include <cppexpose/typed/TypedNumber.hh>
@@ -15,7 +16,6 @@
 #include <cppexpose/typed/TypedString.hh>
 #include <cppexpose/typed/TypedUnsignedIntegral.hh>
 #include <cppexpose/typed/TypedVariant.hh>
-#include <cppexpose/typed/TypeSelector.hh>
 #include <cppexpose/typed/DirectValue.hh>
 #include <cppexpose/typed/DirectValueSingle.hh>
 #include <cppexpose/typed/DirectValueArray.hh>
