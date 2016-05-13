@@ -141,6 +141,7 @@ set(headers
     ${include_path}/reflection/Object.h
     ${include_path}/reflection/AbstractProperty.h
     ${include_path}/reflection/PropertyGroup.h
+    ${include_path}/reflection/PropertyGroup.hpp
     ${include_path}/reflection/Property.h
     ${include_path}/reflection/Property.hpp
     ${include_path}/reflection/DynamicProperty.h

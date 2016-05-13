@@ -16,6 +16,9 @@ AbstractProperty::AbstractProperty()
 
 AbstractProperty::~AbstractProperty()
 {
+    if (m_parent) {
+        m_parent->unregisterProperty(this);
+    }
 }
 
 PropertyGroup * AbstractProperty::parent() const
@@ -34,7 +37,7 @@ void AbstractProperty::initProperty(PropertyGroup * parent, const std::string & 
     m_name   = name;
 
     if (m_parent) {
-        m_parent->addProperty(this);
+        m_parent->registerProperty(this);
     }
 }
 

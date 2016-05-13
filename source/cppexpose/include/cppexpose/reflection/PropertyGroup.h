@@ -8,7 +8,7 @@
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>
-#include <cppexpose/reflection/AbstractProperty.h>
+#include <cppexpose/reflection/DynamicProperty.h>
 
 
 namespace cppexpose
@@ -21,6 +21,9 @@ namespace cppexpose
 */
 class CPPEXPOSE_API PropertyGroup : public AbstractProperty
 {
+friend class AbstractProperty;
+
+
 public:
     Signal<size_t, AbstractProperty *> beforeAdd;    ///< Called before a property is added to the group
     Signal<size_t, AbstractProperty *> afterAdd;     ///< Called after a property is added to the group
@@ -149,37 +152,23 @@ public:
     //@{
     /**
     *  @brief
-    *    Add property
+    *    Create dynamic property
     *
-    *  @param[in] property
-    *    Property (must NOT be null!)
-    *
-    *  @return
-    *    Property (must NOT be null!)
-    *
-    *  @remarks
-    *    There is no automatic transfer of ownership to the property group.
-    *    If you want the property group to manage destruction of properties,
-    *    use takeOwnership();
-    */
-    AbstractProperty * addProperty(AbstractProperty * property);
-
-    /**
-    *  @brief
-    *    Remove property
-    *
-    *  @param[in] property
-    *    Property (must NOT be null!)
+    *  @param[in] name
+    *    Property name
+    *  @param[in] value
+    *    Default value
     *
     *  @return
-    *    'true' if property could be removed, else 'false'
+    *    Pointer to the new property, or nullptr on error
     *
     *  @remarks
-    *    This function removes the specified property from the group.
-    *    If the group has ownership over the property (see takeOwnership),
-    *    the property will also be deleted.
+    *    This function creates a new dynamic property of the specified
+    *    typed and adds it to the property group. It also takes ownership
+    *    over the property.
     */
-    bool removeProperty(AbstractProperty * property);
+    template <typename T>
+    DynamicProperty<T> * addDynamicProperty(const std::string & name, const T & value = T());
 
     /**
     *  @brief
@@ -196,6 +185,27 @@ public:
     *    destruction by yourself.
     */
     void takeOwnership(AbstractProperty * property);
+
+    /**
+    *  @brief
+    *    Destroy property
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @return
+    *    'true' if property could be removed, else 'false'
+    *
+    *  @remarks
+    *    This function destroys the specified property from the group.
+    *    It can only be used on properties which are owned by the
+    *    property group, i.e., properties created by addDynamicProperty
+    *    or transferred by takeOwnership. Properties which are not
+    *    owned by the property group must be deleted by other means,
+    *    on destruction they automatically deregister themselves
+    *    from the property group.
+    */
+    bool destroyProperty(AbstractProperty * property);
     //@}
 
     // Virtual AbstractProperty interface
@@ -234,6 +244,8 @@ public:
 
 
 protected:
+    void registerProperty(AbstractProperty * property);
+    void unregisterProperty(AbstractProperty * property);
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
 
 
@@ -245,3 +257,6 @@ protected:
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/reflection/PropertyGroup.hpp>

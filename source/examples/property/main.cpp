@@ -82,10 +82,11 @@ int main(int, char * [])
         for (int j=1; j<=4; j++)
         {
             std::string name = "value" + toString<int>(j);
-            sub->takeOwnership(
-                new DynamicProperty<int>(sub, name, i * 10 + j)
-            );
+            sub->addDynamicProperty<int>(name, i * 10 + j);
         }
+
+        sub->destroyProperty(sub->property("value2"));
+        sub->destroyProperty(sub->property("value3"));
     }
 
     values = root->toVariant();
