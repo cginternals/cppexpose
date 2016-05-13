@@ -22,10 +22,10 @@ namespace cppexpose
 class CPPEXPOSE_API PropertyGroup : public AbstractProperty
 {
 public:
-    Signal<size_t, AbstractProperty *> beforeAdd;   ///< Called, before a property is added to the group
-    Signal<size_t, AbstractProperty *> afterAdd;    ///< Called, after a property is added to the group
-    Signal<size_t> beforeRemove;                    ///< Called, before a property is removed from the group
-    Signal<size_t> afterRemove;                     ///< Called, after a property is removed from the group
+    Signal<size_t, AbstractProperty *> beforeAdd;    ///< Called before a property is added to the group
+    Signal<size_t, AbstractProperty *> afterAdd;     ///< Called after a property is added to the group
+    Signal<size_t, AbstractProperty *> beforeRemove; ///< Called before a property is removed from the group
+    Signal<size_t, AbstractProperty *> afterRemove;  ///< Called after a property is removed from the group
 
 
 public:
@@ -163,6 +163,23 @@ public:
     *    use takeOwnership();
     */
     AbstractProperty * addProperty(AbstractProperty * property);
+
+    /**
+    *  @brief
+    *    Remove property
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @return
+    *    'true' if property could be removed, else 'false'
+    *
+    *  @remarks
+    *    This function removes the specified property from the group.
+    *    If the group has ownership over the property (see takeOwnership),
+    *    the property will also be deleted.
+    */
+    bool removeProperty(AbstractProperty * property);
 
     /**
     *  @brief
