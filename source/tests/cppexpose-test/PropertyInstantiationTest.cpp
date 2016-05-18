@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 
 #include <cppexpose/reflection/Property.h>
+#include <cppexpose/reflection/PropertyGroup.h>
 
 #include "MyObject.h"
 
@@ -47,6 +48,9 @@ void staticSetter(T /*value*/)
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
+    
+    PropertyGroup propGroup;
+            
     auto get = [] ()
     {
         return TypeParam();
@@ -56,17 +60,18 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGett
     {
     };
 
-    auto prop = new Property<TypeParam>("Property", get, set);
+    auto prop = new Property<TypeParam>(&propGroup, "Property", get, set);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
 }
 
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_StaticGetter_StaticSetter)
 {
-    auto prop = new StoredValue<TypeParam>(&staticGetter<TypeParam>, &staticSetter<TypeParam>);
+    
+    PropertyGroup propGroup;
+    
+    auto prop = new Property<TypeParam>(&propGroup, "Property", &staticGetter<TypeParam>, &staticSetter<TypeParam>);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
@@ -88,8 +93,9 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Con
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_GetterConst_SetterConst)
 {
+    PropertyGroup propGroup;
     auto obj = new MyObject<TypeParam>("TestObject");
-    auto prop = new Property<TypeParam>("Property", obj, &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setterconst);
+    auto prop = new Property<TypeParam>(&propGroup, "Property", obj, &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setterconst);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
@@ -114,12 +120,13 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Get
 
 TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_LambdaGetter)
 {
+    PropertyGroup propGroup;
     auto get = [] ()
     {
         return TypeParam();
     };
 
-    auto prop = new Property<const TypeParam>("Property", get);
+    auto prop = new Property<const TypeParam>(&propGroup, "Property", get);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
@@ -129,7 +136,8 @@ TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_Lambd
 
 TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_StaticGetter)
 {
-    auto prop = new Property<const TypeParam>("Property", &staticGetter<TypeParam>);
+    PropertyGroup propGroup;
+    auto prop = new Property<const TypeParam>(&propGroup, "Property", &staticGetter<TypeParam>);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
