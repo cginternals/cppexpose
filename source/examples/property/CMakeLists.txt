@@ -3,13 +3,15 @@
 # External dependencies
 # 
 
+find_package(cppassist REQUIRED)
+
 
 # 
 # Executable name and options
 # 
 
 # Target name
-set(target types)
+set(target property-example)
 
 # Exit here if required dependencies are not met
 message(STATUS "Example ${target}")
@@ -21,6 +23,10 @@ message(STATUS "Example ${target}")
 
 set(sources
     main.cpp
+    MyObject.cpp
+    MyObject.h
+    Mood.h
+    PropertyExtensions.h
 )
 
 
@@ -67,6 +73,7 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
+    cppassist::cppassist
     ${META_PROJECT_NAME}::cppexpose
 )
 

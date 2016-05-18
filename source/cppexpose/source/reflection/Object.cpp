@@ -6,8 +6,8 @@ namespace cppexpose
 {
 
 
-Object::Object(const std::string & name)
-: PropertyGroup(name)
+Object::Object(const std::string & name, PropertyGroup * parent)
+: PropertyGroup(name, parent)
 {
 }
 
@@ -15,7 +15,7 @@ Object::~Object()
 {
 }
 
-const std::vector<Function> & Object::functions() const
+const std::vector<Method> & Object::functions() const
 {
     return m_functions;
 }

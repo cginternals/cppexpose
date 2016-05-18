@@ -11,7 +11,7 @@ find_package(cpplocate REQUIRED)
 # 
 
 # Target name
-set(target plugins)
+set(target plugin-example)
 
 # Exit here if required dependencies are not met
 message(STATUS "Example ${target}")

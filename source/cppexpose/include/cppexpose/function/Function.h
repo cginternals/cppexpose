@@ -2,7 +2,6 @@
 #pragma once
 
 
-#include <string>
 #include <vector>
 
 #include <cppexpose/cppexpose_api.h>
@@ -33,12 +32,10 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] name
-    *    Function name
     *  @param[in] func
     *    Function object (can be null)
     */
-    Function(const std::string & name = "", AbstractFunction * func = nullptr);
+    Function(AbstractFunction * func = nullptr);
 
     /**
     *  @brief
@@ -69,15 +66,6 @@ public:
 
     /**
     *  @brief
-    *    Get name
-    *
-    *  @return
-    *    Function name
-    */
-    std::string name() const;
-
-    /**
-    *  @brief
     *    Call function
     *
     *  @param[in] args
@@ -90,7 +78,6 @@ public:
 
 
 protected:
-    std::string        m_name; ///< Function name
     AbstractFunction * m_func; ///< Function implementation
 };
 

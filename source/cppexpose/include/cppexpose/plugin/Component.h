@@ -27,8 +27,10 @@ public:
     *    Component description
     *  @param[in] type
     *    Component type
-    *  @param[in] subtype
-    *    Component sub-type (user-defined)
+    *  @param[in] tags
+    *    Component tags (user-defined, space-separated)
+    *  @param[in] icon
+    *    Icon name or ID (user-defined)
     *  @param[in] annotations
     *    Component annotations (user-defined)
     *  @param[in] vendor
@@ -40,7 +42,8 @@ public:
       const std::string & name
     , const std::string & description
     , const std::string & type
-    , const std::string & subtype
+    , const std::string & tags
+    , const std::string & icon
     , const std::string & annotations
     , const std::string & vendor
     , const std::string & version);

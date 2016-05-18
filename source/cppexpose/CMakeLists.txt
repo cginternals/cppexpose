@@ -4,7 +4,7 @@
 # 
 
 find_package(cpplocate REQUIRED)
-find_package(libzeug REQUIRED)
+find_package(cppassist REQUIRED)
 
 set(ADDITIONAL_LIBRARIES)
 set(ADDITIONAL_INCLUDES)
@@ -71,39 +71,60 @@ set(headers
 
     ${include_path}/typed/TypeInterface.h
     ${include_path}/typed/AbstractTyped.h
+    ${include_path}/typed/AbstractTyped.hh
     ${include_path}/typed/AbstractTyped.hpp
-    ${include_path}/typed/TypeSelector.h
+    ${include_path}/typed/GetTyped.h
+    ${include_path}/typed/GetTyped.hh
     ${include_path}/typed/Typed.h
+    ${include_path}/typed/Typed.hh
     ${include_path}/typed/Typed.hpp
     ${include_path}/typed/TypedGeneric.h
+    ${include_path}/typed/TypedGeneric.hh
     ${include_path}/typed/TypedGeneric.hpp
     ${include_path}/typed/TypedBool.h
+    ${include_path}/typed/TypedBool.hh
     ${include_path}/typed/TypedBool.hpp
     ${include_path}/typed/TypedString.h
+    ${include_path}/typed/TypedString.hh
     ${include_path}/typed/TypedString.hpp
     ${include_path}/typed/TypedNumber.h
+    ${include_path}/typed/TypedNumber.hh
     ${include_path}/typed/TypedNumber.hpp
     ${include_path}/typed/TypedSignedIntegral.h
+    ${include_path}/typed/TypedSignedIntegral.hh
     ${include_path}/typed/TypedSignedIntegral.hpp
     ${include_path}/typed/TypedUnsignedIntegral.h
+    ${include_path}/typed/TypedUnsignedIntegral.hh
     ${include_path}/typed/TypedUnsignedIntegral.hpp
     ${include_path}/typed/TypedFloatingPoint.h
+    ${include_path}/typed/TypedFloatingPoint.hh
     ${include_path}/typed/TypedFloatingPoint.hpp
     ${include_path}/typed/TypedEnum.h
+    ${include_path}/typed/TypedEnum.hh
     ${include_path}/typed/TypedEnum.hpp
     ${include_path}/typed/TypedArray.h
+    ${include_path}/typed/TypedArray.hh
     ${include_path}/typed/TypedArray.hpp
     ${include_path}/typed/TypedVariant.h
+    ${include_path}/typed/TypedVariant.hh
     ${include_path}/typed/TypedVariant.hpp
     ${include_path}/typed/DirectValue.h
+    ${include_path}/typed/DirectValue.hh
     ${include_path}/typed/DirectValue.hpp
     ${include_path}/typed/DirectValueSingle.h
+    ${include_path}/typed/DirectValueSingle.hh
     ${include_path}/typed/DirectValueSingle.hpp
     ${include_path}/typed/DirectValueArray.h
+    ${include_path}/typed/DirectValueArray.hh
     ${include_path}/typed/DirectValueArray.hpp
+    ${include_path}/typed/StoredValue.h
+    ${include_path}/typed/StoredValue.hh
+    ${include_path}/typed/StoredValue.hpp
     ${include_path}/typed/StoredValueSingle.h
+    ${include_path}/typed/StoredValueSingle.hh
     ${include_path}/typed/StoredValueSingle.hpp
     ${include_path}/typed/StoredValueArray.h
+    ${include_path}/typed/StoredValueArray.hh
     ${include_path}/typed/StoredValueArray.hpp
 
     ${include_path}/function/Function.h
@@ -114,18 +135,24 @@ set(headers
     ${include_path}/function/MemberFunction.hpp
 
     ${include_path}/variant/Variant.h
+    ${include_path}/variant/Variant.hh
     ${include_path}/variant/Variant.hpp
 
     ${include_path}/reflection/Object.h
     ${include_path}/reflection/AbstractProperty.h
     ${include_path}/reflection/PropertyGroup.h
+    ${include_path}/reflection/PropertyGroup.hpp
     ${include_path}/reflection/Property.h
     ${include_path}/reflection/Property.hpp
+    ${include_path}/reflection/DynamicProperty.h
+    ${include_path}/reflection/DynamicProperty.hpp
+    ${include_path}/reflection/Method.h
 
     ${include_path}/scripting/ScriptContext.h
     ${include_path}/scripting/AbstractScriptBackend.h
 
     ${include_path}/plugin/ComponentManager.h
+    ${include_path}/plugin/ComponentManager.hpp
     ${include_path}/plugin/AbstractComponent.h
     ${include_path}/plugin/TypedComponent.h
     ${include_path}/plugin/TypedComponent.hpp
@@ -158,6 +185,7 @@ set(sources
     ${source_path}/reflection/Object.cpp
     ${source_path}/reflection/AbstractProperty.cpp
     ${source_path}/reflection/PropertyGroup.cpp
+    ${source_path}/reflection/Method.cpp
 
     ${source_path}/scripting/duktape-1.4.0/duktape.c
     ${source_path}/scripting/duktape-1.4.0/duktape.h
@@ -266,8 +294,7 @@ target_link_libraries(${target}
     PRIVATE
     ${ADDITIONAL_LIBRARIES}
     cpplocate::cpplocate
-    libzeug::iozeug
-    libzeug::loggingzeug
+    cppassist::cppassist
 
     PUBLIC
     ${DEFAULT_LIBRARIES}

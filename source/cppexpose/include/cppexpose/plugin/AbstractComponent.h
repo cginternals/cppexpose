@@ -30,8 +30,10 @@ public:
     *    Component description
     *  @param[in] type
     *    Component type
-    *  @param[in] subtype
-    *    Component sub-type (user-defined)
+    *  @param[in] tags
+    *    Component tags (user-defined, space-separated)
+    *  @param[in] icon
+    *    Icon name or ID (user-defined)
     *  @param[in] annotations
     *    Component annotations (user-defined)
     *  @param[in] vendor
@@ -43,7 +45,8 @@ public:
       const std::string & name
     , const std::string & description
     , const std::string & type
-    , const std::string & subtype
+    , const std::string & tags
+    , const std::string & icon
     , const std::string & annotations
     , const std::string & vendor
     , const std::string & version);
@@ -86,14 +89,28 @@ public:
     *    Get sub-type
     *
     *  @return
-    *    Component sub-type
+    *    Component tags (user-defined, space-separated)
     *
     *  @remarks
-    *    The sub-type can be chosen arbitrarily by the using application
+    *    Tags can be chosen arbitrarily by the using application,
     *    for example to order plugins into additional categories.
-    *    It is empty by default.
+    *    Tags are empty by default.
     */
-    const char * subtype() const;
+    const char * tags() const;
+
+    /**
+    *  @brief
+    *    Get icon
+    *
+    *  @return
+    *    Icon name or ID
+    *
+    *  @remarks
+    *    The icon field can point to a file name or ID that is used to
+    *    display an icon for the component. The actual content is application
+    *    specific and not defined by cppexpose.
+    */
+    const char * icon() const;
 
     /**
     *  @brief
@@ -161,7 +178,8 @@ protected:
     std::string           m_name;         ///< Component name
     std::string           m_description;  ///< Component description
     std::string           m_type;         ///< Component type
-    std::string           m_subtype;      ///< Component sub-type
+    std::string           m_tags;         ///< Component tags (user-defined, space-separated)
+    std::string           m_icon;         ///< Icon name or ID
     std::string           m_annotations;  ///< Component annotations
     std::string           m_vendor;       ///< Vendor name
     std::string           m_version;      ///< Component version

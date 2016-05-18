@@ -4,31 +4,31 @@
 
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>
-#include <cppexpose/reflection/AbstractProperty.h>
+#include <cppexpose/reflection/DynamicProperty.h>
 
 
 namespace cppexpose
 {
-
-template <typename T>
-class Property;
 
 
 /**
 *  @brief
 *    Base class for reflection-enabled objects
 */
-class CPPEXPOSE_API PropertyGroup : public AbstractTyped, public AbstractProperty
+class CPPEXPOSE_API PropertyGroup : public AbstractProperty
 {
+friend class AbstractProperty;
+
+
 public:
-    // [TODO]
-    Signal<size_t, AbstractProperty *> beforeAdd;   ///< Called, before a property is added to the group
-    Signal<size_t, AbstractProperty *> afterAdd;    ///< Called, after a property is added to the group
-    Signal<size_t> beforeRemove;                    ///< Called, before a property is removed from the group
-    Signal<size_t> afterRemove;                     ///< Called, after a property is removed from the group
+    Signal<size_t, AbstractProperty *> beforeAdd;    ///< Called before a property is added to the group
+    Signal<size_t, AbstractProperty *> afterAdd;     ///< Called after a property is added to the group
+    Signal<size_t, AbstractProperty *> beforeRemove; ///< Called before a property is removed from the group
+    Signal<size_t, AbstractProperty *> afterRemove;  ///< Called after a property is removed from the group
 
 
 public:
@@ -36,8 +36,11 @@ public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] parent
+    *    Parent object (can be null)
     */
-    PropertyGroup();
+    PropertyGroup(PropertyGroup * parent = nullptr);
 
     /**
     *  @brief
@@ -45,8 +48,10 @@ public:
     *
     *  @param[in] name
     *    Name
+    *  @param[in] parent
+    *    Parent object (can be null)
     */
-    PropertyGroup(const std::string & name);
+    PropertyGroup(const std::string & name, PropertyGroup * parent = nullptr);
 
     /**
     *  @brief
@@ -59,7 +64,7 @@ public:
     *    Clear properties
     *
     *    Removes all properties from the group.
-    *    If m_ownsProperties is 'true', the removed properties are deleted.
+    *    Properties which have been added with takeOwnership() are deleted.
     */
     void clear();
 
@@ -113,12 +118,6 @@ public:
     */
     AbstractProperty * property(const std::string & path);
     const AbstractProperty * property(const std::string & path) const;
-
-    template <typename Type>
-    Property<Type> * property(const std::string & path);
-
-    template <typename Type>
-    const Property<Type> * property(const std::string & path) const;
     //@}
 
     //@{
@@ -153,47 +152,63 @@ public:
     //@{
     /**
     *  @brief
-    *    Add property
-    *
-    *  @param[in] property
-    *    Property
-    *
-    *  @return
-    *    Pointer to the new property, or nullptr on error
-    */
-    AbstractProperty * addProperty(AbstractProperty * property);
-
-    /**
-    *  @brief
-    *    Create and add property
+    *    Create dynamic property
     *
     *  @param[in] name
     *    Property name
-    *  @param[in] args
-    *    Property arguments
+    *  @param[in] value
+    *    Default value
     *
     *  @return
     *    Pointer to the new property, or nullptr on error
+    *
+    *  @remarks
+    *    This function creates a new dynamic property of the specified
+    *    typed and adds it to the property group. It also takes ownership
+    *    over the property.
     */
-    template <typename Type, typename... Args>
-    Property<Type> * addProperty(const std::string & name, Args&&... args);
+    template <typename T>
+    DynamicProperty<T> * addDynamicProperty(const std::string & name, const T & value = T());
 
     /**
     *  @brief
-    *    Create and add property group
+    *    Take ownership over a property
     *
-    *  @param[in] name
-    *    Name of property group
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @remarks
+    *    With this function, the property group takes over ownership
+    *    over the specified property, so the property will be deleted
+    *    together with the object in its destructor. Use this function
+    *    after adding properties, if you are not managing their
+    *    destruction by yourself.
+    */
+    void takeOwnership(AbstractProperty * property);
+
+    /**
+    *  @brief
+    *    Destroy property
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
     *
     *  @return
-    *    Pointer to the new property group, or nullptr on error
+    *    'true' if property could be removed, else 'false'
+    *
+    *  @remarks
+    *    This function destroys the specified property from the group.
+    *    It can only be used on properties which are owned by the
+    *    property group, i.e., properties created by addDynamicProperty
+    *    or transferred by takeOwnership. Properties which are not
+    *    owned by the property group must be deleted by other means,
+    *    on destruction they automatically deregister themselves
+    *    from the property group.
     */
-    PropertyGroup * addGroup(const std::string & name);
+    bool destroyProperty(AbstractProperty * property);
     //@}
 
     // Virtual AbstractProperty interface
-    virtual AbstractTyped * asTyped() override;
-    virtual const AbstractTyped * asTyped() const override;
     virtual bool isGroup() const override;
 
     // Virtual AbstractTyped interface
@@ -229,13 +244,15 @@ public:
 
 
 protected:
+    void registerProperty(AbstractProperty * property);
+    void unregisterProperty(AbstractProperty * property);
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
 
 
 protected:
-    std::vector<AbstractProperty *>                     m_properties;    ///< List of properties in the group
-    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap; ///< Map of names and properties
-    bool m_ownsProperties; ///< [TODO] Remove!
+    std::vector<AbstractProperty *>                     m_properties;        ///< List of properties in the group
+    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;     ///< Map of names and properties
+    std::vector<AbstractProperty *>                     m_managedProperties; ///< Property that are managed by the property group
 };
 
 

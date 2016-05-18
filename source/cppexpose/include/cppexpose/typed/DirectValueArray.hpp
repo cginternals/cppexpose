@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/DirectValueArray.h>
+#include <cppexpose/typed/DirectValueArray.hh>
 
 
 namespace cppexpose
@@ -10,49 +10,61 @@ namespace cppexpose
 
 
 // Read/write type
-template <typename T>
-DirectValueArray<T>::DirectValueArray()
+template <typename T, typename BASE>
+DirectValueArray<T, BASE>::DirectValueArray()
 {
 }
 
-template <typename T>
-DirectValueArray<T>::DirectValueArray(const T & value)
+template <typename T, typename BASE>
+DirectValueArray<T, BASE>::DirectValueArray(const T & value)
 : m_value(value)
 {
 }
 
-template <typename T>
-DirectValueArray<T>::~DirectValueArray()
+template <typename T, typename BASE>
+DirectValueArray<T, BASE>::~DirectValueArray()
 {
 }
 
-template <typename T>
-AbstractTyped * DirectValueArray<T>::clone() const
+template <typename T, typename BASE>
+AbstractTyped * DirectValueArray<T, BASE>::clone() const
 {
-    return new DirectValueArray<T>(m_value);
+    return new DirectValueArray<T, AbstractTyped>(m_value);
 }
 
-template <typename T>
-T DirectValueArray<T>::value() const
+template <typename T, typename BASE>
+T DirectValueArray<T, BASE>::value() const
 {
     return m_value;
 }
 
-template <typename T>
-void DirectValueArray<T>::setValue(const T & value)
+template <typename T, typename BASE>
+void DirectValueArray<T, BASE>::setValue(const T & value)
 {
     m_value = value;
     this->onValueChanged(m_value);
 }
 
-template <typename T>
-typename DirectValueArray<T>::ElementType DirectValueArray<T>::getElement(size_t i) const
+template <typename T, typename BASE>
+const T * DirectValueArray<T, BASE>::ptr() const
+{
+    return &m_value;
+}
+
+template <typename T, typename BASE>
+T * DirectValueArray<T, BASE>::ptr()
+{
+    return &m_value;
+}
+
+template <typename T, typename BASE>
+typename DirectValueArray<T, BASE>::ElementType DirectValueArray<T, BASE>::getElement(size_t i) const
 {
     return m_value[i];
 }
 
-template <typename T>
-void DirectValueArray<T>::setElement(size_t i, const typename DirectValueArray<T>::ElementType & value)
+template <typename T, typename BASE>
+void DirectValueArray<T, BASE>::setElement(size_t i, const typename DirectValueArray<T, BASE>::ElementType & value)
 {
     m_value[i] = value;
     this->onValueChanged(m_value);
@@ -60,43 +72,50 @@ void DirectValueArray<T>::setElement(size_t i, const typename DirectValueArray<T
 
 
 // Read-only type
-template <typename T>
-DirectValueArray<const T>::DirectValueArray()
+template <typename T, typename BASE>
+DirectValueArray<const T, BASE>::DirectValueArray()
 {
 }
 
-template <typename T>
-DirectValueArray<const T>::DirectValueArray(const T & value)
-: DirectValueArray<T>::DirectValueArray(value)
+template <typename T, typename BASE>
+DirectValueArray<const T, BASE>::DirectValueArray(const T & value)
+: DirectValueArray<T, BASE>::DirectValueArray(value)
 {
 }
 
-template <typename T>
-DirectValueArray<const T>::~DirectValueArray()
+template <typename T, typename BASE>
+DirectValueArray<const T, BASE>::~DirectValueArray()
 {
 }
 
-template <typename T>
-AbstractTyped * DirectValueArray<const T>::clone() const
+template <typename T, typename BASE>
+AbstractTyped * DirectValueArray<const T, BASE>::clone() const
 {
-    return new DirectValueArray<const T>(this->m_value);
+    return new DirectValueArray<const T, AbstractTyped>(this->m_value);
 }
 
-template <typename T>
-bool DirectValueArray<const T>::isReadOnly() const
+template <typename T, typename BASE>
+bool DirectValueArray<const T, BASE>::isReadOnly() const
 {
     // Read-only!
     return true;
 }
 
-template <typename T>
-void DirectValueArray<const T>::setValue(const T &)
+template <typename T, typename BASE>
+void DirectValueArray<const T, BASE>::setValue(const T &)
 {
     // Read-only!
 }
 
-template <typename T>
-void DirectValueArray<const T>::setElement(size_t, const typename DirectValueArray<T>::ElementType &)
+template <typename T, typename BASE>
+T * DirectValueArray<const T, BASE>::ptr()
+{
+    // Read-only!
+    return nullptr;
+}
+
+template <typename T, typename BASE>
+void DirectValueArray<const T, BASE>::setElement(size_t, const typename DirectValueArray<T, BASE>::ElementType &)
 {
     // Read-only!
 }

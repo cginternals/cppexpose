@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedString.h>
+#include <cppexpose/typed/TypedString.hh>
 
 #include <cppexpose/base/string_helpers.h>
 
@@ -11,62 +11,62 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedString<T>::TypedString()
+template <typename T, typename BASE>
+TypedString<T, BASE>::TypedString()
 {
 }
 
-template <typename T>
-TypedString<T>::~TypedString()
+template <typename T, typename BASE>
+TypedString<T, BASE>::~TypedString()
 {
 }
 
-template <typename T>
-std::string TypedString<T>::typeName() const
+template <typename T, typename BASE>
+std::string TypedString<T, BASE>::typeName() const
 {
     return "string";
 }
 
-template <typename T>
-bool TypedString<T>::isString() const
+template <typename T, typename BASE>
+bool TypedString<T, BASE>::isString() const
 {
     return true;
 }
 
-template <typename T>
-std::string TypedString<T>::toString() const
+template <typename T, typename BASE>
+std::string TypedString<T, BASE>::toString() const
 {
     return this->value();
 }
 
-template <typename T>
-bool TypedString<T>::fromString(const std::string & value)
+template <typename T, typename BASE>
+bool TypedString<T, BASE>::fromString(const std::string & value)
 {
     this->setValue(value);
     return true;
 }
 
-template <typename T>
-bool TypedString<T>::toBool() const
+template <typename T, typename BASE>
+bool TypedString<T, BASE>::toBool() const
 {
     return (this->value() == "true");
 }
 
-template <typename T>
-bool TypedString<T>::fromBool(bool value)
+template <typename T, typename BASE>
+bool TypedString<T, BASE>::fromBool(bool value)
 {
     this->setValue(value ? "true" : "false");
     return true;
 }
 
-template <typename T>
-long long TypedString<T>::toLongLong() const
+template <typename T, typename BASE>
+long long TypedString<T, BASE>::toLongLong() const
 {
     return helper::fromString<long long>(this->value());
 }
 
-template <typename T>
-bool TypedString<T>::fromLongLong(long long value)
+template <typename T, typename BASE>
+bool TypedString<T, BASE>::fromLongLong(long long value)
 {
     std::string str = helper::toString<long long>(value);
 
@@ -78,14 +78,14 @@ bool TypedString<T>::fromLongLong(long long value)
     }
 }
 
-template <typename T>
-unsigned long long TypedString<T>::toULongLong() const
+template <typename T, typename BASE>
+unsigned long long TypedString<T, BASE>::toULongLong() const
 {
     return helper::fromString<unsigned long long>(this->value());
 }
 
-template <typename T>
-bool TypedString<T>::fromULongLong(unsigned long long value)
+template <typename T, typename BASE>
+bool TypedString<T, BASE>::fromULongLong(unsigned long long value)
 {
     std::string str = helper::toString<unsigned long long>(value);
 
@@ -97,14 +97,14 @@ bool TypedString<T>::fromULongLong(unsigned long long value)
     }
 }
 
-template <typename T>
-double TypedString<T>::toDouble() const
+template <typename T, typename BASE>
+double TypedString<T, BASE>::toDouble() const
 {
     return helper::fromString<double>(this->value());
 }
 
-template <typename T>
-bool TypedString<T>::fromDouble(double value)
+template <typename T, typename BASE>
+bool TypedString<T, BASE>::fromDouble(double value)
 {
     std::string str = helper::toString<double>(value);
 

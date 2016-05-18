@@ -4,21 +4,21 @@
 
 #include <string>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/typed/AbstractTyped.h>
 
 
 namespace cppexpose
 {
 
 
-class AbstractTyped;
+class PropertyGroup;
 
 
 /**
 *  @brief
 *    Base class for properties
 */
-class CPPEXPOSE_API AbstractProperty
+class CPPEXPOSE_API AbstractProperty : public AbstractTyped
 {
 public:
     /**
@@ -29,18 +29,18 @@ public:
 
     /**
     *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Name
-    */
-    AbstractProperty(const std::string & name);
-
-    /**
-    *  @brief
     *    Destructor
     */
     virtual ~AbstractProperty();
+
+    /**
+    *  @brief
+    *    Get parent object
+    *
+    *  @return
+    *    Parent (can be null)
+    */
+    PropertyGroup * parent() const;
 
     /**
     *  @brief
@@ -53,24 +53,6 @@ public:
 
     /**
     *  @brief
-    *    Get this object as AbstractTyped-pointer
-    *
-    *  @return
-    *    Pointer to AbstractTyped interface
-    */
-    virtual AbstractTyped * asTyped() = 0;
-
-    /**
-    *  @brief
-    *    Get this object as AbstractTyped-pointer
-    *
-    *  @return
-    *    Pointer to AbstractTyped interface
-    */
-    virtual const AbstractTyped * asTyped() const = 0;
-
-    /**
-    *  @brief
     *    Check if property is a group
     *
     *  @return
@@ -80,7 +62,21 @@ public:
 
 
 protected:
-    std::string m_name; ///< Name of the property
+    /**
+    *  @brief
+    *    Initialize property
+    *
+    *  @param[in] parent
+    *    Parent object (can be null)
+    *  @param[in] name
+    *    Name (can be empty)
+    */
+    void initProperty(PropertyGroup * parent, const std::string & name);
+
+
+protected:
+    PropertyGroup * m_parent; ///< Parent object
+    std::string     m_name;   ///< Name of the property
 };
 
 

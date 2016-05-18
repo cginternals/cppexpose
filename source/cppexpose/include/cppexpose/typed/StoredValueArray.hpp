@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/StoredValueArray.h>
+#include <cppexpose/typed/StoredValueArray.hh>
 
 
 namespace cppexpose
@@ -10,8 +10,8 @@ namespace cppexpose
 
 
 // Read/write type
-template <typename T>
-StoredValueArray<T>::StoredValueArray(
+template <typename T, typename BASE>
+StoredValueArray<T, BASE>::StoredValueArray(
     std::function<T ()> getter
   , std::function<void(const T &)> setter
   , std::function<ElementType (int)> elementGetter
@@ -23,9 +23,9 @@ StoredValueArray<T>::StoredValueArray(
 {
 }
 
-template <typename T>
+template <typename T, typename BASE>
 template <typename Obj>
-StoredValueArray<T>::StoredValueArray(
+StoredValueArray<T, BASE>::StoredValueArray(
     Obj * o,
     typename ArrayValueFunctions<T, ElementType, Obj>::getter g,
     typename ArrayValueFunctions<T, ElementType, Obj>::setter s,
@@ -60,50 +60,62 @@ StoredValueArray<T>::StoredValueArray(
     };
 }
 
-template <typename T>
-StoredValueArray<T>::~StoredValueArray()
+template <typename T, typename BASE>
+StoredValueArray<T, BASE>::~StoredValueArray()
 {
 }
 
-template <typename T>
-AbstractTyped * StoredValueArray<T>::clone() const
+template <typename T, typename BASE>
+AbstractTyped * StoredValueArray<T, BASE>::clone() const
 {
-    return new StoredValueArray<T>(m_getter, m_setter, m_elementGetter, m_elementSetter);
+    return new StoredValueArray<T, AbstractTyped>(m_getter, m_setter, m_elementGetter, m_elementSetter);
 }
 
-template <typename T>
-T StoredValueArray<T>::value() const
+template <typename T, typename BASE>
+T StoredValueArray<T, BASE>::value() const
 {
     return m_getter();
 }
 
-template <typename T>
-void StoredValueArray<T>::setValue(const T & value)
+template <typename T, typename BASE>
+void StoredValueArray<T, BASE>::setValue(const T & value)
 {
     m_setter(value);
     this->onValueChanged(value);
 }
 
-template <typename T>
-typename StoredValueArray<T>::ElementType StoredValueArray<T>::getElement(size_t i) const
+template <typename T, typename BASE>
+const T * StoredValueArray<T, BASE>::ptr() const
+{
+    return nullptr;
+}
+
+template <typename T, typename BASE>
+T * StoredValueArray<T, BASE>::ptr()
+{
+    return nullptr;
+}
+
+template <typename T, typename BASE>
+typename StoredValueArray<T, BASE>::ElementType StoredValueArray<T, BASE>::getElement(size_t i) const
 {
     return m_elementGetter(i);
 }
 
-template <typename T>
-void StoredValueArray<T>::setElement(size_t i, const typename StoredValueArray<T>::ElementType & value)
+template <typename T, typename BASE>
+void StoredValueArray<T, BASE>::setElement(size_t i, const typename StoredValueArray<T, BASE>::ElementType & value)
 {
     m_elementSetter(i, value);
     this->onValueChanged(this->value());
 }
 
-template <typename T>
-StoredValueArray<T>::StoredValueArray()
+template <typename T, typename BASE>
+StoredValueArray<T, BASE>::StoredValueArray()
 {
 }
 
-template <typename T>
-StoredValueArray<T>::StoredValueArray(
+template <typename T, typename BASE>
+StoredValueArray<T, BASE>::StoredValueArray(
     std::function<T ()> getter
   , std::function<ElementType (int)> elementGetter)
 : m_getter(getter)
@@ -113,45 +125,45 @@ StoredValueArray<T>::StoredValueArray(
 
 
 // Read-only type
-template <typename T>
-StoredValueArray<const T>::StoredValueArray(
+template <typename T, typename BASE>
+StoredValueArray<const T, BASE>::StoredValueArray(
     std::function<T ()> getter
-  , std::function<typename StoredValueArray<T>::ElementType (int)> elementGetter)
-: StoredValueArray<T>::StoredValueArray(getter, elementGetter)
+  , std::function<typename StoredValueArray<T, BASE>::ElementType (int)> elementGetter)
+: StoredValueArray<T, BASE>::StoredValueArray(getter, elementGetter)
 {
 }
 
-template <typename T>
+template <typename T, typename BASE>
 template <typename Obj>
-StoredValueArray<const T>::StoredValueArray(
+StoredValueArray<const T, BASE>::StoredValueArray(
     Obj * o,
-    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::getter g,
-    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter eg)
+    typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::getter g,
+    typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::elementGetter eg)
 {
     Obj * obj = obj;
-    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::getter getter = g;
-    typename ArrayValueFunctions<T, typename StoredValueArray<T>::ElementType, Obj>::elementGetter elementGetter = eg;
+    typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::getter getter = g;
+    typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::elementGetter elementGetter = eg;
 
     this->m_getter = [obj, getter] () -> T
     {
         return (obj->*getter)();
     };
 
-    this->m_elementGetter = [obj, elementGetter] (int index) -> typename StoredValueArray<T>::ElementType
+    this->m_elementGetter = [obj, elementGetter] (int index) -> typename StoredValueArray<T, BASE>::ElementType
     {
         return (obj->*elementGetter)(index);
     };
 }
 
-template <typename T>
-StoredValueArray<const T>::~StoredValueArray()
+template <typename T, typename BASE>
+StoredValueArray<const T, BASE>::~StoredValueArray()
 {
 }
 
-template <typename T>
-AbstractTyped * StoredValueArray<const T>::clone() const
+template <typename T, typename BASE>
+AbstractTyped * StoredValueArray<const T, BASE>::clone() const
 {
-    return new StoredValueArray<const T>(
+    return new StoredValueArray<const T, AbstractTyped>(
       this->m_getter,
       this->m_setter,
       this->m_elementGetter,
@@ -159,21 +171,21 @@ AbstractTyped * StoredValueArray<const T>::clone() const
     );
 }
 
-template <typename T>
-bool StoredValueArray<const T>::isReadOnly() const
+template <typename T, typename BASE>
+bool StoredValueArray<const T, BASE>::isReadOnly() const
 {
     // Read-only!
     return true;
 }
 
-template <typename T>
-void StoredValueArray<const T>::setValue(const T &)
+template <typename T, typename BASE>
+void StoredValueArray<const T, BASE>::setValue(const T &)
 {
     // Read-only!
 }
 
-template <typename T>
-void StoredValueArray<const T>::setElement(size_t, const typename StoredValueArray<T>::ElementType &)
+template <typename T, typename BASE>
+void StoredValueArray<const T, BASE>::setElement(size_t, const typename StoredValueArray<T, BASE>::ElementType &)
 {
     // Read-only!
 }

@@ -29,8 +29,9 @@ void BottlesOfBeer::run()
 
 CPPEXPOSE_COMPONENT(
     BottlesOfBeer, cppexpose::Example,
-    "",
-    "",
+    "", // Tags
+    "", // Icon
+    "", // Annotations
     "Drinks and counts",
     CPPEXPOSE_AUTHOR_ORGANIZATION,
     "v1.0.0"

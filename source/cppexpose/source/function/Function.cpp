@@ -9,15 +9,13 @@ namespace cppexpose
 {
 
 
-Function::Function(const std::string & name, AbstractFunction * func)
-: m_name(name)
-, m_func(func)
+Function::Function(AbstractFunction * func)
+: m_func(func)
 {
 }
 
 Function::Function(const Function & other)
-: m_name(other.m_name)
-, m_func(other.m_func ? other.m_func->clone() : nullptr)
+: m_func(other.m_func ? other.m_func->clone() : nullptr)
 {
 }
 
@@ -34,14 +32,8 @@ Function & Function::operator=(const Function & other)
     }
 
     // Copy function
-    m_name = other.m_name;
     m_func = other.m_func ? other.m_func->clone() : nullptr;
     return *this;
-}
-
-std::string Function::name() const
-{
-    return m_name;
 }
 
 Variant Function::call(const std::vector<Variant> & args)

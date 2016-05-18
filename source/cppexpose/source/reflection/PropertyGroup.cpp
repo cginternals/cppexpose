@@ -18,16 +18,14 @@ namespace cppexpose
 {
 
 
-PropertyGroup::PropertyGroup()
-: AbstractProperty()
-, m_ownsProperties(true)
+PropertyGroup::PropertyGroup(PropertyGroup * parent)
 {
+    initProperty(parent, "");
 }
 
-PropertyGroup::PropertyGroup(const std::string & name)
-: AbstractProperty(name)
-, m_ownsProperties(true)
+PropertyGroup::PropertyGroup(const std::string & name, PropertyGroup * parent)
 {
+    initProperty(parent, name);
 }
 
 PropertyGroup::~PropertyGroup()
@@ -37,34 +35,12 @@ PropertyGroup::~PropertyGroup()
 
 void PropertyGroup::clear()
 {
-    // Remove all properties
-    auto it = m_properties.begin();
-    while (it != m_properties.end())
+    // Destroy managed properties
+    for (AbstractProperty * property : m_managedProperties)
     {
-        // Get property index
-        size_t index = std::distance(m_properties.begin(), it);
-
-        // Invoke callback
-        beforeRemove(index);
-
-        // Delete property
-        if (m_ownsProperties)
-        {
-            AbstractProperty * property = *it;
-            delete property;
-        }
-
-        // Remove property
-        m_propertiesMap.erase((*it)->name());
-        it = m_properties.erase(it);
-
-        // Invoke callback
-        afterRemove(index);
+        delete property;
     }
-
-    // Make sure that property list is empty
-    assert(m_properties.empty());
-    assert(m_propertiesMap.empty());
+    m_managedProperties.clear();
 }
 
 const std::unordered_map<std::string, AbstractProperty *> & PropertyGroup::properties() const
@@ -136,12 +112,12 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     return static_cast<const PropertyGroup *>(property);
 }
 
-AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
+void PropertyGroup::registerProperty(AbstractProperty * property)
 {
     // Reject properties that have no name or whose name already exists
     if (!property || this->propertyExists(property->name()))
     {
-        return nullptr;
+        return;
     }
 
     // Invoke callback
@@ -153,33 +129,72 @@ AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
 
     // Invoke callback
     afterAdd(m_properties.size(), property);
-
-    // Return property
-    return property;
 }
 
-PropertyGroup * PropertyGroup::addGroup(const std::string & name)
+void PropertyGroup::unregisterProperty(AbstractProperty * property)
 {
-    // Create group
-    PropertyGroup * group = new PropertyGroup(name);
-    if (!this->addProperty(group))
+    // Check that property exists
+    if (!property)
     {
-        // Abort, if group could not be added
-        delete group;
-        return nullptr;
+        return;
     }
 
-    return group;
+    // Find property in group
+    auto it = std::find(m_properties.begin(), m_properties.end(), property);
+    if (it == m_properties.end())
+    {
+        return;
+    }
+
+    // Get property index
+    size_t index = std::distance(m_properties.begin(), it);
+
+    // Invoke callback
+    beforeRemove(index, property);
+
+    // Remove property from group
+    m_properties.erase(it);
+    m_propertiesMap.erase(property->name());
+
+    // Invoke callback
+    afterRemove(index, property);
 }
 
-AbstractTyped * PropertyGroup::asTyped()
+void PropertyGroup::takeOwnership(AbstractProperty * property)
 {
-    return static_cast<AbstractTyped *>(this);
+    // Check property
+    if (!property ||
+        std::find(m_managedProperties.begin(), m_managedProperties.end(), property) != m_managedProperties.end())
+    {
+        return;
+    }
+
+    // Put property into managed list
+    m_managedProperties.push_back(property);
 }
 
-const AbstractTyped * PropertyGroup::asTyped() const
+bool PropertyGroup::destroyProperty(AbstractProperty * property)
 {
-    return static_cast<const AbstractTyped *>(this);
+    // Check that property exists
+    if (!property)
+    {
+        return false;
+    }
+
+    // Find property in group
+    auto it  = std::find(m_properties.begin(), m_properties.end(), property);
+    auto it2 = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
+    if (it == m_properties.end() || it2 == m_managedProperties.end())
+    {
+        return false;
+    }
+
+    // Destroy property
+    m_managedProperties.erase(it2);
+    delete property;
+
+    // Property removed
+    return true;
 }
 
 bool PropertyGroup::isGroup() const
@@ -221,7 +236,7 @@ size_t PropertyGroup::numSubValues() const
 AbstractTyped * PropertyGroup::subValue(size_t index)
 {
     if (index < m_properties.size()) {
-        return m_properties[index]->asTyped();
+        return m_properties[index];
     }
 
     return nullptr;
@@ -287,7 +302,7 @@ Variant PropertyGroup::toVariant() const
         AbstractProperty * prop = it.second;
 
         // Add to variant map
-        (*map.asMap())[name] = prop->asTyped()->toVariant();
+        (*map.asMap())[name] = prop->toVariant();
     }
 
     // Return variant representation
@@ -310,7 +325,7 @@ bool PropertyGroup::fromVariant(const Variant & value)
         // If this names an existing property, set its value
         AbstractProperty * prop = this->property(name);
         if (prop) {
-            prop->asTyped()->fromVariant(var);
+            prop->fromVariant(var);
         }
     }
 

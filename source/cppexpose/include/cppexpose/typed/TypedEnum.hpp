@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedEnum.h>
+#include <cppexpose/typed/TypedEnum.hh>
 
 #include <cassert>
 #include <type_traits>
@@ -12,20 +12,20 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedEnum<T>::TypedEnum()
+template <typename T, typename BASE>
+TypedEnum<T, BASE>::TypedEnum()
 {
     // Create default enum strings
     this->setStrings(EnumDefaultStrings<T>()());
 }
 
-template <typename T>
-TypedEnum<T>::~TypedEnum()
+template <typename T, typename BASE>
+TypedEnum<T, BASE>::~TypedEnum()
 {
 }
 
-template <typename T>
-std::vector<std::string> TypedEnum<T>::strings() const
+template <typename T, typename BASE>
+std::vector<std::string> TypedEnum<T, BASE>::strings() const
 {
     std::vector<std::string> strings;
 
@@ -36,8 +36,8 @@ std::vector<std::string> TypedEnum<T>::strings() const
     return strings;
 }
 
-template <typename T>
-void TypedEnum<T>::setStrings(const std::map<T, std::string> & pairs)
+template <typename T, typename BASE>
+void TypedEnum<T, BASE>::setStrings(const std::map<T, std::string> & pairs)
 {
     // Save map of enum value -> string representation
     m_stringMap = pairs;
@@ -51,38 +51,54 @@ void TypedEnum<T>::setStrings(const std::map<T, std::string> & pairs)
     }
 }
 
-template <typename T>
-std::string TypedEnum<T>::typeName() const
+template <typename T, typename BASE>
+std::string TypedEnum<T, BASE>::typeName() const
 {
     return "enum";
 }
 
-template <typename T>
-bool TypedEnum<T>::isNumber() const
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::isNumber() const
 {
     return true;
 }
 
-template <typename T>
-bool TypedEnum<T>::isIntegral() const
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::isIntegral() const
 {
     return true;
 }
 
-template <typename T>
-std::string TypedEnum<T>::toString() const
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::fromVariant(const Variant & variant)
 {
-    // Check if value has a string representation
-    if (m_stringMap.count(this->value()) < 1) {
-        return "";
+    if (variant.hasType<T>()) {
+        this->setValue(variant.value<T>());
+        return true;
+    } else {
+        this->setValue((T)variant.value<int>());
+        return true;
     }
 
-    // Return string representation
-    return m_stringMap.at(this->value());
+    return false;
 }
 
-template <typename T>
-bool TypedEnum<T>::fromString(const std::string & value)
+template <typename T, typename BASE>
+std::string TypedEnum<T, BASE>::toString() const
+{
+    // Check if value has a string representation
+    const auto it = m_stringMap.find(this->value());
+
+    // Return string representation
+    if (it != m_stringMap.cend()) {
+        return it->second;
+    }
+
+    return "";
+}
+
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::fromString(const std::string & value)
 {
     // Find enum of string representation
     auto it = m_enumMap.find(value);
@@ -97,53 +113,53 @@ bool TypedEnum<T>::fromString(const std::string & value)
     return true;
 }
 
-template <typename T>
-bool TypedEnum<T>::toBool() const
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::toBool() const
 {
     return (bool)this->value();
 }
 
-template <typename T>
-bool TypedEnum<T>::fromBool(bool value)
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::fromBool(bool value)
 {
     this->setValue((T)value);
     return true;
 }
 
-template <typename T>
-long long TypedEnum<T>::toLongLong() const
+template <typename T, typename BASE>
+long long TypedEnum<T, BASE>::toLongLong() const
 {
     return (long long)this->value();
 }
 
-template <typename T>
-bool TypedEnum<T>::fromLongLong(long long value)
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::fromLongLong(long long value)
 {
     this->setValue((T)value);
     return true;
 }
 
-template <typename T>
-unsigned long long TypedEnum<T>::toULongLong() const
+template <typename T, typename BASE>
+unsigned long long TypedEnum<T, BASE>::toULongLong() const
 {
     return (unsigned long long)this->value();
 }
 
-template <typename T>
-bool TypedEnum<T>::fromULongLong(unsigned long long value)
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::fromULongLong(unsigned long long value)
 {
     this->setValue((T)value);
     return true;
 }
 
-template <typename T>
-double TypedEnum<T>::toDouble() const
+template <typename T, typename BASE>
+double TypedEnum<T, BASE>::toDouble() const
 {
     return (double)this->value();
 }
 
-template <typename T>
-bool TypedEnum<T>::fromDouble(double value)
+template <typename T, typename BASE>
+bool TypedEnum<T, BASE>::fromDouble(double value)
 {
     this->setValue((T)static_cast<typename std::underlying_type<T>::type>(value));
     return true;

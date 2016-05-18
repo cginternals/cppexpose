@@ -6,6 +6,7 @@
 
 #include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
+#include <cppexpose/reflection/Method.h>
 #include <cppexpose/function/AbstractFunction.h>
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
@@ -31,10 +32,12 @@ static DuktapeScriptBackend * getScriptBackend(duk_context * context);
 static Variant fromDukValue(duk_context * context, duk_idx_t index);
 static void pushToDukStack(duk_context * context, const Variant & var);
 
+
 Function & getFunction(duk_context * context, size_t index)
 {
     return getScriptBackend(context)->m_functions[index];
 }
+
 
 class DuktapeFunction : public AbstractFunction
 {
@@ -140,7 +143,7 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
         duk_pop(context);
 
         // Return callable function
-        Function function("", new DuktapeFunction(context, funcIndex));
+        Function function(new DuktapeFunction(context, funcIndex));
         return Variant::fromValue<Function>(function);
     }
 
@@ -212,12 +215,6 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 
 static void pushToDukStack(duk_context * context, const Variant & var)
 {
-    /*
-    virtual bool isEnum() const override = 0;
-    virtual bool isArray() const override = 0;
-    virtual bool isVariant() const override = 0;
-    */
-
     if (var.isBool()) {
         duk_push_boolean(context, var.toBool());
     }
@@ -265,15 +262,15 @@ static void pushToDukStack(duk_context * context, const Variant & var)
 
 static Variant getPropertyValue(AbstractProperty * property)
 {
-    return property->asTyped()->toVariant();
+    // Get property value as variant
+    return property->toVariant();
 }
 
 static void setPropertyValue(AbstractProperty * property, const Variant & value)
 {
-    // Check property
+    // Set property value from variant
     if (property) {
-        // Set value from variant
-        property->asTyped()->fromVariant(value);
+        property->fromVariant(value);
     }
 }
 
@@ -374,10 +371,11 @@ static duk_ret_t wrapFunction(duk_context * context)
         return DUK_RET_ERROR;
     }
 
-    return 0;   /*  1 = return value at top
-                 *  0 = return 'undefined'
-                 * <0 = throw error (use DUK_RET_xxx constants)
-                 */
+    /*  1 = return value at top
+     *  0 = return 'undefined'
+     * <0 = throw error (use DUK_RET_xxx constants)
+     */
+    return 0;
 }
 
 
@@ -480,15 +478,17 @@ void DuktapeScriptBackend::registerObj(duk_idx_t parentId, PropertyGroup * obj)
         AbstractProperty * prop = obj->property(i);
         std::string propName = prop->name();
 
-        // Check if property is a property group
-        PropertyGroup * group = dynamic_cast< PropertyGroup * >(prop);
+        // Register property (ignore sub-groups, they are added later)
+        PropertyGroup * group = dynamic_cast<PropertyGroup *>(prop);
         if (!group) {
             // Key (for accessor)
             duk_push_string(m_context, propName.c_str());
+
             // Getter function object
             duk_push_c_function(m_context, getProperty, 0);
             duk_push_string(m_context, propName.c_str());
             duk_put_prop_string(m_context, -2, c_duktapePropertyNameKey);
+
             // Setter function object
             duk_push_c_function(m_context, setProperty, 1);
             duk_push_string(m_context, propName.c_str());
@@ -502,10 +502,10 @@ void DuktapeScriptBackend::registerObj(duk_idx_t parentId, PropertyGroup * obj)
     // Register object functions
     Object * scriptable = dynamic_cast<Object *>(obj);
     if (scriptable) {
-        const std::vector<Function> & funcs = scriptable->functions();
-        for (std::vector<Function>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
+        const std::vector<Method> & funcs = scriptable->functions();
+        for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
         {
-            Function func = *it;
+            const Method & func = *it;
             m_functions.push_back(func);
 
             duk_push_c_function(m_context, wrapFunction, DUK_VARARGS);
@@ -520,7 +520,7 @@ void DuktapeScriptBackend::registerObj(duk_idx_t parentId, PropertyGroup * obj)
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
-        if (PropertyGroup * group = dynamic_cast< PropertyGroup * >(prop)) {
+        if (PropertyGroup * group = dynamic_cast<PropertyGroup *>(prop)) {
             // Add sub object
             registerObj(objIndex, group);
         }

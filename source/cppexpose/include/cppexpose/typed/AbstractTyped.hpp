@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/AbstractTyped.h>
+#include <cppexpose/typed/AbstractTyped.hh>
 
 
 namespace

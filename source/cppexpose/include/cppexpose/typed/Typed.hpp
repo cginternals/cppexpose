@@ -2,202 +2,202 @@
 #pragma once
 
 
-#include <cppexpose/typed/Typed.h>
+#include <cppexpose/typed/Typed.hh>
 
 #include <typeinfo>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/variant/Variant.hh>
 
 
 namespace cppexpose
 {
 
 
-template <typename T>
-Typed<T>::Typed()
+template <typename T, typename BASE>
+Typed<T, BASE>::Typed()
 {
 }
 
-template <typename T>
-Typed<T>::~Typed()
+template <typename T, typename BASE>
+Typed<T, BASE>::~Typed()
 {
 }
 
-template <typename T>
-const std::type_info & Typed<T>::type() const
+template <typename T, typename BASE>
+const std::type_info & Typed<T, BASE>::type() const
 {
     return typeid(T);
 }
 
-template <typename T>
-bool Typed<T>::isReadOnly() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isReadOnly() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isComposite() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isComposite() const
 {
     return false;
 }
 
-template <typename T>
-size_t Typed<T>::numSubValues() const
+template <typename T, typename BASE>
+size_t Typed<T, BASE>::numSubValues() const
 {
     return 0;
 }
 
-template <typename T>
-AbstractTyped * Typed<T>::subValue(size_t)
+template <typename T, typename BASE>
+AbstractTyped * Typed<T, BASE>::subValue(size_t)
 {
     return nullptr;
 }
 
-template <typename T>
-bool Typed<T>::isEnum() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isEnum() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isArray() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isArray() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isVariant() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isVariant() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isString() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isString() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isBool() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isBool() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isNumber() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isNumber() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isIntegral() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isIntegral() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isSignedIntegral() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isUnsignedIntegral() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isUnsignedIntegral() const
 {
     return false;
 }
 
-template <typename T>
-bool Typed<T>::isFloatingPoint() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename T>
-Variant Typed<T>::toVariant() const
+template <typename T, typename BASE>
+Variant Typed<T, BASE>::toVariant() const
 {
     return Variant::fromValue<T>(this->value());
 }
 
-template <typename T>
-bool Typed<T>::fromVariant(const Variant & variant)
+template <typename T, typename BASE>
+bool Typed<T, BASE>::fromVariant(const Variant & variant)
 {
     this->setValue(variant.value<T>());
     return true;
 }
 
-template <typename T>
-std::string Typed<T>::toString() const
+template <typename T, typename BASE>
+std::string Typed<T, BASE>::toString() const
 {
     // Unsupported for unknown types
     return "";
 }
 
-template <typename T>
-bool Typed<T>::fromString(const std::string &)
+template <typename T, typename BASE>
+bool Typed<T, BASE>::fromString(const std::string &)
 {
     // Unsupported for unknown types
     return false;
 }
 
-template <typename T>
-bool Typed<T>::toBool() const
+template <typename T, typename BASE>
+bool Typed<T, BASE>::toBool() const
 {
     // Unsupported for unknown types
     return false;
 }
 
-template <typename T>
-bool Typed<T>::fromBool(bool)
+template <typename T, typename BASE>
+bool Typed<T, BASE>::fromBool(bool)
 {
     // Unsupported for unknown types
     return false;
 }
 
-template <typename T>
-long long Typed<T>::toLongLong() const
+template <typename T, typename BASE>
+long long Typed<T, BASE>::toLongLong() const
 {
     // Unsupported for unknown types
     return 0ll;
 }
 
-template <typename T>
-bool Typed<T>::fromLongLong(long long)
+template <typename T, typename BASE>
+bool Typed<T, BASE>::fromLongLong(long long)
 {
     // Unsupported for unknown types
     return false;
 }
 
-template <typename T>
-unsigned long long Typed<T>::toULongLong() const
+template <typename T, typename BASE>
+unsigned long long Typed<T, BASE>::toULongLong() const
 {
     // Unsupported for unknown types
     return 0ull;
 }
 
-template <typename T>
-bool Typed<T>::fromULongLong(unsigned long long)
+template <typename T, typename BASE>
+bool Typed<T, BASE>::fromULongLong(unsigned long long)
 {
     // Unsupported for unknown types
     return false;
 }
 
-template <typename T>
-double Typed<T>::toDouble() const
+template <typename T, typename BASE>
+double Typed<T, BASE>::toDouble() const
 {
     // Unsupported for unknown types
     return 0.0;
 }
 
-template <typename T>
-bool Typed<T>::fromDouble(double)
+template <typename T, typename BASE>
+bool Typed<T, BASE>::fromDouble(double)
 {
     // Unsupported for unknown types
     return false;
 }
 
-template <typename T>
-void Typed<T>::onValueChanged(const T &)
+template <typename T, typename BASE>
+void Typed<T, BASE>::onValueChanged(const T &)
 {
     // To be implemented in derived classes
 }

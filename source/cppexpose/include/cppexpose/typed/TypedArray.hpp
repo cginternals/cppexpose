@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedArray.h>
+#include <cppexpose/typed/TypedArray.hh>
 
 #include <sstream>
 
@@ -13,20 +13,20 @@ namespace cppexpose
 {
 
 
-template <typename T>
+template <typename T, typename BASE>
 class DirectValue;
 
-template <typename T>
+template <typename T, typename BASE>
 class StoredValue;
 
 
-template <typename T, typename ET, size_t Size>
-TypedArray<T, ET, Size>::TypedArray()
+template <typename T, typename ET, size_t Size, typename BASE>
+TypedArray<T, ET, Size, BASE>::TypedArray()
 {
 }
 
-template <typename T, typename ET, size_t Size>
-TypedArray<T, ET, Size>::~TypedArray()
+template <typename T, typename ET, size_t Size, typename BASE>
+TypedArray<T, ET, Size, BASE>::~TypedArray()
 {
     for (AbstractTyped * subValue : m_subValues)
     {
@@ -34,14 +34,14 @@ TypedArray<T, ET, Size>::~TypedArray()
     }
 }
 
-template <typename T, typename ET, size_t Size>
-size_t TypedArray<T, ET, Size>::numElements() const
+template <typename T, typename ET, size_t Size, typename BASE>
+size_t TypedArray<T, ET, Size, BASE>::numElements() const
 {
     return Size;
 }
 
-template <typename T, typename ET, size_t Size>
-std::string TypedArray<T, ET, Size>::typeName() const
+template <typename T, typename ET, size_t Size, typename BASE>
+std::string TypedArray<T, ET, Size, BASE>::typeName() const
 {
     // [TODO] This is not nice and potentially expensive.
     //        Find a better way to get type names.
@@ -52,20 +52,20 @@ std::string TypedArray<T, ET, Size>::typeName() const
     return s.str();
 }
 
-template <typename T, typename ET, size_t Size>
-bool TypedArray<T, ET, Size>::isComposite() const
+template <typename T, typename ET, size_t Size, typename BASE>
+bool TypedArray<T, ET, Size, BASE>::isComposite() const
 {
     return true;
 }
 
-template <typename T, typename ET, size_t Size>
-size_t TypedArray<T, ET, Size>::numSubValues() const
+template <typename T, typename ET, size_t Size, typename BASE>
+size_t TypedArray<T, ET, Size, BASE>::numSubValues() const
 {
     return Size;
 }
 
-template <typename T, typename ET, size_t Size>
-AbstractTyped * TypedArray<T, ET, Size>::subValue(size_t index)
+template <typename T, typename ET, size_t Size, typename BASE>
+AbstractTyped * TypedArray<T, ET, Size, BASE>::subValue(size_t index)
 {
     // Create typed accessor for sub-values on first call to this function
     if (m_subValues.size() == 0)
@@ -87,20 +87,20 @@ AbstractTyped * TypedArray<T, ET, Size>::subValue(size_t index)
     return (index < Size) ? m_subValues[index] : nullptr;
 }
 
-template <typename T, typename ET, size_t Size>
-bool TypedArray<T, ET, Size>::isArray() const
+template <typename T, typename ET, size_t Size, typename BASE>
+bool TypedArray<T, ET, Size, BASE>::isArray() const
 {
     return true;
 }
 
-template <typename T, typename ET, size_t Size>
-std::string TypedArray<T, ET, Size>::toString() const
+template <typename T, typename ET, size_t Size, typename BASE>
+std::string TypedArray<T, ET, Size, BASE>::toString() const
 {
     std::string str = "(";
 
     for (size_t i=0; i<Size; i++) {
         if (i > 0) str += ", ";
-        str += const_cast<TypedArray<T, ET, Size> *>(this)->subValue(i)->toString();
+        str += const_cast<TypedArray<T, ET, Size, BASE> *>(this)->subValue(i)->toString();
     }
 
     str += ")";
@@ -108,8 +108,8 @@ std::string TypedArray<T, ET, Size>::toString() const
     return str;
 }
 
-template <typename T, typename ET, size_t Size>
-bool TypedArray<T, ET, Size>::fromString(const std::string & value)
+template <typename T, typename ET, size_t Size, typename BASE>
+bool TypedArray<T, ET, Size, BASE>::fromString(const std::string & value)
 {
     std::vector<std::string> elementStrings = helper::parseArray(value, Size);
     if (elementStrings.size() != Size) {

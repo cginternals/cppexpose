@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedNumber.h>
+#include <cppexpose/typed/TypedNumber.hh>
 
 #include <cppexpose/base/string_helpers.h>
 
@@ -11,82 +11,82 @@ namespace cppexpose
 {
 
 
-template <typename T>
-TypedNumber<T>::TypedNumber()
+template <typename T, typename BASE>
+TypedNumber<T, BASE>::TypedNumber()
 {
 }
 
-template <typename T>
-TypedNumber<T>::~TypedNumber()
+template <typename T, typename BASE>
+TypedNumber<T, BASE>::~TypedNumber()
 {
 }
 
-template <typename T>
-bool TypedNumber<T>::isNumber() const
+template <typename T, typename BASE>
+bool TypedNumber<T, BASE>::isNumber() const
 {
     return true;
 }
 
-template <typename T>
-std::string TypedNumber<T>::toString() const
+template <typename T, typename BASE>
+std::string TypedNumber<T, BASE>::toString() const
 {
     return helper::toString<T>(this->value());
 }
 
-template <typename T>
-bool TypedNumber<T>::fromString(const std::string & value)
+template <typename T, typename BASE>
+bool TypedNumber<T, BASE>::fromString(const std::string & value)
 {
     this->setValue(helper::fromString<T>(value));
     return true;
 }
 
-template <typename T>
-bool TypedNumber<T>::toBool() const
+template <typename T, typename BASE>
+bool TypedNumber<T, BASE>::toBool() const
 {
     return (bool)this->value();
 }
 
-template <typename T>
-bool TypedNumber<T>::fromBool(bool value)
+template <typename T, typename BASE>
+bool TypedNumber<T, BASE>::fromBool(bool value)
 {
     this->setValue((T)value);
     return true;
 }
 
-template <typename T>
-long long TypedNumber<T>::toLongLong() const
+template <typename T, typename BASE>
+long long TypedNumber<T, BASE>::toLongLong() const
 {
     return (long long)this->value();
 }
 
-template <typename T>
-bool TypedNumber<T>::fromLongLong(long long value)
+template <typename T, typename BASE>
+bool TypedNumber<T, BASE>::fromLongLong(long long value)
 {
     this->setValue((T)value);
     return true;
 }
 
-template <typename T>
-unsigned long long TypedNumber<T>::toULongLong() const
+template <typename T, typename BASE>
+unsigned long long TypedNumber<T, BASE>::toULongLong() const
 {
     return (unsigned long long)this->value();
 }
 
-template <typename T>
-bool TypedNumber<T>::fromULongLong(unsigned long long value)
+template <typename T, typename BASE>
+bool TypedNumber<T, BASE>::fromULongLong(unsigned long long value)
 {
     this->setValue((T)value);
     return true;
 }
 
-template <typename T>
-double TypedNumber<T>::toDouble() const
+template <typename T, typename BASE>
+double TypedNumber<T, BASE>::toDouble() const
 {
     return (double)this->value();
 }
 
-template <typename T>
-bool TypedNumber<T>::fromDouble(double value)
+template <typename T, typename BASE>
+bool TypedNumber<T, BASE>::fromDouble(double value)
 {
     this->setValue((T)value);
     return true;

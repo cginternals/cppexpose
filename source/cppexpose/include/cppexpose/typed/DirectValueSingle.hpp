@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/typed/DirectValueSingle.h>
+#include <cppexpose/typed/DirectValueSingle.hh>
 
 
 namespace cppexpose
@@ -10,88 +10,95 @@ namespace cppexpose
 
 
 // Read/write type
-template <typename T>
-DirectValueSingle<T>::DirectValueSingle()
+template <typename T, typename BASE>
+DirectValueSingle<T, BASE>::DirectValueSingle()
 {
 }
 
-template <typename T>
-DirectValueSingle<T>::DirectValueSingle(const T & value)
+template <typename T, typename BASE>
+DirectValueSingle<T, BASE>::DirectValueSingle(const T & value)
 : m_value(value)
 {
 }
 
-template <typename T>
-DirectValueSingle<T>::~DirectValueSingle()
+template <typename T, typename BASE>
+DirectValueSingle<T, BASE>::~DirectValueSingle()
 {
 }
 
-template <typename T>
-const T * DirectValueSingle<T>::ptr() const
+template <typename T, typename BASE>
+AbstractTyped * DirectValueSingle<T, BASE>::clone() const
 {
-    return &m_value;
+    return new DirectValueSingle<T, AbstractTyped>(m_value);
 }
 
-template <typename T>
-T * DirectValueSingle<T>::ptr()
-{
-    return &m_value;
-}
-
-template <typename T>
-AbstractTyped * DirectValueSingle<T>::clone() const
-{
-    return new DirectValueSingle<T>(m_value);
-}
-
-template <typename T>
-T DirectValueSingle<T>::value() const
+template <typename T, typename BASE>
+T DirectValueSingle<T, BASE>::value() const
 {
     return m_value;
 }
 
-template <typename T>
-void DirectValueSingle<T>::setValue(const T & value)
+template <typename T, typename BASE>
+void DirectValueSingle<T, BASE>::setValue(const T & value)
 {
     m_value = value;
     this->onValueChanged(m_value);
 }
 
+template <typename T, typename BASE>
+const T * DirectValueSingle<T, BASE>::ptr() const
+{
+    return &m_value;
+}
+
+template <typename T, typename BASE>
+T * DirectValueSingle<T, BASE>::ptr()
+{
+    return &m_value;
+}
+
 
 // Read-only type
-template <typename T>
-DirectValueSingle<const T>::DirectValueSingle()
+template <typename T, typename BASE>
+DirectValueSingle<const T, BASE>::DirectValueSingle()
 {
 }
 
-template <typename T>
-DirectValueSingle<const T>::DirectValueSingle(const T & value)
-: DirectValueSingle<T>::DirectValueSingle(value)
+template <typename T, typename BASE>
+DirectValueSingle<const T, BASE>::DirectValueSingle(const T & value)
+: DirectValueSingle<T, BASE>::DirectValueSingle(value)
 {
 }
 
-template <typename T>
-DirectValueSingle<const T>::~DirectValueSingle()
+template <typename T, typename BASE>
+DirectValueSingle<const T, BASE>::~DirectValueSingle()
 {
 }
 
-template <typename T>
-AbstractTyped * DirectValueSingle<const T>::clone() const
+template <typename T, typename BASE>
+AbstractTyped * DirectValueSingle<const T, BASE>::clone() const
 {
-    return new DirectValueSingle<const T>(this->m_value);
+    return new DirectValueSingle<const T, AbstractTyped>(this->m_value);
 }
 
-template <typename T>
-bool DirectValueSingle<const T>::isReadOnly() const
+template <typename T, typename BASE>
+bool DirectValueSingle<const T, BASE>::isReadOnly() const
 {
     // Read-only!
     return true;
 }
 
-template <typename T>
-void DirectValueSingle<const T>::setValue(const T &)
+template <typename T, typename BASE>
+void DirectValueSingle<const T, BASE>::setValue(const T &)
 {
     // Read-only!
+}
+
+template <typename T, typename BASE>
+T * DirectValueSingle<const T, BASE>::ptr()
+{
+    // Read-only!
+    return nullptr;
 }
 
 
