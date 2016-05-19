@@ -61,14 +61,28 @@ TEST_F(PropertyTest, conversionTest_int)
     ASSERT_EQ("0", intProp->toString());
 }
 
-TEST_F(PropertyTest, conversionTest_string)
+TEST_F(PropertyTest, conversionTest_negative_int)
 {
     PropertyGroup propGroup;
     
+    int intVar = -3;
+    
+    auto intProp = new Property<int>(&propGroup, "intProperty", [&](){return intVar;}, [](const int&){});
+    
+    ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
+    ASSERT_EQ(intVar, intProp->toLongLong());
+    ASSERT_EQ(intVar, intProp->toULongLong());
+    ASSERT_EQ("-3", intProp->toString());
+}
+
+TEST_F(PropertyTest, conversionTest_string)
+{
+    PropertyGroup propGroup;
+
     std::string strVar = "3";
-    
+
     auto intProp = new Property<std::string>(&propGroup, "stringProperty", [&](){return strVar;}, [](const std::string&){});
-    
+
     ASSERT_DOUBLE_EQ(3, intProp->toDouble());
     ASSERT_EQ(3, intProp->toLongLong());
     ASSERT_EQ(3, intProp->toULongLong());
