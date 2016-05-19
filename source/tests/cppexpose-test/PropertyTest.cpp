@@ -23,6 +23,7 @@ public:
     }    
 };
 
+template <typename T>
 class TypeTester
 {
 public:
