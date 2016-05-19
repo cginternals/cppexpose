@@ -20,6 +20,7 @@ set(sources
     DirectValueInstantiationTest.cpp
     DirectValueTest.cpp
     StoredValueInstantiationTest.cpp
+    StoredValueTest.cpp
 )
 
 # 
