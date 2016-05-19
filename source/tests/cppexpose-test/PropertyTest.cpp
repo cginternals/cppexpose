@@ -3,13 +3,9 @@
 #include <gmock/gmock.h>
 
 #include <cppexpose/reflection/Property.h>
-#include <utility>
 
 using namespace cppexpose;
 using std::string;
-
-typedef ::testing::Types<bool, float, double, int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, string> InstantiationTypes;
-TYPED_TEST_CASE(PropertyTest, InstantiationTypes);
 
 template <typename T>
 using memberFunc = bool (cppexpose::Property<T>::*)() const;
