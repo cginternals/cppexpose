@@ -172,6 +172,17 @@ TEST_F(PropertyTest, conversionTest_string)
     ASSERT_EQ("3", intProp->toString());
 }
 
+TEST_F(PropertyTest, conversionTest_string_variant)
+{
+    PropertyGroup propGroup;
+
+    std::string strVar = "test";
+
+    auto strProp = new Property<std::string>(&propGroup, "stringProperty", [&](){return strVar;}, [](const std::string&){});
+
+    ASSERT_EQ("test", strProp->toVariant().toString());
+}
+
 TEST_F(PropertyTest, typesBool)
 {
     TypeTester<bool> tester;
