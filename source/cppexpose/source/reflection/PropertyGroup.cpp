@@ -184,7 +184,7 @@ bool PropertyGroup::destroyProperty(AbstractProperty * property)
     // Find property in group
     auto it  = std::find(m_properties.begin(), m_properties.end(), property);
     auto it2 = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
-    if (it == m_properties.end() || it2 == m_properties.end())
+    if (it == m_properties.end() || it2 == m_managedProperties.end())
     {
         return false;
     }
