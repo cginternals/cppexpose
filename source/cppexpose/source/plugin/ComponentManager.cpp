@@ -164,8 +164,14 @@ AbstractComponent * ComponentManager::component(const std::string & name) const
 
 void ComponentManager::addComponent(AbstractComponent * component)
 {
+    // Add component to list
     m_components.push_back(component);
 
+    // Save component by name
+    std::string name = component->name();
+    m_componentsByName[name] = component;
+
+    // Emit signal
     componentsChanged();
 }
 
