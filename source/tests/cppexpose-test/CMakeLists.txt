@@ -16,6 +16,11 @@ set(sources
     main.cpp
     VariantTest.cpp
     PropertyInstantiationTest.cpp
+    PropertyTest.cpp
+    DirectValueInstantiationTest.cpp
+    DirectValueTest.cpp
+    StoredValueInstantiationTest.cpp
+    StoredValueTest.cpp
 )
 
 # 

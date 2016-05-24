@@ -61,4 +61,4 @@ set_target_properties(test PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 # Tests
 # 
 
-#add_test_without_ctest(cppexpose-test)
+add_test_without_ctest(cppexpose-test)
