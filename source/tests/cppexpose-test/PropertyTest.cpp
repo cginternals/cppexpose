@@ -100,7 +100,8 @@ TEST_F(PropertyTest, stringSet)
     PropertyGroup propGroup;
     bool callbackVar = false;
     
-    auto callback = [&callbackVar](const std::string& newVal){
+    auto callback = [&callbackVar](const std::string &)
+    {
         callbackVar = true;
     };
     
