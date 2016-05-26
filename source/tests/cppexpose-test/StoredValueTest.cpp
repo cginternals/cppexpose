@@ -2,6 +2,8 @@
 
 #include <gmock/gmock.h>
 
+#include <array>
+
 #include <cppexpose/typed/StoredValue.h>
 
 using namespace cppexpose;
@@ -42,6 +44,7 @@ TypeTester<T>::TypeTester()
     methods.emplace_back(&StoredValue<T>::isSignedIntegral);
     methods.emplace_back(&StoredValue<T>::isUnsignedIntegral);
     methods.emplace_back(&StoredValue<T>::isFloatingPoint);
+    methods.emplace_back(&StoredValue<T>::isArray);
 }
 
 template <typename T>
@@ -86,6 +89,39 @@ TEST_F(StoredValueTest, stringSet)
     val.setValue("bar");
 
     ASSERT_EQ("bar", val.value());
+}
+
+TEST_F(StoredValueTest, arrayGet)
+{
+    std::array<int, 4> value{1,2,3,4};
+
+    auto store = StoredValue<std::array<int, 4>>([&value](){return value;},
+    [&value](const int & index) -> int
+    {
+        return value[index];}
+    );
+
+    ASSERT_EQ(value[0], store.getElement(0));
+    ASSERT_EQ(value[1], store.getElement(1));
+    ASSERT_EQ(value[2], store.getElement(2));
+    ASSERT_EQ(value[3], store.getElement(3));
+}
+
+TEST_F(StoredValueTest, arraySet)
+{
+    std::array<int, 4> value{1,2,3,4};
+
+    auto getter = [&value](){return value;};
+    auto setter = [&value](const std::array<int, 4> & arr){value = arr;};
+
+    auto elementGetter = [&value](const int & index) -> int {return value[index];};
+    auto elementSetter = [&value](const int & index, const int & val){value[index] = val;};
+
+    auto store = StoredValue<std::array<int, 4>>(getter, setter, elementGetter, elementSetter);
+
+
+   store.setElement(0, 10);
+    ASSERT_EQ(value[0], 10);
 }
 
 TEST_F(StoredValueTest, typesBool)
@@ -153,5 +189,19 @@ TEST_F(StoredValueTest, typesFloat)
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
 
     tester.testType(store, {&StoredValue<curType>::isNumber, &StoredValue<curType>::isFloatingPoint});
+    ASSERT_EQ(value, store.value());
+}
+
+TEST_F(StoredValueTest, typesArray)
+{
+    using curType = std::array<int, 4>;
+
+    TypeTester<curType> tester;
+
+    curType value{};
+
+    auto store = StoredValue<curType>([&value](){return value;}, [&value](const int & index) -> int {return value[index];});
+
+    tester.testType(store, {&StoredValue<curType>::isArray});
     ASSERT_EQ(value, store.value());
 }

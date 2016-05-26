@@ -1,5 +1,6 @@
 
 #include <gmock/gmock.h>
+#include <array>
 
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/typed/StoredValue.h>
@@ -22,7 +23,7 @@ public:
 protected:
 };
 
-typedef ::testing::Types<bool, float, double, int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, string> InstantiationTypes;
+typedef ::testing::Types<bool, float, double, int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, string, std::array<int, 4>> InstantiationTypes;
 TYPED_TEST_CASE(StoredValueInstantiation_test, InstantiationTypes);
 
 

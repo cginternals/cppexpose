@@ -1,6 +1,8 @@
 
 #include <gmock/gmock.h>
 
+#include <array>
+
 #include <cppexpose/reflection/Property.h>
 #include <cppexpose/reflection/PropertyGroup.h>
 
@@ -48,9 +50,9 @@ void staticSetter(T /*value*/)
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
-    
+
     PropertyGroup propGroup;
-            
+
     auto get = [] ()
     {
         return TypeParam();
@@ -68,28 +70,15 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGett
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_StaticGetter_StaticSetter)
 {
-    
+
     PropertyGroup propGroup;
-    
+
     auto prop = new Property<TypeParam>(&propGroup, "Property", &staticGetter<TypeParam>, &staticSetter<TypeParam>);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
     delete prop;
 }
-
-/*
-TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_ConstGetterConst_SetterConst)
-{
-    auto obj = new MyObject<TypeParam>("TestObject");
-    auto prop = new Property<TypeParam>("Property", obj, &MyObject<TypeParam>::constgetterconst, &MyObject<TypeParam>::setterconst);
-
-    ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
-    delete obj;
-}
-*/
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_GetterConst_SetterConst)
 {
@@ -102,19 +91,6 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Get
     delete prop;
     delete obj;
 }
-
-/*
-TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_GetterConst_Setter)
-{
-    auto obj = new MyObject<TypeParam>("TestObject");
-    auto prop = new Property<TypeParam>("Property", obj, &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setter);
-
-    ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
-    delete obj;
-}
-*/
 
 // Property instantiaton (read only)
 
@@ -143,27 +119,3 @@ TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_Stati
 
     delete prop;
 }
-
-/*
-TYPED_TEST(PropertyInstanceBool_test, instantiateConstPropertyWith_String_Object_ConstGetterConst)
-{
-    auto obj = new MyObject<bool>("TestObject");
-    auto prop = new Property<const bool>("boolProperty", obj, &MyObject<bool>::constgetterconst);
-
-    ASSERT_EQ(typeid(bool), prop->type());
-
-    delete prop;
-    delete obj;
-}
-
-TYPED_TEST(PropertyInstanceBool_test, instantiateConstPropertyWith_String_Object_GetterConst)
-{
-    auto obj = new MyObject<bool>("TestObject");
-    auto prop = new Property<const bool>("boolProperty", obj, &MyObject<bool>::getterconst);
-
-    ASSERT_EQ(typeid(bool), prop->type());
-
-    delete prop;
-    delete obj;
-}
-*/
