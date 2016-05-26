@@ -2,7 +2,6 @@
 #include <gmock/gmock.h>
 
 #include <cppexpose/typed/DirectValue.h>
-#include <utility>
 
 #include "MyObject.h"
 
