@@ -2,6 +2,8 @@
 
 #include <gmock/gmock.h>
 
+#include <array>
+
 #include <cppexpose/typed/DirectValue.h>
 
 using namespace cppexpose;
@@ -83,6 +85,22 @@ TEST_F(DirectValueTest, stringSet)
     val.setValue("bar");
 
     ASSERT_EQ("bar", val.value());
+}
+
+TEST_F(DirectValueTest, arrayGet)
+{
+    auto val = DirectValue<std::array<int, 4>>(std::array<int, 4>{1,2,3,4});
+
+    ASSERT_EQ(1, val.getElement(0));
+}
+
+TEST_F(DirectValueTest, arraySet)
+{
+    auto val = DirectValue<std::array<int, 4>>(std::array<int, 4>{1,2,3,4});
+
+    val.setElement(0,10);
+
+    ASSERT_EQ(10, val.getElement(0));
 }
 
 TEST_F(DirectValueTest, typesBool)
