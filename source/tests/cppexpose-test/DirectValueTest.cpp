@@ -1,13 +1,14 @@
 
-
 #include <gmock/gmock.h>
 
 #include <array>
 
 #include <cppexpose/typed/DirectValue.h>
 
+
 using namespace cppexpose;
 using std::string;
+
 
 template <typename T>
 using memberFunc = bool (cppexpose::DirectValue<T>::*)() const;
@@ -89,14 +90,14 @@ TEST_F(DirectValueTest, stringSet)
 
 TEST_F(DirectValueTest, arrayGet)
 {
-    auto val = DirectValue<std::array<int, 4>>(std::array<int, 4>{1,2,3,4});
+    auto val = DirectValue<std::array<int, 4>>(std::array<int, 4>{ {1, 2, 3, 4} });
 
     ASSERT_EQ(1, val.getElement(0));
 }
 
 TEST_F(DirectValueTest, arraySet)
 {
-    auto val = DirectValue<std::array<int, 4>>(std::array<int, 4>{1,2,3,4});
+    auto val = DirectValue<std::array<int, 4>>(std::array<int, 4>{ {1, 2, 3, 4} });
 
     val.setElement(0,10);
 

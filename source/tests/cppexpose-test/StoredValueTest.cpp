@@ -1,13 +1,14 @@
 
-
 #include <gmock/gmock.h>
 
 #include <array>
 
 #include <cppexpose/typed/StoredValue.h>
 
+
 using namespace cppexpose;
 using std::string;
+
 
 template <typename T>
 using memberFunc = bool (cppexpose::StoredValue<T>::*)() const;
@@ -93,7 +94,7 @@ TEST_F(StoredValueTest, stringSet)
 
 TEST_F(StoredValueTest, arrayGet)
 {
-    std::array<int, 4> value{1,2,3,4};
+    std::array<int, 4> value { {1, 2, 3, 4} };
 
     auto store = StoredValue<std::array<int, 4>>([&value](){return value;},
     [&value](const int & index) -> int
@@ -109,7 +110,7 @@ TEST_F(StoredValueTest, arrayGet)
 
 TEST_F(StoredValueTest, arraySet)
 {
-    std::array<int, 4> value{1,2,3,4};
+    std::array<int, 4> value { {1, 2, 3, 4} };
 
     auto getter = [&value](){return value;};
     auto setter = [&value](const std::array<int, 4> & arr){value = arr;};

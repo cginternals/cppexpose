@@ -1,13 +1,14 @@
 
-
 #include <gmock/gmock.h>
 
 #include <array>
 
 #include <cppexpose/reflection/Property.h>
 
+
 using namespace cppexpose;
 using std::string;
+
 
 template <typename T>
 using memberFunc = bool (cppexpose::Property<T>::*)() const;
@@ -101,7 +102,7 @@ TEST_F(PropertyTest, ArraySet)
 {
     PropertyGroup propGroup;
 
-    std::array<int, 4> value{1,2,3,4};
+    std::array<int, 4> value{ {1, 2, 3, 4} };
 
     auto getter = [&value](){return value;};
     auto setter = [&value](const std::array<int, 4> & arr){value = arr;};
