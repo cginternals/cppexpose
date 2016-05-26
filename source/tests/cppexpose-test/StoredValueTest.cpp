@@ -120,7 +120,7 @@ TEST_F(StoredValueTest, arraySet)
     auto store = StoredValue<std::array<int, 4>>(getter, setter, elementGetter, elementSetter);
 
 
-   store.setElement(0, 10);
+    store.setElement(0, 10);
     ASSERT_EQ(value[0], 10);
 }
 
