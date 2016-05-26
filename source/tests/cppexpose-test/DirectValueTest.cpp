@@ -103,6 +103,17 @@ TEST_F(DirectValueTest, arraySet)
     ASSERT_EQ(10, val.getElement(0));
 }
 
+TEST_F(DirectValueTest, constSet)
+{
+    auto val = DirectValue<const bool>(false);
+
+    ASSERT_FALSE(val.value());
+
+    val.setValue(true);
+
+    ASSERT_FALSE(val.value());
+}
+
 TEST_F(DirectValueTest, typesBool)
 {
     TypeTester<bool> tester;
