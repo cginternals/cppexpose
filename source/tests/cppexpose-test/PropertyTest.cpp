@@ -2,6 +2,8 @@
 
 #include <gmock/gmock.h>
 
+#include <array>
+
 #include <cppexpose/reflection/Property.h>
 
 using namespace cppexpose;
@@ -93,6 +95,24 @@ TEST_F(PropertyTest, boolSet)
     
     ASSERT_FALSE(prop->toBool());
     ASSERT_TRUE(callbackVar);
+}
+
+TEST_F(PropertyTest, ArraySet)
+{
+    PropertyGroup propGroup;
+
+    std::array<int, 4> value{1,2,3,4};
+
+    auto getter = [&value](){return value;};
+    auto setter = [&value](const std::array<int, 4> & arr){value = arr;};
+
+    auto elementGetter = [&value](const int & index) -> int {return value[index];};
+    auto elementSetter = [&value](const int & index, const int & val){value[index] = val;};
+
+    auto prop = new Property<std::array<int, 4>>(&propGroup, "Property", getter, setter, elementGetter, elementSetter);
+
+    prop->setElement(0, 10);
+    ASSERT_EQ(10, prop->getElement(0));
 }
 
 TEST_F(PropertyTest, stringSet)
