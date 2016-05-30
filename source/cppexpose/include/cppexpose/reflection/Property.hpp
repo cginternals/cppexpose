@@ -13,10 +13,10 @@ namespace cppexpose
 
 template <typename T, typename BASE>
 template <typename... Args>
-Property<T, BASE>::Property(PropertyGroup * parent, const std::string & name, Args&&... args)
+Property<T, BASE>::Property(const std::string & name, PropertyGroup * parent, Args&&... args)
 : StoredValue<T, BASE>(std::forward<Args>(args)...)
 {
-    this->initProperty(parent, name);
+    this->initProperty(name, parent);
 }
 
 template <typename T, typename BASE>

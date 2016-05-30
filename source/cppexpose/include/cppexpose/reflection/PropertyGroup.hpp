@@ -19,7 +19,7 @@ DynamicProperty<T> * PropertyGroup::addDynamicProperty(const std::string & name,
     }
 
     // Create property
-    auto * property = new DynamicProperty<T>(this, name, value);
+    auto * property = new DynamicProperty<T>(name, this, value);
     takeOwnership(property);
 
     return property;

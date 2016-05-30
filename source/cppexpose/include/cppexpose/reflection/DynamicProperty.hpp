@@ -11,10 +11,10 @@ namespace cppexpose
 
 template <typename T, typename BASE>
 template <typename... Args>
-DynamicProperty<T, BASE>::DynamicProperty(PropertyGroup * parent, const std::string & name, Args&&... args)
+DynamicProperty<T, BASE>::DynamicProperty(const std::string & name, PropertyGroup * parent, Args&&... args)
 : DirectValue<T, BASE>(std::forward<Args>(args)...)
 {
-    this->initProperty(parent, name);
+    this->initProperty(name, parent);
 }
 
 template <typename T, typename BASE>

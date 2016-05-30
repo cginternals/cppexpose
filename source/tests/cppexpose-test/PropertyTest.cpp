@@ -88,7 +88,7 @@ TEST_F(PropertyTest, boolSet)
         value = val;
     };
 
-    auto prop = new Property<bool>(&propGroup, "Property", get, set);
+    auto prop = new Property<bool>("Property", &propGroup, get, set);
     
     prop->valueChanged.connect(callback);
     
@@ -96,6 +96,8 @@ TEST_F(PropertyTest, boolSet)
     
     ASSERT_FALSE(prop->toBool());
     ASSERT_TRUE(callbackVar);
+
+    delete prop;
 }
 
 TEST_F(PropertyTest, ArraySet)
@@ -110,10 +112,12 @@ TEST_F(PropertyTest, ArraySet)
     auto elementGetter = [&value](const int & index) -> int {return value[index];};
     auto elementSetter = [&value](const int & index, const int & val){value[index] = val;};
 
-    auto prop = new Property<std::array<int, 4>>(&propGroup, "Property", getter, setter, elementGetter, elementSetter);
+    auto prop = new Property<std::array<int, 4>>("Property", &propGroup, getter, setter, elementGetter, elementSetter);
 
     prop->setElement(0, 10);
     ASSERT_EQ(10, prop->getElement(0));
+
+    delete prop;
 }
 
 TEST_F(PropertyTest, stringSet)
@@ -138,7 +142,7 @@ TEST_F(PropertyTest, stringSet)
         value = val;
     };
 
-    auto prop = new Property<std::string>(&propGroup, "Property", get, set);
+    auto prop = new Property<std::string>("Property", &propGroup, get, set);
     
     prop->valueChanged.connect(callback);
     
@@ -146,6 +150,8 @@ TEST_F(PropertyTest, stringSet)
     
     ASSERT_EQ("bar", prop->toString());
     ASSERT_TRUE(callbackVar);
+
+    delete prop;
 }
 
 TEST_F(PropertyTest, conversionTest_int)
@@ -154,12 +160,14 @@ TEST_F(PropertyTest, conversionTest_int)
     
     int intVar = 0;
     
-    auto intProp = new Property<int>(&propGroup, "intProperty", [&](){return intVar;}, [](const int&){});
+    auto intProp = new Property<int>("intProperty", &propGroup, [&](){return intVar;}, [](const int&){});
     
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
     ASSERT_EQ(intVar, intProp->toULongLong());
     ASSERT_EQ("0", intProp->toString());
+
+    delete intProp;
 }
 
 TEST_F(PropertyTest, conversionTest_negative_int)
@@ -168,12 +176,14 @@ TEST_F(PropertyTest, conversionTest_negative_int)
     
     int intVar = -3;
     
-    auto intProp = new Property<int>(&propGroup, "intProperty", [&](){return intVar;}, [](const int&){});
+    auto intProp = new Property<int>("intProperty", &propGroup, [&](){return intVar;}, [](const int&){});
     
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
     ASSERT_EQ(intVar, intProp->toULongLong());
     ASSERT_EQ("-3", intProp->toString());
+
+    delete intProp;
 }
 
 TEST_F(PropertyTest, conversionTest_string)
@@ -182,12 +192,14 @@ TEST_F(PropertyTest, conversionTest_string)
 
     std::string strVar = "3";
 
-    auto intProp = new Property<std::string>(&propGroup, "stringProperty", [&](){return strVar;}, [](const std::string&){});
+    auto intProp = new Property<std::string>("stringProperty", &propGroup, [&](){return strVar;}, [](const std::string&){});
 
     ASSERT_DOUBLE_EQ(3, intProp->toDouble());
     ASSERT_EQ(3, intProp->toLongLong());
     ASSERT_EQ(3, intProp->toULongLong());
     ASSERT_EQ("3", intProp->toString());
+
+    delete intProp;
 }
 
 TEST_F(PropertyTest, conversionTest_string_variant)
@@ -196,9 +208,11 @@ TEST_F(PropertyTest, conversionTest_string_variant)
 
     std::string strVar = "test";
 
-    auto strProp = new Property<std::string>(&propGroup, "stringProperty", [&](){return strVar;}, [](const std::string&){});
+    auto strProp = new Property<std::string>("stringProperty", &propGroup, [&](){return strVar;}, [](const std::string&){});
 
     ASSERT_EQ("test", strProp->toVariant().toString());
+
+    delete strProp;
 }
 
 TEST_F(PropertyTest, typesBool)
@@ -217,7 +231,7 @@ TEST_F(PropertyTest, typesBool)
         value = val;
     };
 
-    auto prop = Property<bool>(&propGroup, "Property", get, set);
+    auto prop = Property<bool>("Property", &propGroup, get, set);
 
     tester.testType(prop, &Property<bool>::isBool);
     prop.setValue(true);
@@ -245,7 +259,7 @@ TEST_F(PropertyTest, typesSignedIntegral)
         value = val;
     };
     
-    auto prop = Property<curType>(&propGroup, "Property", get, set);
+    auto prop = Property<curType>("Property", &propGroup, get, set);
     
     tester.testType(prop, {&Property<curType>::isIntegral, &Property<curType>::isNumber, &Property<curType>::isSignedIntegral});
     ASSERT_EQ(value, prop.toLongLong());
@@ -270,7 +284,7 @@ TEST_F(PropertyTest, typesUnsignedIntegral)
         value = val;
     };
     
-    auto prop = Property<curType>(&propGroup, "Property", get, set);
+    auto prop = Property<curType>("Property", &propGroup, get, set);
     
     tester.testType(prop, {&Property<curType>::isIntegral, &Property<curType>::isNumber, &Property<curType>::isUnsignedIntegral});
     ASSERT_EQ(value, prop.toLongLong());
@@ -296,7 +310,7 @@ TEST_F(PropertyTest, typesString)
         value = val;
     };
     
-    auto prop = Property<curType>(&propGroup, "Property", get, set);
+    auto prop = Property<curType>("Property", &propGroup, get, set);
     
     tester.testType(prop, &Property<curType>::isString);
     ASSERT_EQ(value, prop.toString());
@@ -321,7 +335,7 @@ TEST_F(PropertyTest, typesFloat)
         value = val;
     };
     
-    auto prop = Property<curType>(&propGroup, "Property", get, set);
+    auto prop = Property<curType>("Property", &propGroup, get, set);
     
     tester.testType(prop, {&Property<curType>::isNumber, &Property<curType>::isFloatingPoint});
     ASSERT_EQ(value, prop.toLongLong());

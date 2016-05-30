@@ -9,8 +9,8 @@ namespace cppexpose
 
 
 AbstractProperty::AbstractProperty()
-: m_parent(nullptr)
-, m_name("")
+: m_name("")
+, m_parent(nullptr)
 {
 }
 
@@ -21,20 +21,20 @@ AbstractProperty::~AbstractProperty()
     }
 }
 
-PropertyGroup * AbstractProperty::parent() const
-{
-    return m_parent;
-}
-
 std::string AbstractProperty::name() const
 {
     return m_name;
 }
 
-void AbstractProperty::initProperty(PropertyGroup * parent, const std::string & name)
+PropertyGroup * AbstractProperty::parent() const
 {
-    m_parent = parent;
+    return m_parent;
+}
+
+void AbstractProperty::initProperty(const std::string & name, PropertyGroup * parent)
+{
     m_name   = name;
+    m_parent = parent;
 
     if (m_parent) {
         m_parent->registerProperty(this);

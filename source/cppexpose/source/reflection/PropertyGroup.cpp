@@ -18,14 +18,14 @@ namespace cppexpose
 {
 
 
-PropertyGroup::PropertyGroup(PropertyGroup * parent)
+PropertyGroup::PropertyGroup()
 {
-    initProperty(parent, "");
+    initProperty("", nullptr);
 }
 
 PropertyGroup::PropertyGroup(const std::string & name, PropertyGroup * parent)
 {
-    initProperty(parent, name);
+    initProperty(name, parent);
 }
 
 PropertyGroup::~PropertyGroup()

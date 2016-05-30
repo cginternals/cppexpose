@@ -22,9 +22,9 @@ public:
 public:
     MyObject(const std::string & name = "obj")
     : Object(name)
-    , String(this, "string", this, &MyObject::getString, &MyObject::setString)
-    , Int   (this, "int"   , this, &MyObject::getInt,    &MyObject::setInt)
-    , Float (this, "float",  this, &MyObject::getFloat,  &MyObject::setFloat)
+    , String("string", this, this, &MyObject::getString, &MyObject::setString)
+    , Int   ("int"   , this, this, &MyObject::getInt,    &MyObject::setInt)
+    , Float ("float",  this, this, &MyObject::getFloat,  &MyObject::setFloat)
     , m_string("Hallo")
     , m_int(100)
     , m_float(23.42)

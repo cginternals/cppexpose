@@ -21,7 +21,7 @@ namespace cppexpose
 */
 class CPPEXPOSE_API PropertyGroup : public AbstractProperty
 {
-friend class AbstractProperty;
+    friend class AbstractProperty;
 
 
 public:
@@ -36,11 +36,8 @@ public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] parent
-    *    Parent object (can be null)
     */
-    PropertyGroup(PropertyGroup * parent = nullptr);
+    PropertyGroup();
 
     /**
     *  @brief

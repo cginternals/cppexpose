@@ -41,18 +41,20 @@ public:
     *  @brief
     *    Constructor
     *
+    *  @param[in] name
+    *    Property name (must NOT be empty!)
     *  @param[in] parent
     *    Parent object (must NOT be null!)
-    *  @param[in] name
-    *    Property name
     *  @param[in] args
     *    Arguments for the typed value (see StoredValueSingle and StoredValueArray)
     *
     *  @remarks
-    *    The property is created and added to the given parent object.
+    *    If parent is valid, the property is automatically added to the
+    *    parent object. The ownership is not transferred, so the property
+    *    has to be deleted by the caller.
     */
     template <typename... Args>
-    Property(PropertyGroup * parent, const std::string & name, Args&&... args);
+    Property(const std::string & name, PropertyGroup * parent, Args&&... args);
 
     /**
     *  @brief

@@ -37,20 +37,20 @@ public:
     *  @brief
     *    Constructor
     *
+    *  @param[in] name
+    *    Property name (must NOT be empty!)
     *  @param[in] parent
     *    Parent object (must NOT be null!)
-    *  @param[in] name
-    *    Property name
     *  @param[in] args
     *    Arguments for the typed value (see DirectValueSingle and DirectValueArray)
     *
     *  @remarks
-    *    The property is created and added to the given parent object.
-    *    The parent object takes ownership over the property, so it
-    *    will be destroyed together with the parent object.
+    *    If parent is valid, the property is automatically added to the
+    *    parent object. The parent object takes ownership over the property,
+    *    so it will be destroyed together with the parent object.
     */
     template <typename... Args>
-    DynamicProperty(PropertyGroup * parent, const std::string & name, Args&&... args);
+    DynamicProperty(const std::string & name, PropertyGroup * parent, Args&&... args);
 
     /**
     *  @brief

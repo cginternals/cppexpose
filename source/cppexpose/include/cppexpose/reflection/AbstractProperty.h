@@ -16,6 +16,17 @@ class PropertyGroup;
 
 /**
 *  @brief
+*    Defines the ownership for a property, group, or object
+*/
+enum class PropertyOwnership
+{
+    None = 0 ///< The property is owner by itself (or outside)
+  , Parent   ///< The property is owned by its parent
+};
+
+
+/**
+*  @brief
 *    Base class for properties
 */
 class CPPEXPOSE_API AbstractProperty : public AbstractTyped
@@ -35,21 +46,21 @@ public:
 
     /**
     *  @brief
-    *    Get parent object
-    *
-    *  @return
-    *    Parent (can be null)
-    */
-    PropertyGroup * parent() const;
-
-    /**
-    *  @brief
     *    Get name
     *
     *  @return
     *    Name
     */
     std::string name() const;
+
+    /**
+    *  @brief
+    *    Get parent object
+    *
+    *  @return
+    *    Parent (can be null)
+    */
+    PropertyGroup * parent() const;
 
     /**
     *  @brief
@@ -66,17 +77,17 @@ protected:
     *  @brief
     *    Initialize property
     *
-    *  @param[in] parent
-    *    Parent object (can be null)
     *  @param[in] name
     *    Name (can be empty)
+    *  @param[in] parent
+    *    Parent object (can be null)
     */
-    void initProperty(PropertyGroup * parent, const std::string & name);
+    void initProperty(const std::string & name, PropertyGroup * parent);
 
 
 protected:
-    PropertyGroup * m_parent; ///< Parent object
     std::string     m_name;   ///< Name of the property
+    PropertyGroup * m_parent; ///< Parent object
 };
 
 

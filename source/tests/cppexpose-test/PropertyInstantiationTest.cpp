@@ -62,9 +62,11 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGett
     {
     };
 
-    auto prop = new Property<TypeParam>(&propGroup, "Property", get, set);
+    auto prop = new Property<TypeParam>("Property", &propGroup, get, set);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
+
+    delete prop;
 }
 
 
@@ -73,7 +75,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_StaticGett
 
     PropertyGroup propGroup;
 
-    auto prop = new Property<TypeParam>(&propGroup, "Property", &staticGetter<TypeParam>, &staticSetter<TypeParam>);
+    auto prop = new Property<TypeParam>("Property", &propGroup, &staticGetter<TypeParam>, &staticSetter<TypeParam>);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
@@ -84,7 +86,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_Get
 {
     PropertyGroup propGroup;
     auto obj = new MyObject<TypeParam>("TestObject");
-    auto prop = new Property<TypeParam>(&propGroup, "Property", obj, &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setterconst);
+    auto prop = new Property<TypeParam>("Property", &propGroup, obj, &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setterconst);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
@@ -102,7 +104,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_Lambd
         return TypeParam();
     };
 
-    auto prop = new Property<const TypeParam>(&propGroup, "Property", get);
+    auto prop = new Property<const TypeParam>("Property", &propGroup, get);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
@@ -113,7 +115,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_Lambd
 TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_StaticGetter)
 {
     PropertyGroup propGroup;
-    auto prop = new Property<const TypeParam>(&propGroup, "Property", &staticGetter<TypeParam>);
+    auto prop = new Property<const TypeParam>("Property", &propGroup, &staticGetter<TypeParam>);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
 
