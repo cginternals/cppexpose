@@ -20,12 +20,12 @@ namespace cppexpose
 
 PropertyGroup::PropertyGroup()
 {
-    initProperty("", nullptr);
+    initProperty("", nullptr, PropertyOwnership::None);
 }
 
 PropertyGroup::PropertyGroup(const std::string & name, PropertyGroup * parent)
 {
-    initProperty(name, parent);
+    initProperty(name, parent, PropertyOwnership::None);
 }
 
 PropertyGroup::~PropertyGroup()
@@ -36,11 +36,10 @@ PropertyGroup::~PropertyGroup()
 void PropertyGroup::clear()
 {
     // Destroy managed properties
-    for (AbstractProperty * property : m_managedProperties)
+    while (m_managedProperties.size() > 0)
     {
-        delete property;
+        delete m_managedProperties.front();
     }
-    m_managedProperties.clear();
 }
 
 const std::unordered_map<std::string, AbstractProperty *> & PropertyGroup::properties() const
@@ -83,6 +82,102 @@ const AbstractProperty * PropertyGroup::property(const std::string & path) const
     return findProperty(splittedPath);
 }
 
+bool PropertyGroup::addProperty(AbstractProperty * property, PropertyOwnership ownership)
+{
+    // Reject properties that have no name, or whose name already exists,
+    // or that already have a parent group
+    if (!property || this->propertyExists(property->name()) || property->parent() != nullptr)
+    {
+        return false;
+    }
+
+    // Set parent
+    property->setParent(this);
+
+    // Invoke callback
+    beforeAdd(m_properties.size(), property);
+
+    // Add property
+    m_properties.push_back(property);
+    m_propertiesMap.insert(std::make_pair(property->name(), property));
+
+    // Take ownership over property?
+    if (ownership == PropertyOwnership::Parent)
+    {
+        m_managedProperties.push_back(property);
+    }
+
+    // Invoke callback
+    afterAdd(m_properties.size(), property);
+
+    // Success
+    return true;
+}
+
+bool PropertyGroup::removeProperty(AbstractProperty * property)
+{
+    // Reject properties that are not part of the group
+    if (!property || property->parent() != this)
+    {
+        return false;
+    }
+
+    // Find property in group
+    auto it = std::find(m_properties.begin(), m_properties.end(), property);
+    if (it == m_properties.end())
+    {
+        return false;
+    }
+
+    // Get property index
+    size_t index = std::distance(m_properties.begin(), it);
+
+    // Invoke callback
+    beforeRemove(index, property);
+
+    // Remove property from group
+    m_properties.erase(it);
+    m_propertiesMap.erase(property->name());
+
+    // Remove from managed list
+    auto it2 = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
+    if (it2 != m_managedProperties.end())
+    {
+        m_managedProperties.erase(it2);
+    }
+
+    // Reset property parent
+    property->setParent(nullptr);
+
+    // Invoke callback
+    afterRemove(index, property);
+
+    // Success
+    return true;
+}
+
+bool PropertyGroup::destroyProperty(AbstractProperty * property)
+{
+    // Check that property exists and belongs to the group
+    if (!property || property->parent() != this)
+    {
+        return false;
+    }
+
+    // Chec that property is owned by the group
+    auto it = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
+    if (it == m_properties.end())
+    {
+        return false;
+    }
+
+    // Destroy property
+    delete property;
+
+    // Property removed
+    return true;
+}
+
 bool PropertyGroup::groupExists(const std::string & name) const
 {
     return (this->propertyExists(name) && m_propertiesMap.at(name)->isGroup());
@@ -110,91 +205,6 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
 
     // Convert into group
     return static_cast<const PropertyGroup *>(property);
-}
-
-void PropertyGroup::registerProperty(AbstractProperty * property)
-{
-    // Reject properties that have no name or whose name already exists
-    if (!property || this->propertyExists(property->name()))
-    {
-        return;
-    }
-
-    // Invoke callback
-    beforeAdd(m_properties.size(), property);
-
-    // Add property
-    m_properties.push_back(property);
-    m_propertiesMap.insert(std::make_pair(property->name(), property));
-
-    // Invoke callback
-    afterAdd(m_properties.size(), property);
-}
-
-void PropertyGroup::unregisterProperty(AbstractProperty * property)
-{
-    // Check that property exists
-    if (!property)
-    {
-        return;
-    }
-
-    // Find property in group
-    auto it = std::find(m_properties.begin(), m_properties.end(), property);
-    if (it == m_properties.end())
-    {
-        return;
-    }
-
-    // Get property index
-    size_t index = std::distance(m_properties.begin(), it);
-
-    // Invoke callback
-    beforeRemove(index, property);
-
-    // Remove property from group
-    m_properties.erase(it);
-    m_propertiesMap.erase(property->name());
-
-    // Invoke callback
-    afterRemove(index, property);
-}
-
-void PropertyGroup::takeOwnership(AbstractProperty * property)
-{
-    // Check property
-    if (!property ||
-        std::find(m_managedProperties.begin(), m_managedProperties.end(), property) != m_managedProperties.end())
-    {
-        return;
-    }
-
-    // Put property into managed list
-    m_managedProperties.push_back(property);
-}
-
-bool PropertyGroup::destroyProperty(AbstractProperty * property)
-{
-    // Check that property exists
-    if (!property)
-    {
-        return false;
-    }
-
-    // Find property in group
-    auto it  = std::find(m_properties.begin(), m_properties.end(), property);
-    auto it2 = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
-    if (it == m_properties.end() || it2 == m_managedProperties.end())
-    {
-        return false;
-    }
-
-    // Destroy property
-    m_managedProperties.erase(it2);
-    delete property;
-
-    // Property removed
-    return true;
 }
 
 bool PropertyGroup::isGroup() const

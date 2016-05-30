@@ -76,13 +76,13 @@ int main(int, char * [])
     for (int i=1; i<=4; i++)
     {
         std::string name = "sub" + toString<int>(i);
-        Object * sub = new Object(name, root);
-        root->takeOwnership(sub);
+        Object * sub = new Object(name);
+        root->addProperty(sub, PropertyOwnership::Parent);
 
         for (int j=1; j<=4; j++)
         {
             std::string name = "value" + toString<int>(j);
-            sub->addDynamicProperty<int>(name, i * 10 + j);
+            sub->createDynamicProperty<int>(name, i * 10 + j);
         }
 
         sub->destroyProperty(sub->property("value2"));

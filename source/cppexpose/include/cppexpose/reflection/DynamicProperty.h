@@ -16,11 +16,10 @@ namespace cppexpose
 *    Representation of dynamic object properties
 *
 *    Dynamic properties are defined and added to an object
-*    at runtime rather than at compile time.
-*
-*    Dynamic properties store the property value themselves,
-*    no using getter or setter functions. Other than that,
-*    they behave exactly like normal properties.
+*    at runtime rather than at compile time. In contrast to
+*    normal properties, they store the property value themselves
+*    instead of using getter or setter functions. Other than
+*    that, they behave exactly like normal properties.
 *
 *  @see
 *    Property
@@ -40,14 +39,17 @@ public:
     *  @param[in] name
     *    Property name (must NOT be empty!)
     *  @param[in] parent
-    *    Parent object (must NOT be null!)
+    *    Parent object (can be null)
     *  @param[in] args
     *    Arguments for the typed value (see DirectValueSingle and DirectValueArray)
     *
     *  @remarks
     *    If parent is valid, the property is automatically added to the
-    *    parent object. The parent object takes ownership over the property,
-    *    so it will be destroyed together with the parent object.
+    *    parent object. The ownership is not transferred, so the property
+    *    has to be deleted by the caller.
+    *
+    *    To transfer the ownership to the parent, call this constructor with
+    *    parent(nullptr), and use addProperty() on the parent group.
     */
     template <typename... Args>
     DynamicProperty(const std::string & name, PropertyGroup * parent, Args&&... args);

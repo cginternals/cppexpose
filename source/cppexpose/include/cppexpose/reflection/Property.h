@@ -44,7 +44,7 @@ public:
     *  @param[in] name
     *    Property name (must NOT be empty!)
     *  @param[in] parent
-    *    Parent object (must NOT be null!)
+    *    Parent object (can be null)
     *  @param[in] args
     *    Arguments for the typed value (see StoredValueSingle and StoredValueArray)
     *
@@ -52,6 +52,9 @@ public:
     *    If parent is valid, the property is automatically added to the
     *    parent object. The ownership is not transferred, so the property
     *    has to be deleted by the caller.
+    *
+    *    To transfer the ownership to the parent, call this constructor with
+    *    parent(nullptr), and use addProperty() on the parent group.
     */
     template <typename... Args>
     Property(const std::string & name, PropertyGroup * parent, Args&&... args);

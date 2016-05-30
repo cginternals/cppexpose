@@ -10,7 +10,7 @@ namespace cppexpose
 
 
 template <typename T>
-DynamicProperty<T> * PropertyGroup::addDynamicProperty(const std::string & name, const T & value)
+DynamicProperty<T> * PropertyGroup::createDynamicProperty(const std::string & name, const T & value)
 {
     // Reject properties that have no name or whose name already exists
     if (name == "" || this->propertyExists(name))
@@ -18,10 +18,11 @@ DynamicProperty<T> * PropertyGroup::addDynamicProperty(const std::string & name,
         return nullptr;
     }
 
-    // Create property
-    auto * property = new DynamicProperty<T>(name, this, value);
-    takeOwnership(property);
+    // Create property and add it to the group
+    auto * property = new DynamicProperty<T>(name, nullptr, value);
+    this->addProperty(property, PropertyOwnership::Parent);
 
+    // Return property
     return property;
 }
 

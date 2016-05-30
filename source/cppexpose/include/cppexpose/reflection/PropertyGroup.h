@@ -47,6 +47,14 @@ public:
     *    Name
     *  @param[in] parent
     *    Parent object (can be null)
+    *
+    *  @remarks
+    *    If parent is valid, the group is automatically added to the
+    *    parent object. The ownership is not transferred, so the group
+    *    has to be deleted by the caller.
+    *
+    *    To transfer the ownership to the parent, call this constructor with
+    *    parent(nullptr), and use addProperty() on the parent group.
     */
     PropertyGroup(const std::string & name, PropertyGroup * parent = nullptr);
 
@@ -61,7 +69,8 @@ public:
     *    Clear properties
     *
     *    Removes all properties from the group.
-    *    Properties which have been added with takeOwnership() are deleted.
+    *    Properties which have been added with PropertyOwnership::Parent
+    *    are deleted.
     */
     void clear();
 
@@ -120,6 +129,71 @@ public:
     //@{
     /**
     *  @brief
+    *    Add property to group
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *  @param[in] ownership
+    *    Property ownership
+    *
+    *  @return
+    *    'true' if the property has been added to the group, else 'false'
+    *
+    *  @remarks
+    *    Adds the given property to the group.
+    *
+    *    The name of the property must be valid and unique to the group,
+    *    also the property must not belong to any other group already.
+    *    Otherwise, the property will not be added to the group.
+    *
+    *    If ownership is set to PropertyOwnership::Parent, the group
+    *    takes the ownership over the specified property, so the property
+    *    will be deleted together with the object in its destructor.
+    */
+    bool addProperty(AbstractProperty * property, PropertyOwnership ownership);
+
+    /**
+    *  @brief
+    *    Remove property from group
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @return
+    *    'true' if the property has been removed from the group, else 'false'
+    *
+    *  @remarks
+    *    If the specified property does not belong to the group,
+    *    this function will do nothing and return 'false'.
+    *
+    *    If ownership of the property is set to PropertyOwnership::Parent,
+    *    the group will release its ownership over the property and
+    *    transfer it back to the caller. The property will not be deleted!
+    */
+    bool removeProperty(AbstractProperty * property);
+
+    /**
+    *  @brief
+    *    Destroy property
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @return
+    *    'true' if the property has been destroyed, else 'false'
+    *
+    *  @remarks
+    *    This function destroys the specified property from the group.
+    *    It can only be used on properties which are owned by the
+    *    property group, i.e., properties created by createDynamicProperty
+    *    or add with PropertyOwnership::Parent. Properties which are not
+    *    owned by the property group must be deleted by other means,
+    *    on destruction they automatically remove themselves from the group.
+    */
+    bool destroyProperty(AbstractProperty * property);
+
+    /**
+    *  @brief
     *    Check if group exists
     *
     *  @param[in] name
@@ -165,44 +239,7 @@ public:
     *    over the property.
     */
     template <typename T>
-    DynamicProperty<T> * addDynamicProperty(const std::string & name, const T & value = T());
-
-    /**
-    *  @brief
-    *    Take ownership over a property
-    *
-    *  @param[in] property
-    *    Property (must NOT be null!)
-    *
-    *  @remarks
-    *    With this function, the property group takes over ownership
-    *    over the specified property, so the property will be deleted
-    *    together with the object in its destructor. Use this function
-    *    after adding properties, if you are not managing their
-    *    destruction by yourself.
-    */
-    void takeOwnership(AbstractProperty * property);
-
-    /**
-    *  @brief
-    *    Destroy property
-    *
-    *  @param[in] property
-    *    Property (must NOT be null!)
-    *
-    *  @return
-    *    'true' if property could be removed, else 'false'
-    *
-    *  @remarks
-    *    This function destroys the specified property from the group.
-    *    It can only be used on properties which are owned by the
-    *    property group, i.e., properties created by addDynamicProperty
-    *    or transferred by takeOwnership. Properties which are not
-    *    owned by the property group must be deleted by other means,
-    *    on destruction they automatically deregister themselves
-    *    from the property group.
-    */
-    bool destroyProperty(AbstractProperty * property);
+    DynamicProperty<T> * createDynamicProperty(const std::string & name, const T & value = T());
     //@}
 
     // Virtual AbstractProperty interface
@@ -241,8 +278,6 @@ public:
 
 
 protected:
-    void registerProperty(AbstractProperty * property);
-    void unregisterProperty(AbstractProperty * property);
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
 
 

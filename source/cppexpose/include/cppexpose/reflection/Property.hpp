@@ -16,7 +16,7 @@ template <typename... Args>
 Property<T, BASE>::Property(const std::string & name, PropertyGroup * parent, Args&&... args)
 : StoredValue<T, BASE>(std::forward<Args>(args)...)
 {
-    this->initProperty(name, parent);
+    this->initProperty(name, parent, PropertyOwnership::None);
 }
 
 template <typename T, typename BASE>

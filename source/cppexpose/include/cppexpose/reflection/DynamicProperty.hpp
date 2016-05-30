@@ -14,7 +14,7 @@ template <typename... Args>
 DynamicProperty<T, BASE>::DynamicProperty(const std::string & name, PropertyGroup * parent, Args&&... args)
 : DirectValue<T, BASE>(std::forward<Args>(args)...)
 {
-    this->initProperty(name, parent);
+    this->initProperty(name, parent, PropertyOwnership::None);
 }
 
 template <typename T, typename BASE>

@@ -17,7 +17,7 @@ AbstractProperty::AbstractProperty()
 AbstractProperty::~AbstractProperty()
 {
     if (m_parent) {
-        m_parent->unregisterProperty(this);
+        m_parent->removeProperty(this);
     }
 }
 
@@ -31,14 +31,21 @@ PropertyGroup * AbstractProperty::parent() const
     return m_parent;
 }
 
-void AbstractProperty::initProperty(const std::string & name, PropertyGroup * parent)
+void AbstractProperty::initProperty(const std::string & name, PropertyGroup * parent, PropertyOwnership ownership)
 {
-    m_name   = name;
-    m_parent = parent;
+    // Store name
+    m_name = name;
 
-    if (m_parent) {
-        m_parent->registerProperty(this);
+    // Add property to the parent group
+    if (parent)
+    {
+        parent->addProperty(this, ownership);
     }
+}
+
+void AbstractProperty::setParent(PropertyGroup * parent)
+{
+    m_parent = parent;
 }
 
 

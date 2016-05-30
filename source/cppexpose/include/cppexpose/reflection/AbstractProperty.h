@@ -31,6 +31,9 @@ enum class PropertyOwnership
 */
 class CPPEXPOSE_API AbstractProperty : public AbstractTyped
 {
+    friend class PropertyGroup;
+
+
 public:
     /**
     *  @brief
@@ -81,8 +84,23 @@ protected:
     *    Name (can be empty)
     *  @param[in] parent
     *    Parent object (can be null)
+    *  @param[in] ownership
+    *    Property ownership
     */
-    void initProperty(const std::string & name, PropertyGroup * parent);
+    void initProperty(const std::string & name, PropertyGroup * parent, PropertyOwnership ownership);
+
+    /**
+    *  @brief
+    *    Set parent object
+    *
+    *  @param[in] parent
+    *    Parent object (can be null)
+    *
+    *  @remarks
+    *    This function should only be called by the PropertyGroup
+    *    when adding or removing properties.
+    */
+    void setParent(PropertyGroup * parent);
 
 
 protected:
