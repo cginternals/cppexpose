@@ -3,6 +3,8 @@
 # External dependencies
 # 
 
+find_package(cppassist REQUIRED)
+
 
 # 
 # Executable name and options
@@ -21,6 +23,8 @@ message(STATUS "Example ${target}")
 
 set(sources
     main.cpp
+    TreeNode.cpp
+    TreeNode.h
 )
 
 
@@ -68,6 +72,7 @@ target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
     ${META_PROJECT_NAME}::cppexpose
+    cppassist::cppassist
 )
 
 
