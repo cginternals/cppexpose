@@ -16,7 +16,10 @@ AbstractProperty::AbstractProperty()
 
 AbstractProperty::~AbstractProperty()
 {
-    if (m_parent) {
+    beforeDestroy(this);
+
+    if (m_parent)
+    {
         m_parent->removeProperty(this);
     }
 }
@@ -35,6 +38,9 @@ void AbstractProperty::initProperty(const std::string & name, PropertyGroup * pa
 {
     // Store name
     m_name = name;
+
+    // Is not desired as parent->addProperty updates the m_parent but asserts beforehand that this property has no parent set.
+    // m_parent = parent;
 
     // Add property to the parent group
     if (parent)

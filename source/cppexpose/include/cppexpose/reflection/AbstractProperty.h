@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>
 
 
@@ -32,6 +33,10 @@ enum class PropertyOwnership
 class CPPEXPOSE_API AbstractProperty : public AbstractTyped
 {
     friend class PropertyGroup;
+
+
+public:
+    Signal<AbstractProperty *> beforeDestroy;    ///< Called before a property is destroyed
 
 
 public:
@@ -86,6 +91,8 @@ protected:
     *    Parent object (can be null)
     *  @param[in] ownership
     *    Property ownership
+    *
+    *  The internal parent is updated to the parent parameter
     */
     void initProperty(const std::string & name, PropertyGroup * parent, PropertyOwnership ownership);
 
