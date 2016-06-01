@@ -94,9 +94,8 @@ bool PropertyGroup::addProperty(AbstractProperty * property, PropertyOwnership o
     // Set parent
     property->setParent(this);
 
-    auto newIndex = m_properties.size();
-
     // Invoke callback
+    auto newIndex = m_properties.size();
     beforeAdd(newIndex, property);
 
     // Add property

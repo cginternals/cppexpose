@@ -20,10 +20,10 @@ class CPPEXPOSE_API Object : public PropertyGroup
 
 public:
     // [TODO] add before and after add/remove callbacks for functions
-    //Signal<size_t, AbstractProperty *> beforeAdd;    ///< Called before a property is added to the group
-    //Signal<size_t, AbstractProperty *> afterAdd;     ///< Called after a property is added to the group
-    //Signal<size_t, AbstractProperty *> beforeRemove; ///< Called before a property is removed from the group
-    //Signal<size_t, AbstractProperty *> afterRemove;  ///< Called after a property is removed from the group
+    //Signal<size_t, Method *> beforeAdd;    ///< Called before a function is added to the group
+    //Signal<size_t, Method *> afterAdd;     ///< Called after a function is added to the group
+    //Signal<size_t, Method *> beforeRemove; ///< Called before a function is removed from the group
+    //Signal<size_t, Method *> afterRemove;  ///< Called after a function is removed from the group
 
 
 public:

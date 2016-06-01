@@ -92,7 +92,10 @@ protected:
     *  @param[in] ownership
     *    Property ownership
     *
-    *  The internal parent is updated to the parent parameter
+    *  @remarks
+    *    The internal parent is updated to the parent parameter.
+    *    Do not set m_parent before calling this function, otherwise
+    *    the property might be rejected when added to the parent.
     */
     void initProperty(const std::string & name, PropertyGroup * parent, PropertyOwnership ownership);
 
