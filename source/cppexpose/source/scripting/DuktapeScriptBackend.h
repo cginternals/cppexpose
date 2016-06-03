@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 
-#include <cppexpose/function/Function.h>
 #include <cppexpose/scripting/AbstractScriptBackend.h>
 
 #include "duktape-1.4.0/duktape.h"
@@ -51,15 +50,47 @@ public:
 
 
 protected:
-    Variant fromDukValue(duk_context * context, duk_idx_t index = -1);
-    void pushToDukStack(duk_context * context, const Variant & var);
-    Function & getFunction(duk_context * context, size_t index);
+    /**
+    *  @brief
+    *    Get duktape scripting backend from duktape context
+    *
+    *  @param[in] context
+    *    Duktape context
+    *
+    *  @return
+    *    Duktape scripting backend (can be null)
+    */
+    static DuktapeScriptBackend * getScriptBackend(duk_context * context);
+
+    /**
+    *  @brief
+    *    Get value from the duktape stack and convert it into a variant
+    *
+    *  @param[in] context
+    *    Duktape context
+    *  @param[in] index
+    *    Stack index
+    *
+    *  @return
+    *    Variant value
+    */
+    Variant fromDukStack(duk_context * context, duk_idx_t index = -1);
+
+    /**
+    *  @brief
+    *    Push value to the duktape stack
+    *
+    *  @param[in] context
+    *    Duktape context
+    *  @param[in] value
+    *    Variant value
+    */
+    void pushToDukStack(duk_context * context, const Variant & value);
 
 
 protected:
-    duk_context                         * m_context;        ///< Duktape context
-    std::vector<DuktapeObjectWrapper *>   m_wrappedObjects; ///< List of wrapped objects
-    std::vector<Function>                 m_functions;      ///< List of wrapped functions
+    duk_context                         * m_context;   ///< Duktape context
+    std::vector<DuktapeObjectWrapper *>   m_objects;   ///< List of wrapped objects
 };
 
 

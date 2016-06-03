@@ -28,12 +28,12 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] scriptBackend
+    *  @param[in] scriptBackend (must NOT be null!)
     *    Duktape scripting backend
-    *  @param[in] stashFunctionIndex
-    *    Index of the wrapped function on the stash
+    *  @param[in] stashIndex
+    *    Index of the wrapped function in the stash
     */
-    DuktapeScriptFunction(DuktapeScriptBackend * scriptBackend, int stashFunctionIndex);
+    DuktapeScriptFunction(DuktapeScriptBackend * scriptBackend, int stashIndex);
 
     // Virtual AbstractFunction interface
     virtual AbstractFunction * clone() override;
@@ -41,9 +41,9 @@ public:
 
 
 protected:
-    DuktapeScriptBackend * m_scriptBackend;
-    duk_context          * m_context;
-    int                    m_stashFunctionIndex;
+    DuktapeScriptBackend * m_scriptBackend; ///< Duktape scripting backend (never null)
+    duk_context          * m_context;       ///< Duktape context (never null)
+    int                    m_stashIndex;    ///< Index of the wrapped function in the stash
 };
 
 

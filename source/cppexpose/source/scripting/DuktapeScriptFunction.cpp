@@ -11,23 +11,23 @@ namespace cppexpose
 {
 
 
-DuktapeScriptFunction::DuktapeScriptFunction(DuktapeScriptBackend * scriptBackend, int stashFunctionIndex)
+DuktapeScriptFunction::DuktapeScriptFunction(DuktapeScriptBackend * scriptBackend, int stashIndex)
 : m_scriptBackend(scriptBackend)
 , m_context(scriptBackend->m_context)
-, m_stashFunctionIndex(stashFunctionIndex)
+, m_stashIndex(stashIndex)
 {
 }
 
 AbstractFunction * DuktapeScriptFunction::clone()
 {
-    return new DuktapeScriptFunction(m_scriptBackend, m_stashFunctionIndex);
+    return new DuktapeScriptFunction(m_scriptBackend, m_stashIndex);
 }
 
 Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
 {
     // Get function wrapper from stash
     duk_push_global_stash(m_context);
-    duk_get_prop_index(m_context, -1, m_stashFunctionIndex);
+    duk_get_prop_index(m_context, -1, m_stashIndex);
 
     // Push arguments
     for (Variant var : args)
@@ -48,7 +48,7 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
     }
 
     // Convert return value
-    Variant value = m_scriptBackend->fromDukValue(m_context, -1);
+    Variant value = m_scriptBackend->fromDukStack(m_context, -1);
     duk_pop_2(m_context);
     return value;
 }

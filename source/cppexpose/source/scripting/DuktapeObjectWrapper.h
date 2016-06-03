@@ -42,21 +42,79 @@ public:
     */
     ~DuktapeObjectWrapper();
 
-    void wrapObject(duk_idx_t parentId, PropertyGroup * obj);
+    /**
+    *  @brief
+    *    Wrap object into javascript object
+    *
+    *  @param[in] parentIndex
+    *    Index of parent object on the stack
+    *  @param[in] obj
+    *    Object to be wrapped
+    *
+    *  @remarks
+    *    This function creates a javascript object representing
+    *    a cppexpose object and puts it as a property into the
+    *    specified parent object.
+    */
+    void wrapObject(duk_idx_t parentIndex, PropertyGroup * obj);
 
 
 protected:
-    static duk_ret_t getProperty(duk_context * context);
-    static duk_ret_t setProperty(duk_context * context);
-    static duk_ret_t wrapFunction(duk_context * context);
+    /**
+    *  @brief
+    *    Callback function for getting a property value
+    *
+    *  @param[in] context
+    *    Duktape context
+    *
+    *  @return
+    *    Duktape status
+    *
+    *  @remarks
+    *    This function is called from the javascript context
+    *    to read the value of an object property.
+    */
+    static duk_ret_t getPropertyValue(duk_context * context);
+
+    /**
+    *  @brief
+    *    Callback function for setting a property value
+    *
+    *  @param[in] context
+    *    Duktape context
+    *
+    *  @return
+    *    Duktape status
+    *
+    *  @remarks
+    *    This function is called from the javascript context
+    *    to write the value of an object property.
+    */
+    static duk_ret_t setPropertyValue(duk_context * context);
+
+    /**
+    *  @brief
+    *    Callback function for calling a function
+    *
+    *  @param[in] context
+    *    Duktape context
+    *
+    *  @return
+    *    Duktape status
+    *
+    *  @remarks
+    *    This function is called from the javascript context
+    *    to call an object function.
+    */
+    static duk_ret_t callObjectFunction(duk_context * context);
 
 
 protected:
-    PropertyGroup                       * m_obj;
-    DuktapeScriptBackend                * m_scriptBackend;
-    duk_context                         * m_context;
-    int                                   m_stashFunctionIndex;
-    std::vector<DuktapeObjectWrapper *>   m_wrappedObjects;     ///< List of wrapped sub-objects
+    duk_context                         * m_context;       ///< Duktape context
+    DuktapeScriptBackend                * m_scriptBackend; ///< Duktape scripting backend
+    PropertyGroup                       * m_obj;           ///< The wrapped object
+    int                                   m_stashIndex;    ///< Index of the wrapped object in the stash
+    std::vector<DuktapeObjectWrapper *>   m_subObjects;    ///< List of wrapped sub-objects
 };
 
 

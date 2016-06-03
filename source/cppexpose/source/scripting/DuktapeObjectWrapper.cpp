@@ -13,11 +13,11 @@ using namespace cppassist;
 
 namespace
 {
-    static const char * s_duktapeObjectPointerKey          = "objWrapper";
+    static const char * s_duktapeScriptBackendKey          = "duktapeScriptBackend";
+    static const char * s_duktapeNextStashFunctionIndexKey = "duktapeNextStashFunctionIndex";
+    static const char * s_duktapeFunctionPointerKey        = "duktapeFunctionPointer";
+    static const char * s_duktapeObjectPointerKey          = "duk_object_pointer";
     static const char * s_duktapePropertyNameKey           = "duk_property_name";
-    static const char * s_duktapeFunctionPointerKey        = "duk_function_pointer";
-    static const char * s_duktapeStashFreeFunctionIndexKey = "duk_next_function_index";
-    static const char * s_duktapeScriptBackend             = "duktapeScriptBackend";
 }
 
 
@@ -25,42 +25,38 @@ namespace cppexpose
 {
 
 
-static DuktapeScriptBackend * getScriptBackend(duk_context * context)
-{
-    duk_push_global_stash(context);
-    duk_get_prop_string(context, -1, s_duktapeScriptBackend);
-    void * ptr = duk_get_pointer(context, -1);
-    duk_pop_2(context);
-
-    auto backend = static_cast<DuktapeScriptBackend *>(ptr);
-    return backend;
-}
-
-
 DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend)
-: m_obj(nullptr)
+: m_context(scriptBackend->m_context)
 , m_scriptBackend(scriptBackend)
-, m_context(scriptBackend->m_context)
-, m_stashFunctionIndex(0)
+, m_obj(nullptr)
+, m_stashIndex(0)
 {
 }
 
 DuktapeObjectWrapper::~DuktapeObjectWrapper()
 {
+    // Delete wrapped sub-objects
+    for (auto * objWrapper : m_subObjects)
+    {
+        delete objWrapper;
+    }
 }
 
-void DuktapeObjectWrapper::wrapObject(duk_idx_t parentId, PropertyGroup * obj)
+void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj)
 {
+    // Store pointer to wrapped object
     m_obj = obj;
 
     // Create empty object on the stack
     duk_idx_t objIndex = duk_push_object(m_context);
 
+    // Save pointer to wrapped object in javascript object
     duk_push_pointer(m_context, static_cast<void *>(this));
     duk_put_prop_string(m_context, -2, s_duktapeObjectPointerKey);
 
     // Register object properties
-    for (unsigned int i=0; i<obj->numSubValues(); i++) {
+    for (unsigned int i=0; i<obj->numSubValues(); i++)
+    {
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string propName = prop->name();
@@ -72,12 +68,12 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentId, PropertyGroup * obj)
             duk_push_string(m_context, propName.c_str());
 
             // Getter function object
-            duk_push_c_function(m_context, &DuktapeObjectWrapper::getProperty, 0);
+            duk_push_c_function(m_context, &DuktapeObjectWrapper::getPropertyValue, 0);
             duk_push_string(m_context, propName.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
             // Setter function object
-            duk_push_c_function(m_context, &DuktapeObjectWrapper::setProperty, 1);
+            duk_push_c_function(m_context, &DuktapeObjectWrapper::setPropertyValue, 1);
             duk_push_string(m_context, propName.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
@@ -86,19 +82,21 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentId, PropertyGroup * obj)
         }
     }
 
-    // Register object functions
+    // Check if object may have functions
     Object * scriptable = dynamic_cast<Object *>(obj);
     if (scriptable) {
+        // Register object functions
         const std::vector<Method> & funcs = scriptable->functions();
         for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
         {
-            const Method & func = *it;
-            m_scriptBackend->m_functions.push_back(func);
+            const Method & method = *it;
 
-            duk_push_c_function(m_context, wrapFunction, DUK_VARARGS);
-            duk_push_int(m_context, m_scriptBackend->m_functions.size() - 1);
+            auto & func = static_cast<const Function &>(method);
+
+            duk_push_c_function(m_context, callObjectFunction, DUK_VARARGS);
+            duk_push_pointer(m_context, const_cast<Function *>(&func));
             duk_put_prop_string(m_context, -2, s_duktapeFunctionPointerKey);
-            duk_put_prop_string(m_context, objIndex, func.name().c_str());
+            duk_put_prop_string(m_context, objIndex, method.name().c_str());
         }
     }
 
@@ -108,134 +106,144 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentId, PropertyGroup * obj)
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
         if (PropertyGroup * group = dynamic_cast<PropertyGroup *>(prop)) {
-            // Add sub object
+            // Create object wrapper
             auto objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
-            m_wrappedObjects.push_back(objWrapper);
+            m_subObjects.push_back(objWrapper);
 
+            // Add sub object
             objWrapper->wrapObject(objIndex, group);
         }
     }
 
     // Register object in parent object (global if it is no sub-object)
-    duk_put_prop_string(m_context, parentId, obj->name().c_str());
+    duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
 }
 
-duk_ret_t DuktapeObjectWrapper::getProperty(duk_context * context)
+duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
 {
-    // Get object
+    // Get script backend
+    auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
+
+    // Get object wrapper
     duk_push_this(context);
     duk_get_prop_string(context, -1, s_duktapeObjectPointerKey);
-    void * ptr = duk_get_pointer(context, -1);
+    auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
-    auto objWrapper = static_cast<DuktapeObjectWrapper *>(ptr);
     if (objWrapper)
     {
-        DuktapeScriptBackend * scriptBackend = objWrapper->m_scriptBackend;
+        // Get object
         PropertyGroup * obj = objWrapper->m_obj;
 
-        // Get property
+        // Get property name
         duk_push_current_function(context);
         duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
         std::string propName = duk_get_string(context, -1);
         duk_pop_2(context);
-        AbstractProperty * property = obj->property(propName);
 
+        // Get property
+        AbstractProperty * property = obj->property(propName);
         if (property)
         {
+            // Return property value
             Variant value = property->toVariant();
-
-            // Set return value
             scriptBackend->pushToDukStack(context, value);
         }
     }
 
-    return 1;   /*  1 = return value at top
-                 *  0 = return 'undefined'
-                 * <0 = throw error (use DUK_RET_xxx constants)
-                 */
+    // Return status
+    //     1: return value at top
+    //     0: return 'undefined'
+    //   < 0: return error (use DUK_RET_xxx constants)
+    return 1;
 }
 
-duk_ret_t DuktapeObjectWrapper::setProperty(duk_context * context)
+duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
 {
-    auto scriptBackend = getScriptBackend(context);
+    // Get script backend
+    auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
 
     // Get value from stack
-    Variant value = scriptBackend->fromDukValue(context, -1);
+    Variant value = scriptBackend->fromDukStack(context, -1);
     duk_pop(context);
 
-    // Get object
+    // Get object wrapper
     duk_push_this(context);
     duk_get_prop_string(context, -1, s_duktapeObjectPointerKey);
-    void * ptr = duk_get_pointer(context, -1);
+    auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
-    auto objWrapper = static_cast<DuktapeObjectWrapper *>(ptr);
     if (objWrapper)
     {
-        DuktapeScriptBackend * scriptBackend = objWrapper->m_scriptBackend;
+        // Get object
         PropertyGroup * obj = objWrapper->m_obj;
 
-        // Get property
+        // Get property name
         duk_push_current_function(context);
         duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
         std::string propName = duk_get_string(context, -1);
         duk_pop_2(context);
-        AbstractProperty * property = obj->property(propName);
 
+        // Get property
+        AbstractProperty * property = obj->property(propName);
         if (property)
         {
+            // Set property value
             property->fromVariant(value);
         }
     }
 
-    return 0;   /*  1 = return value at top
-                 *  0 = return 'undefined'
-                 * <0 = throw error (use DUK_RET_xxx constants)
-                 */
+    // Return status
+    //     1: return value at top
+    //     0: return 'undefined'
+    //   < 0: return error (use DUK_RET_xxx constants)
+    return 0;
 }
 
-duk_ret_t DuktapeObjectWrapper::wrapFunction(duk_context * context)
+duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
 {
-    auto scriptBackend = getScriptBackend(context);
+    // Get script backend
+    auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
 
+    // Determine number of arguments
     duk_idx_t nargs = duk_get_top(context);
 
+    // Get function pointer
     duk_push_current_function(context);
     duk_get_prop_string(context, -1, s_duktapeFunctionPointerKey);
-    int funcIndex = duk_get_int(context, -1);
-
+    Function * func = reinterpret_cast<Function *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
-    if (funcIndex >= 0)
+    // Is function valid?
+    if (func)
     {
-        Function & func = scriptBackend->getFunction(context, funcIndex);
-
+        // Get all arguments from the stack and convert them into variants
         std::vector<Variant> arguments(nargs);
         for (int i = 0; i < nargs; ++i){
-            arguments[i] = scriptBackend->fromDukValue(context, 0);
+            arguments[i] = scriptBackend->fromDukStack(context, 0);
             duk_remove(context, 0);
         }
 
-        Variant value = func.call(arguments);
+        // Call function
+        Variant value = func->call(arguments);
 
+        // Check return value
         if (!value.isNull())
         {
+            // Push return value to stack
             scriptBackend->pushToDukStack(context, value);
             return 1;
-        } else {
+        }
+        else
+        {
+            // No return value
             return 0;
         }
-    } else {
-        warning() << "Error: No valid pointer found." << std::endl;
-        return DUK_RET_ERROR;
     }
 
-    /*  1 = return value at top
-     *  0 = return 'undefined'
-     * <0 = throw error (use DUK_RET_xxx constants)
-     */
-    return 0;
+    // No valid function found
+    warning() << "Error: No valid function pointer found." << std::endl;
+    return DUK_RET_ERROR;
 }
 
 
