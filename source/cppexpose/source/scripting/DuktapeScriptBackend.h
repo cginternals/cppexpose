@@ -2,26 +2,31 @@
 #pragma once
 
 
-#include "duktape-1.4.0/duktape.h"
-
 #include <vector>
 #include <string>
 
-#include <cppexpose/scripting/AbstractScriptBackend.h>
 #include <cppexpose/function/Function.h>
+#include <cppexpose/scripting/AbstractScriptBackend.h>
+
+#include "duktape-1.4.0/duktape.h"
 
 
 namespace cppexpose
 {
 
 
+class PropertyGroup;
+class DuktapeObjectWrapper;
+
+
 /**
 *  @brief
-*    Duktape (Ecmascript) scripting backend
+*    Duktape (javascript) scripting backend
 */
 class CPPEXPOSE_API DuktapeScriptBackend : public AbstractScriptBackend
 {
-friend Function & getFunction(duk_context * context, size_t index);
+    friend class DuktapeScriptFunction;
+    friend class DuktapeObjectWrapper;
 
 
 public:
@@ -46,13 +51,15 @@ public:
 
 
 protected:
-    void registerObj(duk_idx_t parentId, PropertyGroup * obj);
+    Variant fromDukValue(duk_context * context, duk_idx_t index = -1);
+    void pushToDukStack(duk_context * context, const Variant & var);
+    Function & getFunction(duk_context * context, size_t index);
 
 
 protected:
-    duk_context           * m_context;   ///< Duktape context
-    std::string             m_namespace; ///< Global namespace
-    std::vector<Function>   m_functions; ///< List of wrapped functions
+    duk_context                         * m_context;        ///< Duktape context
+    std::vector<DuktapeObjectWrapper *>   m_wrappedObjects; ///< List of wrapped objects
+    std::vector<Function>                 m_functions;      ///< List of wrapped functions
 };
 
 

@@ -194,6 +194,10 @@ set(sources
     ${source_path}/scripting/AbstractScriptBackend.cpp
     ${source_path}/scripting/DuktapeScriptBackend.cpp
     ${source_path}/scripting/DuktapeScriptBackend.h
+    ${source_path}/scripting/DuktapeScriptFunction.cpp
+    ${source_path}/scripting/DuktapeScriptFunction.h
+    ${source_path}/scripting/DuktapeObjectWrapper.cpp
+    ${source_path}/scripting/DuktapeObjectWrapper.h
 
     ${source_path}/plugin/ComponentManager.cpp
     ${source_path}/plugin/AbstractComponent.cpp
