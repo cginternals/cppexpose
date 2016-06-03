@@ -54,7 +54,9 @@ public:
     *  @remarks
     *    This function creates a javascript object representing
     *    a cppexpose object and puts it as a property into the
-    *    specified parent object.
+    *    specified parent object. It also stores the object
+    *    wrapper into the global stash so that it can access
+    *    it later.
     */
     void wrapObject(duk_idx_t parentIndex, PropertyGroup * obj);
 

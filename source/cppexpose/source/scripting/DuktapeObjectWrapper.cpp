@@ -13,11 +13,11 @@ using namespace cppassist;
 
 namespace
 {
-    static const char * s_duktapeScriptBackendKey          = "duktapeScriptBackend";
-    static const char * s_duktapeNextStashFunctionIndexKey = "duktapeNextStashFunctionIndex";
-    static const char * s_duktapeFunctionPointerKey        = "duktapeFunctionPointer";
-    static const char * s_duktapeObjectPointerKey          = "duk_object_pointer";
-    static const char * s_duktapePropertyNameKey           = "duk_property_name";
+    static const char * s_duktapeScriptBackendKey   = "duktapeScriptBackend";
+    static const char * s_duktapeNextStashIndexKey  = "duktapeNextStashFunctionIndex";
+    static const char * s_duktapeFunctionPointerKey = "duktapeFunctionPointer";
+    static const char * s_duktapeObjectPointerKey   = "duktapeObjectPointer";
+    static const char * s_duktapePropertyNameKey    = "duktapePropertyName";
 }
 
 
@@ -29,7 +29,7 @@ DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend)
 : m_context(scriptBackend->m_context)
 , m_scriptBackend(scriptBackend)
 , m_obj(nullptr)
-, m_stashIndex(0)
+, m_stashIndex(-1)
 {
 }
 
@@ -49,6 +49,13 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
 
     // Create empty object on the stack
     duk_idx_t objIndex = duk_push_object(m_context);
+
+    // Save object in stash
+    duk_push_global_stash(m_context);
+    duk_push_int(m_context, m_scriptBackend->getNextStashIndex());
+    duk_dup(m_context, -3);
+    duk_put_prop(m_context, -3);
+    duk_pop(m_context);
 
     // Save pointer to wrapped object in javascript object
     duk_push_pointer(m_context, static_cast<void *>(this));
@@ -147,7 +154,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
         {
             // Return property value
             Variant value = property->toVariant();
-            scriptBackend->pushToDukStack(context, value);
+            scriptBackend->pushToDukStack(value);
         }
     }
 
@@ -164,7 +171,7 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
 
     // Get value from stack
-    Variant value = scriptBackend->fromDukStack(context, -1);
+    Variant value = scriptBackend->fromDukStack(-1);
     duk_pop(context);
 
     // Get object wrapper
@@ -220,7 +227,7 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
         // Get all arguments from the stack and convert them into variants
         std::vector<Variant> arguments(nargs);
         for (int i = 0; i < nargs; ++i){
-            arguments[i] = scriptBackend->fromDukStack(context, 0);
+            arguments[i] = scriptBackend->fromDukStack(0);
             duk_remove(context, 0);
         }
 
@@ -231,7 +238,7 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
         if (!value.isNull())
         {
             // Push return value to stack
-            scriptBackend->pushToDukStack(context, value);
+            scriptBackend->pushToDukStack(value);
             return 1;
         }
         else

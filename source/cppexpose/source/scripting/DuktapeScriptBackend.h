@@ -74,7 +74,7 @@ protected:
     *  @return
     *    Variant value
     */
-    Variant fromDukStack(duk_context * context, duk_idx_t index = -1);
+    Variant fromDukStack(duk_idx_t index = -1);
 
     /**
     *  @brief
@@ -85,7 +85,16 @@ protected:
     *  @param[in] value
     *    Variant value
     */
-    void pushToDukStack(duk_context * context, const Variant & value);
+    void pushToDukStack(const Variant & value);
+
+    /**
+    *  @brief
+    *    Get index of the next free element in the stash
+    *
+    *  @return
+    *    Index of next stash element
+    */
+    int getNextStashIndex();
 
 
 protected:

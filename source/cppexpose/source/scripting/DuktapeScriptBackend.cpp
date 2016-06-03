@@ -18,11 +18,11 @@ using namespace cppassist;
 
 namespace
 {
-    static const char * s_duktapeScriptBackendKey          = "duktapeScriptBackend";
-    static const char * s_duktapeNextStashFunctionIndexKey = "duktapeNextStashFunctionIndex";
-    static const char * s_duktapeFunctionPointerKey        = "duktapeFunctionPointer";
-    static const char * s_duktapeObjectPointerKey          = "duk_object_pointer";
-    static const char * s_duktapePropertyNameKey           = "duk_property_name";
+    static const char * s_duktapeScriptBackendKey   = "duktapeScriptBackend";
+    static const char * s_duktapeNextStashIndexKey  = "duktapeNextStashFunctionIndex";
+    static const char * s_duktapeFunctionPointerKey = "duktapeFunctionPointer";
+    static const char * s_duktapeObjectPointerKey   = "duktapeObjectPointer";
+    static const char * s_duktapePropertyNameKey    = "duktapePropertyName";
 }
 
 
@@ -54,11 +54,19 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
     // Store script context
     m_scriptContext = scriptContext;
 
-    // Save pointer to script backend in global stash
+    // Get stash
     duk_push_global_stash(m_context);
+
+    // Save pointer to script backend in global stash
     void * context_ptr = static_cast<void *>(this);
     duk_push_pointer(m_context, context_ptr);
     duk_put_prop_string(m_context, -2, s_duktapeScriptBackendKey);
+
+    // Initialize next index for storing functions and objects in the stash
+    duk_push_int(m_context, 0);
+    duk_put_prop_string(m_context, -2, s_duktapeNextStashIndexKey);
+
+    // Release stash
     duk_pop(m_context);
 }
 
@@ -107,7 +115,7 @@ Variant DuktapeScriptBackend::evaluate(const std::string & code)
     }
 
     // Convert return value to variant
-    Variant value = fromDukStack(m_context);
+    Variant value = fromDukStack();
     duk_pop(m_context);
     return value;
 }
@@ -126,43 +134,36 @@ DuktapeScriptBackend * DuktapeScriptBackend::getScriptBackend(duk_context * cont
     return static_cast<DuktapeScriptBackend *>(ptr);
 }
 
-Variant DuktapeScriptBackend::fromDukStack(duk_context * context, duk_idx_t index)
+Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
 {
     // Wrapped object function
-    if (duk_is_c_function(context, index))
+    if (duk_is_c_function(m_context, index))
     {
         // Get pointer to wrapped function
-        duk_get_prop_string(context, index, s_duktapeFunctionPointerKey);
-        Function * func = reinterpret_cast<Function *>( duk_get_pointer(context, -1) );
-        duk_pop(context);
+        duk_get_prop_string(m_context, index, s_duktapeFunctionPointerKey);
+        Function * func = reinterpret_cast<Function *>( duk_get_pointer(m_context, -1) );
+        duk_pop(m_context);
 
         // Return wrapped function
         return Variant::fromValue<Function>(*func);
     }
 
     // Javascript function - will be stored in global stash for access from C++ later
-    else if (duk_is_ecmascript_function(context, index))
+    else if (duk_is_ecmascript_function(m_context, index))
     {
         // Get stash object
-        duk_push_global_stash(context);
+        duk_push_global_stash(m_context);
 
-        // Get next free index for function objects in global stash
-        if (!duk_get_prop_string(context, -1, s_duktapeNextStashFunctionIndexKey))
-        {
-            // By default, use 0 as index
-            duk_pop(context); // Pop 'undefined' from the stack that was pushed automatically
-            duk_push_int(context, 0);
-        }
-        int funcIndex = duk_get_int(context, -1);
-
-        // Increment next free index
-        duk_push_int(context, funcIndex + 1);
-        duk_put_prop_string(context, -3, s_duktapeNextStashFunctionIndexKey);
+        // Get next free index in global stash
+        int funcIndex = getNextStashIndex();
+        duk_push_int(m_context, funcIndex);
 
         // Copy function object to the top and put it as property into global stash
-        duk_dup(context, -3);
-        duk_put_prop(context, -3);
-        duk_pop(context);
+        duk_dup(m_context, -3);
+        duk_put_prop(m_context, -3);
+
+        // Close stash
+        duk_pop(m_context);
 
         // Return callable function
         Function function(new DuktapeScriptFunction(this, funcIndex));
@@ -170,130 +171,151 @@ Variant DuktapeScriptBackend::fromDukStack(duk_context * context, duk_idx_t inde
     }
 
     // Number
-    else if (duk_is_number(context, index))
+    else if (duk_is_number(m_context, index))
     {
-        double value = duk_get_number(context, index);
+        double value = duk_get_number(m_context, index);
         return Variant(value);
     }
 
     // Boolean
-    else if (duk_is_boolean(context, index))
+    else if (duk_is_boolean(m_context, index))
     {
-        bool value = duk_get_boolean(context, index) > 0;
+        bool value = duk_get_boolean(m_context, index) > 0;
         return Variant(value);
     }
 
     // String
-    else if (duk_is_string(context, index))
+    else if (duk_is_string(m_context, index))
     {
-        const char *str = duk_get_string(context, index);
+        const char *str = duk_get_string(m_context, index);
         return Variant(str);
     }
 
     // Array
-    else if (duk_is_array(context, index))
+    else if (duk_is_array(m_context, index))
     {
         VariantArray array;
 
-        for (unsigned int i = 0; i < duk_get_length(context, index); ++i)
+        for (unsigned int i = 0; i < duk_get_length(m_context, index); ++i)
         {
-            duk_get_prop_index(context, index, i);
-            array.push_back(fromDukStack(context));
-            duk_pop(context);
+            duk_get_prop_index(m_context, index, i);
+            array.push_back(fromDukStack());
+            duk_pop(m_context);
         }
 
         return array;
     }
 
     // Object
-    else if (duk_is_object(context, index))
+    else if (duk_is_object(m_context, index))
     {
         VariantMap map;
 
-        duk_enum(context, index, 0);
-        while (duk_next(context, -1, 1))
+        duk_enum(m_context, index, 0);
+        while (duk_next(m_context, -1, 1))
         {
             // Prevent the pointer to the C++ object that is stored in the Ecmascript object from being serialized
-            if (!(duk_is_pointer(context, -1) && fromDukStack(context, -2).value<std::string>() == s_duktapeObjectPointerKey))
+            if (!(duk_is_pointer(m_context, -1) && fromDukStack(-2).value<std::string>() == s_duktapeObjectPointerKey))
             {
-                map.insert({ fromDukStack(context, -2).value<std::string>(), fromDukStack(context, -1) });
+                map.insert({ fromDukStack(-2).value<std::string>(), fromDukStack(-1) });
             }
 
-            duk_pop_2(context);
+            duk_pop_2(m_context);
         }
 
-        duk_pop(context);
+        duk_pop(m_context);
 
         return Variant(map);
     }
 
     // Pointer
-    else if (duk_is_pointer(context, index))
+    else if (duk_is_pointer(m_context, index))
     {
-        return Variant::fromValue<void *>(duk_get_pointer(context, index));
+        return Variant::fromValue<void *>(duk_get_pointer(m_context, index));
     }
 
     // Undefined
-    else if (duk_is_undefined(context, index))
+    else if (duk_is_undefined(m_context, index))
     {
         return Variant();
     }
 
     // Unknown type
-    warning() << "Unknown type found: " << duk_get_type(context, index) << std::endl;
+    warning() << "Unknown type found: " << duk_get_type(m_context, index) << std::endl;
     warning() << "Duktape stack dump:" << std::endl;
-    duk_dump_context_stderr(context);
+    duk_dump_context_stderr(m_context);
     return Variant();
 }
 
-void DuktapeScriptBackend::pushToDukStack(duk_context * context, const Variant & value)
+void DuktapeScriptBackend::pushToDukStack(const Variant & value)
 {
     if (value.isBool()) {
-        duk_push_boolean(context, value.toBool());
+        duk_push_boolean(m_context, value.toBool());
     }
 
     else if (value.isUnsignedIntegral()) {
-        duk_push_number(context, value.toULongLong());
+        duk_push_number(m_context, value.toULongLong());
     }
 
     else if (value.isSignedIntegral() || value.isIntegral()) {
-        duk_push_number(context, value.toLongLong());
+        duk_push_number(m_context, value.toLongLong());
     }
 
     else if (value.isFloatingPoint()) {
-        duk_push_number(context, value.toDouble());
+        duk_push_number(m_context, value.toDouble());
     }
 
     else if (value.isString()) {
-        duk_push_string(context, value.toString().c_str());
+        duk_push_string(m_context, value.toString().c_str());
     }
 
     else if (value.hasType<char*>()) {
-        duk_push_string(context, value.value<char*>());
+        duk_push_string(m_context, value.value<char*>());
     }
 
     else if (value.isVariantArray())
     {
         VariantArray variantArray = value.value<VariantArray>();
-        duk_idx_t arr_idx = duk_push_array(context);
+        duk_idx_t arr_idx = duk_push_array(m_context);
 
         for (unsigned int i=0; i<variantArray.size(); i++) {
-            pushToDukStack(context, variantArray.at(i));
-            duk_put_prop_index(context, arr_idx, i);
+            pushToDukStack(variantArray.at(i));
+            duk_put_prop_index(m_context, arr_idx, i);
         }
     }
 
     else if (value.isVariantMap())
     {
         VariantMap variantMap = value.value<VariantMap>();
-        duk_push_object(context);
+        duk_push_object(m_context);
 
         for (const std::pair<std::string, Variant> & pair : variantMap)
         {
-            pushToDukStack(context, pair.second);
-            duk_put_prop_string(context, -2, pair.first.c_str());
+            pushToDukStack(pair.second);
+            duk_put_prop_string(m_context, -2, pair.first.c_str());
         }
     }
+}
+
+int DuktapeScriptBackend::getNextStashIndex()
+{
+    // Get stash object
+    duk_push_global_stash(m_context);
+
+    // Get next free index for functions or objects in global stash
+    duk_get_prop_string(m_context, -1, s_duktapeNextStashIndexKey);
+    int index = duk_get_int(m_context, -1);
+
+    // Increment next free index
+    duk_push_int(m_context, index + 1);
+    duk_put_prop_string(m_context, -3, s_duktapeNextStashIndexKey);
+
+    // Clean up stack
+    duk_pop(m_context);
+    duk_pop(m_context);
+
+    // Return index
+    return index;
 }
 
 

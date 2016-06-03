@@ -32,7 +32,7 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
     // Push arguments
     for (Variant var : args)
     {
-        m_scriptBackend->pushToDukStack(m_context, var);
+        m_scriptBackend->pushToDukStack(var);
     }
 
     // Call function
@@ -48,7 +48,7 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
     }
 
     // Convert return value
-    Variant value = m_scriptBackend->fromDukStack(m_context, -1);
+    Variant value = m_scriptBackend->fromDukStack(-1);
     duk_pop_2(m_context);
     return value;
 }
