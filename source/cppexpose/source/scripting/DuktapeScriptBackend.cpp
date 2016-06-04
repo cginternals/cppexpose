@@ -16,18 +16,15 @@
 using namespace cppassist;
 
 
-namespace
-{
-    static const char * s_duktapeScriptBackendKey   = "duktapeScriptBackend";
-    static const char * s_duktapeNextStashIndexKey  = "duktapeNextStashFunctionIndex";
-    static const char * s_duktapeFunctionPointerKey = "duktapeFunctionPointer";
-    static const char * s_duktapeObjectPointerKey   = "duktapeObjectPointer";
-    static const char * s_duktapePropertyNameKey    = "duktapePropertyName";
-}
-
-
 namespace cppexpose
 {
+
+
+const char * s_duktapeScriptBackendKey   = "duktapeScriptBackend";
+const char * s_duktapeNextStashIndexKey  = "duktapeNextStashFunctionIndex";
+const char * s_duktapeFunctionPointerKey = "duktapeFunctionPointer";
+const char * s_duktapeObjectPointerKey   = "duktapeObjectPointer";
+const char * s_duktapePropertyNameKey    = "duktapePropertyName";
 
 
 DuktapeScriptBackend::DuktapeScriptBackend()

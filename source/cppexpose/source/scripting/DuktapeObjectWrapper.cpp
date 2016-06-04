@@ -11,18 +11,13 @@
 using namespace cppassist;
 
 
-namespace
-{
-    static const char * s_duktapeScriptBackendKey   = "duktapeScriptBackend";
-    static const char * s_duktapeNextStashIndexKey  = "duktapeNextStashFunctionIndex";
-    static const char * s_duktapeFunctionPointerKey = "duktapeFunctionPointer";
-    static const char * s_duktapeObjectPointerKey   = "duktapeObjectPointer";
-    static const char * s_duktapePropertyNameKey    = "duktapePropertyName";
-}
-
-
 namespace cppexpose
 {
+
+
+extern const char * s_duktapeFunctionPointerKey;
+extern const char * s_duktapeObjectPointerKey;
+extern const char * s_duktapePropertyNameKey;
 
 
 DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend)
