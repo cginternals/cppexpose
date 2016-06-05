@@ -2,6 +2,7 @@
 #include <cppexpose/scripting/ScriptContext.h>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/variant/Variant.h>
 
 #include "DuktapeScriptBackend.h"
@@ -13,6 +14,7 @@ namespace cppexpose
 
 ScriptContext::ScriptContext(const std::string & backend)
 : m_backend(nullptr)
+, m_globalObject(nullptr)
 {
     // Create backend
 
@@ -26,6 +28,7 @@ ScriptContext::ScriptContext(const std::string & backend)
 
 ScriptContext::ScriptContext(AbstractScriptBackend * backend)
 : m_backend(backend)
+, m_globalObject(nullptr)
 {
     // Register backend
     if (m_backend) {
@@ -39,28 +42,22 @@ ScriptContext::~ScriptContext()
     delete m_backend;
 }
 
-void ScriptContext::setGlobalNamespace(const std::string & name)
+PropertyGroup * ScriptContext::globalObject() const
 {
-    if (m_backend)
-    {
-        m_backend->setGlobalNamespace(name);
-    }
+    return m_globalObject;
 }
 
-void ScriptContext::registerObject(PropertyGroup * obj)
+void ScriptContext::setGlobalObject(PropertyGroup * obj)
 {
-    if (m_backend)
+    // Check if there is a valid scripting backend
+    if (!m_backend)
     {
-        m_backend->registerObject(obj);
+        return;
     }
-}
 
-void ScriptContext::unregisterObject(PropertyGroup * obj)
-{
-    if (m_backend)
-    {
-        m_backend->unregisterObject(obj);
-    }
+    // Set global object
+    m_globalObject = obj;
+    m_backend->setGlobalObject(obj);
 }
 
 Variant ScriptContext::evaluate(const std::string & code)

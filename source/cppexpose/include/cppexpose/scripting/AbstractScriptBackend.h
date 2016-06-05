@@ -58,32 +58,12 @@ public:
 
     /**
     *  @brief
-    *    Set global namespace
-    *
-    *  @param[in] name
-    *    Namespace at which global objects are registered
-    *
-    *  @see ScriptContext::setGlobalNamespace
-    */
-    virtual void setGlobalNamespace(const std::string & name) = 0;
-
-    /**
-    *  @brief
-    *    Expose object to scripting
+    *    Set global object that is exposed into the scripting environment
     *
     *  @param[in] obj
-    *    Object to be exposed for scripting (must NOT be null)
+    *    Global object (can be null)
     */
-    virtual void registerObject(PropertyGroup * obj) = 0;
-
-    /**
-    *  @brief
-    *    Remove object from scripting
-    *
-    *  @param[in] obj
-    *    Object to be removed from scripting (must NOT be null)
-    */
-    virtual void unregisterObject(PropertyGroup * obj) = 0;
+    virtual void setGlobalObject(PropertyGroup * obj) = 0;
 
     /**
     *  @brief

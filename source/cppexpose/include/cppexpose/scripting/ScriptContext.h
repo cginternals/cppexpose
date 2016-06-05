@@ -11,6 +11,7 @@ namespace cppexpose
 {
 
 
+class Object;
 class PropertyGroup;
 class AbstractScriptBackend;
 class Variant;
@@ -57,42 +58,32 @@ public:
 
     /**
     *  @brief
-    *    Set global namespace
+    *    Get global object
     *
-    *  @param[in] name
-    *    Namespace at which global objects are registered
+    *  @return
+    *    Global object (can be null)
+    */
+    PropertyGroup * globalObject() const;
+
+    /**
+    *  @brief
+    *    Set global object
+    *
+    *  @param[in] obj
+    *    Global object (can be null)
     *
     *  @remarks
-    *    If set, objects are not registered globally but into
-    *    an object with the given name. E.g., if the global
-    *    namespace is 'myapp', registerObject(obj) can be
-    *    accessed via 'myapp.obj' instead of 'obj'.
+    *    Sets the root object that is exposed to the scripting environment.
+    *    It will be available in the global namespace using the object's name.
+    *    The script context does not take ownership over the object.
     *
-    *    Some backends, such as the Qml scripting backend,
-    *    may require a global namespace, since they do not
-    *    allow to modify the global object. In this case,
-    *    setGlobalNamespace() can be used to make other
-    *    backends compatible.
+    *    IMPORTANT: Some scripting backends may require a certain
+    *    name for the global object and will issue a warning if
+    *    the given object has a different name. The default scripting
+    *    backend however ("javascript", base on duktape) supports
+    *    any name for the global object.
     */
-    void setGlobalNamespace(const std::string & name);
-
-    /**
-    *  @brief
-    *    Expose object to scripting
-    *
-    *  @param[in] obj
-    *    Object to be exposed for scripting (must NOT be null)
-    */
-    void registerObject(PropertyGroup * obj);
-
-    /**
-    *  @brief
-    *    Remove object from scripting
-    *
-    *  @param[in] obj
-    *    Object to be removed from scripting (must NOT be null)
-    */
-    void unregisterObject(PropertyGroup * obj);
+    void setGlobalObject(PropertyGroup * obj);
 
     /**
     *  @brief
@@ -108,7 +99,8 @@ public:
 
 
 protected:
-    AbstractScriptBackend * m_backend;  ///< Scripting backend
+    AbstractScriptBackend * m_backend;      ///< Scripting backend (can be null)
+    PropertyGroup         * m_globalObject; ///< Global object that is exposed to the scripting environment (can be null)
 };
 
 

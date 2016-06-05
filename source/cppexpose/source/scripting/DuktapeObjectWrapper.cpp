@@ -115,7 +115,9 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
-        if (PropertyGroup * group = dynamic_cast<PropertyGroup *>(prop)) {
+
+        if (PropertyGroup * group = dynamic_cast<PropertyGroup *>(prop))
+        {
             // Create object wrapper
             auto objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
             m_subObjects.push_back(objWrapper);

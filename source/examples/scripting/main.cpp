@@ -12,7 +12,7 @@
 using namespace cppexpose;
 
 
-class MyObject : public Object
+class MyObject : public cppexpose::Object
 {
 public:
     Property<std::string> String;
@@ -21,8 +21,8 @@ public:
 
 
 public:
-    MyObject(const std::string & name = "obj")
-    : Object(name)
+    MyObject(const std::string & name = "obj", PropertyGroup * parent = nullptr)
+    : Object(name, parent)
     , String("string", this, this, &MyObject::getString, &MyObject::setString)
     , Int   ("int"   , this, this, &MyObject::getInt,    &MyObject::setInt)
     , Float ("float",  this, this, &MyObject::getFloat,  &MyObject::setFloat)
@@ -111,12 +111,15 @@ int main(int, char * [])
 {
     ScriptContext scriptContext;
 
-    // Register example objects
-    MyObject obj;
-    scriptContext.registerObject(&obj);
+    // Create scripting environment
+    Object script("script");
+    scriptContext.setGlobalObject(&script);
 
-    TreeNode root("root");
-    scriptContext.registerObject(&root);
+    MyObject obj ("obj");
+    script.addProperty(&obj);
+
+    TreeNode tree("tree");
+    script.addProperty(&tree);
 
     // Provide a script console
     bool done = false;

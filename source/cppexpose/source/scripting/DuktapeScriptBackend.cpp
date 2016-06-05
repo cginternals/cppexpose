@@ -29,6 +29,7 @@ const char * s_duktapePropertyNameKey    = "duktapePropertyName";
 
 DuktapeScriptBackend::DuktapeScriptBackend()
 : m_context(nullptr)
+, m_globalObjWrapper(nullptr)
 {
     // Create duktape script context
     m_context = duk_create_heap_default();
@@ -36,10 +37,10 @@ DuktapeScriptBackend::DuktapeScriptBackend()
 
 DuktapeScriptBackend::~DuktapeScriptBackend()
 {
-    // Delete wrapped objects
-    for (auto * objWrapper : m_objects)
+    // Delete global object wrapper
+    if (m_globalObjWrapper)
     {
-        delete objWrapper;
+        delete m_globalObjWrapper;
     }
 
     // Destroy duktape script context
@@ -67,32 +68,26 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::setGlobalNamespace(const std::string &)
+void DuktapeScriptBackend::setGlobalObject(PropertyGroup * obj)
 {
-    // Not supported
-}
+    // Destroy former global object wrapper
+    if (m_globalObjWrapper)
+    {
+        // Remove property in the global object
+        duk_push_global_object(m_context);
+        duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
+        duk_pop(m_context);
 
-void DuktapeScriptBackend::registerObject(PropertyGroup * obj)
-{
+        // Destroy wrapper
+        delete m_globalObjWrapper;
+    }
+
     // Create object wrapper
-    auto objWrapper = new DuktapeObjectWrapper(this);
-    m_objects.push_back(objWrapper);
+    m_globalObjWrapper = new DuktapeObjectWrapper(this);
 
     // Wrap object in javascript object and put it into the global object
     duk_push_global_object(m_context);
-
-    objWrapper->wrapObject(duk_get_top_index(m_context), obj);
-
-    duk_pop(m_context);
-}
-
-void DuktapeScriptBackend::unregisterObject(PropertyGroup * obj)
-{
-    // Destroy property in the global object
-    duk_push_global_object(m_context);
-
-    duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
-
+    m_globalObjWrapper->wrapObject(duk_get_top_index(m_context), obj);
     duk_pop(m_context);
 }
 

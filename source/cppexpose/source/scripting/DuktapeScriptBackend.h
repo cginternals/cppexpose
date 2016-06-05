@@ -2,7 +2,6 @@
 #pragma once
 
 
-#include <vector>
 #include <string>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
@@ -43,9 +42,7 @@ public:
 
     // Virtual AbstractScriptBackend interface
     virtual void initialize(ScriptContext * scriptContext) override;
-    virtual void setGlobalNamespace(const std::string & name) override;
-    virtual void registerObject(PropertyGroup * obj) override;
-    virtual void unregisterObject(PropertyGroup * obj) override;
+    virtual void setGlobalObject(PropertyGroup * obj) override;
     virtual Variant evaluate(const std::string & code) override;
 
 
@@ -98,8 +95,8 @@ protected:
 
 
 protected:
-    duk_context                         * m_context;   ///< Duktape context
-    std::vector<DuktapeObjectWrapper *>   m_objects;   ///< List of wrapped objects
+    duk_context          * m_context;          ///< Duktape context (never null)
+    DuktapeObjectWrapper * m_globalObjWrapper; ///< Global object wrapper (can be null)
 };
 
 

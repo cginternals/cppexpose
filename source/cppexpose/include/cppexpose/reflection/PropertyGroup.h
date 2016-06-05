@@ -150,7 +150,7 @@ public:
     *    takes the ownership over the specified property, so the property
     *    will be deleted together with the object in its destructor.
     */
-    bool addProperty(AbstractProperty * property, PropertyOwnership ownership);
+    bool addProperty(AbstractProperty * property, PropertyOwnership ownership = PropertyOwnership::None);
 
     /**
     *  @brief
