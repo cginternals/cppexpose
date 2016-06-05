@@ -113,11 +113,11 @@ int main(int, char * [])
     ScriptContext scriptContext;
 
     // Register example objects
-    TreeNode root("root");
-    scriptContext.registerObject(&root);
-
     MyObject obj;
     scriptContext.registerObject(&obj);
+
+    TreeNode root("root");
+    scriptContext.registerObject(&root);
 
     // Provide a script console
     bool done = false;

@@ -46,8 +46,9 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
     duk_idx_t objIndex = duk_push_object(m_context);
 
     // Save object in stash
+    m_stashIndex = m_scriptBackend->getNextStashIndex();
     duk_push_global_stash(m_context);
-    duk_push_int(m_context, m_scriptBackend->getNextStashIndex());
+    duk_push_int(m_context, m_stashIndex);
     duk_dup(m_context, -3);
     duk_put_prop(m_context, -3);
     duk_pop(m_context);
@@ -80,7 +81,14 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
             // Define property with getter/setter
-            duk_def_prop(m_context, objIndex, DUK_DEFPROP_HAVE_GETTER | DUK_DEFPROP_HAVE_SETTER);
+            duk_def_prop(m_context, objIndex,
+                DUK_DEFPROP_HAVE_CONFIGURABLE | DUK_DEFPROP_CONFIGURABLE // configurable (can be deleted)
+              | DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE     // enumerable
+              | DUK_DEFPROP_HAVE_GETTER | DUK_DEFPROP_HAVE_SETTER        // use getter and setter functions
+            );
+
+            // Add empty sub-object placeholder for value properties
+            m_subObjects.push_back(nullptr);
         }
     }
 
@@ -119,6 +127,113 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
 
     // Register object in parent object (global if it is no sub-object)
     duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
+
+    // Register callbacks for script engine update
+    m_afterAddConnection = m_obj->afterAdd.connect([this](size_t index, cppexpose::AbstractProperty * property)
+    {
+        // [TODO] Provide an UNUSED() macro in cppassist
+        (void)(index);
+
+        // Check if property is an object or a value property
+        if (property->isGroup())
+        {
+            // Get object
+            PropertyGroup * group = static_cast<PropertyGroup *>(property);
+
+            // Create object wrapper
+            DuktapeObjectWrapper * objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
+            assert(m_subObjects.size() == index);
+            m_subObjects.push_back(objWrapper);
+
+            // Expose object to scripting
+            duk_push_global_stash(m_context);
+            duk_get_prop_index(m_context, -1, m_stashIndex);
+            objWrapper->wrapObject(duk_get_top_index(m_context), group);
+            duk_pop(m_context);
+            duk_pop(m_context);
+        }
+        else
+        {
+            // Get property
+            std::string propName = property->name();
+
+            // Add empty sub-object placeholder for value properties
+            m_subObjects.push_back(nullptr);
+
+            // Expose property to scripting
+            duk_push_global_stash(m_context);
+            duk_get_prop_index(m_context, -1, m_stashIndex);
+
+            duk_push_string(m_context, propName.c_str());
+
+            duk_push_c_function(m_context, &DuktapeObjectWrapper::getPropertyValue, 0);
+            duk_push_string(m_context, propName.c_str());
+            duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
+
+            duk_push_c_function(m_context, &DuktapeObjectWrapper::setPropertyValue, 1);
+            duk_push_string(m_context, propName.c_str());
+            duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
+
+            duk_def_prop(m_context, -4,
+                DUK_DEFPROP_HAVE_CONFIGURABLE | DUK_DEFPROP_CONFIGURABLE // configurable (can be deleted)
+              | DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE     // enumerable
+              | DUK_DEFPROP_HAVE_GETTER | DUK_DEFPROP_HAVE_SETTER        // use getter and setter functions
+            );
+
+            duk_pop(m_context);
+            duk_pop(m_context);
+        }
+    });
+
+    m_beforeRemoveConnection = m_obj->beforeRemove.connect([this](size_t index, cppexpose::AbstractProperty * property)
+    {
+        // Remove property
+        duk_push_global_stash(m_context);
+        duk_get_prop_index(m_context, -1, m_stashIndex);
+        duk_del_prop_string(m_context, -1, property->name().c_str());
+        duk_pop(m_context);
+        duk_pop(m_context);
+
+        // Delete object wrapper
+        auto it = m_subObjects.begin() + index;
+        delete (*it);
+        m_subObjects.erase(it);
+    });
+
+    m_beforeDestroyConnection = m_obj->beforeDestroy.connect([this](cppexpose::AbstractProperty * property)
+    {
+        // [TODO] Provide an UNUSED() macro in cppassist
+        assert(property == m_obj);
+        (void)(property);
+
+        // Get wrapper object
+        duk_push_global_stash(m_context);
+        duk_get_prop_index(m_context, -1, m_stashIndex);
+
+        // Enumerate properties of wrapper object
+        std::vector<std::string> keys;
+
+        duk_enum(m_context, -1, DUK_ENUM_OWN_PROPERTIES_ONLY);
+        while (duk_next(m_context, -1, 0))
+        {
+            std::string key = duk_get_string(m_context, -1);
+            keys.push_back(key);
+
+            duk_pop(m_context);
+        }
+
+        duk_pop(m_context);
+
+        // Clear wrapper object
+        for (auto key : keys)
+        {
+            duk_del_prop_string(m_context, -1, key.c_str());
+        }
+
+        // Release wrapper object
+        duk_pop(m_context);
+        duk_pop(m_context);
+    });
 }
 
 duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)

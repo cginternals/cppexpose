@@ -19,9 +19,9 @@ TreeNode::TreeNode(const std::string & name, PropertyGroup * parent)
 , m_right(nullptr)
 {
     // Register functions
-    addFunction("expand",  this, &TreeNode::expand);
-    addFunction("collaps", this, &TreeNode::collaps);
-    addFunction("print",   this, &TreeNode::print);
+    addFunction("expand",   this, &TreeNode::expand);
+    addFunction("collapse", this, &TreeNode::collapse);
+    addFunction("print",    this, &TreeNode::print);
 }
 
 TreeNode::~TreeNode()
@@ -55,7 +55,7 @@ void TreeNode::expand()
     addProperty(m_right, PropertyOwnership::Parent);
 }
 
-void TreeNode::collaps()
+void TreeNode::collapse()
 {
     // Destroy child nodes
     if (m_left)

@@ -21,7 +21,7 @@ public:
     void setId(const int & id);
 
     void expand();
-    void collaps();
+    void collapse();
 
     void print(const std::string & indent = "");
 
