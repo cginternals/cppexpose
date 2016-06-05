@@ -1,5 +1,5 @@
 
-#include "TreeNode.h"
+#include <cppexpose/scripting/example/TreeNode.h>
 
 #include <cppassist/string/conversion.h>
 
@@ -10,6 +10,7 @@ using namespace cppexpose;
 
 
 static int g_nextId = 1;
+
 
 TreeNode::TreeNode(const std::string & name, PropertyGroup * parent)
 : Object(name, parent)

@@ -6,8 +6,7 @@
 #include <cppexpose/reflection/Property.h>
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/scripting/ScriptContext.h>
-
-#include "TreeNode.h"
+#include <cppexpose/scripting/example/TreeNode.h>
 
 
 using namespace cppexpose;

@@ -150,6 +150,7 @@ set(headers
 
     ${include_path}/scripting/ScriptContext.h
     ${include_path}/scripting/AbstractScriptBackend.h
+    ${include_path}/scripting/example/TreeNode.h
 
     ${include_path}/plugin/ComponentManager.h
     ${include_path}/plugin/ComponentManager.hpp
@@ -190,6 +191,7 @@ set(sources
     ${source_path}/scripting/duktape-1.4.0/duktape.c
     ${source_path}/scripting/duktape-1.4.0/duktape.h
     ${source_path}/scripting/duktape-1.4.0/duk_config.h
+    ${source_path}/scripting/example/TreeNode.cpp
     ${source_path}/scripting/ScriptContext.cpp
     ${source_path}/scripting/AbstractScriptBackend.cpp
     ${source_path}/scripting/DuktapeScriptBackend.cpp
