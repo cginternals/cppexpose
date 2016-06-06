@@ -11,7 +11,6 @@ namespace cppexpose
 {
 
 
-class Object;
 class PropertyGroup;
 class AbstractScriptBackend;
 class Variant;

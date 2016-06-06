@@ -138,7 +138,6 @@ set(headers
     ${include_path}/variant/Variant.hh
     ${include_path}/variant/Variant.hpp
 
-    ${include_path}/reflection/Object.h
     ${include_path}/reflection/AbstractProperty.h
     ${include_path}/reflection/PropertyGroup.h
     ${include_path}/reflection/PropertyGroup.hpp
@@ -183,7 +182,6 @@ set(sources
 
     ${source_path}/variant/Variant.cpp
 
-    ${source_path}/reflection/Object.cpp
     ${source_path}/reflection/AbstractProperty.cpp
     ${source_path}/reflection/PropertyGroup.cpp
     ${source_path}/reflection/Method.cpp

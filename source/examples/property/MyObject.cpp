@@ -8,7 +8,7 @@ using namespace cppexpose;
 
 
 MyObject::MyObject(const std::string & name)
-: Object(name)
+: PropertyGroup(name)
 , String("string", this, this, &MyObject::getString, &MyObject::setString)
 , Int   ("int"   , this, this, &MyObject::getInt,    &MyObject::setInt)
 , Float ("float",  this, this, &MyObject::getFloat,  &MyObject::setFloat)

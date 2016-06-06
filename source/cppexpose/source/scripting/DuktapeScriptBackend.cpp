@@ -5,7 +5,7 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/reflection/PropertyGroup.h>
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
 

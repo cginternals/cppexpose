@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/reflection/PropertyGroup.h>
 #include <cppexpose/reflection/Property.h>
 
 
@@ -20,7 +20,7 @@ namespace cppexpose
 *    the cppexpose scripting framework's ability to cope
 *    with such dynamic object hierarchies.
 */
-class CPPEXPOSE_API TreeNode : public cppexpose::Object
+class CPPEXPOSE_API TreeNode : public cppexpose::PropertyGroup
 {
 public:
     // Properties

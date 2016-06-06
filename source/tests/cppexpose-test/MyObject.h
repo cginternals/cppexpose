@@ -2,15 +2,15 @@
 #pragma once
 
 
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/reflection/PropertyGroup.h>
 
 
 template<typename Type>
-class MyObject : public cppexpose::Object
+class MyObject : public cppexpose::PropertyGroup
 {
 public:
     MyObject(const std::string & name)
-    : Object(name)
+    : PropertyGroup(name)
     {
     }
     

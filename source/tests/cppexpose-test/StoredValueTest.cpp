@@ -1,7 +1,7 @@
 
-#include <gmock/gmock.h>
-
 #include <array>
+
+#include <gmock/gmock.h>
 
 #include <cppexpose/typed/StoredValue.h>
 

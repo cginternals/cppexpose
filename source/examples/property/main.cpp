@@ -71,12 +71,12 @@ int main(int, char * [])
     std::cout << std::endl;
 
     // Create object with sub-objects and dynamic properties
-    Object * root = new Object;
+    PropertyGroup * root = new PropertyGroup;
 
     for (int i=1; i<=4; i++)
     {
         std::string name = "sub" + toString<int>(i);
-        Object * sub = new Object(name);
+        PropertyGroup * sub = new PropertyGroup(name);
         root->addProperty(sub, PropertyOwnership::Parent);
 
         for (int j=1; j<=4; j++)

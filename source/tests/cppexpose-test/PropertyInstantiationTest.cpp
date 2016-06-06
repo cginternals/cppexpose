@@ -1,7 +1,7 @@
 
-#include <gmock/gmock.h>
-
 #include <array>
+
+#include <gmock/gmock.h>
 
 #include <cppexpose/reflection/Property.h>
 #include <cppexpose/reflection/PropertyGroup.h>

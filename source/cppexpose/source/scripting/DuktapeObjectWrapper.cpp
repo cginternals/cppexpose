@@ -3,7 +3,7 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/reflection/PropertyGroup.h>
 
 #include "DuktapeScriptBackend.h"
 
@@ -92,22 +92,18 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
         }
     }
 
-    // Check if object may have functions
-    Object * scriptable = dynamic_cast<Object *>(obj);
-    if (scriptable) {
-        // Register object functions
-        const std::vector<Method> & funcs = scriptable->functions();
-        for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
-        {
-            const Method & method = *it;
+    // Register object functions
+    const std::vector<Method> & funcs = obj->functions();
+    for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
+    {
+        const Method & method = *it;
 
-            auto & func = static_cast<const Function &>(method);
+        auto & func = static_cast<const Function &>(method);
 
-            duk_push_c_function(m_context, callObjectFunction, DUK_VARARGS);
-            duk_push_pointer(m_context, const_cast<Function *>(&func));
-            duk_put_prop_string(m_context, -2, s_duktapeFunctionPointerKey);
-            duk_put_prop_string(m_context, objIndex, method.name().c_str());
-        }
+        duk_push_c_function(m_context, callObjectFunction, DUK_VARARGS);
+        duk_push_pointer(m_context, const_cast<Function *>(&func));
+        duk_put_prop_string(m_context, -2, s_duktapeFunctionPointerKey);
+        duk_put_prop_string(m_context, objIndex, method.name().c_str());
     }
 
     // Register sub-objects

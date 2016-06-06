@@ -1,12 +1,14 @@
 
-#include <gmock/gmock.h>
 #include <array>
+#include <utility>
+
+#include <gmock/gmock.h>
 
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/typed/StoredValue.h>
-#include <utility>
 
 #include "MyObject.h"
+
 
 using namespace cppexpose;
 using std::string;

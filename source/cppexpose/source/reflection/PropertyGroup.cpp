@@ -1,6 +1,5 @@
 
 #include <cppexpose/reflection/PropertyGroup.h>
-#include <cppexpose/reflection/Object.h>
 
 #include <cassert>
 #include <typeinfo>
