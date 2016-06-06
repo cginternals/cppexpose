@@ -209,6 +209,11 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     return static_cast<const PropertyGroup *>(property);
 }
 
+const std::vector<Method> & PropertyGroup::functions() const
+{
+    return m_functions;
+}
+
 bool PropertyGroup::isGroup() const
 {
     return true;

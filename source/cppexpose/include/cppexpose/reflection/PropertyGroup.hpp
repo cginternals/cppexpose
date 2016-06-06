@@ -4,6 +4,9 @@
 
 #include <cppexpose/reflection/PropertyGroup.h>
 
+#include <cppexpose/function/StaticFunction.h>
+#include <cppexpose/function/MemberFunction.h>
+
 
 namespace cppexpose
 {
@@ -24,6 +27,20 @@ DynamicProperty<T> * PropertyGroup::createDynamicProperty(const std::string & na
 
     // Return property
     return property;
+}
+
+template <typename RET, typename... Arguments>
+void PropertyGroup::addFunction(const std::string & name, RET (*fn)(Arguments...))
+{
+    AbstractFunction * func = new StaticFunction<RET, Arguments...>(fn);
+    m_functions.push_back(Method(name, func));
+}
+
+template <class T, typename RET, typename... Arguments>
+void PropertyGroup::addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...))
+{
+    AbstractFunction * func = new MemberFunction<T, RET, Arguments...>(obj, fn);
+    m_functions.push_back(Method(name, func));
 }
 
 
