@@ -57,7 +57,7 @@ public:
     *    parent(nullptr), and use addProperty() on the parent group.
     */
     template <typename... Args>
-    Property(const std::string & name, PropertyGroup * parent, Args&&... args);
+    Property(const std::string & name, Object * parent, Args&&... args);
 
     /**
     *  @brief

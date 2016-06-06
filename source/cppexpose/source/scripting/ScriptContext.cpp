@@ -2,7 +2,7 @@
 #include <cppexpose/scripting/ScriptContext.h>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/variant/Variant.h>
 
 #include "DuktapeScriptBackend.h"
@@ -42,12 +42,12 @@ ScriptContext::~ScriptContext()
     delete m_backend;
 }
 
-PropertyGroup * ScriptContext::globalObject() const
+Object * ScriptContext::globalObject() const
 {
     return m_globalObject;
 }
 
-void ScriptContext::setGlobalObject(PropertyGroup * obj)
+void ScriptContext::setGlobalObject(Object * obj)
 {
     // Check if there is a valid scripting backend
     if (!m_backend)

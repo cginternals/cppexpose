@@ -12,8 +12,8 @@ using namespace cppexpose;
 static int g_nextId = 1;
 
 
-TreeNode::TreeNode(const std::string & name, PropertyGroup * parent)
-: PropertyGroup(name, parent)
+TreeNode::TreeNode(const std::string & name, Object * parent)
+: Object(name, parent)
 , id("id", this, this, &TreeNode::getId, &TreeNode::setId)
 , m_id(g_nextId++)
 , m_left(nullptr)

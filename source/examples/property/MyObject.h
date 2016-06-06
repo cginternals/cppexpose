@@ -4,14 +4,14 @@
 
 #include <string>
 
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
 
 #include "Mood.h"
 #include "PropertyExtensions.h"
 
 
-class MyObject : public cppexpose::PropertyGroup
+class MyObject : public cppexpose::Object
 {
 public:
     // Properties

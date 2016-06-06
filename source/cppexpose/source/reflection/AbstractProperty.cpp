@@ -1,7 +1,7 @@
 
 #include <cppexpose/reflection/AbstractProperty.h>
 
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 
 
 namespace cppexpose
@@ -29,12 +29,12 @@ std::string AbstractProperty::name() const
     return m_name;
 }
 
-PropertyGroup * AbstractProperty::parent() const
+Object * AbstractProperty::parent() const
 {
     return m_parent;
 }
 
-void AbstractProperty::initProperty(const std::string & name, PropertyGroup * parent, PropertyOwnership ownership)
+void AbstractProperty::initProperty(const std::string & name, Object * parent, PropertyOwnership ownership)
 {
     // Store name
     m_name = name;
@@ -49,7 +49,7 @@ void AbstractProperty::initProperty(const std::string & name, PropertyGroup * pa
     }
 }
 
-void AbstractProperty::setParent(PropertyGroup * parent)
+void AbstractProperty::setParent(Object * parent)
 {
     m_parent = parent;
 }

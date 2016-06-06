@@ -12,7 +12,7 @@ namespace cppexpose
 {
 
 
-class PropertyGroup;
+class Object;
 
 
 /**
@@ -32,7 +32,7 @@ enum class PropertyOwnership
 */
 class CPPEXPOSE_API AbstractProperty : public AbstractTyped
 {
-    friend class PropertyGroup;
+    friend class Object;
 
 
 public:
@@ -68,7 +68,7 @@ public:
     *  @return
     *    Parent (can be null)
     */
-    PropertyGroup * parent() const;
+    Object * parent() const;
 
     /**
     *  @brief
@@ -97,7 +97,7 @@ protected:
     *    Do not set m_parent before calling this function, otherwise
     *    the property might be rejected when added to the parent.
     */
-    void initProperty(const std::string & name, PropertyGroup * parent, PropertyOwnership ownership);
+    void initProperty(const std::string & name, Object * parent, PropertyOwnership ownership);
 
     /**
     *  @brief
@@ -107,15 +107,15 @@ protected:
     *    Parent object (can be null)
     *
     *  @remarks
-    *    This function should only be called by the PropertyGroup
+    *    This function should only be called by Object
     *    when adding or removing properties.
     */
-    void setParent(PropertyGroup * parent);
+    void setParent(Object * parent);
 
 
 protected:
-    std::string     m_name;   ///< Name of the property
-    PropertyGroup * m_parent; ///< Parent object
+    std::string   m_name;   ///< Name of the property
+    Object      * m_parent; ///< Parent object
 };
 
 

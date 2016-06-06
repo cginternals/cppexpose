@@ -1,5 +1,5 @@
 
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 
 #include <cassert>
 #include <typeinfo>
@@ -18,22 +18,22 @@ namespace cppexpose
 {
 
 
-PropertyGroup::PropertyGroup()
+Object::Object()
 {
     initProperty("", nullptr, PropertyOwnership::None);
 }
 
-PropertyGroup::PropertyGroup(const std::string & name, PropertyGroup * parent)
+Object::Object(const std::string & name, Object * parent)
 {
     initProperty(name, parent, PropertyOwnership::None);
 }
 
-PropertyGroup::~PropertyGroup()
+Object::~Object()
 {
     clear();
 }
 
-void PropertyGroup::clear()
+void Object::clear()
 {
     // Destroy managed properties
     while (m_managedProperties.size() > 0)
@@ -42,17 +42,17 @@ void PropertyGroup::clear()
     }
 }
 
-const std::unordered_map<std::string, AbstractProperty *> & PropertyGroup::properties() const
+const std::unordered_map<std::string, AbstractProperty *> & Object::properties() const
 {
     return m_propertiesMap;
 }
 
-bool PropertyGroup::propertyExists(const std::string & name) const
+bool Object::propertyExists(const std::string & name) const
 {
     return m_propertiesMap.find(name) != m_propertiesMap.end();
 }
 
-AbstractProperty * PropertyGroup::property(size_t index)
+AbstractProperty * Object::property(size_t index)
 {
     if (index < m_properties.size()) {
         return m_properties[index];
@@ -61,7 +61,7 @@ AbstractProperty * PropertyGroup::property(size_t index)
     return nullptr;
 }
 
-const AbstractProperty * PropertyGroup::property(size_t index) const
+const AbstractProperty * Object::property(size_t index) const
 {
     if (index < m_properties.size()) {
         return m_properties[index];
@@ -70,19 +70,19 @@ const AbstractProperty * PropertyGroup::property(size_t index) const
     return nullptr;
 }
 
-AbstractProperty * PropertyGroup::property(const std::string & path)
+AbstractProperty * Object::property(const std::string & path)
 {
     std::vector<std::string> splittedPath = helper::split(path, g_separator);
     return const_cast<AbstractProperty *>(findProperty(splittedPath));
 }
 
-const AbstractProperty * PropertyGroup::property(const std::string & path) const
+const AbstractProperty * Object::property(const std::string & path) const
 {
     std::vector<std::string> splittedPath = helper::split(path, g_separator);
     return findProperty(splittedPath);
 }
 
-bool PropertyGroup::addProperty(AbstractProperty * property, PropertyOwnership ownership)
+bool Object::addProperty(AbstractProperty * property, PropertyOwnership ownership)
 {
     // Reject properties that have no name, or whose name already exists,
     // or that already have a parent group
@@ -115,7 +115,7 @@ bool PropertyGroup::addProperty(AbstractProperty * property, PropertyOwnership o
     return true;
 }
 
-bool PropertyGroup::removeProperty(AbstractProperty * property)
+bool Object::removeProperty(AbstractProperty * property)
 {
     // Reject properties that are not part of the group
     if (!property || property->parent() != this)
@@ -157,7 +157,7 @@ bool PropertyGroup::removeProperty(AbstractProperty * property)
     return true;
 }
 
-bool PropertyGroup::destroyProperty(AbstractProperty * property)
+bool Object::destroyProperty(AbstractProperty * property)
 {
     // Check that property exists and belongs to the group
     if (!property || property->parent() != this)
@@ -179,12 +179,12 @@ bool PropertyGroup::destroyProperty(AbstractProperty * property)
     return true;
 }
 
-bool PropertyGroup::groupExists(const std::string & name) const
+bool Object::groupExists(const std::string & name) const
 {
     return (this->propertyExists(name) && m_propertiesMap.at(name)->isGroup());
 }
 
-PropertyGroup * PropertyGroup::group(const std::string & path)
+Object * Object::group(const std::string & path)
 {
     // Get property by path
     AbstractProperty * property = this->property(path);
@@ -193,10 +193,10 @@ PropertyGroup * PropertyGroup::group(const std::string & path)
     }
 
     // Convert into group
-    return static_cast<PropertyGroup *>(property);
+    return static_cast<Object *>(property);
 }
 
-const PropertyGroup * PropertyGroup::group(const std::string & path) const
+const Object * Object::group(const std::string & path) const
 {
     // Get property by path
     const AbstractProperty * property = this->property(path);
@@ -205,51 +205,51 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     }
 
     // Convert into group
-    return static_cast<const PropertyGroup *>(property);
+    return static_cast<const Object *>(property);
 }
 
-const std::vector<Method> & PropertyGroup::functions() const
+const std::vector<Method> & Object::functions() const
 {
     return m_functions;
 }
 
-bool PropertyGroup::isGroup() const
+bool Object::isGroup() const
 {
     return true;
 }
 
-AbstractTyped * PropertyGroup::clone() const
+AbstractTyped * Object::clone() const
 {
     // [TODO]
-    return new PropertyGroup(name());
+    return new Object(name());
 }
 
-const std::type_info & PropertyGroup::type() const
+const std::type_info & Object::type() const
 {
-    return typeid(PropertyGroup);
+    return typeid(Object);
 }
 
-std::string PropertyGroup::typeName() const
+std::string Object::typeName() const
 {
-    return "PropertyGroup";
+    return "Object";
 }
 
-bool PropertyGroup::isReadOnly() const
+bool Object::isReadOnly() const
 {
     return false;
 }
 
-bool PropertyGroup::isComposite() const
+bool Object::isComposite() const
 {
     return true;
 }
 
-size_t PropertyGroup::numSubValues() const
+size_t Object::numSubValues() const
 {
     return m_properties.size();
 }
 
-AbstractTyped * PropertyGroup::subValue(size_t index)
+AbstractTyped * Object::subValue(size_t index)
 {
     if (index < m_properties.size()) {
         return m_properties[index];
@@ -258,57 +258,57 @@ AbstractTyped * PropertyGroup::subValue(size_t index)
     return nullptr;
 }
 
-bool PropertyGroup::isEnum() const
+bool Object::isEnum() const
 {
     return false;
 }
 
-bool PropertyGroup::isArray() const
+bool Object::isArray() const
 {
     return false;
 }
 
-bool PropertyGroup::isVariant() const
+bool Object::isVariant() const
 {
     return false;
 }
 
-bool PropertyGroup::isString() const
+bool Object::isString() const
 {
     return false;
 }
 
-bool PropertyGroup::isBool() const
+bool Object::isBool() const
 {
     return false;
 }
 
-bool PropertyGroup::isNumber() const
+bool Object::isNumber() const
 {
     return false;
 }
 
-bool PropertyGroup::isIntegral() const
+bool Object::isIntegral() const
 {
     return false;
 }
 
-bool PropertyGroup::isSignedIntegral() const
+bool Object::isSignedIntegral() const
 {
     return false;
 }
 
-bool PropertyGroup::isUnsignedIntegral() const
+bool Object::isUnsignedIntegral() const
 {
     return false;
 }
 
-bool PropertyGroup::isFloatingPoint() const
+bool Object::isFloatingPoint() const
 {
     return false;
 }
 
-Variant PropertyGroup::toVariant() const
+Variant Object::toVariant() const
 {
     // Create variant map from all properties in the group
     Variant map = Variant::map();
@@ -325,7 +325,7 @@ Variant PropertyGroup::toVariant() const
     return map;
 }
 
-bool PropertyGroup::fromVariant(const Variant & value)
+bool Object::fromVariant(const Variant & value)
 {
     // Check if variant is a map
     if (!value.isVariantMap()) {
@@ -349,14 +349,14 @@ bool PropertyGroup::fromVariant(const Variant & value)
     return true;
 }
 
-std::string PropertyGroup::toString() const
+std::string Object::toString() const
 {
     // Convert group into JSON
     SerializerJSON json;
     return json.toString(this->toVariant());
 }
 
-bool PropertyGroup::fromString(const std::string & str)
+bool Object::fromString(const std::string & str)
 {
     // Convert from JSON
     Variant values;
@@ -369,47 +369,47 @@ bool PropertyGroup::fromString(const std::string & str)
     return false;
 }
 
-bool PropertyGroup::toBool() const
+bool Object::toBool() const
 {
     return false;
 }
 
-bool PropertyGroup::fromBool(bool)
+bool Object::fromBool(bool)
 {
     return false;
 }
 
-long long PropertyGroup::toLongLong() const
+long long Object::toLongLong() const
 {
     return 0ll;
 }
 
-bool PropertyGroup::fromLongLong(long long)
+bool Object::fromLongLong(long long)
 {
     return false;
 }
 
-unsigned long long PropertyGroup::toULongLong() const
+unsigned long long Object::toULongLong() const
 {
     return 0ull;
 }
 
-bool PropertyGroup::fromULongLong(unsigned long long)
+bool Object::fromULongLong(unsigned long long)
 {
     return false;
 }
 
-double PropertyGroup::toDouble() const
+double Object::toDouble() const
 {
     return 0.0;
 }
 
-bool PropertyGroup::fromDouble(double)
+bool Object::fromDouble(double)
 {
     return false;
 }
 
-const AbstractProperty * PropertyGroup::findProperty(const std::vector<std::string> & path) const
+const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const
 {
     // [TODO] Use iterative approach rather than recursion
 
@@ -431,13 +431,13 @@ const AbstractProperty * PropertyGroup::findProperty(const std::vector<std::stri
         return property;
     }
 
-    // Otherwise, it is an element in the middle of the path, so ensure it is a group
+    // Otherwise, it is an element in the middle of the path, so ensure it is an object
     if (!property->isGroup()) {
         return nullptr;
     }
 
-    // Call recursively on subgroup
-    return static_cast<PropertyGroup *>(property)->findProperty({ path.begin() + 1, path.end() });
+    // Call recursively on sub-object
+    return static_cast<Object *>(property)->findProperty({ path.begin() + 1, path.end() });
 }
 
 

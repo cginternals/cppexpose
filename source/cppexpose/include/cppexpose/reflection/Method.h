@@ -11,7 +11,7 @@ namespace cppexpose
 {
 
 
-class PropertyGroup;
+class Object;
 
 
 /**
@@ -30,7 +30,7 @@ public:
     *  @param[in] parent
     *    Parent object (can be null)
     */
-    Method(AbstractFunction * func, PropertyGroup * parent = nullptr);
+    Method(AbstractFunction * func, Object * parent = nullptr);
 
     /**
     *  @brief
@@ -43,7 +43,7 @@ public:
     *  @param[in] parent
     *    Parent object (can be null)
     */
-    Method(const std::string & name, AbstractFunction * func, PropertyGroup * parent = nullptr);
+    Method(const std::string & name, AbstractFunction * func, Object * parent = nullptr);
 
     /**
     *  @brief
@@ -67,12 +67,12 @@ public:
     *  @return
     *    Parent (can be null)
     */
-    PropertyGroup * parent() const;
+    Object * parent() const;
 
 
 protected:
-    std::string     m_name;   ///< Name of the method
-    PropertyGroup * m_parent; ///< Parent object
+    std::string   m_name;   ///< Name of the method
+    Object      * m_parent; ///< Parent object
 };
 
 

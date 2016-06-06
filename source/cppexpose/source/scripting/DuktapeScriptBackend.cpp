@@ -5,7 +5,7 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
 
@@ -68,7 +68,7 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::setGlobalObject(PropertyGroup * obj)
+void DuktapeScriptBackend::setGlobalObject(Object * obj)
 {
     // Destroy former global object wrapper
     if (m_globalObjWrapper)

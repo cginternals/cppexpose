@@ -3,7 +3,7 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 
 #include "DuktapeScriptBackend.h"
 
@@ -37,7 +37,7 @@ DuktapeObjectWrapper::~DuktapeObjectWrapper()
     }
 }
 
-void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj)
+void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
 {
     // Store pointer to wrapped object
     m_obj = obj;
@@ -65,8 +65,8 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
         std::string propName = prop->name();
 
         // Register property (ignore sub-objects, they are added later)
-        PropertyGroup * group = dynamic_cast<PropertyGroup *>(prop);
-        if (!group) {
+        if (!prop->isGroup())
+        {
             // Key (for accessor)
             duk_push_string(m_context, propName.c_str());
 
@@ -112,14 +112,16 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
 
-        if (PropertyGroup * group = dynamic_cast<PropertyGroup *>(prop))
+        // Check if it is an object
+        if (prop->isGroup())
         {
             // Create object wrapper
             auto objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
             m_subObjects.push_back(objWrapper);
 
             // Add sub object
-            objWrapper->wrapObject(objIndex, group);
+            Object * subObj = static_cast<Object *>(prop);
+            objWrapper->wrapObject(objIndex, subObj);
         }
     }
 
@@ -136,7 +138,7 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
         if (property->isGroup())
         {
             // Get object
-            PropertyGroup * group = static_cast<PropertyGroup *>(property);
+            Object * obj = static_cast<Object *>(property);
 
             // Create object wrapper
             DuktapeObjectWrapper * objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
@@ -146,7 +148,7 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, PropertyGroup * obj
             // Expose object to scripting
             duk_push_global_stash(m_context);
             duk_get_prop_index(m_context, -1, m_stashIndex);
-            objWrapper->wrapObject(duk_get_top_index(m_context), group);
+            objWrapper->wrapObject(duk_get_top_index(m_context), obj);
             duk_pop(m_context);
             duk_pop(m_context);
         }
@@ -248,7 +250,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     if (objWrapper)
     {
         // Get object
-        PropertyGroup * obj = objWrapper->m_obj;
+        Object * obj = objWrapper->m_obj;
 
         // Get property name
         duk_push_current_function(context);
@@ -291,7 +293,7 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     if (objWrapper)
     {
         // Get object
-        PropertyGroup * obj = objWrapper->m_obj;
+        Object * obj = objWrapper->m_obj;
 
         // Get property name
         duk_push_current_function(context);

@@ -13,7 +13,7 @@ namespace cppexpose
 {
 
 
-class PropertyGroup;
+class Object;
 class DuktapeObjectWrapper;
 
 
@@ -42,7 +42,7 @@ public:
 
     // Virtual AbstractScriptBackend interface
     virtual void initialize(ScriptContext * scriptContext) override;
-    virtual void setGlobalObject(PropertyGroup * obj) override;
+    virtual void setGlobalObject(Object * obj) override;
     virtual Variant evaluate(const std::string & code) override;
 
 

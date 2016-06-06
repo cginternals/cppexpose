@@ -11,7 +11,7 @@ namespace cppexpose
 {
 
 
-class PropertyGroup;
+class Object;
 class ScriptContext;
 class Variant;
 
@@ -63,7 +63,7 @@ public:
     *  @param[in] obj
     *    Global object (can be null)
     */
-    virtual void setGlobalObject(PropertyGroup * obj) = 0;
+    virtual void setGlobalObject(Object * obj) = 0;
 
     /**
     *  @brief

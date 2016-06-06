@@ -13,7 +13,7 @@ namespace cppexpose
 {
 
 
-class PropertyGroup;
+class Object;
 class DuktapeScriptBackend;
 
 
@@ -58,7 +58,7 @@ public:
     *    wrapper into the global stash so that it can access
     *    it later.
     */
-    void wrapObject(duk_idx_t parentIndex, PropertyGroup * obj);
+    void wrapObject(duk_idx_t parentIndex, Object * obj);
 
 
 protected:
@@ -114,7 +114,7 @@ protected:
 protected:
     duk_context                         * m_context;       ///< Duktape context
     DuktapeScriptBackend                * m_scriptBackend; ///< Duktape scripting backend
-    PropertyGroup                       * m_obj;           ///< The wrapped object
+    Object                              * m_obj;           ///< The wrapped object
     int                                   m_stashIndex;    ///< Index of the wrapped object in the stash
     std::vector<DuktapeObjectWrapper *>   m_subObjects;    ///< List of wrapped sub-objects
 

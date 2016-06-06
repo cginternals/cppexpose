@@ -52,7 +52,7 @@ public:
     *    parent(nullptr), and use addProperty() on the parent group.
     */
     template <typename... Args>
-    DynamicProperty(const std::string & name, PropertyGroup * parent, Args&&... args);
+    DynamicProperty(const std::string & name, Object * parent, Args&&... args);
 
     /**
     *  @brief

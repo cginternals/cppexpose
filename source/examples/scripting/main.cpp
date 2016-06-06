@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
 #include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/scripting/ScriptContext.h>
@@ -12,7 +12,7 @@
 using namespace cppexpose;
 
 
-class MyObject : public cppexpose::PropertyGroup
+class MyObject : public cppexpose::Object
 {
 public:
     Property<std::string> String;
@@ -21,8 +21,8 @@ public:
 
 
 public:
-    MyObject(const std::string & name = "obj", PropertyGroup * parent = nullptr)
-    : PropertyGroup(name, parent)
+    MyObject(const std::string & name = "obj", Object * parent = nullptr)
+    : Object(name, parent)
     , String("string", this, this, &MyObject::getString, &MyObject::setString)
     , Int   ("int"   , this, this, &MyObject::getInt,    &MyObject::setInt)
     , Float ("float",  this, this, &MyObject::getFloat,  &MyObject::setFloat)
@@ -112,7 +112,7 @@ int main(int, char * [])
     ScriptContext scriptContext;
 
     // Create scripting environment
-    PropertyGroup script("script");
+    Object script("script");
     scriptContext.setGlobalObject(&script);
 
     MyObject obj ("obj");

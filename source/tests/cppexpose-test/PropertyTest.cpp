@@ -68,7 +68,7 @@ void TypeTester<T>::testType(Property<T> & var, memberFunc<T> trueFunc)
 
 TEST_F(PropertyTest, boolSet)
 {
-    PropertyGroup propGroup;
+    Object object;
     bool callbackVar = false;
     
     auto callback = [&callbackVar](const bool& newVal){
@@ -88,7 +88,7 @@ TEST_F(PropertyTest, boolSet)
         value = val;
     };
 
-    auto prop = new Property<bool>("Property", &propGroup, get, set);
+    auto prop = new Property<bool>("Property", &object, get, set);
     
     prop->valueChanged.connect(callback);
     
@@ -102,7 +102,7 @@ TEST_F(PropertyTest, boolSet)
 
 TEST_F(PropertyTest, ArraySet)
 {
-    PropertyGroup propGroup;
+    Object object;
 
     std::array<int, 4> value{ {1, 2, 3, 4} };
 
@@ -112,7 +112,7 @@ TEST_F(PropertyTest, ArraySet)
     auto elementGetter = [&value](const int & index) -> int {return value[index];};
     auto elementSetter = [&value](const int & index, const int & val){value[index] = val;};
 
-    auto prop = new Property<std::array<int, 4>>("Property", &propGroup, getter, setter, elementGetter, elementSetter);
+    auto prop = new Property<std::array<int, 4>>("Property", &object, getter, setter, elementGetter, elementSetter);
 
     prop->setElement(0, 10);
     ASSERT_EQ(10, prop->getElement(0));
@@ -122,7 +122,7 @@ TEST_F(PropertyTest, ArraySet)
 
 TEST_F(PropertyTest, stringSet)
 {
-    PropertyGroup propGroup;
+    Object object;
     bool callbackVar = false;
     
     auto callback = [&callbackVar](const std::string &)
@@ -142,7 +142,7 @@ TEST_F(PropertyTest, stringSet)
         value = val;
     };
 
-    auto prop = new Property<std::string>("Property", &propGroup, get, set);
+    auto prop = new Property<std::string>("Property", &object, get, set);
     
     prop->valueChanged.connect(callback);
     
@@ -156,11 +156,11 @@ TEST_F(PropertyTest, stringSet)
 
 TEST_F(PropertyTest, conversionTest_int)
 {
-    PropertyGroup propGroup;
+    Object object;
     
     int intVar = 0;
     
-    auto intProp = new Property<int>("intProperty", &propGroup, [&](){return intVar;}, [](const int&){});
+    auto intProp = new Property<int>("intProperty", &object, [&](){return intVar;}, [](const int&){});
     
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
@@ -172,11 +172,11 @@ TEST_F(PropertyTest, conversionTest_int)
 
 TEST_F(PropertyTest, conversionTest_negative_int)
 {
-    PropertyGroup propGroup;
+    Object object;
     
     int intVar = -3;
     
-    auto intProp = new Property<int>("intProperty", &propGroup, [&](){return intVar;}, [](const int&){});
+    auto intProp = new Property<int>("intProperty", &object, [&](){return intVar;}, [](const int&){});
     
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
@@ -188,11 +188,11 @@ TEST_F(PropertyTest, conversionTest_negative_int)
 
 TEST_F(PropertyTest, conversionTest_string)
 {
-    PropertyGroup propGroup;
+    Object object;
 
     std::string strVar = "3";
 
-    auto intProp = new Property<std::string>("stringProperty", &propGroup, [&](){return strVar;}, [](const std::string&){});
+    auto intProp = new Property<std::string>("stringProperty", &object, [&](){return strVar;}, [](const std::string&){});
 
     ASSERT_DOUBLE_EQ(3, intProp->toDouble());
     ASSERT_EQ(3, intProp->toLongLong());
@@ -204,11 +204,11 @@ TEST_F(PropertyTest, conversionTest_string)
 
 TEST_F(PropertyTest, conversionTest_string_variant)
 {
-    PropertyGroup propGroup;
+    Object object;
 
     std::string strVar = "test";
 
-    auto strProp = new Property<std::string>("stringProperty", &propGroup, [&](){return strVar;}, [](const std::string&){});
+    auto strProp = new Property<std::string>("stringProperty", &object, [&](){return strVar;}, [](const std::string&){});
 
     ASSERT_EQ("test", strProp->toVariant().toString());
 
@@ -218,7 +218,7 @@ TEST_F(PropertyTest, conversionTest_string_variant)
 TEST_F(PropertyTest, typesBool)
 {
     TypeTester<bool> tester;
-    PropertyGroup propGroup;
+    Object object;
     bool value = true;
     
     auto get = [&value] ()
@@ -231,7 +231,7 @@ TEST_F(PropertyTest, typesBool)
         value = val;
     };
 
-    auto prop = Property<bool>("Property", &propGroup, get, set);
+    auto prop = Property<bool>("Property", &object, get, set);
 
     tester.testType(prop, &Property<bool>::isBool);
     prop.setValue(true);
@@ -245,7 +245,7 @@ TEST_F(PropertyTest, typesSignedIntegral)
     using curType = int;
     
     TypeTester<curType> tester;
-    PropertyGroup propGroup;
+    Object object;
     
     curType value{};
     
@@ -259,7 +259,7 @@ TEST_F(PropertyTest, typesSignedIntegral)
         value = val;
     };
     
-    auto prop = Property<curType>("Property", &propGroup, get, set);
+    auto prop = Property<curType>("Property", &object, get, set);
     
     tester.testType(prop, {&Property<curType>::isIntegral, &Property<curType>::isNumber, &Property<curType>::isSignedIntegral});
     ASSERT_EQ(value, prop.toLongLong());
@@ -270,7 +270,7 @@ TEST_F(PropertyTest, typesUnsignedIntegral)
     using curType = unsigned int;
     
     TypeTester<curType> tester;
-    PropertyGroup propGroup;
+    Object object;
     
     curType value{};
     
@@ -284,7 +284,7 @@ TEST_F(PropertyTest, typesUnsignedIntegral)
         value = val;
     };
     
-    auto prop = Property<curType>("Property", &propGroup, get, set);
+    auto prop = Property<curType>("Property", &object, get, set);
     
     tester.testType(prop, {&Property<curType>::isIntegral, &Property<curType>::isNumber, &Property<curType>::isUnsignedIntegral});
     ASSERT_EQ(value, prop.toLongLong());
@@ -296,7 +296,7 @@ TEST_F(PropertyTest, typesString)
     using curType = std::string;
     
     TypeTester<curType> tester;
-    PropertyGroup propGroup;
+    Object object;
     
     curType value = "test";
     
@@ -310,7 +310,7 @@ TEST_F(PropertyTest, typesString)
         value = val;
     };
     
-    auto prop = Property<curType>("Property", &propGroup, get, set);
+    auto prop = Property<curType>("Property", &object, get, set);
     
     tester.testType(prop, &Property<curType>::isString);
     ASSERT_EQ(value, prop.toString());
@@ -321,7 +321,7 @@ TEST_F(PropertyTest, typesFloat)
     using curType = float;
     
     TypeTester<curType> tester;
-    PropertyGroup propGroup;
+    Object object;
     
     curType value{};
     
@@ -335,7 +335,7 @@ TEST_F(PropertyTest, typesFloat)
         value = val;
     };
     
-    auto prop = Property<curType>("Property", &propGroup, get, set);
+    auto prop = Property<curType>("Property", &object, get, set);
     
     tester.testType(prop, {&Property<curType>::isNumber, &Property<curType>::isFloatingPoint});
     ASSERT_EQ(value, prop.toLongLong());

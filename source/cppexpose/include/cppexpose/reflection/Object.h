@@ -20,7 +20,7 @@ namespace cppexpose
 *  @brief
 *    Base class for reflection-enabled objects
 */
-class CPPEXPOSE_API PropertyGroup : public AbstractProperty
+class CPPEXPOSE_API Object : public AbstractProperty
 {
     friend class AbstractProperty;
 
@@ -44,7 +44,7 @@ public:
     *  @brief
     *    Constructor
     */
-    PropertyGroup();
+    Object();
 
     /**
     *  @brief
@@ -63,13 +63,13 @@ public:
     *    To transfer the ownership to the parent, call this constructor with
     *    parent(nullptr), and use addProperty() on the parent group.
     */
-    PropertyGroup(const std::string & name, PropertyGroup * parent = nullptr);
+    Object(const std::string & name, Object * parent = nullptr);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~PropertyGroup();
+    virtual ~Object();
 
     /**
     *  @brief
@@ -223,8 +223,8 @@ public:
     *  @return
     *    Pointer to the property group, or nullptr on error
     */
-    PropertyGroup * group(const std::string & path);
-    const PropertyGroup * group(const std::string & path) const;
+    Object * group(const std::string & path);
+    const Object * group(const std::string & path) const;
     //@}
 
     //@{
@@ -334,4 +334,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/reflection/PropertyGroup.hpp>
+#include <cppexpose/reflection/Object.hpp>

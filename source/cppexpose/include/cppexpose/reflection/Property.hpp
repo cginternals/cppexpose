@@ -4,7 +4,7 @@
 
 #include <cppexpose/reflection/Property.h>
 
-#include <cppexpose/reflection/PropertyGroup.h>
+#include <cppexpose/reflection/Object.h>
 
 
 namespace cppexpose
@@ -13,7 +13,7 @@ namespace cppexpose
 
 template <typename T, typename BASE>
 template <typename... Args>
-Property<T, BASE>::Property(const std::string & name, PropertyGroup * parent, Args&&... args)
+Property<T, BASE>::Property(const std::string & name, Object * parent, Args&&... args)
 : StoredValue<T, BASE>(std::forward<Args>(args)...)
 {
     this->initProperty(name, parent, PropertyOwnership::None);

@@ -11,7 +11,7 @@ namespace cppexpose
 {
 
 
-class PropertyGroup;
+class Object;
 class AbstractScriptBackend;
 class Variant;
 
@@ -62,7 +62,7 @@ public:
     *  @return
     *    Global object (can be null)
     */
-    PropertyGroup * globalObject() const;
+    Object * globalObject() const;
 
     /**
     *  @brief
@@ -82,7 +82,7 @@ public:
     *    backend however ("javascript", base on duktape) supports
     *    any name for the global object.
     */
-    void setGlobalObject(PropertyGroup * obj);
+    void setGlobalObject(Object * obj);
 
     /**
     *  @brief
@@ -99,7 +99,7 @@ public:
 
 protected:
     AbstractScriptBackend * m_backend;      ///< Scripting backend (can be null)
-    PropertyGroup         * m_globalObject; ///< Global object that is exposed to the scripting environment (can be null)
+    Object                * m_globalObject; ///< Global object that is exposed to the scripting environment (can be null)
 };
 
 
