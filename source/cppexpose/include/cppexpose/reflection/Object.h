@@ -52,18 +52,8 @@ public:
     *
     *  @param[in] name
     *    Name
-    *  @param[in] parent
-    *    Parent object (can be null)
-    *
-    *  @remarks
-    *    If parent is valid, the object is automatically added to the
-    *    parent object. The ownership is not transferred, so the object
-    *    has to be deleted by the caller.
-    *
-    *    To transfer the ownership to the parent, call this constructor with
-    *    parent(nullptr), and use addProperty() on the parent object.
     */
-    Object(const std::string & name, Object * parent = nullptr);
+    Object(const std::string & name);
 
     /**
     *  @brief

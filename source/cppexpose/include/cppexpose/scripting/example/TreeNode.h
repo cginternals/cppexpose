@@ -34,10 +34,8 @@ public:
     *
     *  @param[in] name
     *    Object name
-    *  @param[in] parent
-    *    Parent object (can be null)
     */
-    TreeNode(const std::string & name, cppexpose::Object * parent = nullptr);
+    TreeNode(const std::string & name);
 
     /**
     *  @brief

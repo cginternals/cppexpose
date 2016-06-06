@@ -21,8 +21,8 @@ public:
 
 
 public:
-    MyObject(const std::string & name = "obj", Object * parent = nullptr)
-    : Object(name, parent)
+    MyObject(const std::string & name = "obj")
+    : Object(name)
     , String("string", this, this, &MyObject::getString, &MyObject::setString)
     , Int   ("int"   , this, this, &MyObject::getInt,    &MyObject::setInt)
     , Float ("float",  this, this, &MyObject::getFloat,  &MyObject::setFloat)

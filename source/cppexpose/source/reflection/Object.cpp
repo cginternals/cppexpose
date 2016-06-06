@@ -23,9 +23,9 @@ Object::Object()
     initProperty("", nullptr, PropertyOwnership::None);
 }
 
-Object::Object(const std::string & name, Object * parent)
+Object::Object(const std::string & name)
 {
-    initProperty(name, parent, PropertyOwnership::None);
+    initProperty(name, nullptr, PropertyOwnership::None);
 }
 
 Object::~Object()
