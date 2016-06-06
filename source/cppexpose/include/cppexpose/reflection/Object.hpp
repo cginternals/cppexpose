@@ -21,7 +21,7 @@ DynamicProperty<T> * Object::createDynamicProperty(const std::string & name, con
         return nullptr;
     }
 
-    // Create property and add it to the group
+    // Create property and add it to the object
     auto * property = new DynamicProperty<T>(name, nullptr, value);
     this->addProperty(property, PropertyOwnership::Parent);
 

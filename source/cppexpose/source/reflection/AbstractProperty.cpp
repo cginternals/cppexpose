@@ -42,7 +42,7 @@ void AbstractProperty::initProperty(const std::string & name, Object * parent, P
     // Is not desired as parent->addProperty updates the m_parent but asserts beforehand that this property has no parent set.
     // m_parent = parent;
 
-    // Add property to the parent group
+    // Add property to parent object
     if (parent)
     {
         parent->addProperty(this, ownership);

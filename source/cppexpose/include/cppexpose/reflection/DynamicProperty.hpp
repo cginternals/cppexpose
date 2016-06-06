@@ -23,7 +23,7 @@ DynamicProperty<T, BASE>::~DynamicProperty()
 }
 
 template <typename T, typename BASE>
-bool DynamicProperty<T, BASE>::isGroup() const
+bool DynamicProperty<T, BASE>::isObject() const
 {
     return false;
 }

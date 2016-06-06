@@ -65,7 +65,7 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
         std::string propName = prop->name();
 
         // Register property (ignore sub-objects, they are added later)
-        if (!prop->isGroup())
+        if (!prop->isObject())
         {
             // Key (for accessor)
             duk_push_string(m_context, propName.c_str());
@@ -113,7 +113,7 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
         std::string name = prop->name();
 
         // Check if it is an object
-        if (prop->isGroup())
+        if (prop->isObject())
         {
             // Create object wrapper
             auto objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
@@ -135,7 +135,7 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
         (void)(index);
 
         // Check if property is an object or a value property
-        if (property->isGroup())
+        if (property->isObject())
         {
             // Get object
             Object * obj = static_cast<Object *>(property);

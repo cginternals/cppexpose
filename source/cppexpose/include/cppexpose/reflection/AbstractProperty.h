@@ -17,7 +17,7 @@ class Object;
 
 /**
 *  @brief
-*    Defines the ownership for a property, group, or object
+*    Defines the ownership for a property or object
 */
 enum class PropertyOwnership
 {
@@ -72,12 +72,12 @@ public:
 
     /**
     *  @brief
-    *    Check if property is a group
+    *    Check if property is an object
     *
     *  @return
-    *    'true' if property is a property group, else 'false'
+    *    'true' if property is an object, else 'false'
     */
-    virtual bool isGroup() const = 0;
+    virtual bool isObject() const = 0;
 
 
 protected:

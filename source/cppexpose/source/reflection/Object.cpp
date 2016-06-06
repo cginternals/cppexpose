@@ -85,7 +85,7 @@ const AbstractProperty * Object::property(const std::string & path) const
 bool Object::addProperty(AbstractProperty * property, PropertyOwnership ownership)
 {
     // Reject properties that have no name, or whose name already exists,
-    // or that already have a parent group
+    // or that already have a parent object.
     if (!property || this->propertyExists(property->name()) || property->parent() != nullptr)
     {
         return false;
@@ -117,13 +117,13 @@ bool Object::addProperty(AbstractProperty * property, PropertyOwnership ownershi
 
 bool Object::removeProperty(AbstractProperty * property)
 {
-    // Reject properties that are not part of the group
+    // Reject properties that are not part of the object
     if (!property || property->parent() != this)
     {
         return false;
     }
 
-    // Find property in group
+    // Find property in object
     auto it = std::find(m_properties.begin(), m_properties.end(), property);
     if (it == m_properties.end())
     {
@@ -136,7 +136,7 @@ bool Object::removeProperty(AbstractProperty * property)
     // Invoke callback
     beforeRemove(index, property);
 
-    // Remove property from group
+    // Remove property from object
     m_properties.erase(it);
     m_propertiesMap.erase(property->name());
 
@@ -159,13 +159,13 @@ bool Object::removeProperty(AbstractProperty * property)
 
 bool Object::destroyProperty(AbstractProperty * property)
 {
-    // Check that property exists and belongs to the group
+    // Check that property exists and belongs to the object
     if (!property || property->parent() != this)
     {
         return false;
     }
 
-    // Chec that property is owned by the group
+    // Chec that property is owned by the object
     auto it = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
     if (it == m_properties.end())
     {
@@ -179,41 +179,12 @@ bool Object::destroyProperty(AbstractProperty * property)
     return true;
 }
 
-bool Object::groupExists(const std::string & name) const
-{
-    return (this->propertyExists(name) && m_propertiesMap.at(name)->isGroup());
-}
-
-Object * Object::group(const std::string & path)
-{
-    // Get property by path
-    AbstractProperty * property = this->property(path);
-    if (!property) {
-        return nullptr;
-    }
-
-    // Convert into group
-    return static_cast<Object *>(property);
-}
-
-const Object * Object::group(const std::string & path) const
-{
-    // Get property by path
-    const AbstractProperty * property = this->property(path);
-    if (!property) {
-        return nullptr;
-    }
-
-    // Convert into group
-    return static_cast<const Object *>(property);
-}
-
 const std::vector<Method> & Object::functions() const
 {
     return m_functions;
 }
 
-bool Object::isGroup() const
+bool Object::isObject() const
 {
     return true;
 }
@@ -310,7 +281,7 @@ bool Object::isFloatingPoint() const
 
 Variant Object::toVariant() const
 {
-    // Create variant map from all properties in the group
+    // Create variant map from all properties in the object
     Variant map = Variant::map();
     for (auto it : m_propertiesMap) {
         // Get name and property
@@ -351,7 +322,7 @@ bool Object::fromVariant(const Variant & value)
 
 std::string Object::toString() const
 {
-    // Convert group into JSON
+    // Convert object into JSON
     SerializerJSON json;
     return json.toString(this->toVariant());
 }
@@ -418,7 +389,7 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
         return nullptr;
     }
 
-    // Check if first element of the path exists in this group
+    // Check if first element of the path exists in this object
     if (!propertyExists(path.front())) {
         return nullptr;
     }
@@ -432,7 +403,7 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
     }
 
     // Otherwise, it is an element in the middle of the path, so ensure it is an object
-    if (!property->isGroup()) {
+    if (!property->isObject()) {
         return nullptr;
     }
 

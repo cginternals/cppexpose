@@ -49,7 +49,7 @@ public:
     *    has to be deleted by the caller.
     *
     *    To transfer the ownership to the parent, call this constructor with
-    *    parent(nullptr), and use addProperty() on the parent group.
+    *    parent(nullptr), and use addProperty() on the parent object.
     */
     template <typename... Args>
     DynamicProperty(const std::string & name, Object * parent, Args&&... args);
@@ -61,7 +61,7 @@ public:
     virtual ~DynamicProperty();
 
     // Virtual AbstractProperty interface
-    virtual bool isGroup() const override;
+    virtual bool isObject() const override;
 
 
 protected:

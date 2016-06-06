@@ -25,7 +25,7 @@ Property<T, BASE>::~Property()
 }
 
 template <typename T, typename BASE>
-bool Property<T, BASE>::isGroup() const
+bool Property<T, BASE>::isObject() const
 {
     return false;
 }
