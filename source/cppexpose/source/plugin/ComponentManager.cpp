@@ -117,8 +117,7 @@ void ComponentManager::scanPlugins(const std::string & identifier, bool reload)
             continue;
 
         // Check if library name corresponds to search criteria
-        std::string query = identifier + "." + cppassist::SystemInfo::libExtension();
-        if (identifier.empty() || file.find(query, file.find_last_of('/')) != std::string::npos)
+        if (identifier.empty() || file.find(identifier) != std::string::npos)
             loadLibrary(file, reload);
     }
 }
