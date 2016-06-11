@@ -34,6 +34,55 @@ Object * AbstractProperty::parent() const
     return m_parent;
 }
 
+const VariantMap & AbstractProperty::options() const
+{
+    return m_options;
+}
+
+void AbstractProperty::setOptions(const VariantMap & map)
+{
+    // Copy options
+    for (const auto & pair : map)
+    {
+        m_options[pair.first] = pair.second;
+        optionChanged(pair.first);
+    }
+}
+
+bool AbstractProperty::hasOption(const std::string & key) const
+{
+    return m_options.count(key) != 0;
+}
+
+Variant AbstractProperty::option(const std::string & key) const
+{
+    if (!this->hasOption(key))
+    {
+        return Variant();
+    }
+
+    return m_options.at(key);
+}
+
+void AbstractProperty::setOption(const std::string & key, const Variant & value)
+{
+    m_options[key] = value;
+    optionChanged(key);
+}
+
+bool AbstractProperty::removeOption(const std::string & key)
+{
+    if (!this->hasOption(key))
+    {
+        return false;
+    }
+
+    m_options.erase(key);
+    optionChanged(key);
+
+    return true;
+}
+
 void AbstractProperty::initProperty(const std::string & name, Object * parent, PropertyOwnership ownership)
 {
     // Store name

@@ -6,6 +6,7 @@
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>
+#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
@@ -36,7 +37,8 @@ class CPPEXPOSE_API AbstractProperty : public AbstractTyped
 
 
 public:
-    Signal<AbstractProperty *> beforeDestroy;    ///< Called before a property is destroyed
+    Signal<AbstractProperty *>  beforeDestroy; ///< Called before a property is destroyed
+    Signal<const std::string &> optionChanged; ///< Called when an option of the property has been changed
 
 
 public:
@@ -79,6 +81,92 @@ public:
     */
     virtual bool isObject() const = 0;
 
+    /**
+    *  @brief
+    *    Get options of property
+    *
+    *    Options provide additional meta information about a property.
+    *    Use options to add, e.g., minimum and maximum values,
+    *    affixes, or flags. These can be used to configure editor widgets.
+    *    Look at the class documentation of the specific property type to
+    *    get a list of supported options.
+    *
+    *  @return
+    *    List of options
+    */
+    const VariantMap & options() const;
+
+    /**
+    *  @brief
+    *    Set options of property
+    *
+    *  @param[in] map
+    *    List of options
+    */
+    void setOptions(const VariantMap & map);
+
+    /**
+    *  @brief
+    *    Check if option is set
+    *
+    *  @param[in] key
+    *    Option name
+    *
+    *  @return
+    *    'true' if the option is set, else 'false'
+    */
+    bool hasOption(const std::string & key) const;
+
+    /**
+    *  @brief
+    *    Get option of property
+    *
+    *  @param[in] key
+    *    Option name
+    *
+    *  @return
+    *    Option value
+    */
+    Variant option(const std::string & key) const;
+
+    /**
+    *  @brief
+    *    Get option of property convert to a specific type
+    *
+    *  @param[in] key
+    *    Option name
+    *  @param[in] defaultValue
+    *    Default value
+    *
+    *  @return
+    *    Option value converted to Type, defaultValue if the option doesn't exist or couldn't be converted
+    */
+    template <typename Type>
+    Type option(const std::string & key, const Type & defaultValue) const;
+
+    /**
+    *  @brief
+    *    Set option of property
+    *
+    *  @param[in] key
+    *    Option name
+    *  @param[in] value
+    *    Option value
+    */
+    void setOption(const std::string & key, const Variant & value);
+
+    /**
+    *  @brief
+    *    Remove option of property
+    *
+    *  @param[in] key
+    *    Option name
+    *
+    *  @return
+    *    'true' if the option has been removed, else 'false'
+    */
+    bool removeOption(const std::string & key);
+
 
 protected:
     /**
@@ -114,8 +202,9 @@ protected:
 
 
 protected:
-    std::string   m_name;   ///< Name of the property
-    Object      * m_parent; ///< Parent object
+    std::string   m_name;    ///< Name of the property
+    Object      * m_parent;  ///< Parent object
+    VariantMap    m_options; ///< Additional options for the property (e.g., minimum or maximum values)
 };
 
 
