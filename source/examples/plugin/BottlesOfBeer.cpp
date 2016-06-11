@@ -7,6 +7,9 @@
 #include <cppexpose/base/string_helpers.h>
 
 
+CPPEXPOSE_COMPONENT(BottlesOfBeer, cppexpose::Example)
+
+
 using namespace cppexpose::helper;
 
 
@@ -25,14 +28,3 @@ void BottlesOfBeer::run()
         std::cout << toString<int>(i) << " bottles of beer ..." << std::endl;
     }
 }
-
-
-CPPEXPOSE_COMPONENT(
-    BottlesOfBeer, cppexpose::Example,
-    "", // Tags
-    "", // Icon
-    "", // Annotations
-    "Drinks and counts",
-    CPPEXPOSE_AUTHOR_ORGANIZATION,
-    "v1.0.0"
-)

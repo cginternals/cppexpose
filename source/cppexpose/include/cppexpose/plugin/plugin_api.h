@@ -16,21 +16,28 @@
 #endif
 
 
-#define CPPEXPOSE_DECLARE_COMPONENT(TYPE, BASETYPE) \
+#define CPPEXPOSE_DECLARE_COMPONENT(TYPE, BASETYPE, TAGS, ICON, ANNOTATIONS, DESCRIPTION, VENDOR, VERSION) \
+    class ComponentType : public cppexpose::Component<TYPE, BASETYPE> \
+    { \
     public: \
-        static cppexpose::Component<TYPE, BASETYPE> Component;
+        ComponentType() \
+        : cppexpose::Component<TYPE, BASETYPE>( \
+            #TYPE, \
+            DESCRIPTION, \
+            #BASETYPE, \
+            TAGS, \
+            ICON, \
+            ANNOTATIONS, \
+            VENDOR, \
+            VERSION) \
+        { \
+        } \
+    }; \
+    \
+    static ComponentType Component;
 
-#define CPPEXPOSE_COMPONENT(TYPE, BASETYPE, TAGS, ICON, ANNOTATIONS, DESCRIPTION, VENDOR, VERSION) \
-    cppexpose::Component<TYPE, BASETYPE> TYPE::Component( \
-        #TYPE, \
-        DESCRIPTION, \
-        #BASETYPE, \
-        TAGS, \
-        ICON, \
-        ANNOTATIONS, \
-        VENDOR, \
-        VERSION \
-    );
+#define CPPEXPOSE_COMPONENT(TYPE, BASETYPE) \
+    TYPE::ComponentType TYPE::Component;
 
 #define CPPEXPOSE_PLUGIN_LIBRARY \
     static std::vector<cppexpose::AbstractComponent *> g_components; \

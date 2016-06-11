@@ -3,8 +3,9 @@
 
 
 #include <cppexpose/plugin/Example.h>
-
 #include <cppexpose/plugin/plugin_api.h>
+
+#include <cppexpose/cppexpose-version.h>
 
 
 /**
@@ -13,7 +14,16 @@
 */
 class HelloWorld : public cppexpose::Example
 {
-CPPEXPOSE_DECLARE_COMPONENT(HelloWorld, cppexpose::Example)
+public:
+    CPPEXPOSE_DECLARE_COMPONENT(
+        HelloWorld, cppexpose::Example,
+        "", // Tags
+        "", // Icon
+        "", // Annotations
+        "Prints 'Hello World' to the console",
+        CPPEXPOSE_AUTHOR_ORGANIZATION,
+        "v1.0.0"
+    )
 
 
 public:
