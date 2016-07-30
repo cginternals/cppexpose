@@ -182,19 +182,19 @@ Tokenizer::Token Tokenizer::parseToken()
 
     else if (hasOption(OptionParseBoolean) && token.content == "true")
     {
-        token.value = TokenBoolean;
+        token.type = TokenBoolean;
         token.value = Variant(true);
     }
 
     else if (hasOption(OptionParseBoolean) && token.content == "false")
     {
-        token.value = TokenBoolean;
+        token.type = TokenBoolean;
         token.value = Variant(false);
     }
 
     else if (hasOption(OptionParseNull) && token.content == "null")
     {
-        token.value = TokenNull;
+        token.type = TokenNull;
         token.value = Variant();
     }
 

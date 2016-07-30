@@ -64,6 +64,8 @@ set(headers
     ${include_path}/base/Serializer.h
     ${include_path}/base/SerializerJSON.h
 
+    ${include_path}/json/JSON.h
+
     ${include_path}/signal/AbstractSignal.h
     ${include_path}/signal/Connection.h
     ${include_path}/signal/ScopedConnection.h
@@ -171,6 +173,8 @@ set(sources
     ${source_path}/base/Tokenizer.cpp
     ${source_path}/base/Serializer.cpp
     ${source_path}/base/SerializerJSON.cpp
+
+    ${source_path}/json/JSON.cpp
 
     ${source_path}/signal/AbstractSignal.cpp
     ${source_path}/signal/Connection.cpp
