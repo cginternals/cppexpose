@@ -307,10 +307,13 @@ private:
     *  @brief
     *    Read number
     *
+    *  @param[in] number
+    *    Number string that was parsed
+    *
     *  @remarks
     *    Advances the position until the end of the number is reached
     */
-    void readNumber();
+    void readNumber(const std::string & number);
 
     /**
     *  @brief
@@ -394,6 +397,15 @@ private:
     *    Standalone string that matches, "" if none does
     */
     std::string matchStandaloneStrings() const;
+
+    /**
+    *  @brief
+    *    Check if there is a (floating point) number at the current position
+    *
+    *  @return
+    *    Number string, "" if no number was found
+    */
+    std::string matchNumber() const;
 
     /**
     *  @brief
@@ -497,10 +509,6 @@ private:
     *    'true' if c is on of the characters in chars, else 'false'
     */
     bool charIn(char c, const std::string & chars) const;
-
-    // [TODO]
-    bool error(const std::string & message) const;
-    bool recoverFromError(TokenType skipUntilToken);
 
 
 private:

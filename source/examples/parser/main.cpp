@@ -33,7 +33,8 @@ static std::string json = R"(
                         "GlossSeeAlso": ["GML", "XML"]
                     },
                     "GlossSee": "markup",
-                    "Number": -123.4,
+                    "Number": -12e+4,
+                    "Number2": 130,
                     "Boolean": true/*haha*/,
                     "Boolean": false,
                     "test": "a+==b"
@@ -63,6 +64,7 @@ int main(int, char * [])
     );
     tokenizer.setQuotationMarks("\"'");
     tokenizer.setStandalones( { "+==", "+=" } );
+    tokenizer.setSingleCharacters("{}[],:");
 
     // Parse document
     tokenizer.setDocument(json);

@@ -6,12 +6,18 @@
 #include <string>
 #include <fstream>
 
+#include <cppassist/logging/logging.h>
+#include <cppassist/string/regex.h>
+
 #include <cppexpose/base/string_helpers.h>
 
 
 static const int           MIN_INT  = int( ~(unsigned(-1)/2) );
 static const int           MAX_INT  = int(  (unsigned(-1)/2) );
 static const unsigned int  MAX_UINT = unsigned(-1);
+
+
+using namespace cppassist;
 
 
 namespace cppexpose
@@ -243,6 +249,12 @@ Tokenizer::Token Tokenizer::readToken()
         readStandaloneString(lookahead.hint);
     }
 
+    // Single character
+    else if (lookahead.type == TokenSingleChar)
+    {
+        readChar();
+    }
+
     // String
     else if (lookahead.type == TokenString)
     {
@@ -253,13 +265,7 @@ Tokenizer::Token Tokenizer::readToken()
     // Number
     else if (lookahead.type == TokenNumber)
     {
-        readNumber();
-    }
-
-    // Single character
-    else if (lookahead.type == TokenSingleChar)
-    {
-        readChar();
+        readNumber(lookahead.hint);
     }
 
     // Arbitrary token
@@ -352,20 +358,11 @@ void Tokenizer::readString(char endChar)
     }
 }
 
-void Tokenizer::readNumber()
+void Tokenizer::readNumber(const std::string & number)
 {
-    // [TODO] Use a proper regex!
-
-    // Skip first character (already read)
-    readChar();
-
-    // Read until end of number
-    while (m_current != m_end)
+    // Skip size of string
+    for (size_t i=0; i<number.size(); i++)
     {
-        if (!(nextChar() >= '0' && nextChar() <= '9') && !charIn(nextChar(), ".eE+-")) {
-            break;
-        }
-
         readChar();
     }
 }
@@ -435,9 +432,9 @@ Tokenizer::Lookahead Tokenizer::lookAheadTokenType() const
 
     // Read ahead
     char         c = nextChar();    // Next character
-    char        c2 = nextChar(1);   // Character after that
     std::string s2 = lookAhead(2);  // Next string of size 2
     std::string standalone = "";    // Standalone string if one was detected
+    std::string number = "";        // Number string if one was detected
 
     // End of stream
     if (c == 0)
@@ -475,6 +472,12 @@ Tokenizer::Lookahead Tokenizer::lookAheadTokenType() const
         lookahead.hint = standalone;
     }
 
+    // Single character
+    else if (charIn(c, m_singleCharacters))
+    {
+        lookahead.type = TokenSingleChar;
+    }
+
     // String
     else if (hasOption(OptionParseStrings) && charIn(c, m_quotationMarks))
     {
@@ -482,16 +485,10 @@ Tokenizer::Lookahead Tokenizer::lookAheadTokenType() const
     }
 
     // Number
-    else if (hasOption(OptionParseNumber) &&
-             ((c >= '0' && c <= '9') || (c == '-' && c2 >= '0' && c2 <= '9')) )
+    else if (hasOption(OptionParseNumber) && (number = matchNumber()) != "")
     {
         lookahead.type = TokenNumber;
-    }
-
-    // Single character
-    else if (charIn(c, m_singleCharacters))
-    {
-        lookahead.type = TokenSingleChar;
+        lookahead.hint = number;
     }
 
     // Arbitrary token
@@ -544,6 +541,24 @@ std::string Tokenizer::matchStandaloneStrings() const
     return "";
 }
 
+std::string Tokenizer::matchNumber() const
+{
+    // Get remainder of document as string
+    std::string text(m_current, m_end - m_current);
+
+    // Check if there is a floating point number at the beginning
+    std::string format = "^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?";
+    auto matches = extract(text, format);
+
+    // Was there a floating point number?
+    if (matches.size() > 0) {
+        return matches[0];
+    }
+
+    // No
+    return "";
+}
+
 unsigned int Tokenizer::line() const
 {
     return m_line;
@@ -582,8 +597,14 @@ Variant Tokenizer::decodeNumber(const Token & token) const
     {
         char c = *current++;
 
-        if (c < '0' || c > '9') {
-            return error("'" + std::string(token.begin, token.end-token.begin) + "' is not a number.");
+        if (c < '0' || c > '9')
+        {
+            critical()
+                << "'"
+                << std::string(token.begin, token.end-token.begin)
+                << "' is not a number.";
+
+            return false;
         }
 
         if (value >= threshold) {
@@ -628,7 +649,7 @@ std::string Tokenizer::decodeString(const Token & token) const
         {
             if (current == end)
             {
-                error("Empty escape sequence in string");
+                warning() << "Empty escape sequence in string";
                 return decoded;
             }
 
@@ -657,7 +678,7 @@ std::string Tokenizer::decodeString(const Token & token) const
 
                 default:
                 {
-                    error("Bad escape sequence in string");
+                    critical() << "Bad escape sequence in string";
                     return "";
                 }
             }
@@ -682,7 +703,8 @@ bool Tokenizer::decodeUnicodeCodePoint(const char * & current, const char * end,
     {
         // surrogate pairs
         if (end - current < 6) {
-            return error( "additional six characters expected to parse unicode surrogate pair.");
+            critical() << "Additional six characters expected to parse unicode surrogate pair.";
+            return false;
         }
 
         unsigned int surrogatePair;
@@ -694,7 +716,8 @@ bool Tokenizer::decodeUnicodeCodePoint(const char * & current, const char * end,
                 return false;
             }
         } else {
-            return error("expecting another \\u token to begin the second half of a unicode surrogate pair");
+            critical() << "Expecting another \\u token to begin the second half of a unicode surrogate pair";
+            return false;
         }
     }
 
@@ -705,7 +728,8 @@ bool Tokenizer::decodeUnicodeEscapeSequence(const char * & current, const char *
 {
     if (end - current < 4)
     {
-        return error( "Bad unicode escape sequence in string: four digits expected.");
+        critical() << "Bad unicode escape sequence in string: four digits expected.";
+        return false;
     }
 
     unicode = 0;
@@ -722,7 +746,8 @@ bool Tokenizer::decodeUnicodeEscapeSequence(const char * & current, const char *
         } else if (c >= 'A' && c <= 'F') {
             unicode += c - 'A' + 10;
         } else {
-            return error("Bad unicode escape sequence in string: hexadecimal digit expected.");
+            critical() << "Bad unicode escape sequence in string: hexadecimal digit expected.";
+            return false;
         }
     }
 
@@ -761,29 +786,6 @@ std::string Tokenizer::codePointToUTF8(unsigned int cp) const
 bool Tokenizer::charIn(char c, const std::string & chars) const
 {
     return chars.find(c) != std::string::npos;
-}
-
-bool Tokenizer::error(const std::string &) const
-{
-    // [TODO]
-
-    return false;
-}
-
-bool Tokenizer::recoverFromError(TokenType skipUntilToken)
-{
-    // [TODO]
-
-    while (true)
-    {
-        Token skip = readToken();
-
-        if (skip.type == skipUntilToken || skip.type == TokenEndOfStream) {
-            break;
-        }
-    }
-
-    return false;
 }
 
 
