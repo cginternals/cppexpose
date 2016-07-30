@@ -112,7 +112,6 @@ bool JSON::readObject(Variant & root, Tokenizer & tokenizer)
     while (true)
     {
         std::string name;
-        Variant     value;
 
         // Expect name of field
         if (token.type == Tokenizer::TokenString)
@@ -148,14 +147,15 @@ bool JSON::readObject(Variant & root, Tokenizer & tokenizer)
         // Read next token
         token = tokenizer.parseToken();
 
+        // Add new value to object
+        (*root.asMap())[name] = Variant();
+        Variant & value = (*root.asMap())[name];
+
         // Read value
         if (!readValue(value, token, tokenizer))
         {
             return false;
         }
-
-        // Add value to object
-        (*root.asMap())[name] = value;
 
         // Read next token
         token = tokenizer.parseToken();
@@ -204,16 +204,15 @@ bool JSON::readArray(Variant & root, Tokenizer & tokenizer)
     // Read array values
     while (true)
     {
-        Variant value;
+        // Add new value to array
+        root.asArray()->push_back(Variant());
+        Variant & value = (*root.asArray())[root.asArray()->size() - 1];
 
         // Read value
         if (!readValue(value, token, tokenizer))
         {
             return false;
         }
-
-        // Add value to array
-        root.asArray()->push_back(value);
 
         // Read next token
         token = tokenizer.parseToken();
