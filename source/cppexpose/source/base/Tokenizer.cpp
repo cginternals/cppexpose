@@ -24,14 +24,6 @@ namespace cppexpose
 {
 
 
-struct CompareStringLength
-{
-    bool operator() (const std::string & first, const std::string & second) {
-        return first.size() > second.size();
-    }
-};
-
-
 Tokenizer::Tokenizer()
 : m_options(0)
 , m_whitespace(" \t\r\n")
@@ -105,8 +97,10 @@ void Tokenizer::setStandalones(const std::vector<std::string> & standalones)
     m_standalones = standalones;
 
     // Sort by string length (longest first)
-    CompareStringLength compare;
-    std::sort(m_standalones.begin(), m_standalones.end(), compare);
+    std::sort(m_standalones.begin(), m_standalones.end(), [] (const std::string & first, const std::string & second)
+    {
+        return first.size() > second.size();
+    } );
 }
 
 bool Tokenizer::loadDocument(const std::string & filename)
