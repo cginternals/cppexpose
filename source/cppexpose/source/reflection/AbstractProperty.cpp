@@ -29,6 +29,11 @@ std::string AbstractProperty::name() const
     return m_name;
 }
 
+void AbstractProperty::setName(const std::string & name)
+{
+    m_name = name;
+}
+
 Object * AbstractProperty::parent() const
 {
     return m_parent;

@@ -65,6 +65,19 @@ public:
 
     /**
     *  @brief
+    *    Set name
+    *
+    *  @param[in] name
+    *    Name
+    *
+    *  @remarks
+    *    This function should never be called after the property has been added to
+    *    a parent object. The name change will not be updated in the parent container.
+    */
+    void setName(const std::string & name);
+
+    /**
+    *  @brief
     *    Get parent object
     *
     *  @return
