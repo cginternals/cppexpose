@@ -57,6 +57,17 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] typeName
+    *    Type name for this object (default: 'Object')
+    *  @param[in] name
+    *    Name
+    */
+    Object(const std::string & typeName, const std::string & name);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~Object();
@@ -286,6 +297,7 @@ protected:
 
 
 protected:
+    std::string                                         m_typeName;          ///< Type name for this object (default: 'Object')
     std::vector<AbstractProperty *>                     m_properties;        ///< List of properties in the object
     std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;     ///< Map of names and properties
     std::vector<AbstractProperty *>                     m_managedProperties; ///< Property that are owned by the object
