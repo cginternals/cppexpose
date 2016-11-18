@@ -441,13 +441,28 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
         return nullptr;
     }
 
-    // Check if first element of the path exists in this object
-    if (!propertyExists(path.front())) {
-        return nullptr;
-    }
+    AbstractProperty * property = nullptr;
 
-    // Get the respective property
-    AbstractProperty * property = m_propertiesMap.at(path.front());
+    // Check whether the path points to the parent
+    if (path.front() == g_parent){
+
+        // Check that the parent actually exists
+        if(m_parent == nullptr){
+            return nullptr;
+        }
+
+        property = m_parent;
+    }
+    else{
+
+        // Check if first element of the path exists in this object
+        if (!propertyExists(path.front())) {
+            return nullptr;
+        }
+
+        // Get the respective property
+        property = m_propertiesMap.at(path.front());
+    }
 
     // If there are no more sub-paths, return the found property
     if (path.size() == 1) {
