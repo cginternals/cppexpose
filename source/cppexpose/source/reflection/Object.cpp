@@ -4,6 +4,8 @@
 #include <cassert>
 #include <typeinfo>
 
+#include <unordered_set>
+
 #include <cppexpose/base/string_helpers.h>
 #include <cppexpose/variant/Variant.h>
 
@@ -11,6 +13,7 @@
 namespace
 {
     static const char g_separator = '.';
+    static const std::string g_parent = "parent";
 }
 
 
@@ -378,6 +381,55 @@ double Object::toDouble() const
 bool Object::fromDouble(double)
 {
     return false;
+}
+
+std::vector<std::string> Object::relativePathTo(const Object * const other) const
+{
+    // find all ancestors of "this"
+    std::unordered_set<const Object*> ancestors;
+
+    std::vector<std::string> thisPath;
+    const Object * parent = nullptr;
+    const Object * curObject = this;
+    while(curObject->hasParent())
+    {
+        parent = curObject->parent();
+        thisPath.push_back(curObject->name());
+        ancestors.insert(parent);
+        curObject = parent;
+    }
+
+    // find the intersection from "other"
+    std::vector<std::string> otherPath;
+    curObject = other;
+    bool found = false;
+    while(curObject->hasParent())
+    {
+        parent = curObject->parent();
+        otherPath.push_back(curObject->name());
+        if(ancestors.count(parent)){
+            found = true;
+        }
+        curObject = parent;
+    }
+
+    // Ensure there was an intersection
+    if(!found)
+    {
+        return std::vector<std::string>{"invalid_path"};
+    }
+
+    // Shorten the paths
+    while(thisPath.back() == otherPath.back()){
+        thisPath.pop_back();
+        otherPath.pop_back();
+    }
+
+    // Build the relative Path
+    std::fill(thisPath.begin(), thisPath.end(), g_parent);
+    thisPath.insert(thisPath.end(), otherPath.begin(), otherPath.end());
+
+    return thisPath;
 }
 
 const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const

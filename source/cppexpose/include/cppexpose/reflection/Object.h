@@ -280,6 +280,8 @@ public:
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
 
+    std::vector<std::string> relativePathTo(const Object * const other) const;
+
 
 protected:
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
