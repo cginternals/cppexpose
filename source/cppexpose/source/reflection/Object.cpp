@@ -18,6 +18,11 @@ namespace cppexpose
 {
 
 
+Object::Object()
+: Object("")
+{
+}
+
 Object::Object(const std::string & name)
 : m_className("Object")
 {

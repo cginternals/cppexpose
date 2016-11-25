@@ -43,11 +43,17 @@ public:
     /**
     *  @brief
     *    Constructor
+    */
+    Object();
+
+    /**
+    *  @brief
+    *    Constructor
     *
     *  @param[in] name
     *    Name
     */
-    Object(const std::string & name = "");
+    Object(const std::string & name);
 
     /**
     *  @brief
