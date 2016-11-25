@@ -18,20 +18,8 @@ namespace cppexpose
 {
 
 
-Object::Object()
-: m_typeName("Object")
-{
-    initProperty("", nullptr, PropertyOwnership::None);
-}
-
 Object::Object(const std::string & name)
-: m_typeName("Object")
-{
-    initProperty(name, nullptr, PropertyOwnership::None);
-}
-
-Object::Object(const std::string & typeName, const std::string & name)
-: m_typeName(typeName)
+: m_className("Object")
 {
     initProperty(name, nullptr, PropertyOwnership::None);
 }
@@ -39,6 +27,16 @@ Object::Object(const std::string & typeName, const std::string & name)
 Object::~Object()
 {
     clear();
+}
+
+const std::string & Object::className() const
+{
+    return m_className;
+}
+
+void Object::setClassName(const std::string & className)
+{
+    m_className = className;
 }
 
 void Object::clear()
@@ -200,7 +198,7 @@ bool Object::isObject() const
 AbstractTyped * Object::clone() const
 {
     // [TODO]
-    return new Object(typeName(), name());
+    return new Object(name());
 }
 
 const std::type_info & Object::type() const
@@ -210,7 +208,7 @@ const std::type_info & Object::type() const
 
 std::string Object::typeName() const
 {
-    return m_typeName;
+    return "Object";
 }
 
 bool Object::isReadOnly() const
