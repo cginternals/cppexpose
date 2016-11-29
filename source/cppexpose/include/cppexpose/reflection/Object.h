@@ -63,6 +63,24 @@ public:
 
     /**
     *  @brief
+    *    Get class name
+    *
+    *  return
+    *    Class name for this object (default: "Object")
+    */
+    const std::string & className() const;
+
+    /**
+    *  @brief
+    *    Set class name
+    *
+    *  @param[in] className
+    *    Class name for this object (default: "Object")
+    */
+    void setClassName(const std::string & className);
+
+    /**
+    *  @brief
     *    Clear properties
     *
     *    Removes all properties from the object.
@@ -288,6 +306,7 @@ protected:
 
 
 protected:
+    std::string                                         m_className;         ///< Class name for this object (default: "Object")
     std::vector<AbstractProperty *>                     m_properties;        ///< List of properties in the object
     std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;     ///< Map of names and properties
     std::vector<AbstractProperty *>                     m_managedProperties; ///< Property that are owned by the object

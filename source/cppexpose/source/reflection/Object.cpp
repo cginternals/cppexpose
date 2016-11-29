@@ -22,11 +22,12 @@ namespace cppexpose
 
 
 Object::Object()
+: Object("")
 {
-    initProperty("", nullptr, PropertyOwnership::None);
 }
 
 Object::Object(const std::string & name)
+: m_className("Object")
 {
     initProperty(name, nullptr, PropertyOwnership::None);
 }
@@ -34,6 +35,16 @@ Object::Object(const std::string & name)
 Object::~Object()
 {
     clear();
+}
+
+const std::string & Object::className() const
+{
+    return m_className;
+}
+
+void Object::setClassName(const std::string & className)
+{
+    m_className = className;
 }
 
 void Object::clear()
