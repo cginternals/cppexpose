@@ -298,6 +298,20 @@ public:
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
 
+    /**
+    * @brief
+    *    Get the relative path to another object
+    *
+    * @param[in] other
+    *    The other object
+    *
+    * @return
+    *    The relative path to the other object
+    *
+    * @remarks
+    *    Parent-relationships are indicated using 'parent'
+    *    If the returned vector is empty, no path could be found
+    */
     std::vector<std::string> relativePathTo(const Object * const other) const;
 
 

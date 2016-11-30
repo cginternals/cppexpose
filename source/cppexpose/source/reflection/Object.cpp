@@ -427,7 +427,7 @@ std::vector<std::string> Object::relativePathTo(const Object * const other) cons
     // Ensure there was an intersection
     if(!found)
     {
-        return std::vector<std::string>{"invalid_path"};
+        return std::vector<std::string>{};
     }
 
     // Shorten the paths
