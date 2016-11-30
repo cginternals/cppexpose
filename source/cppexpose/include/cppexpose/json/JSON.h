@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <cppexpose/base/Tokenizer.h>
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
@@ -74,16 +74,6 @@ public:
     *    'true' if all went fine, 'false' on error
     */
     static bool parse(Variant & root, const std::string & document);
-
-
-private:
-    static bool readDocument(Variant & root, Tokenizer & tokenizer);
-    static bool readObject(Variant & root, Tokenizer & tokenizer);
-    static bool readArray(Variant & root, Tokenizer & tokenizer);
-    static bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer);
-
-    static std::string stringify(const Variant & root, bool beautify, const std::string & indent);
-    static std::string escapeString(const std::string & in);
 };
 
 

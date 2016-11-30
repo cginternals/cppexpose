@@ -6,6 +6,7 @@
 
 #include <cppexpose/base/string_helpers.h>
 #include <cppexpose/variant/Variant.h>
+#include <cppexpose/json/JSON.h>
 
 
 namespace
@@ -334,16 +335,14 @@ bool Object::fromVariant(const Variant & value)
 std::string Object::toString() const
 {
     // Convert object into JSON
-    SerializerJSON json;
-    return json.toString(this->toVariant());
+    return JSON::stringify(this->toVariant());
 }
 
 bool Object::fromString(const std::string & str)
 {
     // Convert from JSON
     Variant values;
-    SerializerJSON json;
-    if (json.fromString(values, str)) {
+    if (JSON::parse(values, str)) {
         return fromVariant(values);
     }
 
