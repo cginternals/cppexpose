@@ -22,7 +22,8 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
 bool readArray(Variant & root, Tokenizer & tokenizer);
 bool readObject(Variant & root, Tokenizer & tokenizer);
 
-const char * const hexdig = "0123456789ABCDEF";
+
+const char * const g_hexdig = "0123456789ABCDEF";
 
 
 std::string escapeString(const std::string & in)
@@ -42,8 +43,8 @@ std::string escapeString(const std::string & in)
                 case '\n': out = out + "n";  break;
                 default:
                     out = out + "x";
-                    out.append(1, hexdig[c >> 4]);
-                    out.append(1, hexdig[c & 0xF]);
+                    out.append(1, g_hexdig[c >> 4]);
+                    out.append(1, g_hexdig[c & 0xF]);
                     break;
             }
         }
@@ -60,7 +61,7 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
         if (root.asMap()->empty()) return "{}";
 
         // Begin output
-        std::string json = "{"; // TODO: maybe a stringstream can be more performant
+        std::string json = "{"; // [TODO] maybe a stringstream can be more performant
         if (beautify) json += "\n";
 
         // Add all variables
@@ -101,7 +102,7 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
         if (root.asArray()->empty()) return "[]";
 
         // Begin output
-        std::string json = "["; // TODO: maybe a stringstream can be more performant
+        std::string json = "["; // [TODO] maybe a stringstream can be more performant
         if (beautify) json += "\n";
 
         // Add all elements
@@ -412,9 +413,6 @@ bool JSON::parse(Variant & root, const std::string & document)
     // Begin parsing
     return readDocument(root, tokenizer);
 }
-
-
-
 
 
 } // namespace cppexpose
