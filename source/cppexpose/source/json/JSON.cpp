@@ -18,17 +18,18 @@ namespace
 {
 
 
-static bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer);
-static bool readArray(Variant & root, Tokenizer & tokenizer);
-static bool readObject(Variant & root, Tokenizer & tokenizer);
+bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer);
+bool readArray(Variant & root, Tokenizer & tokenizer);
+bool readObject(Variant & root, Tokenizer & tokenizer);
+
+const char * const hexdig = "0123456789ABCDEF";
 
 
-static std::string escapeString(const std::string & in)
+std::string escapeString(const std::string & in)
 {
     std::string out = "";
 
-    for (std::string::const_iterator it = in.begin(); it != in.end(); ++it) {
-        unsigned char c = *it;
+    for (unsigned char c : in) {
         if (c >= ' ' && c <= '~' && c != '\\' && c != '"') {
             out.append(1, c);
         } else {
@@ -40,7 +41,6 @@ static std::string escapeString(const std::string & in)
                 case '\r': out = out + "r";  break;
                 case '\n': out = out + "n";  break;
                 default:
-                    char const* const hexdig = "0123456789ABCDEF";
                     out = out + "x";
                     out.append(1, hexdig[c >> 4]);
                     out.append(1, hexdig[c & 0xF]);
@@ -52,7 +52,7 @@ static std::string escapeString(const std::string & in)
     return out;
 }
 
-static std::string jsonStringify(const Variant & root, bool beautify, const std::string & indent)
+std::string jsonStringify(const Variant & root, bool beautify, const std::string & indent)
 {
     // Variant is an object
     if (root.isVariantMap()) {
@@ -60,7 +60,7 @@ static std::string jsonStringify(const Variant & root, bool beautify, const std:
         if (root.asMap()->empty()) return "{}";
 
         // Begin output
-        std::string json = "{";
+        std::string json = "{"; // TODO: maybe a stringstream can be more performant
         if (beautify) json += "\n";
 
         // Add all variables
@@ -70,7 +70,7 @@ static std::string jsonStringify(const Variant & root, bool beautify, const std:
             if (!first) json += beautify ? ",\n" : ","; else first = false;
 
             // Get variable
-            std::string name    = it.first;
+            const std::string & name       = it.first;
             const cppexpose::Variant & var = it.second;
 
             // Get value
@@ -101,17 +101,14 @@ static std::string jsonStringify(const Variant & root, bool beautify, const std:
         if (root.asArray()->empty()) return "[]";
 
         // Begin output
-        std::string json = "[";
+        std::string json = "["; // TODO: maybe a stringstream can be more performant
         if (beautify) json += "\n";
 
         // Add all elements
         bool first = true;
-        for (auto it = root.asArray()->begin(); it != root.asArray()->end(); ++it) {
+        for (const cppexpose::Variant & var : *root.asArray()) {
             // Add separator (",")
             if (!first) json += beautify ? ",\n" : ","; else first = false;
-
-            // Get variable
-            const cppexpose::Variant & var = *it;
 
             // Get value
             std::string value;
@@ -146,7 +143,7 @@ static std::string jsonStringify(const Variant & root, bool beautify, const std:
     }
 }
 
-static bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
+bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
 {
     if (token.content == "{")
     {
@@ -179,7 +176,7 @@ static bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tok
     }
 }
 
-static bool readArray(Variant & root, Tokenizer & tokenizer)
+bool readArray(Variant & root, Tokenizer & tokenizer)
 {
     // Create array
     root = Variant::array();
@@ -233,10 +230,11 @@ static bool readArray(Variant & root, Tokenizer & tokenizer)
         }
     }
 
+    // Couldn't actually happen but makes compilers happy
     return false;
 }
 
-static bool readObject(Variant & root, Tokenizer & tokenizer)
+bool readObject(Variant & root, Tokenizer & tokenizer)
 {
     // Create object
     root = Variant::map();
@@ -253,14 +251,8 @@ static bool readObject(Variant & root, Tokenizer & tokenizer)
     // Read object members
     while (true)
     {
-        std::string name;
-
         // Expect name of field
-        if (token.type == Tokenizer::TokenString)
-        {
-            name = token.value.toString();
-        }
-        else
+        if (token.type != Tokenizer::TokenString)
         {
             cppassist::critical()
                 << "Syntax error: object member name expected. Found '"
@@ -270,6 +262,8 @@ static bool readObject(Variant & root, Tokenizer & tokenizer)
 
             return false;
         }
+
+        std::string name = token.value.toString();
 
         // Read next token
         token = tokenizer.parseToken();
@@ -326,10 +320,11 @@ static bool readObject(Variant & root, Tokenizer & tokenizer)
         }
     }
 
+    // Couldn't actually happen but makes compilers happy
     return false;
 }
 
-static bool readDocument(Variant & root, Tokenizer & tokenizer)
+bool readDocument(Variant & root, Tokenizer & tokenizer)
 {
     // The first value in a document must be either an object or an array
     Tokenizer::Token token = tokenizer.parseToken();
@@ -354,7 +349,8 @@ static bool readDocument(Variant & root, Tokenizer & tokenizer)
     }
 }
 
-}
+
+} // namespace
 
 
 namespace cppexpose
@@ -363,14 +359,14 @@ namespace cppexpose
 
 std::string JSON::stringify(const Variant & root, JSON::OutputMode outputMode)
 {
-    bool beautify = (outputMode == Beautify);
-    return jsonStringify(root, beautify, "");
+    return jsonStringify(root, outputMode == Beautify, "");
 }
 
 bool JSON::load(Variant & root, const std::string & filename)
 {
     // Create tokenizer for JSON
     Tokenizer tokenizer;
+
     tokenizer.setOptions(
         Tokenizer::OptionParseStrings
       | Tokenizer::OptionParseNumber
@@ -379,6 +375,7 @@ bool JSON::load(Variant & root, const std::string & filename)
       | Tokenizer::OptionCStyleComments
       | Tokenizer::OptionCppStyleComments
     );
+
     tokenizer.setQuotationMarks("\"");
     tokenizer.setSingleCharacters("{}[],:");
 
@@ -396,6 +393,7 @@ bool JSON::parse(Variant & root, const std::string & document)
 {
     // Create tokenizer for JSON
     Tokenizer tokenizer;
+
     tokenizer.setOptions(
         Tokenizer::OptionParseStrings
       | Tokenizer::OptionParseNumber
@@ -404,6 +402,7 @@ bool JSON::parse(Variant & root, const std::string & document)
       | Tokenizer::OptionCStyleComments
       | Tokenizer::OptionCppStyleComments
     );
+
     tokenizer.setQuotationMarks("\"");
     tokenizer.setSingleCharacters("{}[],:");
 
