@@ -309,10 +309,11 @@ public:
     *    The relative path to the other object
     *
     * @remarks
-    *    Parent-relationships are indicated using 'parent'
-    *    If the returned vector is empty, no path could be found
+    *    Parent-relationships are indicated using "parent"
+    *    If no path could be found, the returned string is empty
+    *    If this == other, the returned string is "."
     */
-    std::vector<std::string> relativePathTo(const Object * const other) const;
+    std::string relativePathTo(const Object * const other) const;
 
 
 protected:

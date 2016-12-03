@@ -13,6 +13,7 @@
 namespace
 {
     static const char g_separator = '.';
+    static const std::string g_separatorString = ".";
     static const std::string g_parent = "parent";
 }
 
@@ -394,8 +395,12 @@ bool Object::fromDouble(double)
     return false;
 }
 
-std::vector<std::string> Object::relativePathTo(const Object * const other) const
+std::string Object::relativePathTo(const Object * const other) const
 {
+    if(this == other){
+        return g_separatorString;
+    }
+
     // find all ancestors of "this"
     std::unordered_set<const Object*> ancestors;
 
@@ -425,9 +430,8 @@ std::vector<std::string> Object::relativePathTo(const Object * const other) cons
     }
 
     // Ensure there was an intersection
-    if(!found)
-    {
-        return std::vector<std::string>{};
+    if(!found){
+        return "";
     }
 
     // Shorten the paths
@@ -436,11 +440,26 @@ std::vector<std::string> Object::relativePathTo(const Object * const other) cons
         otherPath.pop_back();
     }
 
+    size_t numParents = thisPath.size();
+    size_t numChildren = otherPath.size();
+
     // Build the relative Path
     std::fill(thisPath.begin(), thisPath.end(), g_parent);
     thisPath.insert(thisPath.end(), otherPath.begin(), otherPath.end());
 
-    return thisPath;
+    std::string pathString;
+    // Reserve space for all elements, remembering the seperators and guessing the average length of a property name as 10
+    pathString.reserve(numParents * (g_parent.size() + 1) + numChildren * (10 +1));
+
+    for(const auto& element : thisPath){
+        pathString.append(element);
+        pathString.append(g_separatorString);
+    }
+
+    // The above writes one seperator to much
+    pathString.pop_back();
+
+    return pathString;
 }
 
 const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const
