@@ -440,16 +440,20 @@ std::string Object::relativePathTo(const Object * const other) const
         otherPath.pop_back();
     }
 
-    size_t numParents = thisPath.size();
-    size_t numChildren = otherPath.size();
+    size_t parentsCharCount = thisPath.size() * (g_parent.size() + 1);
+    size_t childrenCharCount = 0;
+
+    for(const auto & child : otherPath)
+    {
+        childrenCharCount += child.size() + 1;
+    }
 
     // Build the relative Path
     std::fill(thisPath.begin(), thisPath.end(), g_parent);
     thisPath.insert(thisPath.end(), otherPath.begin(), otherPath.end());
 
     std::string pathString;
-    // Reserve space for all elements, remembering the seperators and guessing the average length of a property name as 10
-    pathString.reserve(numParents * (g_parent.size() + 1) + numChildren * (10 +1));
+    pathString.reserve(parentsCharCount + childrenCharCount);
 
     for(const auto& element : thisPath){
         pathString.append(element);
