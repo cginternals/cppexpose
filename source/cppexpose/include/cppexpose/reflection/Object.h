@@ -299,16 +299,16 @@ public:
     virtual bool fromDouble(double value) override;
 
     /**
-    * @brief
+    *  @brief
     *    Get the relative path to another object
     *
-    * @param[in] other
+    *  @param[in] other
     *    The other object
     *
-    * @return
+    *  @return
     *    The relative path to the other object
     *
-    * @remarks
+    *  @remarks
     *    Parent-relationships are indicated using "parent"
     *    If no path could be found, the returned string is empty
     *    If this == other, the returned string is "."
