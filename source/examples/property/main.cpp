@@ -67,7 +67,7 @@ int main(int, char * [])
 
     // Serialize object properties
     Variant values = obj.toVariant();
-    std::cout << values.toJSON(SerializerJSON::Beautify) << std::endl;
+    std::cout << values.toJSON(JSON::Beautify) << std::endl;
     std::cout << std::endl;
 
     // Create object with sub-objects and dynamic properties
@@ -90,7 +90,7 @@ int main(int, char * [])
     }
 
     values = root->toVariant();
-    std::cout << values.toJSON(SerializerJSON::Beautify) << std::endl;
+    std::cout << values.toJSON(JSON::Beautify) << std::endl;
     std::cout << std::endl;
 
     delete root;

@@ -60,10 +60,7 @@ set(headers
     ${include_path}/base/string_helpers.hpp
     ${include_path}/base/template_helpers.h
     ${include_path}/base/function_helpers.h
-    ${include_path}/base/JSONReader.h
     ${include_path}/base/Tokenizer.h
-    ${include_path}/base/Serializer.h
-    ${include_path}/base/SerializerJSON.h
 
     ${include_path}/json/JSON.h
 
@@ -170,10 +167,7 @@ set(sources
     ${source_path}/cppexpose.cpp
 
     ${source_path}/base/string_helpers.cpp
-    ${source_path}/base/JSONReader.cpp
     ${source_path}/base/Tokenizer.cpp
-    ${source_path}/base/Serializer.cpp
-    ${source_path}/base/SerializerJSON.cpp
 
     ${source_path}/json/JSON.cpp
 

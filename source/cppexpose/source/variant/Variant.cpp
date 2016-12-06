@@ -1,7 +1,7 @@
 
 #include <cppexpose/variant/Variant.h>
 
-#include <cppexpose/base/SerializerJSON.h>
+#include <cppexpose/json/JSON.h>
 #include <cppexpose/typed/DirectValue.h>
 
 
@@ -193,10 +193,9 @@ const VariantMap * Variant::asMap() const
     return ptr<VariantMap>();
 }
 
-std::string Variant::toJSON(SerializerJSON::OutputMode outputMode) const
+std::string Variant::toJSON(JSON::OutputMode outputMode) const
 {
-    SerializerJSON json(outputMode);
-    return json.toString(*this);
+    return JSON::stringify(*this, outputMode);
 }
 
 bool Variant::isEnum() const
