@@ -397,73 +397,66 @@ bool Object::fromDouble(double)
 
 std::string Object::relativePathTo(const Object * const other) const
 {
-    if(this == other){
+    // Return "." if the objects are the same
+    if (this == other) {
         return g_separatorString;
     }
 
-    // find all ancestors of "this"
+    // Find all ancestors of "this"
     std::unordered_set<const Object*> ancestors;
 
-    std::vector<std::string> thisPath;
-    const Object * parent = nullptr;
     const Object * curObject = this;
-    while(curObject->hasParent())
+    while (curObject)
     {
-        parent = curObject->parent();
-        thisPath.push_back(curObject->name());
-        ancestors.insert(parent);
-        curObject = parent;
+        ancestors.insert(curObject);
+        curObject = curObject->parent();
     }
 
-    // find the intersection from "other"
+    // Find the common parent from "other"
     std::vector<std::string> otherPath;
+    const Object * commonParent = nullptr;
+
     curObject = other;
-    bool found = false;
-    while(curObject->hasParent())
+    while (curObject)
     {
-        parent = curObject->parent();
-        otherPath.push_back(curObject->name());
-        if(ancestors.count(parent)){
-            found = true;
+        if (ancestors.count(curObject))
+        {
+            commonParent = curObject;
+            break;
         }
-        curObject = parent;
+
+        otherPath.push_back(curObject->name());
+        curObject = curObject->parent();
     }
 
-    // Ensure there was an intersection
-    if(!found){
+    // Abort if no common parent has been found
+    if (!commonParent) {
         return "";
     }
 
-    // Shorten the paths
-    while(thisPath.back() == otherPath.back()){
-        thisPath.pop_back();
-        otherPath.pop_back();
-    }
-
-    size_t parentsCharCount = thisPath.size() * (g_parent.size() + 1);
-    size_t childrenCharCount = 0;
-
-    for(const auto & child : otherPath)
+    // Count number of steps from this to the common parent
+    curObject = this;
+    size_t numParents = 0;
+    while (curObject != commonParent)
     {
-        childrenCharCount += child.size() + 1;
+        numParents++;
+        curObject = curObject->parent();
     }
 
-    // Build the relative Path
-    std::fill(thisPath.begin(), thisPath.end(), g_parent);
-    thisPath.insert(thisPath.end(), otherPath.begin(), otherPath.end());
+    // Compose string
+    std::string relativePath = "";
 
-    std::string pathString;
-    pathString.reserve(parentsCharCount + childrenCharCount);
-
-    for(const auto& element : thisPath){
-        pathString.append(element);
-        pathString.append(g_separatorString);
+    for (size_t i = 0; i < numParents; i++)
+    {
+        relativePath += (i == 0) ? "parent" : ".parent";
     }
 
-    // The above writes one seperator to much
-    pathString.pop_back();
+    for (size_t i = 0; i < otherPath.size(); i++)
+    {
+        relativePath += "." + otherPath[otherPath.size() - 1 - i];
+    }
 
-    return pathString;
+    return relativePath;
 }
 
 const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const
@@ -475,27 +468,26 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
         return nullptr;
     }
 
+    // Get property name (first part of the path)
+    std::string name = path.front();
+
+    // Resolve property
     AbstractProperty * property = nullptr;
 
-    // Check whether the path points to the parent
-    if (path.front() == g_parent){
-
-        // Check that the parent actually exists
-        if(m_parent == nullptr){
-            return nullptr;
-        }
-
+    if (name == g_parent)
+    {
+        // Parent property
         property = m_parent;
     }
-    else{
-
-        // Check if first element of the path exists in this object
-        if (!propertyExists(path.front())) {
-            return nullptr;
-        }
-
-        // Get the respective property
+    else if (propertyExists(name))
+    {
+        // Sub-property
         property = m_propertiesMap.at(path.front());
+    }
+
+    // Check if property exists
+    if (!property) {
+        return nullptr;
     }
 
     // If there are no more sub-paths, return the found property
