@@ -87,6 +87,15 @@ public:
 
     /**
     *  @brief
+    *    Finds out whether the Object has a parent
+    *
+    *  @return
+    *    false if the parent is null, otherwise true
+    */
+    bool hasParent() const;
+
+    /**
+    *  @brief
     *    Check if property is an object
     *
     *  @return

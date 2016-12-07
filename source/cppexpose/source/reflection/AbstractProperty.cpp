@@ -39,6 +39,11 @@ Object * AbstractProperty::parent() const
     return m_parent;
 }
 
+bool AbstractProperty::hasParent() const
+{
+    return m_parent != nullptr;
+}
+
 const VariantMap & AbstractProperty::options() const
 {
     return m_options;

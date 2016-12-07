@@ -4,6 +4,8 @@
 #include <cassert>
 #include <typeinfo>
 
+#include <unordered_set>
+
 #include <cppexpose/base/string_helpers.h>
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/json/JSON.h>
@@ -12,6 +14,8 @@
 namespace
 {
     static const char g_separator = '.';
+    static const std::string g_separatorString = ".";
+    static const std::string g_parent = "parent";
 }
 
 
@@ -390,6 +394,70 @@ bool Object::fromDouble(double)
     return false;
 }
 
+std::string Object::relativePathTo(const Object * const other) const
+{
+    // Return "." if the objects are the same
+    if (this == other) {
+        return g_separatorString;
+    }
+
+    // Find all ancestors of "this"
+    std::unordered_set<const Object*> ancestors;
+
+    const Object * curObject = this;
+    while (curObject)
+    {
+        ancestors.insert(curObject);
+        curObject = curObject->parent();
+    }
+
+    // Find the common parent from "other"
+    std::vector<std::string> otherPath;
+    const Object * commonParent = nullptr;
+
+    curObject = other;
+    while (curObject)
+    {
+        if (ancestors.count(curObject))
+        {
+            commonParent = curObject;
+            break;
+        }
+
+        otherPath.push_back(curObject->name());
+        curObject = curObject->parent();
+    }
+
+    // Abort if no common parent has been found
+    if (!commonParent) {
+        return "";
+    }
+
+    // Count number of steps from this to the common parent
+    curObject = this;
+    size_t numParents = 0;
+    while (curObject != commonParent)
+    {
+        numParents++;
+        curObject = curObject->parent();
+    }
+
+    // Compose string
+    std::string relativePath = "";
+
+    for (size_t i = 0; i < numParents; i++)
+    {
+        relativePath += (i == 0) ? "parent" : ".parent";
+    }
+
+    for (size_t i = 0; i < otherPath.size(); i++)
+    {
+        relativePath += "." + otherPath[otherPath.size() - 1 - i];
+    }
+
+    return relativePath;
+}
+
 const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const
 {
     // [TODO] Use iterative approach rather than recursion
@@ -399,13 +467,27 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
         return nullptr;
     }
 
-    // Check if first element of the path exists in this object
-    if (!propertyExists(path.front())) {
-        return nullptr;
+    // Get property name (first part of the path)
+    std::string name = path.front();
+
+    // Resolve property
+    AbstractProperty * property = nullptr;
+
+    if (name == g_parent)
+    {
+        // Parent property
+        property = m_parent;
+    }
+    else if (propertyExists(name))
+    {
+        // Sub-property
+        property = m_propertiesMap.at(path.front());
     }
 
-    // Get the respective property
-    AbstractProperty * property = m_propertiesMap.at(path.front());
+    // Check if property exists
+    if (!property) {
+        return nullptr;
+    }
 
     // If there are no more sub-paths, return the found property
     if (path.size() == 1) {
