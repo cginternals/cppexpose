@@ -74,13 +74,11 @@ bool TypedEnum<T, BASE>::fromVariant(const Variant & variant)
 {
     if (variant.hasType<T>()) {
         this->setValue(variant.value<T>());
-        return true;
     } else {
         this->setValue((T)variant.value<int>());
-        return true;
     }
 
-    return false;
+    return true;
 }
 
 template <typename T, typename BASE>
