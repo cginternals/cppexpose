@@ -77,6 +77,7 @@ bool TypedEnum<T, BASE>::fromVariant(const Variant & variant)
     } else {
         this->setValue((T)variant.value<int>());
     }
+
     return true;
 }
 
