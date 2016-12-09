@@ -19,9 +19,14 @@ std::vector<TypedComponent<Type> *> ComponentManager::components() const
     // assume that on average, half the components matches Type
     typedComponents.reserve(all.size() / 2);
 
-    std::copy_if(all.begin(), all.end(), std::back_inserter(typedComponents), [](AbstractComponent * component) {
-        return dynamic_cast<TypedComponent<Type> *>(component) != nullptr;
-    });
+    for (AbstractComponent * component : all)
+    {
+        auto typedComponent = dynamic_cast<TypedComponent<Type> *>(component);
+        if (typedComponent != nullptr)
+        {
+            typedComponents.push_back(typedComponent);
+        }
+    }
 
     return typedComponents;
 }
