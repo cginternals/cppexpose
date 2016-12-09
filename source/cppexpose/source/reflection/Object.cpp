@@ -52,8 +52,8 @@ void Object::setClassName(const std::string & className)
 void Object::clear()
 {
     // Destroy managed properties
-    // Opon property deletion, the property removes itself from the m_managedProperties list
-    // So using iterators doens't work here!
+    // Upon property deletion, the property removes itself from the m_managedProperties list,
+    // so using iterators doesn't work here!
     while (!m_managedProperties.empty())
     {
         delete m_managedProperties.front();
