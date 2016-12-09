@@ -52,7 +52,9 @@ void Object::setClassName(const std::string & className)
 void Object::clear()
 {
     // Destroy managed properties
-    while (m_managedProperties.size() > 0)
+    // Upon property deletion, the property removes itself from the m_managedProperties list,
+    // so using iterators doesn't work here!
+    while (!m_managedProperties.empty())
     {
         delete m_managedProperties.front();
     }
@@ -299,10 +301,10 @@ Variant Object::toVariant() const
 {
     // Create variant map from all properties in the object
     Variant map = Variant::map();
-    for (auto it : m_propertiesMap) {
+    for (const auto & it : m_propertiesMap) {
         // Get name and property
-        std::string        name = it.first;
-        AbstractProperty * prop = it.second;
+        const std::string & name = it.first;
+        AbstractProperty *  prop = it.second;
 
         // Add to variant map
         (*map.asMap())[name] = prop->toVariant();
@@ -320,10 +322,10 @@ bool Object::fromVariant(const Variant & value)
     }
 
     // Get all values from variant map
-    for (auto it : *value.asMap()) {
+    for (const auto & it : *value.asMap()) {
         // Get name and value
-        std::string     name = it.first;
-        const Variant & var  = it.second;
+        const std::string & name = it.first;
+        const Variant &     var  = it.second;
 
         // If this names an existing property, set its value
         AbstractProperty * prop = this->property(name);
@@ -460,47 +462,53 @@ std::string Object::relativePathTo(const Object * const other) const
 
 const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const
 {
-    // [TODO] Use iterative approach rather than recursion
+    auto current = path.begin();
+    const auto end = path.end();
 
-    // Check if path is valid
-    if (path.size() == 0) {
-        return nullptr;
-    }
-
-    // Get property name (first part of the path)
-    std::string name = path.front();
-
-    // Resolve property
-    AbstractProperty * property = nullptr;
-
-    if (name == g_parent)
+    while (current != end)
     {
-        // Parent property
-        property = m_parent;
-    }
-    else if (propertyExists(name))
-    {
-        // Sub-property
-        property = m_propertiesMap.at(path.front());
+        // Get property name (first part of the path)
+        const std::string & name = *current;
+
+        // Resolve property
+        AbstractProperty * property = nullptr;
+
+        if (name == g_parent)
+        {
+            // Parent property
+            property = m_parent;
+        }
+        else
+        {
+            // Sub-property
+            const auto it = m_propertiesMap.find(name);
+
+            if (it != m_propertiesMap.end())
+            {
+                property = it->second;
+            }
+        }
+
+        // Check if property exists
+        if (!property) {
+            return nullptr;
+        }
+
+        // Compute next path segment
+        ++current;
+
+        // If there are no more sub-paths, return the found property
+        if (current == end) {
+            return property;
+        }
+
+        // Otherwise, it is an element in the middle of the path, so ensure it is an object
+        if (!property->isObject()) {
+            return nullptr;
+        }
     }
 
-    // Check if property exists
-    if (!property) {
-        return nullptr;
-    }
-
-    // If there are no more sub-paths, return the found property
-    if (path.size() == 1) {
-        return property;
-    }
-
-    // Otherwise, it is an element in the middle of the path, so ensure it is an object
-    if (!property->isObject()) {
-        return nullptr;
-    }
-
-    // Call recursively on sub-object
-    return static_cast<Object *>(property)->findProperty({ path.begin() + 1, path.end() });
+    return nullptr;
 }
 
 

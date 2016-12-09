@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/plugin/ComponentManager.h>
+#include <algorithm>
 
 
 namespace cppexpose
@@ -21,9 +21,10 @@ std::vector<TypedComponent<Type> *> ComponentManager::components() const
 
     for (AbstractComponent * component : all)
     {
-        TypedComponent<Type> * typed = dynamic_cast<TypedComponent<Type> *>(component);
-        if (typed != nullptr) {
-            typedComponents.push_back(typed);
+        auto typedComponent = dynamic_cast<TypedComponent<Type> *>(component);
+        if (typedComponent != nullptr)
+        {
+            typedComponents.push_back(typedComponent);
         }
     }
 

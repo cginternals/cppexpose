@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/variant/Variant.hh>
-
 #include <typeinfo>
 
 #include <cppexpose/base/template_helpers.h>

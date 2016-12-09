@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedSignedIntegral.hh>
-
 #include <sstream>
 
 
@@ -12,32 +10,32 @@ namespace cppexpose
 
 
 template <typename T, typename BASE>
-TypedSignedIntegral<T, BASE>::TypedSignedIntegral()
+TypedUnsignedIntegral<T, BASE>::TypedUnsignedIntegral()
 {
 }
 
 template <typename T, typename BASE>
-TypedSignedIntegral<T, BASE>::~TypedSignedIntegral()
+TypedUnsignedIntegral<T, BASE>::~TypedUnsignedIntegral()
 {
 }
 
 template <typename T, typename BASE>
-std::string TypedSignedIntegral<T, BASE>::typeName() const
+std::string TypedUnsignedIntegral<T, BASE>::typeName() const
 {
     std::stringstream s;
-    s << "int";
+    s << "uint";
     s << sizeof(T) * 8;
     return s.str();
 }
 
 template <typename T, typename BASE>
-bool TypedSignedIntegral<T, BASE>::isIntegral() const
+bool TypedUnsignedIntegral<T, BASE>::isIntegral() const
 {
     return true;
 }
 
 template <typename T, typename BASE>
-bool TypedSignedIntegral<T, BASE>::isSignedIntegral() const
+bool TypedUnsignedIntegral<T, BASE>::isUnsignedIntegral() const
 {
     return true;
 }

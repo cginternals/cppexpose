@@ -58,7 +58,7 @@ public:
     *  @return
     *    Name
     */
-    std::string name() const;
+    const std::string & name() const;
 
     /**
     *  @brief

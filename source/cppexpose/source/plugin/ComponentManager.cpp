@@ -89,19 +89,19 @@ void ComponentManager::removePluginPath(const std::string & path)
 
     // Remove path from list
     {
-        const std::vector<std::string>::iterator it = std::find(m_paths.begin(), m_paths.end(), p);
+        const auto it = std::find(m_paths.begin(), m_paths.end(), p);
         if (it != m_paths.end()) m_paths.erase(it);
     }
 
     // Remove path from internal list
     {
-        const std::vector<std::string>::iterator it = std::find(m_pathsInternal.begin(), m_pathsInternal.end(), p);
+        const auto it = std::find(m_pathsInternal.begin(), m_pathsInternal.end(), p);
         if (it != m_pathsInternal.end()) m_pathsInternal.erase(it);
     }
 
     // Remove path from user-defined list
     {
-        const std::vector<std::string>::iterator it = std::find(m_pathsUser.begin(), m_pathsUser.end(), p);
+        const auto it = std::find(m_pathsUser.begin(), m_pathsUser.end(), p);
         if (it != m_pathsUser.end()) m_pathsUser.erase(it);
     }
 }
@@ -130,7 +130,7 @@ bool ComponentManager::loadPlugin(const std::string & filePath, const bool reloa
     return res;
 }
 
-const std::vector<PluginLibrary *> ComponentManager::pluginLibraries() const
+std::vector<PluginLibrary *> ComponentManager::pluginLibraries() const
 {
     std::vector<PluginLibrary *> pluginLibraries;
     pluginLibraries.reserve(m_librariesByFilePath.size());
@@ -152,7 +152,7 @@ AbstractComponent * ComponentManager::component(const std::string & name) const
     // Check if plugin exists
     const auto it = m_componentsByName.find(name);
 
-    if (it == m_componentsByName.cend())
+    if (it == m_componentsByName.end())
     {
         return nullptr;
     }
@@ -167,8 +167,7 @@ void ComponentManager::addComponent(AbstractComponent * component)
     m_components.push_back(component);
 
     // Save component by name
-    std::string name = component->name();
-    m_componentsByName[name] = component;
+    m_componentsByName[component->name()] = component;
 
     // Emit signal
     componentsChanged();
@@ -191,7 +190,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
 {
     // Check if library is already loaded and reload is not requested
     auto it = m_librariesByFilePath.find(filePath);
-    if (it != m_librariesByFilePath.cend() && !reload) {
+    if (it != m_librariesByFilePath.end() && !reload) {
         return true;
     }
 
@@ -201,7 +200,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
 
     // If library was already loaded, remember it in case reloading fails
     PluginLibrary * previous = nullptr;
-    if (it != m_librariesByFilePath.cend()) {
+    if (it != m_librariesByFilePath.end()) {
         previous = it->second;
     }
 
@@ -228,8 +227,8 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
     library->initialize();
 
     // Iterate over plugins
-    const unsigned int numComponents = library->numComponents();
-    for (unsigned int i = 0; i < numComponents; ++i) 
+    size_t numComponents = library->numComponents();
+    for (auto i = size_t(0); i < numComponents; ++i)
     {
         // Get component
         AbstractComponent * component = library->component(i);
@@ -246,8 +245,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
         m_components.push_back(component);
 
         // Save component by name
-        std::string name = component->name();
-        m_componentsByName[name] = component;
+        m_componentsByName[component->name()] = component;
     }
 
     // Return success

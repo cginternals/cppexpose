@@ -2,9 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/function/MemberFunction.h>
-
-
 namespace cppexpose
 {
 

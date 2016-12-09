@@ -132,7 +132,7 @@ public:
     *  @return
     *    List of plugin libraries
     */
-    const std::vector<PluginLibrary *> pluginLibraries() const;
+    std::vector<PluginLibrary *> pluginLibraries() const;
 
     /**
     *  @brief
@@ -237,4 +237,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/plugin/ComponentManager.hpp>
+#include <cppexpose/plugin/ComponentManager.inl>

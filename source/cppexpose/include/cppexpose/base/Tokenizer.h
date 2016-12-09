@@ -132,7 +132,7 @@ public:
     *  @return
     *    Characters that are considered whitespace
     */
-    std::string whitespace() const;
+    const std::string & whitespace() const;
 
     /**
     *  @brief
@@ -150,7 +150,7 @@ public:
     *  @return
     *    Characters that can enclose a string
     */
-    std::string quotationMarks() const;
+    const std::string & quotationMarks() const;
 
     /**
     *  @brief
@@ -168,7 +168,7 @@ public:
     *  @return
     *    Characters that stand on their own
     */
-    std::string singleCharacters() const;
+    const std::string & singleCharacters() const;
 
     /**
     *  @brief
@@ -396,7 +396,7 @@ private:
     *  @return
     *    Standalone string that matches, "" if none does
     */
-    std::string matchStandaloneStrings() const;
+    const std::string & matchStandaloneStrings() const;
 
     /**
     *  @brief

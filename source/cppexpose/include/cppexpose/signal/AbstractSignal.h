@@ -17,7 +17,7 @@ namespace cppexpose
 */
 class CPPEXPOSE_API AbstractSignal
 {
-friend class Connection;
+    friend class Connection;
 
 
 public:

@@ -57,7 +57,7 @@ set(headers
     ${include_path}/cppexpose.h
 
     ${include_path}/base/string_helpers.h
-    ${include_path}/base/string_helpers.hpp
+    ${include_path}/base/string_helpers.inl
     ${include_path}/base/template_helpers.h
     ${include_path}/base/function_helpers.h
     ${include_path}/base/Tokenizer.h
@@ -68,84 +68,85 @@ set(headers
     ${include_path}/signal/Connection.h
     ${include_path}/signal/ScopedConnection.h
     ${include_path}/signal/Signal.h
-    ${include_path}/signal/Signal.hpp
+    ${include_path}/signal/Signal.inl
 
     ${include_path}/typed/TypeInterface.h
     ${include_path}/typed/AbstractTyped.h
     ${include_path}/typed/AbstractTyped.hh
-    ${include_path}/typed/AbstractTyped.hpp
+    ${include_path}/typed/AbstractTyped.inl
     ${include_path}/typed/GetTyped.h
     ${include_path}/typed/GetTyped.hh
     ${include_path}/typed/Typed.h
     ${include_path}/typed/Typed.hh
-    ${include_path}/typed/Typed.hpp
+    ${include_path}/typed/Typed.inl
     ${include_path}/typed/TypedGeneric.h
     ${include_path}/typed/TypedGeneric.hh
-    ${include_path}/typed/TypedGeneric.hpp
+    ${include_path}/typed/TypedGeneric.inl
     ${include_path}/typed/TypedBool.h
     ${include_path}/typed/TypedBool.hh
-    ${include_path}/typed/TypedBool.hpp
+    ${include_path}/typed/TypedBool.inl
     ${include_path}/typed/TypedString.h
     ${include_path}/typed/TypedString.hh
-    ${include_path}/typed/TypedString.hpp
+    ${include_path}/typed/TypedString.inl
     ${include_path}/typed/TypedNumber.h
     ${include_path}/typed/TypedNumber.hh
-    ${include_path}/typed/TypedNumber.hpp
+    ${include_path}/typed/TypedNumber.inl
     ${include_path}/typed/TypedSignedIntegral.h
     ${include_path}/typed/TypedSignedIntegral.hh
-    ${include_path}/typed/TypedSignedIntegral.hpp
+    ${include_path}/typed/TypedSignedIntegral.inl
     ${include_path}/typed/TypedUnsignedIntegral.h
     ${include_path}/typed/TypedUnsignedIntegral.hh
-    ${include_path}/typed/TypedUnsignedIntegral.hpp
+    ${include_path}/typed/TypedUnsignedIntegral.inl
     ${include_path}/typed/TypedFloatingPoint.h
     ${include_path}/typed/TypedFloatingPoint.hh
-    ${include_path}/typed/TypedFloatingPoint.hpp
+    ${include_path}/typed/TypedFloatingPoint.inl
     ${include_path}/typed/TypedEnum.h
     ${include_path}/typed/TypedEnum.hh
-    ${include_path}/typed/TypedEnum.hpp
+    ${include_path}/typed/TypedEnum.inl
     ${include_path}/typed/TypedArray.h
     ${include_path}/typed/TypedArray.hh
-    ${include_path}/typed/TypedArray.hpp
+    ${include_path}/typed/TypedArray.inl
     ${include_path}/typed/TypedVariant.h
     ${include_path}/typed/TypedVariant.hh
-    ${include_path}/typed/TypedVariant.hpp
+    ${include_path}/typed/TypedVariant.inl
     ${include_path}/typed/DirectValue.h
     ${include_path}/typed/DirectValue.hh
-    ${include_path}/typed/DirectValue.hpp
+    ${include_path}/typed/DirectValue.inl
     ${include_path}/typed/DirectValueSingle.h
     ${include_path}/typed/DirectValueSingle.hh
-    ${include_path}/typed/DirectValueSingle.hpp
+    ${include_path}/typed/DirectValueSingle.inl
     ${include_path}/typed/DirectValueArray.h
     ${include_path}/typed/DirectValueArray.hh
-    ${include_path}/typed/DirectValueArray.hpp
+    ${include_path}/typed/DirectValueArray.inl
     ${include_path}/typed/StoredValue.h
     ${include_path}/typed/StoredValue.hh
-    ${include_path}/typed/StoredValue.hpp
+    ${include_path}/typed/StoredValue.inl
     ${include_path}/typed/StoredValueSingle.h
     ${include_path}/typed/StoredValueSingle.hh
-    ${include_path}/typed/StoredValueSingle.hpp
+    ${include_path}/typed/StoredValueSingle.inl
     ${include_path}/typed/StoredValueArray.h
     ${include_path}/typed/StoredValueArray.hh
-    ${include_path}/typed/StoredValueArray.hpp
+    ${include_path}/typed/StoredValueArray.inl
+    ${include_path}/typed/typed_includes.inl
 
     ${include_path}/function/Function.h
     ${include_path}/function/AbstractFunction.h
     ${include_path}/function/StaticFunction.h
-    ${include_path}/function/StaticFunction.hpp
+    ${include_path}/function/StaticFunction.inl
     ${include_path}/function/MemberFunction.h
-    ${include_path}/function/MemberFunction.hpp
+    ${include_path}/function/MemberFunction.inl
 
     ${include_path}/variant/Variant.h
     ${include_path}/variant/Variant.hh
-    ${include_path}/variant/Variant.hpp
+    ${include_path}/variant/Variant.inl
 
     ${include_path}/reflection/AbstractProperty.h
     ${include_path}/reflection/Object.h
-    ${include_path}/reflection/Object.hpp
+    ${include_path}/reflection/Object.inl
     ${include_path}/reflection/Property.h
-    ${include_path}/reflection/Property.hpp
+    ${include_path}/reflection/Property.inl
     ${include_path}/reflection/DynamicProperty.h
-    ${include_path}/reflection/DynamicProperty.hpp
+    ${include_path}/reflection/DynamicProperty.inl
     ${include_path}/reflection/Method.h
 
     ${include_path}/scripting/ScriptContext.h
@@ -153,12 +154,12 @@ set(headers
     ${include_path}/scripting/example/TreeNode.h
 
     ${include_path}/plugin/ComponentManager.h
-    ${include_path}/plugin/ComponentManager.hpp
+    ${include_path}/plugin/ComponentManager.inl
     ${include_path}/plugin/AbstractComponent.h
     ${include_path}/plugin/TypedComponent.h
-    ${include_path}/plugin/TypedComponent.hpp
+    ${include_path}/plugin/TypedComponent.inl
     ${include_path}/plugin/Component.h
-    ${include_path}/plugin/Component.hpp
+    ${include_path}/plugin/Component.inl
     ${include_path}/plugin/PluginLibrary.h
     ${include_path}/plugin/Example.h
 )
@@ -209,9 +210,9 @@ set(sources
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${include_path} "\\\\.h$|\\\\.hh$|\\\\.inl$" 
     ${header_group} ${headers})
-source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.inl$" 
     ${source_group} ${sources})
 
 

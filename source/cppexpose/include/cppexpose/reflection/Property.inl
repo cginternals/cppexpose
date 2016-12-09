@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/reflection/DynamicProperty.h>
+#include <cppexpose/reflection/Object.h>
 
 
 namespace cppexpose
@@ -11,25 +11,25 @@ namespace cppexpose
 
 template <typename T, typename BASE>
 template <typename... Args>
-DynamicProperty<T, BASE>::DynamicProperty(const std::string & name, Object * parent, Args&&... args)
-: DirectValue<T, BASE>(std::forward<Args>(args)...)
+Property<T, BASE>::Property(const std::string & name, Object * parent, Args&&... args)
+: StoredValue<T, BASE>(std::forward<Args>(args)...)
 {
     this->initProperty(name, parent, PropertyOwnership::None);
 }
 
 template <typename T, typename BASE>
-DynamicProperty<T, BASE>::~DynamicProperty()
+Property<T, BASE>::~Property()
 {
 }
 
 template <typename T, typename BASE>
-bool DynamicProperty<T, BASE>::isObject() const
+bool Property<T, BASE>::isObject() const
 {
     return false;
 }
 
 template <typename T, typename BASE>
-void DynamicProperty<T, BASE>::onValueChanged(const T & value)
+void Property<T, BASE>::onValueChanged(const T & value)
 {
     this->valueChanged(value);
 }

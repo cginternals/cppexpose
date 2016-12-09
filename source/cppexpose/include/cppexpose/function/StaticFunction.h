@@ -59,4 +59,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/function/StaticFunction.hpp>
+#include <cppexpose/function/StaticFunction.inl>

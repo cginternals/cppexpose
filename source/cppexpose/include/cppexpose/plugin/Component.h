@@ -62,4 +62,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/plugin/Component.hpp>
+#include <cppexpose/plugin/Component.inl>

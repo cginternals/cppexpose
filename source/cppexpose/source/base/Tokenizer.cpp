@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <string>
 #include <fstream>
+#include <cmath>
 
 #include <cppassist/logging/logging.h>
 #include <cppassist/string/regex.h>
@@ -12,9 +13,17 @@
 #include <cppexpose/base/string_helpers.h>
 
 
-static const int           MIN_INT  = int( ~(unsigned(-1)/2) );
-static const int           MAX_INT  = int(  (unsigned(-1)/2) );
-static const unsigned int  MAX_UINT = unsigned(-1);
+namespace
+{
+
+
+const int          MIN_INT     = int( ~(unsigned(-1)/2) );
+const int          MAX_INT     = int(  (unsigned(-1)/2) );
+const unsigned int MAX_UINT    = unsigned(-1);
+const std::string  emptyString = "";
+
+
+} // namespace
 
 
 using namespace cppassist;
@@ -57,7 +66,7 @@ bool Tokenizer::hasOption(Tokenizer::Option option) const
     return ((m_options & option) != 0);
 }
 
-std::string Tokenizer::whitespace() const
+const std::string & Tokenizer::whitespace() const
 {
     return m_whitespace;
 }
@@ -67,7 +76,7 @@ void Tokenizer::setWhitespace(const std::string & whitespace)
     m_whitespace = whitespace;
 }
 
-std::string Tokenizer::quotationMarks() const
+const std::string & Tokenizer::quotationMarks() const
 {
     return m_quotationMarks;
 }
@@ -77,7 +86,7 @@ void Tokenizer::setQuotationMarks(const std::string & quotationMarks)
     m_quotationMarks = quotationMarks;
 }
 
-std::string Tokenizer::singleCharacters() const
+const std::string & Tokenizer::singleCharacters() const
 {
     return m_singleCharacters;
 }
@@ -113,7 +122,7 @@ bool Tokenizer::loadDocument(const std::string & filename)
     }
 
     // Reset document
-    m_document = "";
+    m_document.clear();
 
     // Read file
     in.seekg(0, std::ios::end);
@@ -124,7 +133,7 @@ bool Tokenizer::loadDocument(const std::string & filename)
 
     // Set document
     const char * begin = m_document.c_str();
-    const char * end   = begin + m_document .size();
+    const char * end   = begin + m_document.size();
     setDocument(begin, end);
 
     // Success
@@ -167,7 +176,7 @@ Tokenizer::Token Tokenizer::parseToken()
     }
 
     // Save parsed token as string
-    token.content = std::string(token.begin, token.end - token.begin);
+    token.content = std::string(token.begin, token.end);
 
     // Convert token of specific types
     if (hasOption(OptionParseNumber) && token.type == TokenNumber)
@@ -213,7 +222,7 @@ Tokenizer::Token Tokenizer::readToken()
     skipWhitespace();
 
     // Interpret next token
-    Lookahead lookahead = lookAheadTokenType();
+    const Lookahead lookahead = lookAheadTokenType();
 
     // Prepare token
     Token token;
@@ -511,20 +520,16 @@ std::string Tokenizer::lookAhead(size_t length) const
     }
 
     const char * begin = m_current;
-    const char * end   = m_current + length;
-
-    if (end > m_end) end = m_end;
+    const char * end   = std::min(m_current + length, m_end);
 
     return std::string(begin, end);
 }
 
-std::string Tokenizer::matchStandaloneStrings() const
+const std::string & Tokenizer::matchStandaloneStrings() const
 {
     // Check if any of the standalone strings matches at the current position
-    for (size_t i=0; i<m_standalones.size(); i++)
+    for (const auto & str : m_standalones)
     {
-        std::string str = m_standalones[i];
-
         if (lookAhead(str.size()) == str)
         {
             return str;
@@ -532,16 +537,17 @@ std::string Tokenizer::matchStandaloneStrings() const
     }
 
     // No standalone string matches
-    return "";
+    return emptyString;
 }
 
 std::string Tokenizer::matchNumber() const
 {
+    // Check if there is a floating point number at the beginning
+    static const std::string format = "^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?";
+
     // Get remainder of document as string
     std::string text(m_current, m_end - m_current);
 
-    // Check if there is a floating point number at the beginning
-    std::string format = "^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?";
     auto matches = extract(text, format);
 
     // Was there a floating point number?

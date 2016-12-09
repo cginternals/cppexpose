@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedArray.hh>
-
 #include <sstream>
 
 #include <cppexpose/base/string_helpers.h>

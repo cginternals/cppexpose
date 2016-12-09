@@ -61,7 +61,7 @@ public:
     *  @return
     *    Name
     */
-    std::string name() const;
+    const std::string & name() const;
 
     /**
     *  @brief
@@ -149,7 +149,7 @@ public:
     *  @return
     *    Option value
     */
-    Variant option(const std::string & key) const;
+    const Variant & option(const std::string & key) const;
 
     /**
     *  @brief

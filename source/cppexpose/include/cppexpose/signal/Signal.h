@@ -112,7 +112,7 @@ protected:
     *  @param[in] arguments
     *    Signal arguments
     */
-    void fire(Arguments... arguments);
+    void fire(Arguments... arguments) const;
 
     // Virtual AbstractSignal interface
     virtual void disconnectId(Connection::Id id) const override;
@@ -127,4 +127,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/signal/Signal.hpp>
+#include <cppexpose/signal/Signal.inl>

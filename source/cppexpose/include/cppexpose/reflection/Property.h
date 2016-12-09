@@ -78,4 +78,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/reflection/Property.hpp>
+#include <cppexpose/reflection/Property.inl>

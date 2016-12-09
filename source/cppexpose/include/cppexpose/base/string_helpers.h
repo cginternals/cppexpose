@@ -108,4 +108,4 @@ CPPEXPOSE_API std::vector<std::string> split(const std::string & string, char de
 } // namespace cppexpose
 
 
-#include <cppexpose/base/string_helpers.hpp>
+#include <cppexpose/base/string_helpers.inl>
