@@ -507,6 +507,8 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
             return nullptr;
         }
     }
+
+    return nullptr;
 }
 
 
