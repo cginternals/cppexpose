@@ -13,7 +13,7 @@ AbstractSignal::AbstractSignal()
 
 AbstractSignal::~AbstractSignal()
 {
-    for (std::pair<Connection::Id, Connection> pair: m_connections)
+    for (auto && pair: m_connections)
     {
         Connection & connection = pair.second;
         connection.detach();

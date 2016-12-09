@@ -4,6 +4,16 @@
 #include <cppexpose/reflection/Object.h>
 
 
+namespace
+{
+
+
+const auto emptyVariant = cppexpose::Variant();
+
+
+} // namespace
+
+
 namespace cppexpose
 {
 
@@ -24,7 +34,7 @@ AbstractProperty::~AbstractProperty()
     }
 }
 
-std::string AbstractProperty::name() const
+const std::string & AbstractProperty::name() const
 {
     return m_name;
 }
@@ -64,14 +74,16 @@ bool AbstractProperty::hasOption(const std::string & key) const
     return m_options.count(key) != 0;
 }
 
-Variant AbstractProperty::option(const std::string & key) const
+const Variant & AbstractProperty::option(const std::string & key) const
 {
-    if (!this->hasOption(key))
+    const auto it = m_options.find(key);
+
+    if (it == m_options.end())
     {
-        return Variant();
+        return emptyVariant;
     }
 
-    return m_options.at(key);
+    return it->second;
 }
 
 void AbstractProperty::setOption(const std::string & key, const Variant & value)
@@ -82,12 +94,14 @@ void AbstractProperty::setOption(const std::string & key, const Variant & value)
 
 bool AbstractProperty::removeOption(const std::string & key)
 {
-    if (!this->hasOption(key))
+    const auto it = m_options.find(key);
+
+    if (it == m_options.end())
     {
         return false;
     }
 
-    m_options.erase(key);
+    m_options.erase(it);
     optionChanged(key);
 
     return true;

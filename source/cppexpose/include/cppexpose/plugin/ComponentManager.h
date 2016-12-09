@@ -132,7 +132,7 @@ public:
     *  @return
     *    List of plugin libraries
     */
-    const std::vector<PluginLibrary *> pluginLibraries() const;
+    std::vector<PluginLibrary *> pluginLibraries() const;
 
     /**
     *  @brief

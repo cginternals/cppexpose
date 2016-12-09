@@ -4,6 +4,8 @@
 
 #include <cppexpose/plugin/ComponentManager.h>
 
+#include <algorithm>
+
 
 namespace cppexpose
 {
@@ -19,13 +21,9 @@ std::vector<TypedComponent<Type> *> ComponentManager::components() const
     // assume that on average, half the components matches Type
     typedComponents.reserve(all.size() / 2);
 
-    for (AbstractComponent * component : all)
-    {
-        TypedComponent<Type> * typed = dynamic_cast<TypedComponent<Type> *>(component);
-        if (typed != nullptr) {
-            typedComponents.push_back(typed);
-        }
-    }
+    std::copy_if(all.begin(), all.end(), std::back_inserter(typedComponents), [](AbstractComponent * component) {
+        return dynamic_cast<TypedComponent<Type> *>(component) != nullptr;
+    });
 
     return typedComponents;
 }

@@ -18,7 +18,7 @@
 
 namespace
 {
-    const int RTLD_LAZY(0); // Ignore lazy-flag for win32 - see dlopen
+    const int RTLD_LAZY = 0; // Ignore lazy-flag for win32 - see dlopen
 
     inline void * dlopen(LPCSTR lpFileName, int)
     {
@@ -106,7 +106,7 @@ void PluginLibrary::deinitialize()
     }
 }
 
-unsigned int PluginLibrary::numComponents() const
+size_t PluginLibrary::numComponents() const
 {
     if (m_numComponentsPtr != nullptr)
     {
@@ -116,7 +116,7 @@ unsigned int PluginLibrary::numComponents() const
     return 0;
 }
 
-cppexpose::AbstractComponent * PluginLibrary::component(unsigned int index) const
+cppexpose::AbstractComponent * PluginLibrary::component(size_t index) const
 {
     if (m_componentPtr != nullptr)
     {

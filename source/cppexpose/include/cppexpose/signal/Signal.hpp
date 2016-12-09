@@ -33,7 +33,7 @@ template <typename... Arguments>
 template <class T>
 Connection Signal<Arguments...>::connect(T * object, void (T::*method)(Arguments...)) const
 {
-    return connect([object, method](Arguments... arguments) 
+    return connect([object, method](Arguments... arguments)
     {
         (object->*method)(arguments...);
     });
@@ -42,7 +42,7 @@ Connection Signal<Arguments...>::connect(T * object, void (T::*method)(Arguments
 template <typename... Arguments>
 Connection Signal<Arguments...>::connect(Signal & signal) const
 {
-    return connect([&signal](Arguments... arguments) 
+    return connect([&signal](Arguments... arguments)
     {
         signal.fire(arguments...);
     });
@@ -51,7 +51,7 @@ Connection Signal<Arguments...>::connect(Signal & signal) const
 template <typename... Arguments>
 Connection Signal<Arguments...>::onFire(std::function<void()> callback) const
 {
-    return connect([callback](Arguments...) 
+    return connect([callback](Arguments...)
     {
         callback();
     });
@@ -70,7 +70,7 @@ void Signal<Arguments...>::unblock()
 }
 
 template <typename... Arguments>
-void Signal<Arguments...>::fire(Arguments... arguments)
+void Signal<Arguments...>::fire(Arguments... arguments) const
 {
     if (m_blocked) {
         return;

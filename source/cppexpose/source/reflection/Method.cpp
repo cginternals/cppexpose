@@ -26,7 +26,7 @@ Method::~Method()
 {
 }
 
-std::string Method::name() const
+const std::string & Method::name() const
 {
     return m_name;
 }

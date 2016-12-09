@@ -30,13 +30,13 @@ using deinit_ptr = void (*)();
 *  @brief
 *    Function to get the number of components contained in a library
 */
-using numComponents_ptr = int (*)();
+using numComponents_ptr = size_t (*)();
 
 /**
 *  @brief
 *    Function to get a specific component of a plugin library
 */
-using component_ptr = cppexpose::AbstractComponent * (*)(unsigned int);
+using component_ptr = cppexpose::AbstractComponent * (*)(size_t);
 
 
 /**
@@ -98,7 +98,7 @@ public:
     *  @return
     *    Number of components
     */
-    unsigned int numComponents() const;
+    size_t numComponents() const;
 
     /**
     *  @brief
@@ -110,7 +110,7 @@ public:
     *  @return
     *    Pointer to the component, nullptr on error
     */
-    cppexpose::AbstractComponent * component(unsigned int index) const;                                                                                                                                        
+    cppexpose::AbstractComponent * component(size_t index) const;
 
 
 protected:
