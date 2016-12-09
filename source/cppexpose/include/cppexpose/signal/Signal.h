@@ -127,4 +127,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/signal/Signal.hpp>
+#include <cppexpose/signal/Signal.inl>

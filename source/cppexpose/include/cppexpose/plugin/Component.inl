@@ -2,9 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/plugin/Component.h>
-
-
 namespace cppexpose
 {
 

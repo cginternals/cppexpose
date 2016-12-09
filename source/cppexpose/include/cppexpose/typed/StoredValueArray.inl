@@ -2,9 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/typed/StoredValueArray.hh>
-
-
 namespace cppexpose
 {
 

@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/typed/Typed.hh>
-
 #include <typeinfo>
 
 #include <cppexpose/variant/Variant.hh>

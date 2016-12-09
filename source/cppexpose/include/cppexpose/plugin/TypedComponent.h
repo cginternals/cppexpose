@@ -68,4 +68,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/plugin/TypedComponent.hpp>
+#include <cppexpose/plugin/TypedComponent.inl>

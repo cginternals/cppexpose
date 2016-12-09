@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/plugin/ComponentManager.h>
-
 #include <algorithm>
 
 

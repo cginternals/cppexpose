@@ -2,9 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/signal/Signal.h>
-
-
 namespace cppexpose
 {
 

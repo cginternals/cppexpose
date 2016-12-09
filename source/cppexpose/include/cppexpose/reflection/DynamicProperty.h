@@ -73,4 +73,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/reflection/DynamicProperty.hpp>
+#include <cppexpose/reflection/DynamicProperty.inl>

@@ -333,4 +333,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/reflection/Object.hpp>
+#include <cppexpose/reflection/Object.inl>

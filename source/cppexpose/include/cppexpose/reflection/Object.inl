@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/reflection/Object.h>
-
 #include <cppexpose/function/StaticFunction.h>
 #include <cppexpose/function/MemberFunction.h>
 

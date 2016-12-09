@@ -2,9 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/typed/AbstractTyped.hh>
-
-
 namespace
 {
 

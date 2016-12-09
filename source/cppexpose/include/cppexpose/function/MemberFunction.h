@@ -62,4 +62,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/function/MemberFunction.hpp>
+#include <cppexpose/function/MemberFunction.inl>

@@ -237,4 +237,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/plugin/ComponentManager.hpp>
+#include <cppexpose/plugin/ComponentManager.inl>

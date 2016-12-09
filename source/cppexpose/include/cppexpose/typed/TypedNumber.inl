@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/typed/TypedNumber.hh>
-
 #include <cppexpose/base/string_helpers.h>
 
 
