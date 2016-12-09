@@ -462,60 +462,51 @@ std::string Object::relativePathTo(const Object * const other) const
 
 const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const
 {
-    return findProperty(path.begin(), path.end());
-}
+    auto current = path.begin();
+    const auto end = path.end();
 
-const AbstractProperty * Object::findProperty(const std::vector<std::string>::const_iterator & current, const std::vector<std::string>::const_iterator & end) const
-{
-    // [TODO] Use iterative approach rather than recursion
-
-    // Check if path is valid
-    if (current == end) {
-        return nullptr;
-    }
-
-    // Get property name (first part of the path)
-    const std::string & name = *current;
-
-    // Resolve property
-    AbstractProperty * property = nullptr;
-
-    if (name == g_parent)
+    while (current != end)
     {
-        // Parent property
-        property = m_parent;
-    }
-    else
-    {
-        // Sub-property
-        const auto it = m_propertiesMap.find(name);
+        // Get property name (first part of the path)
+        const std::string & name = *current;
 
-        if (it != m_propertiesMap.end())
+        // Resolve property
+        AbstractProperty * property = nullptr;
+
+        if (name == g_parent)
         {
-            property = it->second;
+            // Parent property
+            property = m_parent;
+        }
+        else
+        {
+            // Sub-property
+            const auto it = m_propertiesMap.find(name);
+
+            if (it != m_propertiesMap.end())
+            {
+                property = it->second;
+            }
+        }
+
+        // Check if property exists
+        if (!property) {
+            return nullptr;
+        }
+
+        // Compute next path segment
+        ++current;
+
+        // If there are no more sub-paths, return the found property
+        if (current == end) {
+            return property;
+        }
+
+        // Otherwise, it is an element in the middle of the path, so ensure it is an object
+        if (!property->isObject()) {
+            return nullptr;
         }
     }
-
-    // Check if property exists
-    if (!property) {
-        return nullptr;
-    }
-
-    // Compute next path segment
-    const auto next = current+1;
-
-    // If there are no more sub-paths, return the found property
-    if (next == end) {
-        return property;
-    }
-
-    // Otherwise, it is an element in the middle of the path, so ensure it is an object
-    if (!property->isObject()) {
-        return nullptr;
-    }
-
-    // Call recursively on sub-object
-    return static_cast<Object *>(property)->findProperty(next, end);
 }
 
 

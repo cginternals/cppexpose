@@ -318,7 +318,6 @@ public:
 
 protected:
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
-    const AbstractProperty * findProperty(const std::vector<std::string>::const_iterator & current, const std::vector<std::string>::const_iterator & end) const;
 
 
 protected:
