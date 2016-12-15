@@ -109,7 +109,7 @@ void ComponentManager::removePluginPath(const std::string & path)
 void ComponentManager::scanPlugins(const std::string & identifier, bool reload)
 {
     // List files in all plugin paths
-    const std::vector<std::string> files = cppassist::getFiles(m_paths, true);
+    const std::vector<std::string> files = cppassist::getFiles(m_paths, false);
     for (const std::string & file : files)
     {
         // Check if file is a library
