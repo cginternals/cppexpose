@@ -108,17 +108,28 @@ void ComponentManager::removePluginPath(const std::string & path)
 
 void ComponentManager::scanPlugins(const std::string & identifier, bool reload)
 {
-    // List files in all plugin paths
-    const std::vector<std::string> files = cppassist::getFiles(m_paths, false);
-    for (const std::string & file : files)
-    {
-        // Check if file is a library
-        if (cppassist::FilePath(file).extension() != cppassist::SystemInfo::libExtension())
-            continue;
+    std::string buildConfig = BUILD_CONFIG;
 
-        // Check if library name corresponds to search criteria
-        if (identifier.empty() || file.find(identifier) != std::string::npos)
-            loadLibrary(file, reload);
+    // Iterate over plugin paths
+    for (const std::string & path : m_paths)
+    {
+        // [DEBUG]
+        cppassist::debug() << "Scanning '" << path << "' for plugins";
+        cppassist::debug() << "Scanning '" << path + "/" + buildConfig << "' for plugins";
+
+        // List files in plugin paths
+        std::vector<std::string> paths = { path, path + "/" + buildConfig };
+        const std::vector<std::string> files = cppassist::getFiles(paths, false);
+        for (const std::string & file : files)
+        {
+            // Check if file is a library
+            if (cppassist::FilePath(file).extension() != cppassist::SystemInfo::libExtension())
+                continue;
+
+            // Check if library name corresponds to search criteria
+            if (identifier.empty() || file.find(identifier) != std::string::npos)
+                loadLibrary(file, reload);
+        }
     }
 }
 
