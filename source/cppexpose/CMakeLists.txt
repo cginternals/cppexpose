@@ -313,6 +313,7 @@ target_link_libraries(${target}
 target_compile_definitions(${target}
     PRIVATE
     $<$<BOOL:${OPTION_BUILD_WITH_STD_REGEX}>:USE_STD_REGEX>
+    BUILD_CONFIG="$<CONFIGURATION>"
 
     PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_id}_STATIC_DEFINE>
