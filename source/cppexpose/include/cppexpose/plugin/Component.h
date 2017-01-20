@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    Represents a concrete component that can be instanciated
 */
-template <typename Type, typename BaseType>
+template <typename Type, typename BaseType, typename Enable = void>
 class Component : public TypedComponent<BaseType>
 {
 public:

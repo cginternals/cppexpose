@@ -6,8 +6,8 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename BaseType>
-Component<Type, BaseType>::Component(
+template <typename Type, typename BaseType, typename Enable>
+Component<Type, BaseType, Enable>::Component(
     const std::string & name
   , const std::string & description
   , const std::string & type
@@ -20,13 +20,13 @@ Component<Type, BaseType>::Component(
 {
 }
 
-template <typename Type, typename BaseType>
-Component<Type, BaseType>::~Component()
+template <typename Type, typename BaseType, typename Enable>
+Component<Type, BaseType, Enable>::~Component()
 {
 }
 
-template <typename Type, typename BaseType>
-BaseType * Component<Type, BaseType>::createInstance() const
+template <typename Type, typename BaseType, typename Enable>
+BaseType * Component<Type, BaseType, Enable>::createInstance() const
 {
     return new Type();
 }
