@@ -69,8 +69,8 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
-    ${META_PROJECT_NAME}::cppexpose
     cppassist::cppassist
+    ${META_PROJECT_NAME}::cppexpose
 )
 
 

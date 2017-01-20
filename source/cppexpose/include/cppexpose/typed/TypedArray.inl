@@ -4,7 +4,8 @@
 
 #include <sstream>
 
-#include <cppexpose/base/string_helpers.h>
+#include <cppassist/string/conversion.h>
+#include <cppassist/string/manipulation.h>
 
 
 namespace cppexpose
@@ -109,7 +110,7 @@ std::string TypedArray<T, ET, Size, BASE>::toString() const
 template <typename T, typename ET, size_t Size, typename BASE>
 bool TypedArray<T, ET, Size, BASE>::fromString(const std::string & value)
 {
-    std::vector<std::string> elementStrings = helper::parseArray(value, Size);
+    std::vector<std::string> elementStrings = cppassist::parseArray(value, Size);
     if (elementStrings.size() != Size) {
         return false;
     }

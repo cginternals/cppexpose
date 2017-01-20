@@ -10,7 +10,7 @@
 #include <cppassist/logging/logging.h>
 #include <cppassist/string/regex.h>
 
-#include <cppexpose/base/string_helpers.h>
+#include <cppassist/string/conversion.h>
 
 
 namespace
@@ -625,7 +625,7 @@ Variant Tokenizer::decodeNumber(const Token & token) const
 double Tokenizer::decodeDouble(const Token & token) const
 {
     std::string buffer(token.begin, token.end-token.begin);
-    return helper::fromString<double>(buffer);
+    return cppassist::fromString<double>(buffer);
 }
 
 std::string Tokenizer::decodeString(const Token & token) const

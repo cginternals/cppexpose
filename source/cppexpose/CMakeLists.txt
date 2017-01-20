@@ -56,8 +56,6 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${include_path}/cppexpose.h
 
-    ${include_path}/base/string_helpers.h
-    ${include_path}/base/string_helpers.inl
     ${include_path}/base/template_helpers.h
     ${include_path}/base/function_helpers.h
     ${include_path}/base/Tokenizer.h
@@ -167,7 +165,6 @@ set(headers
 set(sources
     ${source_path}/cppexpose.cpp
 
-    ${source_path}/base/string_helpers.cpp
     ${source_path}/base/Tokenizer.cpp
 
     ${source_path}/json/JSON.cpp
