@@ -548,7 +548,7 @@ std::string Tokenizer::matchNumber() const
     // Get remainder of document as string
     std::string text(m_current, m_end - m_current);
 
-    auto matches = extract(text, format);
+    auto matches = string::extract(text, format);
 
     // Was there a floating point number?
     if (matches.size() > 0) {
@@ -625,7 +625,7 @@ Variant Tokenizer::decodeNumber(const Token & token) const
 double Tokenizer::decodeDouble(const Token & token) const
 {
     std::string buffer(token.begin, token.end-token.begin);
-    return cppassist::fromString<double>(buffer);
+    return cppassist::string::fromString<double>(buffer);
 }
 
 std::string Tokenizer::decodeString(const Token & token) const

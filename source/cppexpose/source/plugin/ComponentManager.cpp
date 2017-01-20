@@ -14,9 +14,9 @@
 
 #include <cpplocate/ModuleInfo.h>
 
-#include <cppassist/io/SystemInfo.h>
-#include <cppassist/io/FilePath.h>
-#include <cppassist/io/directorytraversal.h>
+#include <cppassist/fs/SystemInfo.h>
+#include <cppassist/fs/FilePath.h>
+#include <cppassist/fs/directorytraversal.h>
 
 #include <cppassist/logging/logging.h>
 
@@ -109,7 +109,7 @@ void ComponentManager::removePluginPath(const std::string & path)
 void ComponentManager::scanPlugins(const std::string & identifier, bool reload)
 {
     // List files in all plugin paths
-    const std::vector<std::string> files = cppassist::getFiles(m_paths, false);
+    const std::vector<std::string> files = cppassist::fs::getFiles(m_paths, false);
     for (const std::string & file : files)
     {
         // Check if file is a library

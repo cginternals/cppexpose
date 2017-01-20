@@ -91,13 +91,13 @@ const AbstractProperty * Object::property(size_t index) const
 
 AbstractProperty * Object::property(const std::string & path)
 {
-    std::vector<std::string> splittedPath = cppassist::split(path, g_separator);
+    std::vector<std::string> splittedPath = cppassist::string::split(path, g_separator);
     return const_cast<AbstractProperty *>(findProperty(splittedPath));
 }
 
 const AbstractProperty * Object::property(const std::string & path) const
 {
-    std::vector<std::string> splittedPath = cppassist::split(path, g_separator);
+    std::vector<std::string> splittedPath = cppassist::string::split(path, g_separator);
     return findProperty(splittedPath);
 }
 

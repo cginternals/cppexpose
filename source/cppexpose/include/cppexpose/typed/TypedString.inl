@@ -60,13 +60,13 @@ bool TypedString<T, BASE>::fromBool(bool value)
 template <typename T, typename BASE>
 long long TypedString<T, BASE>::toLongLong() const
 {
-    return cppassist::fromString<long long>(this->value());
+    return cppassist::string::fromString<long long>(this->value());
 }
 
 template <typename T, typename BASE>
 bool TypedString<T, BASE>::fromLongLong(long long value)
 {
-    std::string str = cppassist::toString<long long>(value);
+    std::string str = cppassist::string::toString<long long>(value);
 
     if (str != "") {
         this->setValue(str);
@@ -79,13 +79,13 @@ bool TypedString<T, BASE>::fromLongLong(long long value)
 template <typename T, typename BASE>
 unsigned long long TypedString<T, BASE>::toULongLong() const
 {
-    return cppassist::fromString<unsigned long long>(this->value());
+    return cppassist::string::fromString<unsigned long long>(this->value());
 }
 
 template <typename T, typename BASE>
 bool TypedString<T, BASE>::fromULongLong(unsigned long long value)
 {
-    std::string str = cppassist::toString<unsigned long long>(value);
+    std::string str = cppassist::string::toString<unsigned long long>(value);
 
     if (str != "") {
         this->setValue(str);
@@ -98,13 +98,13 @@ bool TypedString<T, BASE>::fromULongLong(unsigned long long value)
 template <typename T, typename BASE>
 double TypedString<T, BASE>::toDouble() const
 {
-    return cppassist::fromString<double>(this->value());
+    return cppassist::string::fromString<double>(this->value());
 }
 
 template <typename T, typename BASE>
 bool TypedString<T, BASE>::fromDouble(double value)
 {
-    std::string str = cppassist::toString<double>(value);
+    std::string str = cppassist::string::toString<double>(value);
 
     if (str != "") {
         this->setValue(str);

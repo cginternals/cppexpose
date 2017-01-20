@@ -28,13 +28,13 @@ bool TypedNumber<T, BASE>::isNumber() const
 template <typename T, typename BASE>
 std::string TypedNumber<T, BASE>::toString() const
 {
-    return cppassist::toString<T>(this->value());
+    return cppassist::string::toString<T>(this->value());
 }
 
 template <typename T, typename BASE>
 bool TypedNumber<T, BASE>::fromString(const std::string & value)
 {
-    this->setValue(cppassist::fromString<T>(value));
+    this->setValue(cppassist::string::fromString<T>(value));
     return true;
 }
 
