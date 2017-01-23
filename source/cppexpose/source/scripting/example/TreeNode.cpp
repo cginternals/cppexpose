@@ -74,7 +74,7 @@ void TreeNode::collapse()
 
 void TreeNode::print(const std::string & indent)
 {
-    std::cout << "node(" << cppassist::toString<int>(m_id) << ")" << std::endl;
+    std::cout << "node(" << cppassist::string::toString<int>(m_id) << ")" << std::endl;
 
     if (m_left)
     {

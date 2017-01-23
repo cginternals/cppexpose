@@ -1,4 +1,11 @@
 
+#
+# External dependencies
+#
+
+find_package(cppassist REQUIRED)
+
+
 # 
 # Executable name and options
 # 
@@ -65,8 +72,9 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
-    ${META_PROJECT_NAME}::cppexpose
     gmock-dev
+    cppassist::cppassist
+    ${META_PROJECT_NAME}::cppexpose
 )
 
 

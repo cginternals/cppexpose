@@ -4,6 +4,7 @@
 # 
 
 find_package(cpplocate REQUIRED)
+find_package(cppassist REQUIRED)
 
 
 # 
@@ -72,6 +73,7 @@ target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
     cpplocate::cpplocate
+    cppassist::cppassist
     ${META_PROJECT_NAME}::cppexpose
 )
 
