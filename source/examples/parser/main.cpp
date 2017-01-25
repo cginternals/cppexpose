@@ -72,7 +72,7 @@ int main(int, char * [])
     while (token.type != Tokenizer::TokenEndOfStream)
     {
         std::cout
-            << "[" << toString(token.line) << ", " << toString(token.column) << "] "
+            << "[" << string::toString(token.line) << ", " << string::toString(token.column) << "] "
             << token.content
             << std::endl;
 

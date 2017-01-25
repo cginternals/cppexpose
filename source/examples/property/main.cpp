@@ -75,13 +75,13 @@ int main(int, char * [])
 
     for (int i=1; i<=4; i++)
     {
-        std::string name = "sub" + toString<int>(i);
+        std::string name = "sub" + cppassist::string::toString<int>(i);
         Object * sub = new Object(name);
         root->addProperty(sub, PropertyOwnership::Parent);
 
         for (int j=1; j<=4; j++)
         {
-            std::string name = "value" + toString<int>(j);
+            std::string name = "value" + cppassist::string::toString<int>(j);
             sub->createDynamicProperty<int>(name, i * 10 + j);
         }
 
