@@ -268,13 +268,13 @@ public:
     virtual bool isObject() const override;
 
     // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const;
-    virtual const std::type_info & type() const;
-    virtual std::string typeName() const;
-    virtual bool isReadOnly() const;
-    virtual bool isComposite() const;
-    virtual size_t numSubValues() const;
-    virtual AbstractTyped * subValue(size_t i);
+    virtual AbstractTyped * clone() const override;
+    virtual const std::type_info & type() const override;
+    virtual std::string typeName() const override;
+    virtual bool isReadOnly() const override;
+    virtual bool isComposite() const override;
+    virtual size_t numSubValues() const override;
+    virtual AbstractTyped * subValue(size_t i) override;
     virtual bool isEnum() const override;
     virtual bool isArray() const override;
     virtual bool isVariant() const override;
