@@ -9,19 +9,18 @@ namespace cppexpose
 {
 
 
-template <typename Type>
-std::vector<TypedComponent<Type> *> ComponentManager::components() const
+template <typename BaseType>
+std::vector<typename ComponentTypes<BaseType>::AbstractComponentType *> ComponentManager::components() const
 {
-    std::vector<TypedComponent<Type> *> typedComponents;
+    using AbstractComponentType = typename ComponentTypes<BaseType>::AbstractComponentType;
 
-    const std::vector<AbstractComponent *> & all = this->components();
+    // Assume that on average, half the components matches Type
+    std::vector<AbstractComponentType *> typedComponents;
+    typedComponents.reserve(m_components.size() / 2);
 
-    // assume that on average, half the components matches Type
-    typedComponents.reserve(all.size() / 2);
-
-    for (AbstractComponent * component : all)
+    for (AbstractComponent * component : m_components)
     {
-        auto typedComponent = dynamic_cast<TypedComponent<Type> *>(component);
+        auto typedComponent = dynamic_cast<AbstractComponentType *>(component);
         if (typedComponent != nullptr)
         {
             typedComponents.push_back(typedComponent);
@@ -31,10 +30,12 @@ std::vector<TypedComponent<Type> *> ComponentManager::components() const
     return typedComponents;
 }
 
-template <typename Type>
-TypedComponent<Type> * ComponentManager::component(const std::string & name) const
+template <typename BaseType>
+typename ComponentTypes<BaseType>::AbstractComponentType * ComponentManager::component(const std::string & name) const
 {
-    return dynamic_cast<TypedComponent<Type> *>(this->component(name));
+    using AbstractComponentType = typename ComponentTypes<BaseType>::AbstractComponentType;
+
+    return dynamic_cast<AbstractComponentType *>(this->component(name));
 }
 
 

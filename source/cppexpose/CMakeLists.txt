@@ -154,8 +154,10 @@ set(headers
     ${include_path}/plugin/ComponentManager.h
     ${include_path}/plugin/ComponentManager.inl
     ${include_path}/plugin/AbstractComponent.h
-    ${include_path}/plugin/TypedComponent.h
-    ${include_path}/plugin/TypedComponent.inl
+    ${include_path}/plugin/AbstractGenericComponent.h
+    ${include_path}/plugin/AbstractGenericComponent.inl
+    ${include_path}/plugin/GenericComponent.h
+    ${include_path}/plugin/GenericComponent.inl
     ${include_path}/plugin/Component.h
     ${include_path}/plugin/Component.inl
     ${include_path}/plugin/PluginLibrary.h

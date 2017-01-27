@@ -7,7 +7,7 @@
 #include <map>
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/plugin/TypedComponent.h>
+#include <cppexpose/plugin/ComponentHelpers.h>
 
 
 namespace cppexpose
@@ -150,8 +150,8 @@ public:
     *  @return
     *    List of typed components
     */
-    template <typename Type>
-    std::vector<TypedComponent<Type> *> components() const;
+    template <typename BaseType>
+    std::vector<typename ComponentTypes<BaseType>::AbstractComponentType *> components() const;
 
     /**
     *  @brief
@@ -175,8 +175,8 @@ public:
     *  @return
     *    Pointer to the component, nullptr if component doesn't exist or has the wrong type
     */
-    template <typename Type>
-    TypedComponent<Type> * component(const std::string & name) const;
+    template <typename BaseType>
+    typename ComponentTypes<BaseType>::AbstractComponentType * component(const std::string & name) const;
 
     /**
     *  @brief

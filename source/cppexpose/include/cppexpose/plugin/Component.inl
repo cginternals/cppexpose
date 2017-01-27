@@ -16,19 +16,20 @@ Component<Type, BaseType>::Component(
   , const std::string & annotations
   , const std::string & vendor
   , const std::string & version)
-: TypedComponent<BaseType>(name, description, type, tags, icon, annotations, vendor, version)
 {
+    this->m_name        = name;
+    this->m_description = description;
+    this->m_type        = type;
+    this->m_tags        = tags;
+    this->m_icon        = icon;
+    this->m_annotations = annotations;
+    this->m_vendor      = vendor;
+    this->m_version     = version;
 }
 
 template <typename Type, typename BaseType>
 Component<Type, BaseType>::~Component()
 {
-}
-
-template <typename Type, typename BaseType>
-BaseType * Component<Type, BaseType>::createInstance() const
-{
-    return new Type();
 }
 
 

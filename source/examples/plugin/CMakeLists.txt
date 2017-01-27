@@ -26,6 +26,12 @@ set(sources
     main.cpp
     BottlesOfBeer.cpp
     BottlesOfBeer.h
+    BinaryOperator.cpp
+    BinaryOperator.h
+    Addition.cpp
+    Addition.h
+    Multiplication.cpp
+    Multiplication.h
 )
 
 

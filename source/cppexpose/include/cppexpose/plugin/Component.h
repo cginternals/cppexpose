@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/plugin/TypedComponent.h>
+#include <cppexpose/plugin/ComponentHelpers.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    Represents a concrete component that can be instanciated
 */
 template <typename Type, typename BaseType>
-class Component : public TypedComponent<BaseType>
+class Component : public ComponentTypes<BaseType>::template ComponentType<Type>
 {
 public:
     /**
@@ -53,9 +53,6 @@ public:
     *    Destructor
     */
     virtual ~Component();
-
-    // Virtual TypedComponent<BaseType> interface
-    virtual BaseType * createInstance() const override;
 };
 
 
