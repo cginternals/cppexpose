@@ -6,8 +6,8 @@ namespace cppexpose
 {
 
 
-template <typename Type>
-TypedComponent<Type>::TypedComponent(
+template <typename Type, typename Enable>
+TypedComponent<Type, Enable>::TypedComponent(
     const std::string & name
   , const std::string & description
   , const std::string & type
@@ -20,8 +20,8 @@ TypedComponent<Type>::TypedComponent(
 {
 }
 
-template <typename Type>
-TypedComponent<Type>::~TypedComponent()
+template <typename Type, typename Enable>
+TypedComponent<Type, Enable>::~TypedComponent()
 {
 }
 
