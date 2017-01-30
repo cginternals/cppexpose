@@ -1,12 +1,14 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include <cppexpose/plugin/ComponentManager.h>
-#include <cppexpose/plugin/TypedComponent.h>
-#include <cppexpose/plugin/Example.h>
+#include <cppexpose/plugin/AbstractComponent.h>
 
 #include "BottlesOfBeer.h"
+#include "Addition.h"
+#include "Multiplication.h"
 
 
 using namespace cppexpose;
@@ -19,6 +21,8 @@ int main(int, char * [])
 
     // Add local components
     componentManager.addComponent(&BottlesOfBeer::Component);
+    componentManager.addComponent(&Addition::Component);
+    componentManager.addComponent(&Multiplication::Component);
 
     // Search for plugins in the current working directory
     componentManager.addPluginPath(".");
@@ -31,8 +35,8 @@ int main(int, char * [])
     {
         std::cout << "----------------------------------------" << std::endl;
         std::cout << "name:        " << component->name() << std::endl;
-        std::cout << "description: " << component->description() << std::endl;
         std::cout << "type:        " << component->type() << std::endl;
+        std::cout << "description: " << component->description() << std::endl;
         std::cout << "tags:        " << component->tags() << std::endl;
         std::cout << "annotations: " << component->annotations() << std::endl;
         std::cout << "vendor:      " << component->vendor() << std::endl;
@@ -41,8 +45,8 @@ int main(int, char * [])
         std::cout << std::endl;
     }
 
-    // Run all examples
-    for (AbstractComponent * component : componentManager.components())
+    // Get all examples
+    for (auto * component : componentManager.components<cppexpose::Example>())
     {
         std::string name = component->name();
         std::string type = component->type();
@@ -52,14 +56,33 @@ int main(int, char * [])
             continue;
 
         // Instanciate example
-        TypedComponent<Example> * exampleComponent = 
-            static_cast< TypedComponent<Example> * >(component);
-        Example * example = exampleComponent->createInstance();
+        cppexpose::Example * example = component->createInstance();
 
-        // Run example
+        // Evaluate operator
         std::cout << name << std::endl;
         std::cout << "----------------------------------------" << std::endl;
         example->run();
+        std::cout << "----------------------------------------" << std::endl;
+        std::cout << std::endl;
+    }
+
+    // Get all operators
+    for (auto * component : componentManager.components<BinaryOperator>())
+    {
+        std::string name = component->name();
+        std::string type = component->type();
+
+        // Check if type is "BinaryOperator"
+        if (type != "BinaryOperator")
+            continue;
+
+        // Instanciate operator
+        BinaryOperator * op = component->createInstance(2, 3);
+
+        // Evaluate operator
+        std::cout << name << std::endl;
+        std::cout << "----------------------------------------" << std::endl;
+        std::cout << op->compute() << std::endl;
         std::cout << "----------------------------------------" << std::endl;
         std::cout << std::endl;
     }

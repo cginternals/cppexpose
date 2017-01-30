@@ -6,23 +6,7 @@ namespace cppexpose
 {
 
 
-AbstractComponent::AbstractComponent(
-    const std::string & name
-  , const std::string & description
-  , const std::string & type
-  , const std::string & tags
-  , const std::string & icon
-  , const std::string & annotations
-  , const std::string & vendor
-  , const std::string & version)
-: m_name(name)
-, m_description(description)
-, m_type(type)
-, m_tags(tags)
-, m_icon(icon)
-, m_annotations(annotations)
-, m_vendor(vendor)
-, m_version(version)
+AbstractComponent::AbstractComponent()
 {
 }
 
