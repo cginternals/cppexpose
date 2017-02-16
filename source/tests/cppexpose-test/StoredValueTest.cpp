@@ -22,51 +22,6 @@ public:
     }
 };
 
-template <typename T>
-class TypeTester
-{
-public:
-    TypeTester();
-    void testType(StoredValue<T> & var, std::vector<memberFunc<T>> trueFuncs);
-    void testType(StoredValue<T> & var, memberFunc<T> trueFunc);
-
-protected:
-    std::vector<memberFunc<T>> methods;
-};
-
-template <typename T>
-TypeTester<T>::TypeTester()
-{
-    methods.emplace_back(&StoredValue<T>::isBool);
-    methods.emplace_back(&StoredValue<T>::isEnum);
-    methods.emplace_back(&StoredValue<T>::isString);
-    methods.emplace_back(&StoredValue<T>::isNumber);
-    methods.emplace_back(&StoredValue<T>::isIntegral);
-    methods.emplace_back(&StoredValue<T>::isSignedIntegral);
-    methods.emplace_back(&StoredValue<T>::isUnsignedIntegral);
-    methods.emplace_back(&StoredValue<T>::isFloatingPoint);
-    methods.emplace_back(&StoredValue<T>::isArray);
-}
-
-template <typename T>
-void TypeTester<T>::testType(StoredValue<T> & var, std::vector<memberFunc<T>> trueFuncs)
-{
-    for (auto & method : methods)
-    {
-        bool test = (var.*method)();
-        if(std::find(trueFuncs.begin(), trueFuncs.end(), method) != trueFuncs.end())
-            ASSERT_TRUE(test);
-        else
-            ASSERT_FALSE(test);
-    }
-}
-
-template <typename T>
-void TypeTester<T>::testType(StoredValue<T> & var, memberFunc<T> trueFunc)
-{
-    testType(var, std::vector<memberFunc<T>>({trueFunc}));
-}
-
 TEST_F(StoredValueTest, boolSet)
 {
     auto value = false;
@@ -127,12 +82,23 @@ TEST_F(StoredValueTest, arraySet)
 
 TEST_F(StoredValueTest, typesBool)
 {
-    TypeTester<bool> tester;
-    bool value = true;
+     bool value = true;
 
     auto store = StoredValue<bool>([&value](){return value;}, [&value](const bool & val){value = val;});
 
-    tester.testType(store, &StoredValue<bool>::isBool);
+	bool trueTest = store.isBool();
+	ASSERT_TRUE(trueTest);
+
+	bool falseTest = store.isEnum()
+		|| store.isNumber()
+		|| store.isString()
+		|| store.isIntegral()
+		|| store.isUnsignedIntegral()
+		|| store.isSignedIntegral()
+		|| store.isFloatingPoint()
+		|| store.isArray();
+	ASSERT_FALSE(falseTest);
+
     ASSERT_TRUE(store.value());
 }
 
@@ -140,28 +106,48 @@ TEST_F(StoredValueTest, typesSignedIntegral)
 {
     using curType = int;
 
-    TypeTester<curType> tester;
-
     curType value{};
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
 
-    tester.testType(store, {&StoredValue<curType>::isIntegral, &StoredValue<curType>::isNumber, &StoredValue<curType>::isSignedIntegral});
-    ASSERT_EQ(value, store.value());
+	bool trueTest = store.isNumber() 
+		&& store.isIntegral() 
+		&& store.isSignedIntegral();
+	ASSERT_TRUE(trueTest);
+
+	bool falseTest = store.isBool()
+		|| store.isEnum()
+		|| store.isString()
+		|| store.isUnsignedIntegral()
+		|| store.isFloatingPoint()
+		|| store.isArray();
+	ASSERT_FALSE(falseTest);
+
+	ASSERT_EQ(value, store.value());
 }
 
 TEST_F(StoredValueTest, typesUnsignedIntegral)
 {
     using curType = unsigned int;
 
-    TypeTester<curType> tester;
-
     curType value{};
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
+ 
+	bool trueTest = store.isNumber()
+		&& store.isIntegral()
+		&& store.isUnsignedIntegral();
+	ASSERT_TRUE(trueTest);
 
-    tester.testType(store, {&StoredValue<curType>::isIntegral, &StoredValue<curType>::isNumber, &StoredValue<curType>::isUnsignedIntegral});
-    ASSERT_EQ(value, store.value());
+	bool falseTest = store.isBool()
+		|| store.isEnum()
+		|| store.isString()
+		|| store.isSignedIntegral()
+		|| store.isFloatingPoint()
+		|| store.isArray();
+	ASSERT_FALSE(falseTest);
+	
+	ASSERT_EQ(value, store.value());
 }
 
 
@@ -169,13 +155,23 @@ TEST_F(StoredValueTest, typesString)
 {
     using curType = std::string;
 
-    TypeTester<curType> tester;
-
     curType value{};
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
 
-    tester.testType(store, &StoredValue<curType>::isString);
+	bool trueTest = store.isString();
+	ASSERT_TRUE(trueTest);
+
+	bool falseTest = store.isBool()
+		|| store.isEnum()
+		|| store.isNumber()
+		|| store.isIntegral()
+		|| store.isUnsignedIntegral()
+		|| store.isSignedIntegral()
+		|| store.isFloatingPoint()
+		|| store.isArray();
+	ASSERT_FALSE(falseTest);
+
     ASSERT_EQ(value, store.value());
 }
 
@@ -183,26 +179,45 @@ TEST_F(StoredValueTest, typesFloat)
 {
     using curType = float;
 
-    TypeTester<curType> tester;
-
     curType value{};
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
+   
+	bool trueTest = store.isNumber()
+		&& store.isFloatingPoint();
+	ASSERT_TRUE(trueTest);
 
-    tester.testType(store, {&StoredValue<curType>::isNumber, &StoredValue<curType>::isFloatingPoint});
-    ASSERT_EQ(value, store.value());
+	bool falseTest = store.isBool()
+		|| store.isEnum()
+		|| store.isString()
+		|| store.isIntegral()
+		|| store.isSignedIntegral()
+		|| store.isUnsignedIntegral()
+		|| store.isArray();
+	ASSERT_FALSE(falseTest);
+	
+	ASSERT_EQ(value, store.value());
 }
 
 TEST_F(StoredValueTest, typesArray)
 {
     using curType = std::array<int, 4>;
 
-    TypeTester<curType> tester;
-
     curType value{};
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const int & index) -> int {return value[index];});
 
-    tester.testType(store, {&StoredValue<curType>::isArray});
+	bool trueTest = store.isArray();
+	ASSERT_TRUE(trueTest);
+
+	bool falseTest = store.isBool()
+		|| store.isEnum()
+		|| store.isNumber()
+		|| store.isString()
+		|| store.isIntegral()
+		|| store.isUnsignedIntegral()
+		|| store.isSignedIntegral()
+		|| store.isFloatingPoint();
+	ASSERT_FALSE(falseTest);
     ASSERT_EQ(value, store.value());
 }
