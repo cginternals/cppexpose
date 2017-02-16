@@ -22,6 +22,49 @@ public:
     }
 };
 
+template <typename T>
+class TypeTester
+{
+public:
+    TypeTester();
+    void testType(DirectValue<T> & var, std::vector<memberFunc<T>> trueFuncs);
+    void testType(DirectValue<T> & var, memberFunc<T> trueFunc);
+
+protected:
+    std::vector<memberFunc<T>> methods;
+};
+
+template <typename T>
+TypeTester<T>::TypeTester()
+{
+    methods.emplace_back(&DirectValue<T>::isBool);
+    methods.emplace_back(&DirectValue<T>::isEnum);
+    methods.emplace_back(&DirectValue<T>::isString);
+    methods.emplace_back(&DirectValue<T>::isNumber);
+    methods.emplace_back(&DirectValue<T>::isIntegral);
+    methods.emplace_back(&DirectValue<T>::isSignedIntegral);
+    methods.emplace_back(&DirectValue<T>::isUnsignedIntegral);
+    methods.emplace_back(&DirectValue<T>::isFloatingPoint);
+}
+
+template <typename T>
+void TypeTester<T>::testType(DirectValue<T> & var, std::vector<memberFunc<T>> trueFuncs)
+{
+    for (auto & method : methods)
+    {
+        bool test = (var.*method)();
+        if(std::find(trueFuncs.begin(), trueFuncs.end(), method) != trueFuncs.end())
+            ASSERT_TRUE(test);
+        else
+            ASSERT_FALSE(test);
+    }
+}
+
+template <typename T>
+void TypeTester<T>::testType(DirectValue<T> & var, memberFunc<T> trueFunc)
+{
+    testType(var, std::vector<memberFunc<T>>({trueFunc}));
+}
 
 TEST_F(DirectValueTest, boolSet)
 {
@@ -74,23 +117,12 @@ TEST_F(DirectValueTest, constSet)
 
 TEST_F(DirectValueTest, typesBool)
 {
+    TypeTester<bool> tester;
     bool value = true;
 
     auto val = DirectValue<bool>(value);
 
-	bool trueTest = val.isBool();
-	ASSERT_TRUE(trueTest);
-
-	bool falseTest = val.isEnum()
-		|| val.isNumber()
-		|| val.isString()
-		|| val.isIntegral()
-		|| val.isUnsignedIntegral()
-		|| val.isSignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
-
+    tester.testType(val, &DirectValue<bool>::isBool);
     ASSERT_TRUE(val.value());
 }
 
@@ -98,49 +130,29 @@ TEST_F(DirectValueTest, typesSignedIntegral)
 {
     using curType = int;
 
+    TypeTester<curType> tester;
+
     curType value{};
 
     auto val = DirectValue<curType>(value);
-    
-	bool trueTest = val.isNumber()
-		&& val.isIntegral()
-		&& val.isSignedIntegral();
-	ASSERT_TRUE(trueTest);
 
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isString()
-		|| val.isUnsignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
-	
-	ASSERT_EQ(value, val.value());
+    tester.testType(val, {&DirectValue<curType>::isIntegral, &DirectValue<curType>::isNumber, &DirectValue<curType>::isSignedIntegral});
+    ASSERT_EQ(value, val.value());
 }
 
 
 TEST_F(DirectValueTest, typesUnsignedIntegral)
 {
     using curType = unsigned int;
-	
+
+    TypeTester<curType> tester;
+
     curType value{};
 
     auto val = DirectValue<curType>(value);
 
-	bool trueTest = val.isNumber()
-		&& val.isIntegral()
-		&& val.isUnsignedIntegral();
-	ASSERT_TRUE(trueTest);
-
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isString()
-		|| val.isSignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
-	
-	ASSERT_EQ(value, val.value());
+    tester.testType(val, {&DirectValue<curType>::isIntegral, &DirectValue<curType>::isNumber, &DirectValue<curType>::isUnsignedIntegral});
+    ASSERT_EQ(value, val.value());
 }
 
 
@@ -148,23 +160,13 @@ TEST_F(DirectValueTest, typesString)
 {
     using curType = std::string;
 
+    TypeTester<curType> tester;
+
     curType value{};
 
     auto val = DirectValue<curType>(value);
 
-	bool trueTest = val.isString();
-	ASSERT_TRUE(trueTest);
-
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isNumber()
-		|| val.isIntegral()
-		|| val.isUnsignedIntegral()
-		|| val.isSignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
-
+    tester.testType(val, &DirectValue<curType>::isString);
     ASSERT_EQ(value, val.value());
 }
 
@@ -172,22 +174,12 @@ TEST_F(DirectValueTest, typesFloat)
 {
     using curType = float;
 
+    TypeTester<curType> tester;
+
     curType value{};
 
     auto val = DirectValue<curType>(value);
-	
-	bool trueTest = val.isNumber()
-		&& val.isFloatingPoint();
-	ASSERT_TRUE(trueTest);
 
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isString()
-		|| val.isIntegral()
-		|| val.isUnsignedIntegral()
-		|| val.isSignedIntegral()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
-
+    tester.testType(val, {&DirectValue<curType>::isNumber, &DirectValue<curType>::isFloatingPoint});
     ASSERT_EQ(value, val.value());
 }
