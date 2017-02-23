@@ -8,15 +8,14 @@
 
 #include <cppassist/string/manipulation.h>
 
-#include <cppexpose/variant/Variant.h>
 #include <cppexpose/json/JSON.h>
 
 
 namespace
 {
-    static const char g_separator = '.';
-    static const std::string g_separatorString = ".";
-    static const std::string g_parent = "parent";
+    const char g_separator = '.';
+    const std::string g_separatorString = ".";
+    const std::string g_parent = "parent";
 }
 
 
@@ -32,7 +31,7 @@ Object::Object()
 Object::Object(const std::string & name)
 : m_className("Object")
 {
-    initProperty(name, nullptr, PropertyOwnership::None);
+    initProperty(name, nullptr);
 }
 
 Object::~Object()
@@ -52,12 +51,11 @@ void Object::setClassName(const std::string & className)
 
 void Object::clear()
 {
-    // Destroy managed properties
-    // Upon property deletion, the property removes itself from the m_managedProperties list,
-    // so using iterators doesn't work here!
-    while (!m_managedProperties.empty())
+    // Remove properties
+    // removeProperty() modifies m_properties, so don't use iterators here!
+    while (!m_properties.empty())
     {
-        delete m_managedProperties.front();
+        removeProperty(m_properties.back());
     }
 }
 
@@ -101,7 +99,7 @@ const AbstractProperty * Object::property(const std::string & path) const
     return findProperty(splittedPath);
 }
 
-bool Object::addProperty(AbstractProperty * property, PropertyOwnership ownership)
+bool Object::addProperty(AbstractProperty * property)
 {
     // Reject properties that have no name, or whose name already exists,
     // or that already have a parent object.
@@ -121,18 +119,25 @@ bool Object::addProperty(AbstractProperty * property, PropertyOwnership ownershi
     m_properties.push_back(property);
     m_propertiesMap.insert(std::make_pair(property->name(), property));
 
-    // Take ownership over property?
-    if (ownership == PropertyOwnership::Parent)
-    {
-        m_managedProperties.push_back(property);
-    }
-
     // Invoke callback
     afterAdd(newIndex, property);
 
     // Success
     return true;
 }
+
+
+bool Object::addProperty(std::unique_ptr<AbstractProperty> && property)
+{
+    const auto success = addProperty(property.get());
+    if (success)
+    {
+        m_managedProperties.push_back(std::move(property));
+    }
+
+    return success;
+}
+
 
 bool Object::removeProperty(AbstractProperty * property)
 {
@@ -159,42 +164,20 @@ bool Object::removeProperty(AbstractProperty * property)
     m_properties.erase(it);
     m_propertiesMap.erase(property->name());
 
-    // Remove from managed list
-    auto it2 = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
-    if (it2 != m_managedProperties.end())
-    {
-        m_managedProperties.erase(it2);
-    }
-
     // Reset property parent
     property->setParent(nullptr);
 
     // Invoke callback
     afterRemove(index, property);
 
+    // Remove from managed list (deletes the property)
+    auto it2 = std::find_if(m_managedProperties.begin(), m_managedProperties.end(), [property](const std::unique_ptr<AbstractProperty> & managedProperty) { return managedProperty.get() == property; });
+    if (it2 != m_managedProperties.end())
+    {
+        m_managedProperties.erase(it2);
+    }
+
     // Success
-    return true;
-}
-
-bool Object::destroyProperty(AbstractProperty * property)
-{
-    // Check that property exists and belongs to the object
-    if (!property || property->parent() != this)
-    {
-        return false;
-    }
-
-    // Chec that property is owned by the object
-    auto it = std::find(m_managedProperties.begin(), m_managedProperties.end(), property);
-    if (it == m_properties.end())
-    {
-        return false;
-    }
-
-    // Destroy property
-    delete property;
-
-    // Property removed
     return true;
 }
 

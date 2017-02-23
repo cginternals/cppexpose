@@ -96,9 +96,9 @@ public:
 
 
 protected:
-    int        m_id;    ///< ID of the node
-    TreeNode * m_left;  ///< Left child node (can be null)
-    TreeNode * m_right; ///< Right child node (can be null)
+    int        m_id;                   ///< ID of the node
+    std::unique_ptr<TreeNode> m_left;  ///< Left child node (can be null)
+    std::unique_ptr<TreeNode> m_right; ///< Right child node (can be null)
 };
 
 
