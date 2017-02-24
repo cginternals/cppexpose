@@ -33,8 +33,8 @@ DynamicProperty<T> * Object::createDynamicProperty(const std::string & name, con
 template <typename RET, typename... Arguments>
 void Object::addFunction(const std::string & name, RET (*fn)(Arguments...))
 {
-    AbstractFunction * func = new StaticFunction<RET, Arguments...>(fn);
-    m_functions.push_back(Method(name, func));
+    auto func = cppassist::make_unique<StaticFunction<RET, Arguments...>>(fn);
+    m_functions.push_back(Method(name, std::move(func)));
 }
 
 template <class T, typename RET, typename... Arguments>
