@@ -58,9 +58,21 @@ public:
 
     /**
     *  @brief
+    *    Copy constructor (deleted)
+    */
+    ComponentManager(const ComponentManager &) = delete;
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~ComponentManager();
+
+    /**
+    *  @brief
+    *     Copy assignment operator (deleted)
+    */
+    ComponentManager & operator=(const ComponentManager &) = delete;
 
     /**
     *  @brief
@@ -225,12 +237,12 @@ protected:
 
 
 protected:
-    std::vector<std::string>                   m_paths;               ///< Plugin paths (all)
-    std::vector<std::string>                   m_pathsInternal;       ///< Plugin paths (internal)
-    std::vector<std::string>                   m_pathsUser;           ///< Plugin paths (user defined)
-    std::vector<AbstractComponent *>           m_components;          ///< Available components
-    std::map<std::string, PluginLibrary *>     m_librariesByFilePath; ///< Available components by path
-    std::map<std::string, AbstractComponent *> m_componentsByName;    ///< Available components by name
+    std::vector<std::string>                              m_paths;               ///< Plugin paths (all)
+    std::vector<std::string>                              m_pathsInternal;       ///< Plugin paths (internal)
+    std::vector<std::string>                              m_pathsUser;           ///< Plugin paths (user defined)
+    std::vector<AbstractComponent *>                      m_components;          ///< Available components
+    std::map<std::string, std::unique_ptr<PluginLibrary>> m_librariesByFilePath; ///< Available components by path
+    std::map<std::string, AbstractComponent *>            m_componentsByName;    ///< Available components by name
 };
 
 
