@@ -8,15 +8,15 @@ namespace cppexpose
 {
 
 
-Method::Method(AbstractFunction * func, Object * parent)
-: Function(func)
+Method::Method(std::unique_ptr<AbstractFunction> && func, Object * parent)
+: Function(std::move(func))
 , m_name("")
 , m_parent(parent)
 {
 }
 
-Method::Method(const std::string & name, AbstractFunction * func, Object * parent)
-: Function(func)
+Method::Method(const std::string & name, std::unique_ptr<AbstractFunction> && func, Object * parent)
+: Function(std::move(func))
 , m_name(name)
 , m_parent(parent)
 {

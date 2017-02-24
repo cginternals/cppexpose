@@ -40,8 +40,8 @@ void Object::addFunction(const std::string & name, RET (*fn)(Arguments...))
 template <class T, typename RET, typename... Arguments>
 void Object::addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...))
 {
-    AbstractFunction * func = new MemberFunction<T, RET, Arguments...>(obj, fn);
-    m_functions.push_back(Method(name, func));
+    auto func = cppassist::make_unique<MemberFunction<T, RET, Arguments...>>(obj, fn);
+    m_functions.push_back(Method(name, std::move(func)));
 }
 
 

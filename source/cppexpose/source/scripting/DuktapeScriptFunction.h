@@ -36,7 +36,7 @@ public:
     DuktapeScriptFunction(DuktapeScriptBackend * scriptBackend, int stashIndex);
 
     // Virtual AbstractFunction interface
-    virtual AbstractFunction * clone() override;
+    virtual std::unique_ptr<AbstractFunction> clone() override;
     virtual Variant call(const std::vector<Variant> & args) override;
 
 

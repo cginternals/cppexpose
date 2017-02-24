@@ -158,7 +158,7 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
         duk_pop(m_context);
 
         // Return callable function
-        Function function(new DuktapeScriptFunction(this, funcIndex));
+        Function function(cppassist::make_unique<DuktapeScriptFunction>(this, funcIndex));
         return Variant::fromValue<Function>(function);
     }
 

@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <memory>
 
 #include <cppexpose/cppexpose_api.h>
 
@@ -39,7 +40,7 @@ public:
     *  @return
     *    New function object pointing to the same function. Has to be deleted by the caller.
     */
-    virtual AbstractFunction * clone() = 0;
+    virtual std::unique_ptr<AbstractFunction> clone() = 0;
 
     /**
     *  @brief

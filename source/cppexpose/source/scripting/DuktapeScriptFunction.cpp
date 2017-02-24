@@ -1,6 +1,8 @@
 
 #include "DuktapeScriptFunction.h"
 
+#include <cppassist/memory/make_unique.h>
+
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
 
@@ -18,9 +20,9 @@ DuktapeScriptFunction::DuktapeScriptFunction(DuktapeScriptBackend * scriptBacken
 {
 }
 
-AbstractFunction * DuktapeScriptFunction::clone()
+std::unique_ptr<AbstractFunction> DuktapeScriptFunction::clone()
 {
-    return new DuktapeScriptFunction(m_scriptBackend, m_stashIndex);
+    return cppassist::make_unique<DuktapeScriptFunction>(m_scriptBackend, m_stashIndex);
 }
 
 Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)

@@ -9,8 +9,8 @@ namespace cppexpose
 {
 
 
-Function::Function(AbstractFunction * func)
-: m_func(func)
+Function::Function(std::unique_ptr<AbstractFunction> && func)
+: m_func(std::move(func))
 {
 }
 
@@ -21,16 +21,10 @@ Function::Function(const Function & other)
 
 Function::~Function()
 {
-    delete m_func;
 }
 
 Function & Function::operator=(const Function & other)
 {
-    // Delete old function
-    if (m_func) {
-        delete m_func;
-    }
-
     // Copy function
     m_func = other.m_func ? other.m_func->clone() : nullptr;
     return *this;
