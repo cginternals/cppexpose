@@ -92,9 +92,19 @@ target_compile_definitions(${target}
 # Compile options
 # 
 
+# MSVC compiler options
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+    set(TARGET_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+    PRIVATE
+        /bigobj
+
+    PUBLIC
+    )
+endif ()
+
 target_compile_options(${target}
     PRIVATE
-    ${DEFAULT_COMPILE_OPTIONS}
+    ${TARGET_COMPILE_OPTIONS}
 )
 
 
