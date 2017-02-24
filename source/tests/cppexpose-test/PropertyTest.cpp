@@ -88,7 +88,7 @@ TEST_F(PropertyTest, boolSet)
         value = val;
     };
 
-    auto prop = new Property<bool>("Property", &object, get, set);
+    auto prop = cppassist::make_unique<Property<bool>>("Property", &object, get, set);
     
     prop->valueChanged.connect(callback);
     
@@ -96,8 +96,6 @@ TEST_F(PropertyTest, boolSet)
     
     ASSERT_FALSE(prop->toBool());
     ASSERT_TRUE(callbackVar);
-
-    delete prop;
 }
 
 TEST_F(PropertyTest, ArraySet)
@@ -112,12 +110,10 @@ TEST_F(PropertyTest, ArraySet)
     auto elementGetter = [&value](const int & index) -> int {return value[index];};
     auto elementSetter = [&value](const int & index, const int & val){value[index] = val;};
 
-    auto prop = new Property<std::array<int, 4>>("Property", &object, getter, setter, elementGetter, elementSetter);
+    auto prop = cppassist::make_unique<Property<std::array<int, 4>>>("Property", &object, getter, setter, elementGetter, elementSetter);
 
     prop->setElement(0, 10);
     ASSERT_EQ(10, prop->getElement(0));
-
-    delete prop;
 }
 
 TEST_F(PropertyTest, stringSet)
@@ -142,7 +138,7 @@ TEST_F(PropertyTest, stringSet)
         value = val;
     };
 
-    auto prop = new Property<std::string>("Property", &object, get, set);
+    auto prop = cppassist::make_unique<Property<std::string>>("Property", &object, get, set);
     
     prop->valueChanged.connect(callback);
     
@@ -150,8 +146,6 @@ TEST_F(PropertyTest, stringSet)
     
     ASSERT_EQ("bar", prop->toString());
     ASSERT_TRUE(callbackVar);
-
-    delete prop;
 }
 
 TEST_F(PropertyTest, conversionTest_int)
@@ -160,14 +154,12 @@ TEST_F(PropertyTest, conversionTest_int)
     
     int intVar = 0;
     
-    auto intProp = new Property<int>("intProperty", &object, [&](){return intVar;}, [](const int&){});
+    auto intProp = cppassist::make_unique<Property<int>>("intProperty", &object, [&](){return intVar;}, [](const int&){});
     
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
     ASSERT_EQ(intVar, intProp->toULongLong());
     ASSERT_EQ("0", intProp->toString());
-
-    delete intProp;
 }
 
 TEST_F(PropertyTest, conversionTest_negative_int)
@@ -176,14 +168,12 @@ TEST_F(PropertyTest, conversionTest_negative_int)
     
     int intVar = -3;
     
-    auto intProp = new Property<int>("intProperty", &object, [&](){return intVar;}, [](const int&){});
+    auto intProp = cppassist::make_unique<Property<int>>("intProperty", &object, [&](){return intVar;}, [](const int&){});
     
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
     ASSERT_EQ(intVar, intProp->toULongLong());
     ASSERT_EQ("-3", intProp->toString());
-
-    delete intProp;
 }
 
 TEST_F(PropertyTest, conversionTest_string)
@@ -192,14 +182,12 @@ TEST_F(PropertyTest, conversionTest_string)
 
     std::string strVar = "3";
 
-    auto intProp = new Property<std::string>("stringProperty", &object, [&](){return strVar;}, [](const std::string&){});
+    auto intProp = cppassist::make_unique<Property<std::string>>("stringProperty", &object, [&](){return strVar;}, [](const std::string&){});
 
     ASSERT_DOUBLE_EQ(3, intProp->toDouble());
     ASSERT_EQ(3, intProp->toLongLong());
     ASSERT_EQ(3, intProp->toULongLong());
     ASSERT_EQ("3", intProp->toString());
-
-    delete intProp;
 }
 
 TEST_F(PropertyTest, conversionTest_string_variant)
@@ -208,11 +196,9 @@ TEST_F(PropertyTest, conversionTest_string_variant)
 
     std::string strVar = "test";
 
-    auto strProp = new Property<std::string>("stringProperty", &object, [&](){return strVar;}, [](const std::string&){});
+    auto strProp = cppassist::make_unique<Property<std::string>>("stringProperty", &object, [&](){return strVar;}, [](const std::string&){});
 
     ASSERT_EQ("test", strProp->toVariant().toString());
-
-    delete strProp;
 }
 
 TEST_F(PropertyTest, typesBool)

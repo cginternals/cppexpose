@@ -23,7 +23,7 @@ Connection::Connection(Connection && other)
 }
 
 Connection::Connection(const AbstractSignal * signal, Id id)
-: m_state(new State{signal, id})
+: m_state(std::make_shared<State>(signal, id))
 {
 }
 
@@ -63,5 +63,10 @@ void Connection::detach()
     }
 }
 
+Connection::State::State(const AbstractSignal * signal, Id id)
+: signal(signal)
+, id(id)
+{
+}
 
 } // namespace cppexpose

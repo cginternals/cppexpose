@@ -72,7 +72,7 @@ int main(int, char * [])
     std::cout << std::endl;
 
     // Create object with sub-objects and dynamic properties
-    Object * root = new Object;
+    auto root = cppassist::make_unique<Object>();
 
     for (int i=1; i<=4; i++)
     {
@@ -94,8 +94,6 @@ int main(int, char * [])
     values = root->toVariant();
     std::cout << values.toJSON(JSON::Beautify) << std::endl;
     std::cout << std::endl;
-
-    delete root;
 
     // Exit
     return 0;
