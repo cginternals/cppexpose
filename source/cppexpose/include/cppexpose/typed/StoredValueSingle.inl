@@ -44,9 +44,9 @@ StoredValueSingle<T, BASE>::~StoredValueSingle()
 }
 
 template <typename T, typename BASE>
-AbstractTyped * StoredValueSingle<T, BASE>::clone() const
+std::unique_ptr<AbstractTyped> StoredValueSingle<T, BASE>::clone() const
 {
-    return new StoredValueSingle<T, AbstractTyped>(m_getter, m_setter);
+    return cppassist::make_unique<StoredValueSingle<T, AbstractTyped>>(m_getter, m_setter);
 }
 
 template <typename T, typename BASE>
@@ -114,9 +114,9 @@ StoredValueSingle<const T, BASE>::~StoredValueSingle()
 }
 
 template <typename T, typename BASE>
-AbstractTyped * StoredValueSingle<const T, BASE>::clone() const
+std::unique_ptr<AbstractTyped> StoredValueSingle<const T, BASE>::clone() const
 {
-    return new StoredValueSingle<const T, AbstractTyped>(this->m_getter);
+    return cppassist::make_unique<StoredValueSingle<const T, AbstractTyped>>(this->m_getter);
 }
 
 template <typename T, typename BASE>

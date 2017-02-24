@@ -12,21 +12,21 @@ namespace cppexpose
 Variant Variant::array()
 {
     Variant variant;
-    variant.m_value = new DirectValue<VariantArray>(VariantArray());
+    variant.m_value = cppassist::make_unique<DirectValue<VariantArray>>(VariantArray());
     return variant;
 }
 
 Variant Variant::array(size_t count)
 {
     Variant variant;
-    variant.m_value = new DirectValue<VariantArray>(VariantArray(count));
+    variant.m_value = cppassist::make_unique<DirectValue<VariantArray>>(VariantArray(count));
     return variant;
 }
 
 Variant Variant::map()
 {
     Variant variant;
-    variant.m_value = new DirectValue<VariantMap>(VariantMap());
+    variant.m_value = cppassist::make_unique<DirectValue<VariantMap>>(VariantMap());
     return variant;
 }
 
@@ -41,109 +41,101 @@ Variant::Variant(const Variant & variant)
 }
 
 Variant::Variant(bool value)
-: m_value(new DirectValue<bool>(value))
+: m_value(cppassist::make_unique<DirectValue<bool>>(value))
 {
 }
 
 Variant::Variant(char value)
-: m_value(new DirectValue<char>(value))
+: m_value(cppassist::make_unique<DirectValue<char>>(value))
 {
 }
 
 Variant::Variant(unsigned char value)
-: m_value(new DirectValue<unsigned char>(value))
+: m_value(cppassist::make_unique<DirectValue<unsigned char>>(value))
 {
 }
 
 Variant::Variant(short value)
-: m_value(new DirectValue<short>(value))
+: m_value(cppassist::make_unique<DirectValue<short>>(value))
 {
 }
 
 Variant::Variant(unsigned short value)
-: m_value(new DirectValue<unsigned short>(value))
+: m_value(cppassist::make_unique<DirectValue<unsigned short>>(value))
 {
 }
 
 Variant::Variant(int value)
-: m_value(new DirectValue<int>(value))
+: m_value(cppassist::make_unique<DirectValue<int>>(value))
 {
 }
 
 Variant::Variant(unsigned int value)
-: m_value(new DirectValue<unsigned int>(value))
+: m_value(cppassist::make_unique<DirectValue<unsigned int>>(value))
 {
 }
 
 Variant::Variant(long value)
-: m_value(new DirectValue<long>(value))
+: m_value(cppassist::make_unique<DirectValue<long>>(value))
 {
 }
 
 Variant::Variant(unsigned long value)
-: m_value(new DirectValue<unsigned long>(value))
+: m_value(cppassist::make_unique<DirectValue<unsigned long>>(value))
 {
 }
 
 Variant::Variant(long long value)
-: m_value(new DirectValue<long long>(value))
+: m_value(cppassist::make_unique<DirectValue<long long>>(value))
 {
 }
 
 Variant::Variant(unsigned long long value)
-: m_value(new DirectValue<unsigned long long>(value))
+: m_value(cppassist::make_unique<DirectValue<unsigned long long>>(value))
 {
 }
 
 Variant::Variant(float value)
-: m_value(new DirectValue<float>(value))
+: m_value(cppassist::make_unique<DirectValue<float>>(value))
 {
 }
 
 Variant::Variant(double value)
-: m_value(new DirectValue<double>(value))
+: m_value(cppassist::make_unique<DirectValue<double>>(value))
 {
 }
 
 Variant::Variant(const char * value)
-: m_value(new DirectValue<std::string>(std::string(value)))
+: m_value(cppassist::make_unique<DirectValue<std::string>>(std::string(value)))
 {
 }
 
 Variant::Variant(const std::string & value)
-: m_value(new DirectValue<std::string>(value))
+: m_value(cppassist::make_unique<DirectValue<std::string>>(value))
 {
 }
 
 Variant::Variant(const std::vector<std::string> & value)
-: m_value(new DirectValue< std::vector<std::string> >(value))
+: m_value(cppassist::make_unique<DirectValue< std::vector<std::string> >>(value))
 {
 }
 
 Variant::Variant(const VariantArray & array)
-: m_value(new DirectValue<VariantArray>(array))
+: m_value(cppassist::make_unique<DirectValue<VariantArray>>(array))
 {
 }
 
 Variant::Variant(const VariantMap & map)
-: m_value(new DirectValue<VariantMap>(map))
+: m_value(cppassist::make_unique<DirectValue<VariantMap>>(map))
 {
 }
 
 Variant::~Variant()
 {
-    if (m_value)
-    {
-        delete m_value;
-    }
 }
 
 Variant & Variant::operator=(const Variant & variant)
 {
-    if (m_value) {
-        delete m_value;
-    }
-
     m_value = variant.m_value ? variant.m_value->clone() : nullptr;
 
     return *this;

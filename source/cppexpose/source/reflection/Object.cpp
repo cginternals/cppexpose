@@ -191,10 +191,10 @@ bool Object::isObject() const
     return true;
 }
 
-AbstractTyped * Object::clone() const
+std::unique_ptr<AbstractTyped> Object::clone() const
 {
     // [TODO]
-    return new Object(name());
+    return cppassist::make_unique<Object>(name());
 }
 
 const std::type_info & Object::type() const

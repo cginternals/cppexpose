@@ -63,9 +63,9 @@ StoredValueArray<T, BASE>::~StoredValueArray()
 }
 
 template <typename T, typename BASE>
-AbstractTyped * StoredValueArray<T, BASE>::clone() const
+std::unique_ptr<AbstractTyped> StoredValueArray<T, BASE>::clone() const
 {
-    return new StoredValueArray<T, AbstractTyped>(m_getter, m_setter, m_elementGetter, m_elementSetter);
+    return cppassist::make_unique<StoredValueArray<T, AbstractTyped>>(m_getter, m_setter, m_elementGetter, m_elementSetter);
 }
 
 template <typename T, typename BASE>
@@ -158,9 +158,9 @@ StoredValueArray<const T, BASE>::~StoredValueArray()
 }
 
 template <typename T, typename BASE>
-AbstractTyped * StoredValueArray<const T, BASE>::clone() const
+std::unique_ptr<AbstractTyped> StoredValueArray<const T, BASE>::clone() const
 {
-    return new StoredValueArray<const T, AbstractTyped>(
+    return cppassist::make_unique<StoredValueArray<const T, AbstractTyped>>(
       this->m_getter,
       this->m_setter,
       this->m_elementGetter,

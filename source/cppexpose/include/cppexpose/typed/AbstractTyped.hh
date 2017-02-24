@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <memory>
 
 #include <cppexpose/typed/TypeInterface.h>
 
@@ -37,7 +38,7 @@ public:
     *  @return
     *    Pointer to the cloned value
     */
-    virtual AbstractTyped * clone() const = 0;
+    virtual std::unique_ptr<AbstractTyped> clone() const = 0;
 
     /**
     *  @brief

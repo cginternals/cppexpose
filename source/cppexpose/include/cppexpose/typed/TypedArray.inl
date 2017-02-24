@@ -4,8 +4,8 @@
 
 #include <sstream>
 
-#include <cppassist/string/conversion.h>
 #include <cppassist/string/manipulation.h>
+#include <cppassist/memory/make_unique.inl>
 
 
 namespace cppexpose
@@ -24,13 +24,47 @@ TypedArray<T, ET, Size, BASE>::TypedArray()
 {
 }
 
+
+template <typename T, typename ET, size_t Size, typename BASE>
+TypedArray<T, ET, Size, BASE>::TypedArray(const TypedArray & rhs)
+: Typed(rhs)
+{
+    // don't copy m_subValues which will be lazy-initialized when used
+}
+
+
+template <typename T, typename ET, size_t Size, typename BASE>
+TypedArray<T, ET, Size, BASE>::TypedArray(TypedArray && rhs)
+: Typed(std::move(rhs))
+, m_subValues(std::move(rhs.m_subValues))
+{
+}
+
 template <typename T, typename ET, size_t Size, typename BASE>
 TypedArray<T, ET, Size, BASE>::~TypedArray()
 {
-    for (AbstractTyped * subValue : m_subValues)
-    {
-        delete subValue;
-    }
+}
+
+
+template <typename T, typename ET, size_t Size, typename BASE>
+TypedArray<T, ET, Size, BASE> & TypedArray<T, ET, Size, BASE>::operator=(const TypedArray & rhs)
+{
+    Typed<T, BASE>::operator=(std::move(rhs));
+
+    // don't copy m_subValues which will be lazy-initialized when used
+
+    return *this;
+}
+
+
+template <typename T, typename ET, size_t Size, typename BASE>
+TypedArray<T, ET, Size, BASE> & TypedArray<T, ET, Size, BASE>::operator=(TypedArray && rhs)
+{
+    Typed<T, BASE>::operator=(std::move(rhs));
+
+    m_subValues = std::move(rhs.m_subValues);
+
+    return *this;
 }
 
 template <typename T, typename ET, size_t Size, typename BASE>
@@ -67,11 +101,11 @@ template <typename T, typename ET, size_t Size, typename BASE>
 AbstractTyped * TypedArray<T, ET, Size, BASE>::subValue(size_t index)
 {
     // Create typed accessor for sub-values on first call to this function
-    if (m_subValues.size() == 0)
+    if (m_subValues.empty())
     {
         for (size_t i=0; i<Size; i++)
         {
-            m_subValues.push_back(new StoredValue<ET>(
+            m_subValues.push_back(cppassist::make_unique<StoredValue<ET>>(
                 [this, i] () -> ET {
                     return this->getElement(i);
                 },
@@ -83,7 +117,7 @@ AbstractTyped * TypedArray<T, ET, Size, BASE>::subValue(size_t index)
     }
 
     // Return sub-value accessor
-    return (index < Size) ? m_subValues[index] : nullptr;
+    return (index < Size) ? m_subValues[index].get() : nullptr;
 }
 
 template <typename T, typename ET, size_t Size, typename BASE>

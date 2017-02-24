@@ -250,7 +250,7 @@ public:
     virtual bool isObject() const override;
 
     // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
+    virtual std::unique_ptr<AbstractTyped> clone() const override;
     virtual const std::type_info & type() const override;
     virtual std::string typeName() const override;
     virtual bool isReadOnly() const override;

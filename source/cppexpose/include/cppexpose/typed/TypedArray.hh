@@ -31,9 +31,33 @@ public:
 
     /**
     *  @brief
+    *    Copy constructor
+    */
+    TypedArray(const TypedArray & rhs);
+
+    /**
+    *  @brief
+    *    Move constructor
+    */
+    TypedArray(TypedArray && rhs);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~TypedArray();
+
+    /**
+    *  @brief
+    *    Copy assignment operator
+    */
+    TypedArray & operator=(const TypedArray & rhs);
+
+    /**
+    *  @brief
+    *    Move assignment operator
+    */
+    TypedArray & operator=(TypedArray && rhs);
 
     /**
     *  @brief
@@ -78,7 +102,7 @@ public:
 
 
 protected:
-    std::vector<AbstractTyped *> m_subValues; ///< Typed accessors for sub-values (lazy initialized)
+    std::vector<std::unique_ptr<AbstractTyped>> m_subValues; ///< Typed accessors for sub-values (lazy initialized)
 };
 
 

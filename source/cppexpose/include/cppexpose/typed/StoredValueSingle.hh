@@ -75,7 +75,7 @@ public:
     virtual ~StoredValueSingle();
 
     // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
+    virtual std::unique_ptr<AbstractTyped> clone() const override;
 
     // Virtual Typed<T> functions
     virtual T value() const override;
@@ -144,7 +144,7 @@ public:
     virtual ~StoredValueSingle();
 
     // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
+    virtual std::unique_ptr<AbstractTyped> clone() const override;
     virtual bool isReadOnly() const override;
 
     // Virtual Typed<T> functions
