@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cppassist/memory/make_unique.h>
+
+
 namespace cppexpose
 {
 
@@ -18,9 +21,9 @@ GenericComponent<Type, BaseType>::~GenericComponent()
 }
 
 template <typename Type, typename BaseType>
-BaseType * GenericComponent<Type, BaseType>::createInstance() const
+std::unique_ptr<BaseType> GenericComponent<Type, BaseType>::createInstance() const
 {
-    return new Type();
+    return cppassist::make_unique<Type>();
 }
 
 

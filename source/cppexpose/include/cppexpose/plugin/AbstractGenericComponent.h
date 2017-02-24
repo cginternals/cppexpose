@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <memory>
+
 #include <cppexpose/plugin/AbstractComponent.h>
 
 
@@ -43,7 +45,7 @@ public:
     *  @return
     *    New instance
     */
-    virtual BaseType * createInstance() const = 0;
+    virtual std::unique_ptr<BaseType> createInstance() const = 0;
 };
 
 

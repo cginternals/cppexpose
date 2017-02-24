@@ -33,7 +33,7 @@ public:
     virtual ~GenericComponent();
 
     // Virtual AbstractGenericComponent<BaseType> interface
-    virtual BaseType * createInstance() const override;
+    virtual std::unique_ptr<BaseType> createInstance() const override;
 };
 
 
