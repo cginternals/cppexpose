@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <cppassist/memory/make_unique.h>
+
 #include <cppexpose/function/StaticFunction.h>
 #include <cppexpose/function/MemberFunction.h>
 
@@ -20,7 +22,7 @@ DynamicProperty<T> * Object::createDynamicProperty(const std::string & name, con
     }
 
     // Create property and add it to the object
-    auto property = std::make_unique<DynamicProperty<T>>(name, nullptr, value);
+    auto property = cppassist::make_unique<DynamicProperty<T>>(name, nullptr, value);
     auto propertyPtr = property.get();
     this->addProperty(std::move(property));
 

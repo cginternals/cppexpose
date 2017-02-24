@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <cppassist/string/conversion.h>
+#include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/reflection/DynamicProperty.h>
 
@@ -76,7 +77,7 @@ int main(int, char * [])
     for (int i=1; i<=4; i++)
     {
         std::string name = "sub" + cppassist::string::toString<int>(i);
-        auto sub = std::make_unique<Object>(name);
+        auto sub = cppassist::make_unique<Object>(name);
 
         for (int j=1; j<=4; j++)
         {

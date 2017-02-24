@@ -2,6 +2,7 @@
 #include <cppexpose/scripting/example/TreeNode.h>
 
 #include <cppassist/string/conversion.h>
+#include <cppassist/memory/make_unique.h>
 
 #include <iostream>
 
@@ -49,10 +50,10 @@ void TreeNode::expand()
     }
 
     // Create child nodes
-    m_left = std::make_unique<TreeNode>("left");
+    m_left = cppassist::make_unique<TreeNode>("left");
     addProperty(m_left.get());
 
-    m_right = std::make_unique<TreeNode>("right");
+    m_right = cppassist::make_unique<TreeNode>("right");
     addProperty(m_right.get());
 }
 
