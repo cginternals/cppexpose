@@ -21,13 +21,13 @@ ScriptContext::ScriptContext(const std::string & backend)
     // Javascript (duktape)
     if (backend == "duktape" || backend == "javascript" || backend == "js")
     {
-        m_backend = new DuktapeScriptBackend();
+        m_backend = cppassist::make_unique<DuktapeScriptBackend>();
         m_backend->initialize(this);
     }
 }
 
-ScriptContext::ScriptContext(AbstractScriptBackend * backend)
-: m_backend(backend)
+ScriptContext::ScriptContext(std::unique_ptr<AbstractScriptBackend> && backend)
+: m_backend(std::move(backend))
 , m_globalObject(nullptr)
 {
     // Register backend
@@ -38,8 +38,6 @@ ScriptContext::ScriptContext(AbstractScriptBackend * backend)
 
 ScriptContext::~ScriptContext()
 {
-    // Release backend
-    delete m_backend;
 }
 
 Object * ScriptContext::globalObject() const

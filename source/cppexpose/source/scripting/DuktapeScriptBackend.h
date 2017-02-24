@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <memory>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
 
@@ -95,8 +96,8 @@ protected:
 
 
 protected:
-    duk_context          * m_context;          ///< Duktape context (never null)
-    DuktapeObjectWrapper * m_globalObjWrapper; ///< Global object wrapper (can be null)
+    duk_context                         * m_context;          ///< Duktape context (never null)
+    std::unique_ptr<DuktapeObjectWrapper> m_globalObjWrapper; ///< Global object wrapper (can be null)
 };
 
 

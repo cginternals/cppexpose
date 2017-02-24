@@ -37,12 +37,6 @@ DuktapeScriptBackend::DuktapeScriptBackend()
 
 DuktapeScriptBackend::~DuktapeScriptBackend()
 {
-    // Delete global object wrapper
-    if (m_globalObjWrapper)
-    {
-        delete m_globalObjWrapper;
-    }
-
     // Destroy duktape script context
     duk_destroy_heap(m_context);
 }
@@ -77,13 +71,10 @@ void DuktapeScriptBackend::setGlobalObject(Object * obj)
         duk_push_global_object(m_context);
         duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
         duk_pop(m_context);
-
-        // Destroy wrapper
-        delete m_globalObjWrapper;
     }
 
     // Create object wrapper
-    m_globalObjWrapper = new DuktapeObjectWrapper(this);
+    m_globalObjWrapper = cppassist::make_unique<DuktapeObjectWrapper>(this);
 
     // Wrap object in javascript object and put it into the global object
     duk_push_global_object(m_context);

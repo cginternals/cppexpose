@@ -112,11 +112,11 @@ protected:
 
 
 protected:
-    duk_context                         * m_context;       ///< Duktape context
-    DuktapeScriptBackend                * m_scriptBackend; ///< Duktape scripting backend
-    Object                              * m_obj;           ///< The wrapped object
-    int                                   m_stashIndex;    ///< Index of the wrapped object in the stash
-    std::vector<DuktapeObjectWrapper *>   m_subObjects;    ///< List of wrapped sub-objects
+    duk_context                                      * m_context;       ///< Duktape context
+    DuktapeScriptBackend                             * m_scriptBackend; ///< Duktape scripting backend
+    Object                                           * m_obj;           ///< The wrapped object
+    int                                                m_stashIndex;    ///< Index of the wrapped object in the stash
+    std::vector<std::unique_ptr<DuktapeObjectWrapper>> m_subObjects;    ///< List of wrapped sub-objects
 
     // Connections to the wrapped object
     cppexpose::ScopedConnection m_beforeDestroyConnection;
