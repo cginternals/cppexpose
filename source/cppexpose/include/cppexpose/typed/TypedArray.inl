@@ -27,7 +27,7 @@ TypedArray<T, ET, Size, BASE>::TypedArray()
 
 template <typename T, typename ET, size_t Size, typename BASE>
 TypedArray<T, ET, Size, BASE>::TypedArray(const TypedArray & rhs)
-: Typed(rhs)
+: Typed<T, BASE>(rhs)
 {
     // don't copy m_subValues which will be lazy-initialized when used
 }
@@ -35,7 +35,7 @@ TypedArray<T, ET, Size, BASE>::TypedArray(const TypedArray & rhs)
 
 template <typename T, typename ET, size_t Size, typename BASE>
 TypedArray<T, ET, Size, BASE>::TypedArray(TypedArray && rhs)
-: Typed(std::move(rhs))
+: Typed<T, BASE>(std::move(rhs))
 , m_subValues(std::move(rhs.m_subValues))
 {
 }
