@@ -240,7 +240,7 @@ protected:
     std::vector<std::string>                              m_paths;               ///< Plugin paths (all)
     std::vector<std::string>                              m_pathsInternal;       ///< Plugin paths (internal)
     std::vector<std::string>                              m_pathsUser;           ///< Plugin paths (user defined)
-    std::vector<AbstractComponent *>                      m_components;          ///< Available components
+    std::vector<AbstractComponent *>                      m_components;          ///< Available components, statically initialized once per component class via the COMPONENT macro
     std::map<std::string, std::unique_ptr<PluginLibrary>> m_librariesByFilePath; ///< Available components by path
     std::map<std::string, AbstractComponent *>            m_componentsByName;    ///< Available components by name
 };
