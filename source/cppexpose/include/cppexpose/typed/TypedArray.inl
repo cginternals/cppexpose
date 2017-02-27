@@ -49,7 +49,7 @@ TypedArray<T, ET, Size, BASE>::~TypedArray()
 template <typename T, typename ET, size_t Size, typename BASE>
 TypedArray<T, ET, Size, BASE> & TypedArray<T, ET, Size, BASE>::operator=(const TypedArray & rhs)
 {
-    Typed<T, BASE>::operator=(std::move(rhs));
+    Typed<T, BASE>::operator=(rhs);
 
     // don't copy m_subValues which will be lazy-initialized when used
 
