@@ -463,6 +463,9 @@ std::string Object::relativePathTo(const Object * const other) const
 
 const AbstractProperty * Object::findProperty(const std::vector<std::string> & path) const
 {
+    // Find property
+    const AbstractProperty * property = this;
+
     auto current = path.begin();
     const auto end = path.end();
 
@@ -470,9 +473,6 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
     {
         // Get property name (first part of the path)
         const std::string & name = *current;
-
-        // Resolve property
-        AbstractProperty * property = nullptr;
 
         if (name == g_parent)
         {
@@ -482,11 +482,16 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
         else
         {
             // Sub-property
-            const auto it = m_propertiesMap.find(name);
+            auto object = static_cast<const Object *>(property);
+            const auto it = object->m_propertiesMap.find(name);
 
             if (it != m_propertiesMap.end())
             {
                 property = it->second;
+            }
+            else
+            {
+                property = nullptr;
             }
         }
 
