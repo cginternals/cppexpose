@@ -477,7 +477,7 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
         if (name == g_parent)
         {
             // Parent property
-            property = m_parent;
+            property = property->m_parent;
         }
         else
         {
