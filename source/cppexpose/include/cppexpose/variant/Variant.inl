@@ -80,7 +80,7 @@ T Variant::value(const T & defaultValue) const
     // Type of variant is the wanted type
     if (m_value && typeid(T) == m_value->type())
     {
-        return reinterpret_cast<DirectValue<T> *>(m_value.get())->value();
+        return static_cast<DirectValue<T> *>(m_value.get())->value();
     }
 
     // Variant map or array to string conversion

@@ -190,7 +190,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
 {
     // Check if library is already loaded and reload is not requested
     const auto it = m_librariesByFilePath.find(filePath);
-    const auto alreadyLoaded = it != m_librariesByFilePath.end();
+    const auto alreadyLoaded = (it != m_librariesByFilePath.end());
     if (alreadyLoaded && !reload) {
         return true;
     }
@@ -248,8 +248,12 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
 
 void ComponentManager::unloadLibrary(PluginLibrary * library)
 {
+    // Check if library is loaded
     auto it = std::find_if(m_librariesByFilePath.begin(), m_librariesByFilePath.end(),
-        [library](const std::pair<const std::string, std::unique_ptr<PluginLibrary>> & item) { return item.second.get() == library; });
+        [library](const std::pair<const std::string, std::unique_ptr<PluginLibrary>> & item)
+        {
+            return item.second.get() == library;
+        });
     if (it == m_librariesByFilePath.end())
     {
         return;

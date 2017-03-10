@@ -55,14 +55,29 @@ public:
     */
     Object(const std::string & name);
 
+    /**
+    *  @brief
+    *    Copy constructor (deleted)
+    *
+    *  @param[in]
+    *    Object to copy from
+    */
     Object(const Object &) = delete;
-    Object & operator=(const Object &) = delete;
 
     /**
     *  @brief
     *    Destructor
     */
     virtual ~Object();
+
+    /**
+    *  @brief
+    *    Copy assignment operator (deleted)
+    *
+    *  @param[in]
+    *    Object to copy from
+    */
+    Object & operator=(const Object &) = delete;
 
     /**
     *  @brief
@@ -151,8 +166,6 @@ public:
     *
     *  @param[in] property
     *    Property (must NOT be null!)
-    *  @param[in] ownership
-    *    Property ownership
     *
     *  @return
     *    'true' if the property has been added to the object, else 'false'
@@ -163,12 +176,26 @@ public:
     *    The name of the property must be valid and unique to the object,
     *    also the property must not belong to any other object already.
     *    Otherwise, the property will not be added to the object.
-    *
-    *    If ownership is set to PropertyOwnership::Parent, the object
-    *    takes the ownership over the specified property, so the property
-    *    will be deleted together with the object in its destructor.
     */
     bool addProperty(AbstractProperty * property);
+
+    /**
+    *  @brief
+    *    Add property to object
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @return
+    *    'true' if the property has been added to the object, else 'false'
+    *
+    *  @remarks
+    *    Adds the given property to the object.
+    *
+    *    The name of the property must be valid and unique to the object,
+    *    also the property must not belong to any other object already.
+    *    Otherwise, the property will not be added to the object.
+    */
     bool addProperty(std::unique_ptr<AbstractProperty> && property);
 
     /**
