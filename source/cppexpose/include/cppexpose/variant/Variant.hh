@@ -324,7 +324,7 @@ public:
 
 
 protected:
-    AbstractTyped * m_value;
+    std::unique_ptr<AbstractTyped> m_value;
 };
 
 

@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cppassist/memory/make_unique.h>
+
+
 namespace cppexpose
 {
 
@@ -19,9 +22,9 @@ MemberFunction<T, RET, Arguments...>::~MemberFunction()
 }
 
 template <class T, typename RET, typename... Arguments>
-AbstractFunction * MemberFunction<T, RET, Arguments...>::clone()
+std::unique_ptr<AbstractFunction> MemberFunction<T, RET, Arguments...>::clone()
 {
-    return new MemberFunction<T, RET, Arguments...>(m_obj, m_func);
+    return cppassist::make_unique<MemberFunction<T, RET, Arguments...>>(m_obj, m_func);
 }
 
 template <class T, typename RET, typename... Arguments>

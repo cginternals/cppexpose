@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <memory>
+
 #include <cppexpose/plugin/AbstractComponent.h>
 
 
@@ -23,8 +25,8 @@ public:
     {
     }
 
-    virtual BinaryOperator * createInstance(int a, int b) = 0;
-    virtual BinaryOperator * createInstance(int a) = 0;
+    virtual std::unique_ptr<BinaryOperator> createInstance(int a, int b) = 0;
+    virtual std::unique_ptr<BinaryOperator> createInstance(int a) = 0;
 };
 
 /**
@@ -43,13 +45,13 @@ public:
     {
     }
 
-    virtual BinaryOperator * createInstance(int a, int b) override
+    virtual std::unique_ptr<BinaryOperator> createInstance(int a, int b) override
     {
-        return new CLASS(a, b);
+        return cppassist::make_unique<CLASS>(a, b);
     }
 
-    virtual BinaryOperator * createInstance(int a)
+    virtual std::unique_ptr<BinaryOperator> createInstance(int a) override
     {
-        return new CLASS(a, a);
+        return cppassist::make_unique<CLASS>(a, a);
     }
 };

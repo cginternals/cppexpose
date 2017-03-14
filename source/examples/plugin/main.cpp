@@ -56,7 +56,7 @@ int main(int, char * [])
             continue;
 
         // Instanciate example
-        cppexpose::Example * example = component->createInstance();
+        auto example = component->createInstance();
 
         // Evaluate operator
         std::cout << name << std::endl;
@@ -77,7 +77,7 @@ int main(int, char * [])
             continue;
 
         // Instanciate operator
-        BinaryOperator * op = component->createInstance(2, 3);
+        auto op = component->createInstance(2, 3);
 
         // Evaluate operator
         std::cout << name << std::endl;

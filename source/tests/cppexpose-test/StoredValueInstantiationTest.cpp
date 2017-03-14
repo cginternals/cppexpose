@@ -33,10 +33,8 @@ TYPED_TEST_CASE(StoredValueInstantiation_test, InstantiationTypes);
 
 TYPED_TEST(StoredValueInstantiation_test, instantiateStoredValue)
 {
-    auto storedVal = new StoredValue<TypeParam>();
+    auto storedVal = cppassist::make_unique<StoredValue<TypeParam>>();
 
     ASSERT_EQ(typeid(typename std::remove_cv<TypeParam>::type), storedVal->type());
-
-    delete storedVal;
 }
 

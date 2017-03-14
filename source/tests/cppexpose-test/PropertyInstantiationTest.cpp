@@ -61,11 +61,9 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_LambdaGett
     {
     };
 
-    auto prop = new Property<TypeParam>("Property", &object, get, set);
+    auto prop = cppassist::make_unique<Property<TypeParam>>("Property", &object, get, set);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
 }
 
 
@@ -73,24 +71,19 @@ TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_StaticGett
 {
     Object object;
 
-    auto prop = new Property<TypeParam>("Property", &object, &staticGetter<TypeParam>, &staticSetter<TypeParam>);
+    auto prop = cppassist::make_unique<Property<TypeParam>>("Property", &object, &staticGetter<TypeParam>, &staticSetter<TypeParam>);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
 }
 
 TYPED_TEST(PropertyInstantiation_test, instantiatePropertyWith_String_Object_GetterConst_SetterConst)
 {
     Object object;
 
-    auto obj = new MyObject<TypeParam>("TestObject");
-    auto prop = new Property<TypeParam>("Property", &object, obj, &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setterconst);
+    auto obj = cppassist::make_unique<MyObject<TypeParam>>("TestObject");
+    auto prop = cppassist::make_unique<Property<TypeParam>>("Property", &object, obj.get(), &MyObject<TypeParam>::getterconst, &MyObject<TypeParam>::setterconst);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
-    delete obj;
 }
 
 // Property instantiaton (read only)
@@ -104,11 +97,9 @@ TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_Lambd
         return TypeParam();
     };
 
-    auto prop = new Property<const TypeParam>("Property", &object, get);
+    auto prop = cppassist::make_unique<Property<const TypeParam>>("Property", &object, get);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
 }
 
 
@@ -116,9 +107,7 @@ TYPED_TEST(PropertyInstantiation_test, instantiateConstPropertyWith_String_Stati
 {
     Object object;
 
-    auto prop = new Property<const TypeParam>("Property", &object, &staticGetter<TypeParam>);
+    auto prop = cppassist::make_unique<Property<const TypeParam>>("Property", &object, &staticGetter<TypeParam>);
 
     ASSERT_EQ(typeid(TypeParam), prop->type());
-
-    delete prop;
 }

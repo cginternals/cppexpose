@@ -122,6 +122,8 @@ protected:
     */
     struct State
     {
+        State(const AbstractSignal * signal, Id id);
+
         const AbstractSignal * signal;  ///< Source signal
         Id                     id;      ///< Connection ID
     };

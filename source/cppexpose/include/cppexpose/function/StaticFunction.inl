@@ -1,5 +1,6 @@
 
 #pragma once
+#include <cppassist/memory/make_unique.inl>
 
 
 namespace cppexpose
@@ -18,9 +19,9 @@ StaticFunction<RET, Arguments...>::~StaticFunction()
 }
 
 template <typename RET, typename... Arguments>
-AbstractFunction * StaticFunction<RET, Arguments...>::clone()
+std::unique_ptr<AbstractFunction> StaticFunction<RET, Arguments...>::clone()
 {
-    return new StaticFunction<RET, Arguments...>(m_func);
+    return cppassist::make_unique<StaticFunction<RET, Arguments...>>(m_func);
 }
 
 template <typename RET, typename... Arguments>

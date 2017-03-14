@@ -18,17 +18,6 @@ class Object;
 
 /**
 *  @brief
-*    Defines the ownership for a property or object
-*/
-enum class PropertyOwnership
-{
-    None = 0 ///< The property is owner by itself (or outside)
-  , Parent   ///< The property is owned by its parent
-};
-
-
-/**
-*  @brief
 *    Base class for properties
 */
 class CPPEXPOSE_API AbstractProperty : public AbstractTyped
@@ -207,7 +196,7 @@ protected:
     *    Do not set m_parent before calling this function, otherwise
     *    the property might be rejected when added to the parent.
     */
-    void initProperty(const std::string & name, Object * parent, PropertyOwnership ownership);
+    void initProperty(const std::string & name, Object * parent);
 
     /**
     *  @brief

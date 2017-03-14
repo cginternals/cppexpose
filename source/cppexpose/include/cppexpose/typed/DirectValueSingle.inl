@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cppassist/memory/make_unique.h>
+
+
 namespace cppexpose
 {
 
@@ -24,9 +27,9 @@ DirectValueSingle<T, BASE>::~DirectValueSingle()
 }
 
 template <typename T, typename BASE>
-AbstractTyped * DirectValueSingle<T, BASE>::clone() const
+std::unique_ptr<AbstractTyped> DirectValueSingle<T, BASE>::clone() const
 {
-    return new DirectValueSingle<T, AbstractTyped>(m_value);
+    return cppassist::make_unique<DirectValueSingle<T, AbstractTyped>>(m_value);
 }
 
 template <typename T, typename BASE>
@@ -73,9 +76,9 @@ DirectValueSingle<const T, BASE>::~DirectValueSingle()
 }
 
 template <typename T, typename BASE>
-AbstractTyped * DirectValueSingle<const T, BASE>::clone() const
+std::unique_ptr<AbstractTyped> DirectValueSingle<const T, BASE>::clone() const
 {
-    return new DirectValueSingle<const T, AbstractTyped>(this->m_value);
+    return cppassist::make_unique<DirectValueSingle<const T, AbstractTyped>>(this->m_value);
 }
 
 template <typename T, typename BASE>

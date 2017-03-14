@@ -47,7 +47,7 @@ public:
     *  @param[in] backend
     *    Scripting backend (must NOT be null)
     */
-    ScriptContext(AbstractScriptBackend * backend);
+    ScriptContext(std::unique_ptr<AbstractScriptBackend> && backend);
 
     /**
     *  @brief
@@ -98,8 +98,8 @@ public:
 
 
 protected:
-    AbstractScriptBackend * m_backend;      ///< Scripting backend (can be null)
-    Object                * m_globalObject; ///< Global object that is exposed to the scripting environment (can be null)
+    std::unique_ptr<AbstractScriptBackend> m_backend;      ///< Scripting backend (can be null)
+    Object                               * m_globalObject; ///< Global object that is exposed to the scripting environment (can be null)
 };
 
 

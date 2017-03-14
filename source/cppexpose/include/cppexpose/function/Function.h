@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <memory>
 
 #include <cppexpose/cppexpose_api.h>
 
@@ -35,7 +36,7 @@ public:
     *  @param[in] func
     *    Function object (can be null)
     */
-    Function(AbstractFunction * func = nullptr);
+    Function(std::unique_ptr<AbstractFunction> && func = nullptr);
 
     /**
     *  @brief
@@ -50,7 +51,7 @@ public:
     *  @brief
     *    Destructor
     */
-    ~Function();
+    virtual ~Function();
 
     /**
     *  @brief
@@ -78,7 +79,7 @@ public:
 
 
 protected:
-    AbstractFunction * m_func; ///< Function implementation
+    std::unique_ptr<AbstractFunction> m_func; ///< Function implementation
 };
 
 

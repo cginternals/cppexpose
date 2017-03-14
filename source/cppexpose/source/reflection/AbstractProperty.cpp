@@ -107,7 +107,7 @@ bool AbstractProperty::removeOption(const std::string & key)
     return true;
 }
 
-void AbstractProperty::initProperty(const std::string & name, Object * parent, PropertyOwnership ownership)
+void AbstractProperty::initProperty(const std::string & name, Object * parent)
 {
     // Store name
     m_name = name;
@@ -118,7 +118,7 @@ void AbstractProperty::initProperty(const std::string & name, Object * parent, P
     // Add property to parent object
     if (parent)
     {
-        parent->addProperty(this, ownership);
+        parent->addProperty(this);
     }
 }
 

@@ -30,7 +30,7 @@ public:
     *  @param[in] parent
     *    Parent object (can be null)
     */
-    Method(AbstractFunction * func, Object * parent = nullptr);
+    Method(std::unique_ptr<AbstractFunction> && func, Object * parent = nullptr);
 
     /**
     *  @brief
@@ -43,7 +43,7 @@ public:
     *  @param[in] parent
     *    Parent object (can be null)
     */
-    Method(const std::string & name, AbstractFunction * func, Object * parent = nullptr);
+    Method(const std::string & name, std::unique_ptr<AbstractFunction> && func, Object * parent = nullptr);
 
     /**
     *  @brief

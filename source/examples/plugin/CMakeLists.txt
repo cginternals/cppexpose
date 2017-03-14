@@ -32,6 +32,7 @@ set(sources
     Addition.h
     Multiplication.cpp
     Multiplication.h
+    BinaryOperatorComponent.h
 )
 
 

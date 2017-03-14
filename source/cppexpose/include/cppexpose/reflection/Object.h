@@ -57,9 +57,27 @@ public:
 
     /**
     *  @brief
+    *    Copy constructor (deleted)
+    *
+    *  @param[in]
+    *    Object to copy from
+    */
+    Object(const Object &) = delete;
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~Object();
+
+    /**
+    *  @brief
+    *    Copy assignment operator (deleted)
+    *
+    *  @param[in]
+    *    Object to copy from
+    */
+    Object & operator=(const Object &) = delete;
 
     /**
     *  @brief
@@ -148,8 +166,6 @@ public:
     *
     *  @param[in] property
     *    Property (must NOT be null!)
-    *  @param[in] ownership
-    *    Property ownership
     *
     *  @return
     *    'true' if the property has been added to the object, else 'false'
@@ -160,12 +176,27 @@ public:
     *    The name of the property must be valid and unique to the object,
     *    also the property must not belong to any other object already.
     *    Otherwise, the property will not be added to the object.
-    *
-    *    If ownership is set to PropertyOwnership::Parent, the object
-    *    takes the ownership over the specified property, so the property
-    *    will be deleted together with the object in its destructor.
     */
-    bool addProperty(AbstractProperty * property, PropertyOwnership ownership = PropertyOwnership::None);
+    bool addProperty(AbstractProperty * property);
+
+    /**
+    *  @brief
+    *    Add property to object
+    *
+    *  @param[in] property
+    *    Property (must NOT be null!)
+    *
+    *  @return
+    *    'true' if the property has been added to the object, else 'false'
+    *
+    *  @remarks
+    *    Adds the given property to the object.
+    *
+    *    The name of the property must be valid and unique to the object,
+    *    also the property must not belong to any other object already.
+    *    Otherwise, the property will not be added to the object.
+    */
+    bool addProperty(std::unique_ptr<AbstractProperty> && property);
 
     /**
     *  @brief
@@ -181,31 +212,9 @@ public:
     *    If the specified property does not belong to the object,
     *    this function will do nothing and return 'false'.
     *
-    *    If ownership of the property is set to PropertyOwnership::Parent,
-    *    the object will release its ownership over the property and
-    *    transfer it back to the caller. The property will not be deleted!
+    *    If the object has ownership of the property, it will be deleted.
     */
     bool removeProperty(AbstractProperty * property);
-
-    /**
-    *  @brief
-    *    Destroy property
-    *
-    *  @param[in] property
-    *    Property (must NOT be null!)
-    *
-    *  @return
-    *    'true' if the property has been destroyed, else 'false'
-    *
-    *  @remarks
-    *    This function destroys the specified property from the object.
-    *    It can only be used on properties which are owned by the object,
-    *    e.g., properties created by createDynamicProperty or added
-    *    with PropertyOwnership::Parent. Properties which are not owned by
-    *    the object must be deleted by other means, they will automatically
-    *    remove themselves from the object on destruction.
-    */
-    bool destroyProperty(AbstractProperty * property);
 
     //@{
     /**
@@ -268,7 +277,7 @@ public:
     virtual bool isObject() const override;
 
     // Virtual AbstractTyped interface
-    virtual AbstractTyped * clone() const override;
+    virtual std::unique_ptr<AbstractTyped> clone() const override;
     virtual const std::type_info & type() const override;
     virtual std::string typeName() const override;
     virtual bool isReadOnly() const override;
@@ -324,7 +333,7 @@ protected:
     std::string                                         m_className;         ///< Class name for this object (default: "Object")
     std::vector<AbstractProperty *>                     m_properties;        ///< List of properties in the object
     std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;     ///< Map of names and properties
-    std::vector<AbstractProperty *>                     m_managedProperties; ///< Property that are owned by the object
+    std::vector<std::unique_ptr<AbstractProperty>>      m_managedProperties; ///< Property that are owned by the object
     std::vector<Method>                                 m_functions;         ///< List of exported functions
 };
 

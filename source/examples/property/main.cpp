@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <cppassist/string/conversion.h>
+#include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/reflection/DynamicProperty.h>
 
@@ -71,13 +72,12 @@ int main(int, char * [])
     std::cout << std::endl;
 
     // Create object with sub-objects and dynamic properties
-    Object * root = new Object;
+    auto root = cppassist::make_unique<Object>();
 
     for (int i=1; i<=4; i++)
     {
         std::string name = "sub" + cppassist::string::toString<int>(i);
-        Object * sub = new Object(name);
-        root->addProperty(sub, PropertyOwnership::Parent);
+        auto sub = cppassist::make_unique<Object>(name);
 
         for (int j=1; j<=4; j++)
         {
@@ -85,15 +85,15 @@ int main(int, char * [])
             sub->createDynamicProperty<int>(name, i * 10 + j);
         }
 
-        sub->destroyProperty(sub->property("value2"));
-        sub->destroyProperty(sub->property("value3"));
+        sub->removeProperty(sub->property("value2"));
+        sub->removeProperty(sub->property("value3"));
+
+        root->addProperty(std::move(sub));
     }
 
     values = root->toVariant();
     std::cout << values.toJSON(JSON::Beautify) << std::endl;
     std::cout << std::endl;
-
-    delete root;
 
     // Exit
     return 0;

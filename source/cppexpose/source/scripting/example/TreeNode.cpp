@@ -2,6 +2,7 @@
 #include <cppexpose/scripting/example/TreeNode.h>
 
 #include <cppassist/string/conversion.h>
+#include <cppassist/memory/make_unique.h>
 
 #include <iostream>
 
@@ -49,11 +50,11 @@ void TreeNode::expand()
     }
 
     // Create child nodes
-    m_left = new TreeNode("left");
-    addProperty(m_left, PropertyOwnership::Parent);
+    m_left = cppassist::make_unique<TreeNode>("left");
+    addProperty(m_left.get());
 
-    m_right = new TreeNode("right");
-    addProperty(m_right, PropertyOwnership::Parent);
+    m_right = cppassist::make_unique<TreeNode>("right");
+    addProperty(m_right.get());
 }
 
 void TreeNode::collapse()
@@ -61,13 +62,13 @@ void TreeNode::collapse()
     // Destroy child nodes
     if (m_left)
     {
-        destroyProperty(m_left);
+        removeProperty(m_left.get());
         m_left = nullptr;
     }
 
     if (m_right)
     {
-        destroyProperty(m_right);
+        removeProperty(m_right.get());
         m_right = nullptr;
     }
 }

@@ -30,11 +30,6 @@ DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend)
 
 DuktapeObjectWrapper::~DuktapeObjectWrapper()
 {
-    // Delete wrapped sub-objects
-    for (auto * objWrapper : m_subObjects)
-    {
-        delete objWrapper;
-    }
 }
 
 void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
@@ -116,12 +111,13 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
         if (prop->isObject())
         {
             // Create object wrapper
-            auto objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
-            m_subObjects.push_back(objWrapper);
+            auto objWrapper = cppassist::make_unique<DuktapeObjectWrapper>(m_scriptBackend);
 
             // Add sub object
             Object * subObj = static_cast<Object *>(prop);
             objWrapper->wrapObject(objIndex, subObj);
+
+            m_subObjects.push_back(std::move(objWrapper));
         }
     }
 
@@ -141,9 +137,8 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
             Object * obj = static_cast<Object *>(property);
 
             // Create object wrapper
-            DuktapeObjectWrapper * objWrapper = new DuktapeObjectWrapper(m_scriptBackend);
+            auto objWrapper = cppassist::make_unique<DuktapeObjectWrapper>(m_scriptBackend);
             assert(m_subObjects.size() == index);
-            m_subObjects.push_back(objWrapper);
 
             // Expose object to scripting
             duk_push_global_stash(m_context);
@@ -151,6 +146,8 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
             objWrapper->wrapObject(duk_get_top_index(m_context), obj);
             duk_pop(m_context);
             duk_pop(m_context);
+
+            m_subObjects.push_back(std::move(objWrapper));
         }
         else
         {
@@ -196,7 +193,6 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
 
         // Delete object wrapper
         auto it = m_subObjects.begin() + index;
-        delete (*it);
         m_subObjects.erase(it);
     });
 

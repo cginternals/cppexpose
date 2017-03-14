@@ -38,8 +38,8 @@ ComponentManager::~ComponentManager()
     // inside the plugin library, when deinitialize() is called.
 
     // Unload plugin libraries
-    for (const std::pair<std::string, PluginLibrary *> & it : m_librariesByFilePath) {
-        unloadLibrary(it.second);
+    for (const auto & it : m_librariesByFilePath) {
+        unloadLibrary(it.second.get());
     }
 }
 
@@ -135,8 +135,8 @@ std::vector<PluginLibrary *> ComponentManager::pluginLibraries() const
     std::vector<PluginLibrary *> pluginLibraries;
     pluginLibraries.reserve(m_librariesByFilePath.size());
 
-    for (auto libraryIterator : m_librariesByFilePath)
-        pluginLibraries.push_back(libraryIterator.second);
+    for (const auto & libraryIterator : m_librariesByFilePath)
+        pluginLibraries.push_back(libraryIterator.second.get());
 
     return pluginLibraries;
 }
@@ -189,8 +189,9 @@ void ComponentManager::printComponents() const
 bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
 {
     // Check if library is already loaded and reload is not requested
-    auto it = m_librariesByFilePath.find(filePath);
-    if (it != m_librariesByFilePath.end() && !reload) {
+    const auto it = m_librariesByFilePath.find(filePath);
+    const auto alreadyLoaded = (it != m_librariesByFilePath.end());
+    if (alreadyLoaded && !reload) {
         return true;
     }
 
@@ -198,30 +199,20 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
     cpplocate::ModuleInfo modInfo;
     modInfo.load(filePath + ".modinfo");
 
-    // If library was already loaded, remember it in case reloading fails
-    PluginLibrary * previous = nullptr;
-    if (it != m_librariesByFilePath.end()) {
-        previous = it->second;
-    }
-
     // Open plugin library
-    PluginLibrary * library = new PluginLibrary(filePath);
+    auto library = cppassist::make_unique<PluginLibrary>(filePath);
     if (!library->isValid())
     {
         // Loading failed. Destroy library object and return failure.
-        cppassist::warning() << (previous ? "Reloading" : "Loading") << " plugin(s) from '" << filePath << "' failed.";
+        cppassist::warning() << (alreadyLoaded ? "Reloading" : "Loading") << " plugin(s) from '" << filePath << "' failed.";
 
-        delete library;
         return false;
     }
 
-    // Library has been loaded. Unload previous incarnation.
-    if (previous) {
-        unloadLibrary(previous);
+    // If library was already loaded, unload previous incarnation.
+    if (alreadyLoaded) {
+        unloadLibrary(it->second.get());
     }
-
-    // Add library to list (in case of reload, this overwrites the previous)
-    m_librariesByFilePath[filePath] = library;
 
     // Initialize plugin library
     library->initialize();
@@ -248,20 +239,29 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
         m_componentsByName[component->name()] = component;
     }
 
+    // Add library to list (in case of reload, this overwrites the previous)
+    m_librariesByFilePath[filePath] = std::move(library);
+
     // Return success
     return true;
 }
 
 void ComponentManager::unloadLibrary(PluginLibrary * library)
 {
-    // Check parameters
-    if (!library) {
+    // Check if library is loaded
+    auto it = std::find_if(m_librariesByFilePath.begin(), m_librariesByFilePath.end(),
+        [library](const std::pair<const std::string, std::unique_ptr<PluginLibrary>> & item)
+        {
+            return item.second.get() == library;
+        });
+    if (it == m_librariesByFilePath.end())
+    {
         return;
     }
 
     // Unload plugin library
     library->deinitialize();
-    delete library;
+    m_librariesByFilePath.erase(it);
 }
 
 

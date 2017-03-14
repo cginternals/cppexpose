@@ -31,11 +31,8 @@ TYPED_TEST_CASE(DirectValueInstantiation_test, InstantiationTypes);
 
 TYPED_TEST(DirectValueInstantiation_test, instantiateDirectValue)
 {
-
-    auto directVal = new DirectValue<TypeParam>(TypeParam{});
+    auto directVal = cppassist::make_unique<DirectValue<TypeParam>>(TypeParam{});
 
     ASSERT_EQ(typeid(typename std::remove_cv<TypeParam>::type), directVal->type());
-
-    delete directVal;
 }
 
