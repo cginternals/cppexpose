@@ -4,6 +4,8 @@
 
 #include <memory>
 
+#include <cppassist/memory/make_unique.h>
+
 #include <cppexpose/plugin/AbstractComponent.h>
 
 
