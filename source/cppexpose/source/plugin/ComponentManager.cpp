@@ -152,12 +152,18 @@ std::vector<PluginLibrary *> ComponentManager::pluginLibraries() const
 
 const std::vector<AbstractComponent *> & ComponentManager::components() const
 {
+    // Find new components
+    updateComponents();
+
     // Return list of plugins
     return m_components;
 }
 
 AbstractComponent * ComponentManager::component(const std::string & name) const
 {
+    // Find new components
+    updateComponents();
+
     // Check if plugin exists
     const auto it = m_componentsByName.find(name);
 
@@ -235,28 +241,8 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
         unloadLibrary(it->second.get());
     }
 
-    // Iterate over new components
-    auto & registry = ComponentManager::registry();
-    for (auto * component : registry.components())
-    {
-        // Add component to library
-        library->addComponent(component);
-
-        // Set module information
-        if (!modInfo.empty())
-        {
-            component->setModuleInfo(modInfo);
-        }
-
-        // Add component to lists
-        m_components.push_back(component);
-
-        // Save component by name
-        m_componentsByName[component->name()] = component;
-    }
-
-    // Reset new components
-    registry.clear();
+    // Add new components from library
+    updateComponents(library.get(), modInfo);
 
     // Add library to list (in case of reload, this overwrites the previous)
     m_librariesByFilePath[filePath] = std::move(library);
@@ -294,6 +280,31 @@ void ComponentManager::unloadLibrary(PluginLibrary * library)
 
     // Unload plugin library
     m_librariesByFilePath.erase(it);
+}
+
+void ComponentManager::updateComponents(PluginLibrary * library, const cpplocate::ModuleInfo & modInfo) const
+{
+    // Iterate over new components
+    auto & registry = ComponentManager::registry();
+    for (auto * component : registry.components())
+    {
+        // Add component to library
+        if (library) {
+            library->addComponent(component);
+        }
+
+        // Set module information
+        if (!modInfo.empty())
+        {
+            component->setModuleInfo(modInfo);
+        }
+
+        // Add component to list
+        const_cast<ComponentManager *>(this)->addComponent(component);
+    }
+
+    // Reset new components
+    registry.clear();
 }
 
 

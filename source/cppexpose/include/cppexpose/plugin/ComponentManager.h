@@ -6,6 +6,8 @@
 #include <vector>
 #include <map>
 
+#include <cpplocate/ModuleInfo.h>
+
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/plugin/ComponentHelpers.h>
 
@@ -246,6 +248,23 @@ protected:
     *    plugins must be remaining.
     */
     void unloadLibrary(PluginLibrary * library);
+
+    /**
+    *  @brief
+    *    Update components
+    *
+    *  @param[in] library
+    *    Plugin library (can be null)
+    *  @param[in] modInfo
+    *    Module information
+    *
+    *  @remarks
+    *    This function updates the component list by looking at the list
+    *    of newly registered components and adding them to the component
+    *    manager. If a library pointer is given, the found components are
+    *    considered to belong to that library.
+    */
+    void updateComponents(PluginLibrary * library = nullptr, const cpplocate::ModuleInfo & modInfo = cpplocate::ModuleInfo()) const;
 
 
 protected:
