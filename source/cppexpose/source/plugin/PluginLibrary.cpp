@@ -27,12 +27,12 @@ namespace
 
     inline FARPROC dlsym(void * hModule, LPCSTR lpProcName)
     {
-		return GetProcAddress((HMODULE)hModule, lpProcName);
+        return GetProcAddress((HMODULE)hModule, lpProcName);
     }
 
     inline BOOL dlclose(void * hModule)
     {
-		return FreeLibrary((HMODULE)hModule);
+        return FreeLibrary((HMODULE)hModule);
     }
 
     inline DWORD dlerror()
@@ -51,10 +51,7 @@ namespace cppexpose
 PluginLibrary::PluginLibrary(const std::string & filePath)
 : m_filePath(filePath)
 , m_handle(0)
-, m_initPtr(nullptr)
-, m_deinitPtr(nullptr)
-, m_numComponentsPtr(nullptr)
-, m_componentPtr(nullptr)
+, m_getPluginInfoPtr(nullptr)
 {
     // Open library
     m_handle = dlopen(filePath.c_str(), RTLD_LAZY);
@@ -66,17 +63,14 @@ PluginLibrary::PluginLibrary(const std::string & filePath)
     }
 
     // Get pointers to exported functions
-    *reinterpret_cast<void**>(&m_initPtr)          = dlsym(m_handle, "initialize");
-	*reinterpret_cast<void**>(&m_deinitPtr)        = dlsym(m_handle, "deinitialize");
-	*reinterpret_cast<void**>(&m_numComponentsPtr) = dlsym(m_handle, "numComponents");
-	*reinterpret_cast<void**>(&m_componentPtr)     = dlsym(m_handle, "component");
+    *reinterpret_cast<void**>(&m_getPluginInfoPtr) = dlsym(m_handle, "getPluginInfo");
 }
 
 PluginLibrary::~PluginLibrary()
 {
     // Close library
     if (m_handle) {
-		dlclose(m_handle);
+        dlclose(m_handle);
     }
 }
 
@@ -87,43 +81,22 @@ const std::string & PluginLibrary::filePath() const
 
 bool PluginLibrary::isValid() const
 {
-    return (m_initPtr && m_numComponentsPtr && m_componentPtr && m_deinitPtr);
+    return (m_getPluginInfoPtr != nullptr);
 }
 
-void PluginLibrary::initialize()
+const char * PluginLibrary::pluginInfo()
 {
-    if (m_initPtr != nullptr)
-    {
-        (*m_initPtr)();
-    }
+    return (*m_getPluginInfoPtr)();
 }
 
-void PluginLibrary::deinitialize()
+const std::vector<AbstractComponent *> & PluginLibrary::components() const
 {
-    if (m_deinitPtr != nullptr)
-    {
-        (*m_deinitPtr)();
-    }
+    return m_components;
 }
 
-size_t PluginLibrary::numComponents() const
+void PluginLibrary::addComponent(AbstractComponent * component)
 {
-    if (m_numComponentsPtr != nullptr)
-    {
-        return (*m_numComponentsPtr)();
-    }
-
-    return 0;
-}
-
-cppexpose::AbstractComponent * PluginLibrary::component(size_t index) const
-{
-    if (m_componentPtr != nullptr)
-    {
-        return (*m_componentPtr)(index);
-    }
-
-    return nullptr;
+    m_components.push_back(component);
 }
 
 

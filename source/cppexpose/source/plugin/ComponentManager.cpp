@@ -20,6 +20,7 @@
 
 #include <cppassist/logging/logging.h>
 
+#include <cppexpose/plugin/ComponentRegistry.h>
 #include <cppexpose/plugin/PluginLibrary.h>
 #include <cppexpose/plugin/AbstractComponent.h>
 
@@ -27,6 +28,13 @@
 namespace cppexpose
 {
 
+
+ComponentRegistry & ComponentManager::registry()
+{
+    static ComponentRegistry registry;
+
+    return registry;
+}
 
 ComponentManager::ComponentManager()
 {
@@ -202,9 +210,21 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
 
     // Open plugin library
     auto library = cppassist::make_unique<PluginLibrary>(filePath);
-    if (!library->isValid())
+
+    // Check if it is a valid cppexpose plugin
+    bool valid = false;
+    if (library->isValid())
     {
-        // Loading failed. Destroy library object and return failure.
+        // Check plugin type
+        std::string pluginInfo = library->pluginInfo();
+        if (pluginInfo == "cppexpose_plugin") {
+            valid = true;
+        }
+    }
+
+    // Loading failed. Destroy library object and return failure.
+    if (!valid)
+    {
         cppassist::warning() << (alreadyLoaded ? "Reloading" : "Loading") << " plugin(s) from '" << filePath << "' failed.";
 
         return false;
@@ -215,17 +235,12 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
         unloadLibrary(it->second.get());
     }
 
-    // Initialize plugin library
-    library->initialize();
-
-    // Iterate over plugins
-    size_t numComponents = library->numComponents();
-    for (auto i = size_t(0); i < numComponents; ++i)
+    // Iterate over new components
+    auto & registry = ComponentManager::registry();
+    for (auto * component : registry.components())
     {
-        // Get component
-        AbstractComponent * component = library->component(i);
-        if (!component)
-            continue;
+        // Add component to library
+        library->addComponent(component);
 
         // Set module information
         if (!modInfo.empty())
@@ -233,12 +248,15 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
             component->setModuleInfo(modInfo);
         }
 
-        // Add component to list
+        // Add component to lists
         m_components.push_back(component);
 
         // Save component by name
         m_componentsByName[component->name()] = component;
     }
+
+    // Reset new components
+    registry.clear();
 
     // Add library to list (in case of reload, this overwrites the previous)
     m_librariesByFilePath[filePath] = std::move(library);
@@ -260,8 +278,21 @@ void ComponentManager::unloadLibrary(PluginLibrary * library)
         return;
     }
 
+    // Remove components belonging to the plugin library
+    for (auto * component : library->components())
+    {
+        auto it = std::find(m_components.begin(), m_components.end(), component);
+        if (it != m_components.end()) {
+            m_components.erase(it);
+        }
+
+        auto it2 = m_componentsByName.find(component->name());
+        if (it2 != m_componentsByName.end()) {
+            m_componentsByName.erase (it2);
+        }
+    }
+
     // Unload plugin library
-    library->deinitialize();
     m_librariesByFilePath.erase(it);
 }
 

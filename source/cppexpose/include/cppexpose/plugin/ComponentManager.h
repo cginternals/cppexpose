@@ -14,6 +14,7 @@ namespace cppexpose
 {
 
 
+class ComponentRegistry;
 class PluginLibrary;
 
 
@@ -47,6 +48,17 @@ class CPPEXPOSE_API ComponentManager
 {
 public:
     Signal<> componentsChanged; ///< Called when a component has been added
+
+
+public:
+    /**
+    *  @brief
+    *    Get component registry
+    *
+    *  @return
+    *    Component registry
+    */
+    static ComponentRegistry & registry();
 
 
 public:
@@ -241,8 +253,8 @@ protected:
     std::vector<std::string>                              m_pathsInternal;       ///< Plugin paths (internal)
     std::vector<std::string>                              m_pathsUser;           ///< Plugin paths (user defined)
     std::vector<AbstractComponent *>                      m_components;          ///< Available components, statically initialized once per component class via the COMPONENT macro
-    std::map<std::string, std::unique_ptr<PluginLibrary>> m_librariesByFilePath; ///< Available components by path
     std::map<std::string, AbstractComponent *>            m_componentsByName;    ///< Available components by name
+    std::map<std::string, std::unique_ptr<PluginLibrary>> m_librariesByFilePath; ///< Plugin libraries by path
 };
 
 

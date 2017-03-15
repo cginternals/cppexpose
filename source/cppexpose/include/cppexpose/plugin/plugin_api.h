@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include <cppexpose/plugin/ComponentManager.h>
+#include <cppexpose/plugin/ComponentRegistry.h>
 #include <cppexpose/plugin/Component.h>
 
 
@@ -31,6 +33,7 @@
             VENDOR, \
             VERSION) \
         { \
+            cppexpose::ComponentManager::registry().addComponent(this); \
         } \
     }; \
     \
@@ -40,31 +43,10 @@
     TYPE::ComponentType TYPE::Component;
 
 #define CPPEXPOSE_PLUGIN_LIBRARY \
-    static std::vector<cppexpose::AbstractComponent *> g_components; \
-    \
-    extern "C" CPPEXPOSE_PLUGIN_API void initialize() \
-    {
-
-#define CPPEXPOSE_PLUGIN_COMPONENT(CLASS) \
-        g_components.push_back(&CLASS::Component);
-
-#define CPPEXPOSE_PLUGIN_LIBRARY_END \
-    } \
-    \
-    extern "C" CPPEXPOSE_PLUGIN_API int numComponents() \
+    extern "C" CPPEXPOSE_PLUGIN_API const char * getPluginInfo() \
     { \
-        return (int)g_components.size(); \
-    } \
-    \
-    extern "C" CPPEXPOSE_PLUGIN_API cppexpose::AbstractComponent * component(unsigned int index) \
-    { \
-        if (index < (unsigned int)g_components.size()) \
-            return g_components[index]; \
-        \
-        return nullptr; \
-    } \
-    \
-    extern "C" CPPEXPOSE_PLUGIN_API void deinitialize() \
-    { \
-        g_components.clear(); \
+        return "cppexpose_plugin"; \
     }
+
+#define CPPEXPOSE_PLUGIN_COMPONENT(CLASS)
+#define CPPEXPOSE_PLUGIN_LIBRARY_END
