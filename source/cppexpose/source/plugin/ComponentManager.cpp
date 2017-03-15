@@ -38,8 +38,9 @@ ComponentManager::~ComponentManager()
     // inside the plugin library, when deinitialize() is called.
 
     // Unload plugin libraries
-    for (const auto & it : m_librariesByFilePath) {
-        unloadLibrary(it.second.get());
+    // Do not use iterators here, as unloadLibrary modifies m_librariesByFilePath!
+    while (!m_librariesByFilePath.empty()) {
+        unloadLibrary(m_librariesByFilePath.begin()->second.get());
     }
 }
 
