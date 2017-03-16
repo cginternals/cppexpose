@@ -19,11 +19,6 @@ int main(int, char * [])
     // Create a component manager
     ComponentManager componentManager;
 
-    // Add local components
-    componentManager.addComponent(&BottlesOfBeer::Component);
-    componentManager.addComponent(&Addition::Component);
-    componentManager.addComponent(&Multiplication::Component);
-
     // Search for plugins in the current working directory
     componentManager.addPluginPath(".");
     componentManager.scanPlugins();

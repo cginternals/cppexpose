@@ -206,15 +206,6 @@ public:
 
     /**
     *  @brief
-    *    Add component
-    *
-    *  @param[in] component
-    *    Component
-    */
-    void addComponent(AbstractComponent * component);
-
-    /**
-    *  @brief
     *    Print list of available components to log
     */
     void printComponents() const;
@@ -248,6 +239,15 @@ protected:
     *    plugins must be remaining.
     */
     void unloadLibrary(PluginLibrary * library);
+
+    /**
+    *  @brief
+    *    Add component
+    *
+    *  @param[in] component
+    *    Component
+    */
+    void addComponent(AbstractComponent * component);
 
     /**
     *  @brief

@@ -176,18 +176,6 @@ AbstractComponent * ComponentManager::component(const std::string & name) const
     return it->second;
 }
 
-void ComponentManager::addComponent(AbstractComponent * component)
-{
-    // Add component to list
-    m_components.push_back(component);
-
-    // Save component by name
-    m_componentsByName[component->name()] = component;
-
-    // Emit signal
-    componentsChanged();
-}
-
 void ComponentManager::printComponents() const
 {
     // Print info about each plugin
@@ -280,6 +268,18 @@ void ComponentManager::unloadLibrary(PluginLibrary * library)
 
     // Unload plugin library
     m_librariesByFilePath.erase(it);
+}
+
+void ComponentManager::addComponent(AbstractComponent * component)
+{
+    // Add component to list
+    m_components.push_back(component);
+
+    // Save component by name
+    m_componentsByName[component->name()] = component;
+
+    // Emit signal
+    componentsChanged();
 }
 
 void ComponentManager::updateComponents(PluginLibrary * library, const cpplocate::ModuleInfo & modInfo) const
