@@ -468,7 +468,7 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
             auto object = static_cast<const Object *>(property);
             const auto it = object->m_propertiesMap.find(name);
 
-            if (it != m_propertiesMap.end())
+            if (it != object->m_propertiesMap.end())
             {
                 property = it->second;
             }
