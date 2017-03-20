@@ -216,7 +216,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
         }
     }
 
-    // Loading failed. Destroy library object and return failure.
+    // If loading failed, destroy library object and return failure
     if (!valid)
     {
         cppassist::warning() << (alreadyLoaded ? "Reloading" : "Loading") << " plugin(s) from '" << filePath << "' failed.";
@@ -228,6 +228,9 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
     if (alreadyLoaded) {
         unloadLibrary(it->second.get());
     }
+
+    // Initialize plugin
+    library->initPlugin();
 
     // Add new components from library
     updateComponents(library.get(), modInfo);
@@ -251,6 +254,9 @@ void ComponentManager::unloadLibrary(PluginLibrary * library)
     {
         return;
     }
+
+    // De-initialize plugin
+    library->deinitPlugin();
 
     // Remove components belonging to the plugin library
     for (auto * component : library->components())

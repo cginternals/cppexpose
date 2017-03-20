@@ -48,5 +48,13 @@
         return "cppexpose_plugin"; \
     }
 
+#define CPPEXPOSE_PLUGIN_LIBRARY_INIT \
+    extern "C" CPPEXPOSE_PLUGIN_API void initPlugin()
+
+#define CPPEXPOSE_PLUGIN_LIBRARY_DEINIT \
+    extern "C" CPPEXPOSE_PLUGIN_API void deinitPlugin()
+
+// Not needed any more, left for compatibility reasons
 #define CPPEXPOSE_PLUGIN_COMPONENT(CLASS)
+
 #define CPPEXPOSE_PLUGIN_LIBRARY_END
