@@ -19,11 +19,10 @@ StoredValueSingle<T, BASE>::StoredValueSingle(
 template <typename T, typename BASE>
 template <typename Obj>
 StoredValueSingle<T, BASE>::StoredValueSingle(
-    Obj * o,
+    Obj * obj,
     typename SingleValueFunctions<T, Obj>::getter g,
     typename SingleValueFunctions<T, Obj>::setter s)
 {
-    Obj * obj = o;
     typename SingleValueFunctions<T, Obj>::getter getter = g;
     typename SingleValueFunctions<T, Obj>::setter setter = s;
 
@@ -96,10 +95,9 @@ StoredValueSingle<const T, BASE>::StoredValueSingle(std::function<T ()> getter)
 template <typename T, typename BASE>
 template <typename Obj>
 StoredValueSingle<const T, BASE>::StoredValueSingle(
-    Obj * o,
+    Obj * obj,
     typename SingleValueFunctions<T, Obj>::getter g)
 {
-    Obj * obj = o;
     typename SingleValueFunctions<T, Obj>::getter getter = g;
 
     this->m_getter = [obj, getter] () -> T

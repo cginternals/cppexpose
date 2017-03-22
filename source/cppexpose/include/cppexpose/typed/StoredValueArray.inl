@@ -23,14 +23,12 @@ StoredValueArray<T, BASE>::StoredValueArray(
 template <typename T, typename BASE>
 template <typename Obj>
 StoredValueArray<T, BASE>::StoredValueArray(
-    Obj * o,
+    Obj * obj,
     typename ArrayValueFunctions<T, ElementType, Obj>::getter g,
     typename ArrayValueFunctions<T, ElementType, Obj>::setter s,
     typename ArrayValueFunctions<T, ElementType, Obj>::elementGetter eg,
     typename ArrayValueFunctions<T, ElementType, Obj>::elementSetter es)
 {
-    Obj * obj = obj;
-
     typename ArrayValueFunctions<T, ElementType, Obj>::getter getter = g;
     typename ArrayValueFunctions<T, ElementType, Obj>::setter setter = s;
     typename ArrayValueFunctions<T, ElementType, Obj>::elementGetter elementGetter = eg;
@@ -133,11 +131,10 @@ StoredValueArray<const T, BASE>::StoredValueArray(
 template <typename T, typename BASE>
 template <typename Obj>
 StoredValueArray<const T, BASE>::StoredValueArray(
-    Obj * o,
+    Obj * obj,
     typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::getter g,
     typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::elementGetter eg)
 {
-    Obj * obj = obj;
     typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::getter getter = g;
     typename ArrayValueFunctions<T, typename StoredValueArray<T, BASE>::ElementType, Obj>::elementGetter elementGetter = eg;
 
