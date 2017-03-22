@@ -153,6 +153,7 @@ set(headers
 
     ${include_path}/plugin/ComponentManager.h
     ${include_path}/plugin/ComponentManager.inl
+    ${include_path}/plugin/ComponentRegistry.h
     ${include_path}/plugin/AbstractComponent.h
     ${include_path}/plugin/AbstractGenericComponent.h
     ${include_path}/plugin/AbstractGenericComponent.inl
@@ -201,6 +202,7 @@ set(sources
     ${source_path}/scripting/DuktapeObjectWrapper.h
 
     ${source_path}/plugin/ComponentManager.cpp
+    ${source_path}/plugin/ComponentRegistry.cpp
     ${source_path}/plugin/AbstractComponent.cpp
     ${source_path}/plugin/PluginLibrary.cpp
     ${source_path}/plugin/Example.cpp

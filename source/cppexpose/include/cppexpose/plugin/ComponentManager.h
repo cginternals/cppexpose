@@ -6,6 +6,8 @@
 #include <vector>
 #include <map>
 
+#include <cpplocate/ModuleInfo.h>
+
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/plugin/ComponentHelpers.h>
 
@@ -14,6 +16,7 @@ namespace cppexpose
 {
 
 
+class ComponentRegistry;
 class PluginLibrary;
 
 
@@ -47,6 +50,17 @@ class CPPEXPOSE_API ComponentManager
 {
 public:
     Signal<> componentsChanged; ///< Called when a component has been added
+
+
+public:
+    /**
+    *  @brief
+    *    Get component registry
+    *
+    *  @return
+    *    Component registry
+    */
+    static ComponentRegistry & registry();
 
 
 public:
@@ -192,15 +206,6 @@ public:
 
     /**
     *  @brief
-    *    Add component
-    *
-    *  @param[in] component
-    *    Component
-    */
-    void addComponent(AbstractComponent * component);
-
-    /**
-    *  @brief
     *    Print list of available components to log
     */
     void printComponents() const;
@@ -235,14 +240,40 @@ protected:
     */
     void unloadLibrary(PluginLibrary * library);
 
+    /**
+    *  @brief
+    *    Add component
+    *
+    *  @param[in] component
+    *    Component
+    */
+    void addComponent(AbstractComponent * component);
+
+    /**
+    *  @brief
+    *    Update components
+    *
+    *  @param[in] library
+    *    Plugin library (can be null)
+    *  @param[in] modInfo
+    *    Module information
+    *
+    *  @remarks
+    *    This function updates the component list by looking at the list
+    *    of newly registered components and adding them to the component
+    *    manager. If a library pointer is given, the found components are
+    *    considered to belong to that library.
+    */
+    void updateComponents(PluginLibrary * library = nullptr, const cpplocate::ModuleInfo & modInfo = cpplocate::ModuleInfo()) const;
+
 
 protected:
     std::vector<std::string>                              m_paths;               ///< Plugin paths (all)
     std::vector<std::string>                              m_pathsInternal;       ///< Plugin paths (internal)
     std::vector<std::string>                              m_pathsUser;           ///< Plugin paths (user defined)
     std::vector<AbstractComponent *>                      m_components;          ///< Available components, statically initialized once per component class via the COMPONENT macro
-    std::map<std::string, std::unique_ptr<PluginLibrary>> m_librariesByFilePath; ///< Available components by path
     std::map<std::string, AbstractComponent *>            m_componentsByName;    ///< Available components by name
+    std::map<std::string, std::unique_ptr<PluginLibrary>> m_librariesByFilePath; ///< Plugin libraries by path
 };
 
 

@@ -27,12 +27,12 @@ namespace
 
     inline FARPROC dlsym(void * hModule, LPCSTR lpProcName)
     {
-		return GetProcAddress((HMODULE)hModule, lpProcName);
+        return GetProcAddress((HMODULE)hModule, lpProcName);
     }
 
     inline BOOL dlclose(void * hModule)
     {
-		return FreeLibrary((HMODULE)hModule);
+        return FreeLibrary((HMODULE)hModule);
     }
 
     inline DWORD dlerror()
@@ -51,10 +51,9 @@ namespace cppexpose
 PluginLibrary::PluginLibrary(const std::string & filePath)
 : m_filePath(filePath)
 , m_handle(0)
-, m_initPtr(nullptr)
-, m_deinitPtr(nullptr)
-, m_numComponentsPtr(nullptr)
-, m_componentPtr(nullptr)
+, m_getPluginInfoPtr(nullptr)
+, m_initPluginPtr(nullptr)
+, m_deinitPluginPtr(nullptr)
 {
     // Open library
     m_handle = dlopen(filePath.c_str(), RTLD_LAZY);
@@ -66,17 +65,16 @@ PluginLibrary::PluginLibrary(const std::string & filePath)
     }
 
     // Get pointers to exported functions
-    *reinterpret_cast<void**>(&m_initPtr)          = dlsym(m_handle, "initialize");
-	*reinterpret_cast<void**>(&m_deinitPtr)        = dlsym(m_handle, "deinitialize");
-	*reinterpret_cast<void**>(&m_numComponentsPtr) = dlsym(m_handle, "numComponents");
-	*reinterpret_cast<void**>(&m_componentPtr)     = dlsym(m_handle, "component");
+    *reinterpret_cast<void**>(&m_getPluginInfoPtr) = dlsym(m_handle, "getPluginInfo");
+    *reinterpret_cast<void**>(&m_initPluginPtr)    = dlsym(m_handle, "initPlugin");
+    *reinterpret_cast<void**>(&m_deinitPluginPtr)  = dlsym(m_handle, "deinitPlugin");
 }
 
 PluginLibrary::~PluginLibrary()
 {
     // Close library
     if (m_handle) {
-		dlclose(m_handle);
+        dlclose(m_handle);
     }
 }
 
@@ -87,43 +85,38 @@ const std::string & PluginLibrary::filePath() const
 
 bool PluginLibrary::isValid() const
 {
-    return (m_initPtr && m_numComponentsPtr && m_componentPtr && m_deinitPtr);
+    return (m_getPluginInfoPtr != nullptr);
 }
 
-void PluginLibrary::initialize()
+const char * PluginLibrary::pluginInfo()
 {
-    if (m_initPtr != nullptr)
+    return (*m_getPluginInfoPtr)();
+}
+
+void PluginLibrary::initPlugin()
+{
+    if (m_initPluginPtr)
     {
-        (*m_initPtr)();
+        (*m_initPluginPtr)();
     }
 }
 
-void PluginLibrary::deinitialize()
+void PluginLibrary::deinitPlugin()
 {
-    if (m_deinitPtr != nullptr)
+    if (m_deinitPluginPtr)
     {
-        (*m_deinitPtr)();
+        (*m_deinitPluginPtr)();
     }
 }
 
-size_t PluginLibrary::numComponents() const
+const std::vector<AbstractComponent *> & PluginLibrary::components() const
 {
-    if (m_numComponentsPtr != nullptr)
-    {
-        return (*m_numComponentsPtr)();
-    }
-
-    return 0;
+    return m_components;
 }
 
-cppexpose::AbstractComponent * PluginLibrary::component(size_t index) const
+void PluginLibrary::addComponent(AbstractComponent * component)
 {
-    if (m_componentPtr != nullptr)
-    {
-        return (*m_componentPtr)(index);
-    }
-
-    return nullptr;
+    m_components.push_back(component);
 }
 
 

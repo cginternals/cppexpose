@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <vector>
 #include <string>
 
 #include <cppexpose/cppexpose_api.h>
@@ -16,27 +17,21 @@ class AbstractComponent;
 
 /**
 *  @brief
-*    Function to initialize a plugin library
+*    Function to get information about a plugin library
 */
-using init_ptr = void (*)();
+using GetPluginInfoPtr = const char * (*)();
 
 /**
 *  @brief
-*    Function to deinitialize a plugin library
+*    Function for initializing a plugin library
 */
-using deinit_ptr = void (*)();
+using InitPluginPtr = void (*)();
 
 /**
 *  @brief
-*    Function to get the number of components contained in a library
+*    Function for de-initializing a plugin library
 */
-using numComponents_ptr = size_t (*)();
-
-/**
-*  @brief
-*    Function to get a specific component of a plugin library
-*/
-using component_ptr = cppexpose::AbstractComponent * (*)(size_t);
+using DeInitPluginPtr = void (*)();
 
 
 /**
@@ -45,6 +40,9 @@ using component_ptr = cppexpose::AbstractComponent * (*)(size_t);
 */
 class CPPEXPOSE_API PluginLibrary 
 {
+    friend class ComponentManager;
+
+
 public:
     /**
     *  @brief
@@ -81,46 +79,58 @@ public:
 
     /**
     *  @brief
+    *    Get information about plugin library
+    *
+    *  @return
+    *    Identification string from plugin library
+    */
+    const char * pluginInfo();
+
+    /**
+    *  @brief
     *    Initialize plugin library
     */
-    void initialize();
+    void initPlugin();
 
     /**
     *  @brief
     *    De-initialize plugin library
     */
-    void deinitialize();
+    void deinitPlugin();
 
     /**
     *  @brief
-    *    Get number of components contained in the library
+    *    Get components that belong to the plugin library
     *
     *  @return
-    *    Number of components
+    *    List of components that belong to the plugin library
     */
-    size_t numComponents() const;
-
-    /**
-    *  @brief
-    *    Get component by index
-    *
-    *  @param[in] index
-    *    Component number
-    *
-    *  @return
-    *    Pointer to the component, nullptr on error
-    */
-    cppexpose::AbstractComponent * component(size_t index) const;
+    const std::vector<AbstractComponent *> & components() const;
 
 
 protected:
-    std::string       m_filePath; ///< Path to the loaded library
-    void            * m_handle;   ///< Library handle
+    /**
+    *  @brief
+    *    Add component to library
+    *
+    *  @param[in] component
+    *    Component (must NOT be null!)
+    *
+    *  @remarks
+    *    As components register themselves automatically, this
+    *    function is called by the component manager to remember
+    *    what components belong to a plugin library.
+    */
+    void addComponent(AbstractComponent * component);
 
-    init_ptr          m_initPtr;          ///< Pointer to function init()
-    deinit_ptr        m_deinitPtr;        ///< Pointer to function deinit()
-    numComponents_ptr m_numComponentsPtr; ///< Pointer to function numComponents()
-    component_ptr     m_componentPtr;     ///< Pointer to function component()
+
+protected:
+    std::string                      m_filePath;         ///< Path to the loaded library
+    void                           * m_handle;           ///< Library handle
+    GetPluginInfoPtr                 m_getPluginInfoPtr; ///< Pointer to function getPluginInfo()
+    InitPluginPtr                    m_initPluginPtr;    ///< Pointer to function initPlugin()
+    DeInitPluginPtr                  m_deinitPluginPtr;  ///< Pointer to function deinitPlugin()
+    std::vector<AbstractComponent *> m_components;       ///< List of components that belong to the plugin library
 };
 
 
