@@ -255,8 +255,6 @@ protected:
     *
     *  @param[in] library
     *    Plugin library (can be null)
-    *  @param[in] modInfo
-    *    Module information
     *
     *  @remarks
     *    This function updates the component list by looking at the list
@@ -264,7 +262,7 @@ protected:
     *    manager. If a library pointer is given, the found components are
     *    considered to belong to that library.
     */
-    void updateComponents(PluginLibrary * library = nullptr, const cpplocate::ModuleInfo & modInfo = cpplocate::ModuleInfo()) const;
+    void updateComponents(PluginLibrary * library = nullptr) const;
 
 
 protected:

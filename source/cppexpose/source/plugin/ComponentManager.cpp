@@ -12,8 +12,6 @@
     #include <dirent.h>
 #endif
 
-#include <cpplocate/ModuleInfo.h>
-
 #include <cppassist/fs/SystemInfo.h>
 #include <cppassist/fs/FilePath.h>
 #include <cppassist/fs/directorytraversal.h>
@@ -198,10 +196,6 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
         return true;
     }
 
-    // Load module information file, if present
-    cpplocate::ModuleInfo modInfo;
-    modInfo.load(filePath + ".modinfo");
-
     // Open plugin library
     auto library = cppassist::make_unique<PluginLibrary>(filePath);
 
@@ -233,7 +227,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
     library->initPlugin();
 
     // Add new components from library
-    updateComponents(library.get(), modInfo);
+    updateComponents(library.get());
 
     // Add library to list (in case of reload, this overwrites the previous)
     m_librariesByFilePath[filePath] = std::move(library);
@@ -288,7 +282,7 @@ void ComponentManager::addComponent(AbstractComponent * component)
     componentsChanged();
 }
 
-void ComponentManager::updateComponents(PluginLibrary * library, const cpplocate::ModuleInfo & modInfo) const
+void ComponentManager::updateComponents(PluginLibrary * library) const
 {
     // Iterate over new components
     auto & registry = ComponentManager::registry();
@@ -297,12 +291,6 @@ void ComponentManager::updateComponents(PluginLibrary * library, const cpplocate
         // Add component to library
         if (library) {
             library->addComponent(component);
-        }
-
-        // Set module information
-        if (!modInfo.empty())
-        {
-            component->setModuleInfo(modInfo);
         }
 
         // Add component to list
