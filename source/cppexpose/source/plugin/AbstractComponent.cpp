@@ -54,15 +54,5 @@ const char * AbstractComponent::version() const
     return m_version.c_str();
 }
 
-const cpplocate::ModuleInfo & AbstractComponent::moduleInfo() const
-{
-    return m_moduleInfo;
-}
-
-void AbstractComponent::setModuleInfo(const cpplocate::ModuleInfo & moduleInfo)
-{
-    m_moduleInfo = moduleInfo;
-}
-
 
 } // namespace cppexpose

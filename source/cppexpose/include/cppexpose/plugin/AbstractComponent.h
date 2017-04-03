@@ -4,8 +4,6 @@
 
 #include <string>
 
-#include <cpplocate/ModuleInfo.h>
-
 #include <cppexpose/cppexpose_api.h>
 
 
@@ -120,45 +118,16 @@ public:
     */
     const char * version() const;
 
-    /**
-    *  @brief
-    *    Get module info
-    *
-    *  @return
-    *    Module information, read from modinfo file (if present)
-    *
-    *  @remarks
-    *    To set this information, create a file named <libname>.modinfo in the same
-    *    directory that contains your plugin libraries and define all necessary information.
-    *    (libmyplugin.so -> libmyplugin.modinfo, or myplugin.dll -> myplugin.modinfo).
-    *    For example, you should define the data path relative to that directory:
-    *      { "dataPath": "${ModulePath}/../data" }
-    */
-    const cpplocate::ModuleInfo & moduleInfo() const;
-
-    /**
-    *  @brief
-    *    Set module info
-    *
-    *  @param[in] modInfo
-    *    Module information found next to the plugin library
-    *
-    *  @remarks
-    *    Do not call this function directly, let ComponentManager do the magic
-    */
-    void setModuleInfo(const cpplocate::ModuleInfo & moduleInfo);
-
 
 protected:
-    std::string           m_name;         ///< Component name
-    std::string           m_description;  ///< Component description
-    std::string           m_type;         ///< Component type
-    std::string           m_tags;         ///< Component tags (user-defined, space-separated)
-    std::string           m_icon;         ///< Icon name or ID
-    std::string           m_annotations;  ///< Component annotations
-    std::string           m_vendor;       ///< Vendor name
-    std::string           m_version;      ///< Component version
-    cpplocate::ModuleInfo m_moduleInfo;   ///< Module information for the plugin library
+    std::string m_name;         ///< Component name
+    std::string m_description;  ///< Component description
+    std::string m_type;         ///< Component type
+    std::string m_tags;         ///< Component tags (user-defined, space-separated)
+    std::string m_icon;         ///< Icon name or ID
+    std::string m_annotations;  ///< Component annotations
+    std::string m_vendor;       ///< Vendor name
+    std::string m_version;      ///< Component version
 };
 
 
