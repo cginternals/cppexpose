@@ -14,6 +14,9 @@ std::vector<typename ComponentTypes<BaseType>::AbstractComponentType *> Componen
 {
     using AbstractComponentType = typename ComponentTypes<BaseType>::AbstractComponentType;
 
+    // Find new components
+    updateComponents();
+
     // Assume that on average, half the components matches Type
     std::vector<AbstractComponentType *> typedComponents;
     typedComponents.reserve(m_components.size() / 2);
