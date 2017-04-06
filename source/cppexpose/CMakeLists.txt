@@ -139,6 +139,7 @@ set(headers
     ${include_path}/variant/Variant.inl
 
     ${include_path}/reflection/AbstractProperty.h
+    ${include_path}/reflection/AbstractProperty.inl
     ${include_path}/reflection/Object.h
     ${include_path}/reflection/Object.inl
     ${include_path}/reflection/Property.h

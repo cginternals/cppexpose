@@ -153,7 +153,7 @@ public:
     *    Option value converted to Type, defaultValue if the option doesn't exist or couldn't be converted
     */
     template <typename Type>
-    Type option(const std::string & key, const Type & defaultValue) const;
+    Type option(const std::string & key, const Type & defaultValue = Type()) const;
 
     /**
     *  @brief
@@ -220,3 +220,6 @@ protected:
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/reflection/AbstractProperty.inl>
