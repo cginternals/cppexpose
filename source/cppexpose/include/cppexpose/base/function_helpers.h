@@ -117,6 +117,17 @@ struct ArgValue<const std::vector<Variant> &, POS> {
     }
 };
 
+template<size_t POS>
+struct ArgValue<const VariantMap &, POS> {
+    static VariantMap get(const std::vector<Variant> & args) {
+        VariantMap map;
+        if (POS < args.size()) {
+            map = args[POS].value<VariantMap>();
+        }
+        return map;
+    }
+};
+
 /**
 *  @brief
 *    Generate a sequence of numbers (e.g., Seq<0, 1, 2>)
