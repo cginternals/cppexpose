@@ -18,7 +18,8 @@
 
 namespace
 {
-    const int RTLD_LAZY = 0; // Ignore lazy-flag for win32 - see dlopen
+    const int RTLD_LAZY   = 0x00001; // Ignored lazy-flag for win32   - see dlopen
+    const int RTLD_GLOBAL = 0x00100; // Ignored global-flag for win32 - see dlopen
 
     inline void * dlopen(LPCSTR lpFileName, int)
     {
@@ -50,13 +51,13 @@ namespace cppexpose
 
 PluginLibrary::PluginLibrary(const std::string & filePath)
 : m_filePath(filePath)
-, m_handle(0)
+, m_handle(nullptr)
 , m_getPluginInfoPtr(nullptr)
 , m_initPluginPtr(nullptr)
 , m_deinitPluginPtr(nullptr)
 {
     // Open library
-    m_handle = dlopen(filePath.c_str(), RTLD_LAZY);
+    m_handle = dlopen(filePath.c_str(), RTLD_LAZY | RTLD_GLOBAL);
     if (!m_handle)
     {
         // Could not be opened
