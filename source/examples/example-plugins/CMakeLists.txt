@@ -178,6 +178,16 @@ install_module_info(${target}
 )
 
 
+#
+# Target Health
+#
+
+perform_health_checks(
+    ${target}
+    ${sources}
+)
+
+
 # 
 # Deployment
 # 
