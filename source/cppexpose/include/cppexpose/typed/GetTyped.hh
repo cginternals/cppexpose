@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/base/template_helpers.h>
 
 #include <cppexpose/typed/TypedGeneric.hh>
@@ -27,7 +28,7 @@ namespace cppexpose
 *    Define the typed class that you want to use as typedef Type.
 */
 template <typename T, typename BASE, typename = void>
-struct GetTyped
+struct CPPEXPOSE_TEMPLATE_API GetTyped
 {
     using Type = TypedGeneric<T, BASE>;
 };
@@ -37,7 +38,7 @@ struct GetTyped
 *    Type selector for bool
 */
 template <typename BASE>
-struct GetTyped<bool, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<bool, BASE>
 {
     using Type = TypedBool<bool, BASE>;
 };
@@ -47,7 +48,7 @@ struct GetTyped<bool, BASE>
 *    Type selector for const bool
 */
 template <typename BASE>
-struct GetTyped<const bool, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const bool, BASE>
 {
     using Type = TypedBool<const bool, BASE>;
 };
@@ -57,7 +58,7 @@ struct GetTyped<const bool, BASE>
 *    Type selector for std::string
 */
 template <typename BASE>
-struct GetTyped<std::string, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<std::string, BASE>
 {
     using Type = TypedString<std::string, BASE>;
 };
@@ -67,7 +68,7 @@ struct GetTyped<std::string, BASE>
 *    Type selector for const std::string
 */
 template <typename BASE>
-struct GetTyped<const std::string, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const std::string, BASE>
 {
     using Type = TypedString<const std::string, BASE>;
 };
@@ -77,7 +78,7 @@ struct GetTyped<const std::string, BASE>
 *    Type selector for signed integral types
 */
 template <typename T, typename BASE>
-struct GetTyped<T, BASE, helper::EnableIf<helper::isSignedIntegral<T>>>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<T, BASE, helper::EnableIf<helper::isSignedIntegral<T>>>
 {
     using Type = TypedSignedIntegral<T, BASE>;
 };
@@ -87,7 +88,7 @@ struct GetTyped<T, BASE, helper::EnableIf<helper::isSignedIntegral<T>>>
 *    Type selector for unsigned integral types
 */
 template <typename T, typename BASE>
-struct GetTyped<T, BASE, helper::EnableIf<helper::isUnsignedIntegral<T>>>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<T, BASE, helper::EnableIf<helper::isUnsignedIntegral<T>>>
 {
     using Type = TypedUnsignedIntegral<T, BASE>;
 };
@@ -97,7 +98,7 @@ struct GetTyped<T, BASE, helper::EnableIf<helper::isUnsignedIntegral<T>>>
 *    Type selector for floating point types
 */
 template <typename T, typename BASE>
-struct GetTyped<T, BASE, helper::EnableIf<helper::isFloatingPoint<T>>>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<T, BASE, helper::EnableIf<helper::isFloatingPoint<T>>>
 {
     using Type = TypedFloatingPoint<T, BASE>;
 };
@@ -107,7 +108,7 @@ struct GetTyped<T, BASE, helper::EnableIf<helper::isFloatingPoint<T>>>
 *    Type selector for enum types
 */
 template <typename T, typename BASE>
-struct GetTyped<T, BASE, helper::EnableIf<std::is_enum<T>>>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<T, BASE, helper::EnableIf<std::is_enum<T>>>
 {
     using Type = TypedEnum<T, BASE>;
 };
@@ -117,7 +118,7 @@ struct GetTyped<T, BASE, helper::EnableIf<std::is_enum<T>>>
 *    Type selector for array types
 */
 template <typename T, typename BASE>
-struct GetTyped<T, BASE, helper::EnableIf<helper::isArray<T>>>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<T, BASE, helper::EnableIf<helper::isArray<T>>>
 {
     using Type = TypedArray<T, typename T::value_type, std::tuple_size<T>::value, BASE>;
 };
@@ -127,7 +128,7 @@ struct GetTyped<T, BASE, helper::EnableIf<helper::isArray<T>>>
 *    Type selector for cppexpose::Variant
 */
 template <typename BASE>
-struct GetTyped<cppexpose::Variant, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Variant, BASE>
 {
     using Type = TypedVariant<cppexpose::Variant, BASE>;
 };
@@ -137,7 +138,7 @@ struct GetTyped<cppexpose::Variant, BASE>
 *    Type selector for const cppexpose::Variant
 */
 template <typename BASE>
-struct GetTyped<const cppexpose::Variant, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant, BASE>
 {
     using Type = TypedVariant<const cppexpose::Variant, BASE>;
 };

@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/plugin/ComponentHelpers.h>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Represents a concrete component that can be instanciated
 */
 template <typename Type, typename BaseType>
-class Component : public ComponentTypes<BaseType>::template ComponentType<Type>
+class CPPEXPOSE_TEMPLATE_API Component : public ComponentTypes<BaseType>::template ComponentType<Type>
 {
 public:
     /**

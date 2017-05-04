@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/StoredValueSingle.hh>
 #include <cppexpose/typed/StoredValueArray.hh>
 
@@ -11,13 +12,13 @@ namespace cppexpose
 
 
 template <typename T, typename BASE, typename = void>
-struct StoredValueType
+struct CPPEXPOSE_TEMPLATE_API StoredValueType
 {
     using Type = StoredValueSingle<T, BASE>;
 };
 
 template <typename T, typename BASE>
-struct StoredValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
+struct CPPEXPOSE_TEMPLATE_API StoredValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
 {
     using Type = StoredValueArray<T, BASE>;
 };
@@ -28,7 +29,7 @@ struct StoredValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
 *    Typed value (read/write) that is stored directly
 */
 template <typename T, typename BASE = AbstractTyped>
-class StoredValue : public StoredValueType<T, BASE>::Type
+class CPPEXPOSE_TEMPLATE_API StoredValue : public StoredValueType<T, BASE>::Type
 {
 public:
     typedef typename StoredValueType<T, BASE>::Type BaseType;

@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/GetTyped.hh>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Typed array value (read/write) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueArray : public GetTyped<T, BASE>::Type
+class CPPEXPOSE_TEMPLATE_API DirectValueArray : public GetTyped<T, BASE>::Type
 {
 public:
     typedef typename GetTyped<T, BASE>::Type::ElementType ElementType;
@@ -66,7 +67,7 @@ protected:
 *    Typed array value (read-only) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueArray<const T, BASE> : public DirectValueArray<T, BASE>
+class CPPEXPOSE_TEMPLATE_API DirectValueArray<const T, BASE> : public DirectValueArray<T, BASE>
 {
 public:
     /**

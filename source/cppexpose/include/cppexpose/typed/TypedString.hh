@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/Typed.hh>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Representation of a string value
 */
 template <typename T, typename BASE>
-class TypedString : public Typed<T, BASE>
+class CPPEXPOSE_TEMPLATE_API TypedString : public Typed<T, BASE>
 {
 public:
     /**

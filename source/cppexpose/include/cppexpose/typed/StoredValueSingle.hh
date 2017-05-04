@@ -4,6 +4,7 @@
 
 #include <functional>
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/GetTyped.hh>
 
 
@@ -16,7 +17,7 @@ namespace cppexpose
 *    Helper template to deduce the types for getter and setter functions
 */
 template<typename T, typename Obj>
-struct SingleValueFunctions
+struct CPPEXPOSE_TEMPLATE_API SingleValueFunctions
 {
     typedef T (Obj::*getter) () const;
     typedef void (Obj::*setter) (const T &);
@@ -28,7 +29,7 @@ struct SingleValueFunctions
 *    Typed value (read/write) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueSingle : public GetTyped<T, BASE>::Type
+class CPPEXPOSE_TEMPLATE_API StoredValueSingle : public GetTyped<T, BASE>::Type
 {
 public:
     /**
@@ -112,7 +113,7 @@ protected:
 *    Typed value (read-only) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueSingle<const T, BASE> : public StoredValueSingle<T, BASE>
+class CPPEXPOSE_TEMPLATE_API StoredValueSingle<const T, BASE> : public StoredValueSingle<T, BASE>
 {
 public:
     /**

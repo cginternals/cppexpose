@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/reflection/AbstractProperty.h>
 #include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/signal/Signal.h>
@@ -30,7 +31,7 @@ namespace cppexpose
 *    properties on objects dynamically at runtime, see DynamicProperty.
 */
 template <typename T, typename BASE = AbstractProperty>
-class Property : public StoredValue<T, BASE>
+class CPPEXPOSE_TEMPLATE_API Property : public StoredValue<T, BASE>
 {
 public:
     Signal<const T &> valueChanged;  ///< Called when the value has been changed

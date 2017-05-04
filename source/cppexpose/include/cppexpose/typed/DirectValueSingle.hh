@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/GetTyped.hh>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Typed value (read/write) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueSingle : public GetTyped<T, BASE>::Type
+class CPPEXPOSE_TEMPLATE_API DirectValueSingle : public GetTyped<T, BASE>::Type
 {
 public:
     /**
@@ -58,7 +59,7 @@ protected:
 *    Typed value (read-only) that is stored directly
 */
 template <typename T, typename BASE>
-class DirectValueSingle<const T, BASE> : public DirectValueSingle<T, BASE>
+class CPPEXPOSE_TEMPLATE_API DirectValueSingle<const T, BASE> : public DirectValueSingle<T, BASE>
 {
 public:
     /**

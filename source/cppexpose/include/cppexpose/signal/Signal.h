@@ -5,6 +5,7 @@
 #include <functional>
 #include <unordered_map>
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/signal/AbstractSignal.h>
 
 
@@ -17,7 +18,7 @@ namespace cppexpose
 *    Signal class for communicating events
 */
 template <typename... Arguments>
-class Signal : public AbstractSignal
+class CPPEXPOSE_TEMPLATE_API Signal : public AbstractSignal
 {
 public:
     /**

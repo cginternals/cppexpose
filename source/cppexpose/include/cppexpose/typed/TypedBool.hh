@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/Typed.hh>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Representation of a boolean value
 */
 template <typename T, typename BASE>
-class TypedBool : public Typed<T, BASE>
+class CPPEXPOSE_TEMPLATE_API TypedBool : public Typed<T, BASE>
 {
 public:
     /**

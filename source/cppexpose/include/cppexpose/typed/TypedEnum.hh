@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/Typed.hh>
 
 
@@ -18,7 +19,7 @@ namespace cppexpose
 *    Representation of an enum value
 */
 template <typename T, typename BASE>
-class TypedEnum : public Typed<T, BASE>
+class CPPEXPOSE_TEMPLATE_API TypedEnum : public Typed<T, BASE>
 {
 public:
     /**
@@ -81,7 +82,7 @@ protected:
 *    Specialize this template to provide a default string mapping for an enum.
 */
 template <typename T>
-struct EnumDefaultStrings
+struct CPPEXPOSE_TEMPLATE_API EnumDefaultStrings
 {
     /**
     *  @brief

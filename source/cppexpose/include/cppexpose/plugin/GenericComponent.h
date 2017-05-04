@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/plugin/AbstractGenericComponent.h>
 
 
@@ -17,7 +18,7 @@ namespace cppexpose
 *    AbstractGenericComponent
 */
 template <typename Type, typename BaseType>
-class GenericComponent : public AbstractGenericComponent<BaseType>
+class CPPEXPOSE_TEMPLATE_API GenericComponent : public AbstractGenericComponent<BaseType>
 {
 public:
     /**

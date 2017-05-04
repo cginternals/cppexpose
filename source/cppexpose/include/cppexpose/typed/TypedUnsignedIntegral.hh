@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/TypedNumber.hh>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Representation of an unsigned integral value
 */
 template <typename T, typename BASE>
-class TypedUnsignedIntegral : public TypedNumber<T, BASE>
+class CPPEXPOSE_TEMPLATE_API TypedUnsignedIntegral : public TypedNumber<T, BASE>
 {
 public:
     /**

@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/Typed.hh>
 
 
@@ -16,7 +17,7 @@ namespace cppexpose
 *    Representation of a typed array
 */
 template <typename T, typename ET, size_t Size, typename BASE>
-class TypedArray : public Typed<T, BASE>
+class CPPEXPOSE_TEMPLATE_API TypedArray : public Typed<T, BASE>
 {
 public:
     typedef ET ElementType;  ///< Type of an element in the array

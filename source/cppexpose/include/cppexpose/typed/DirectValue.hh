@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/DirectValueSingle.hh>
 #include <cppexpose/typed/DirectValueArray.hh>
 
@@ -11,13 +12,13 @@ namespace cppexpose
 
 
 template <typename T, typename BASE, typename = void>
-struct DirectValueType
+struct CPPEXPOSE_TEMPLATE_API DirectValueType
 {
     using Type = DirectValueSingle<T, BASE>;
 };
 
 template <typename T, typename BASE>
-struct DirectValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
+struct CPPEXPOSE_TEMPLATE_API DirectValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
 {
     using Type = DirectValueArray<T, BASE>;
 };
@@ -28,7 +29,7 @@ struct DirectValueType<T, BASE, helper::EnableIf<helper::isArray<T>>>
 *    Typed value (read/write) that is stored directly
 */
 template <typename T, typename BASE = AbstractTyped>
-class DirectValue : public DirectValueType<T, BASE>::Type
+class CPPEXPOSE_TEMPLATE_API DirectValue : public DirectValueType<T, BASE>::Type
 {
 public:
     typedef typename DirectValueType<T, BASE>::Type BaseType;

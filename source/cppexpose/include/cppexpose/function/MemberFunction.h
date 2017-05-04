@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/base/function_helpers.h>
 #include <cppexpose/function/AbstractFunction.h>
 
@@ -15,7 +16,7 @@ namespace cppexpose
 *    Representation of a member function
 */
 template <class T, typename RET, typename... Arguments>
-class MemberFunction : public AbstractFunction
+class CPPEXPOSE_TEMPLATE_API MemberFunction : public AbstractFunction
 {
 public:
     /**

@@ -4,6 +4,7 @@
 
 #include <memory>
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/plugin/AbstractComponent.h>
 
 
@@ -23,7 +24,7 @@ namespace cppexpose
 *    instanciated using a default constructor.
 */
 template <typename BaseType>
-class AbstractGenericComponent : public AbstractComponent
+class CPPEXPOSE_TEMPLATE_API AbstractGenericComponent : public AbstractComponent
 {
 public:
     /**

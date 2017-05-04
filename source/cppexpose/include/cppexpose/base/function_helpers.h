@@ -6,6 +6,7 @@
 #include <type_traits>
 #include <functional>
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/variant/Variant.h>
 
 
@@ -26,7 +27,7 @@ namespace helper
 *    Template for parsing typed arguments from a list of variants
 */
 template<typename T, size_t POS>
-struct ArgValue {
+struct CPPEXPOSE_TEMPLATE_API ArgValue {
     static T get(const std::vector<Variant> & args) {
         // Assume signed integral type by default
         T value = 0;
@@ -38,14 +39,14 @@ struct ArgValue {
 };
 
 template<typename T, size_t POS>
-struct ArgValue<const T &, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<const T &, POS> {
     static T get(const std::vector<Variant> & args) {
         return ArgValue<T, POS>::get(args);
     }
 };
 
 template<size_t POS>
-struct ArgValue<float, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<float, POS> {
     static float get(const std::vector<Variant> & args) {
         float value = 0.0f;
         if (POS < args.size()) {
@@ -56,7 +57,7 @@ struct ArgValue<float, POS> {
 };
 
 template<size_t POS>
-struct ArgValue<double, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<double, POS> {
     static double get(const std::vector<Variant> & args) {
         double value = 0.0f;
         if (POS < args.size()) {
@@ -67,7 +68,7 @@ struct ArgValue<double, POS> {
 };
 
 template<size_t POS>
-struct ArgValue<bool, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<bool, POS> {
     static bool get(const std::vector<Variant> & args) {
         bool value = false;
         if (POS < args.size()) {
@@ -78,7 +79,7 @@ struct ArgValue<bool, POS> {
 };
 
 template<size_t POS>
-struct ArgValue<std::string, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<std::string, POS> {
     static std::string get(const std::vector<Variant> & args) {
         std::string value;
         if (POS < args.size()) {
@@ -89,7 +90,7 @@ struct ArgValue<std::string, POS> {
 };
 
 template<size_t POS>
-struct ArgValue<Variant, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<Variant, POS> {
     static Variant get(const std::vector<Variant> & args) {
         Variant value;
         if (POS < args.size()) {
@@ -100,14 +101,14 @@ struct ArgValue<Variant, POS> {
 };
 
 template<size_t POS>
-struct ArgValue<const Variant &, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<const Variant &, POS> {
     static Variant get(const std::vector<Variant> & args) {
         return ArgValue<Variant, POS>::get(args);
     }
 };
 
 template<size_t POS>
-struct ArgValue<const std::vector<Variant> &, POS> {
+struct CPPEXPOSE_TEMPLATE_API ArgValue<const std::vector<Variant> &, POS> {
     static std::vector<Variant> get(const std::vector<Variant> & args) {
         std::vector<Variant> list;
         for (size_t i=POS; i<args.size(); i++) {
@@ -122,34 +123,35 @@ struct ArgValue<const std::vector<Variant> &, POS> {
 *    Generate a sequence of numbers (e.g., Seq<0, 1, 2>)
 */
 template<size_t... I>
-struct Seq {};
+struct CPPEXPOSE_TEMPLATE_API Seq {};
 
 /**
 *  @brief
 *    Sequence generator (e.g., GenSec<3>::Type = Seq<0, 1, 2>)
 */
 template<int N, size_t... I>
-struct GenSeq : GenSeq<N-1, N-1, I...> {};
+struct CPPEXPOSE_TEMPLATE_API GenSeq : GenSeq<N-1, N-1, I...> {};
 
 template<size_t... I>
-struct GenSeq<0, I...> { typedef Seq<I...> Type; };
+struct CPPEXPOSE_TEMPLATE_API GenSeq<0, I...> { typedef Seq<I...> Type; };
 
 /**
 *  @brief
 *    Pick type by index (e.g., PickType<1, void, int, float>::Type = int)
 */
 template<size_t N, typename T, typename... Arguments>
-struct PickType : PickType<N-1, Arguments...> {};
+struct CPPEXPOSE_TEMPLATE_API PickType : PickType<N-1, Arguments...> {};
 
 template<typename T, typename... Arguments>
-struct PickType<0, T, Arguments...> { typedef T Type; };
+struct CPPEXPOSE_TEMPLATE_API PickType<0, T, Arguments...> { typedef T Type; };
 
 /**
 *  @brief
 *    Generate ArgValue class for types and index (e.g., ArgValueGen<2, float, int, double>::Type = ArgValue<int, 2>
 */
 template<size_t I, typename... Arguments>
-struct ArgValueGen {
+struct CPPEXPOSE_TEMPLATE_API ArgValueGen
+{
     typedef typename PickType<I, Arguments...>::Type T;
     typedef ArgValue<T, I>                           Type;
 };
@@ -159,7 +161,7 @@ struct ArgValueGen {
 *    Template for calling a static function with a return value
 */
 template <typename RET, typename... Arguments>
-class CallFunction
+class CPPEXPOSE_TEMPLATE_API CallFunction
 {
 public:
     typedef std::function<RET (Arguments...)> FuncPtr;
@@ -174,7 +176,7 @@ public:
 *    Template for calling a static function without a return value
 */
 template <typename... Arguments>
-class CallFunction<void, Arguments...>
+class CPPEXPOSE_TEMPLATE_API CallFunction<void, Arguments...>
 {
 public:
     typedef std::function<void (Arguments...)> FuncPtr;
@@ -190,7 +192,7 @@ public:
 *    Template for calling a member function with a return value
 */
 template <typename T, typename RET, typename... Arguments>
-class CallMethod
+class CPPEXPOSE_TEMPLATE_API CallMethod
 {
 public:
     typedef RET (T::*MethodPtr) (Arguments...);
@@ -205,7 +207,7 @@ public:
 *    Template for calling a member function without a return value
 */
 template <typename T, typename... Arguments>
-class CallMethod<T, void, Arguments...>
+class CPPEXPOSE_TEMPLATE_API CallMethod<T, void, Arguments...>
 {
 public:
     typedef void (T::*MethodPtr) (Arguments...);

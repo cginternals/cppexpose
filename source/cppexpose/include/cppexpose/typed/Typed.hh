@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/AbstractTyped.hh>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Representation of a typed value
 */
 template <typename T, typename BASE>
-class Typed : public BASE
+class CPPEXPOSE_TEMPLATE_API Typed : public BASE
 {
 public:
     typedef T Type;  ///< Type of the value

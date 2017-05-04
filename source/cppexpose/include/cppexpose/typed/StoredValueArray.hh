@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/GetTyped.hh>
 
 
@@ -14,7 +15,7 @@ namespace cppexpose
 *    Helper template to deduce the types for getter and setter functions
 */
 template<typename T, typename ElementType, typename Obj>
-struct ArrayValueFunctions
+struct CPPEXPOSE_TEMPLATE_API ArrayValueFunctions
 {
     typedef T (Obj::*getter) () const;
     typedef void (Obj::*setter) (const T &);
@@ -28,7 +29,7 @@ struct ArrayValueFunctions
 *    Typed array value (read/write) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueArray : public GetTyped<T, BASE>::Type
+class CPPEXPOSE_TEMPLATE_API StoredValueArray : public GetTyped<T, BASE>::Type
 {
 public:
     typedef typename GetTyped<T, BASE>::Type::ElementType ElementType;
@@ -132,7 +133,7 @@ protected:
 *    Typed array value (read-only) that is accessed via getter and setter functions
 */
 template <typename T, typename BASE>
-class StoredValueArray<const T, BASE> : public StoredValueArray<T, BASE>
+class CPPEXPOSE_TEMPLATE_API StoredValueArray<const T, BASE> : public StoredValueArray<T, BASE>
 {
 public:
     /**
