@@ -9,8 +9,9 @@
 
 #include <cppassist/logging/logging.h>
 #include <cppassist/string/regex.h>
-
+#include <cppassist/fs/readfile.h>
 #include <cppassist/string/conversion.h>
+#include <cppassist/string/manipulation.h>
 
 
 namespace
@@ -114,22 +115,13 @@ void Tokenizer::setStandalones(const std::vector<std::string> & standalones)
 
 bool Tokenizer::loadDocument(const std::string & filename)
 {
-    // Open file
-    std::ifstream in(filename.c_str(), std::ios::in | std::ios::binary);
-    if (!in) {
+    m_document.clear();
+
+    if (!cppassist::fs::readFile(filename, m_document))
+    {
         // Could not open file
         return false;
     }
-
-    // Reset document
-    m_document.clear();
-
-    // Read file
-    in.seekg(0, std::ios::end);
-    m_document.resize(in.tellg());
-    in.seekg(0, std::ios::beg);
-    in.read(&m_document[0], m_document.size());
-    in.close();
 
     // Set document
     const char * begin = m_document.c_str();
@@ -506,7 +498,8 @@ char Tokenizer::nextChar(size_t index) const
 {
     const char * pos = m_current + index;
 
-    if (pos >= m_end) {
+    if (pos >= m_end)
+    {
         return 0;
     }
 
@@ -515,7 +508,8 @@ char Tokenizer::nextChar(size_t index) const
 
 std::string Tokenizer::lookAhead(size_t length) const
 {
-    if (m_current >= m_end) {
+    if (m_current >= m_end)
+    {
         return "";
     }
 
@@ -527,10 +521,18 @@ std::string Tokenizer::lookAhead(size_t length) const
 
 const std::string & Tokenizer::matchStandaloneStrings() const
 {
+    if (m_standalones.empty())
+    {
+        return emptyString;
+    }
+
+    // Get longest look-ahead string
+    const auto laString = lookAhead(m_standalones.front().size());
+
     // Check if any of the standalone strings matches at the current position
     for (const auto & str : m_standalones)
     {
-        if (lookAhead(str.size()) == str)
+        if (cppassist::string::hasPrefix(laString, str))
         {
             return str;
         }
@@ -545,14 +547,12 @@ std::string Tokenizer::matchNumber() const
     // Check if there is a floating point number at the beginning
     static const std::string format = "^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?";
 
-    // Get remainder of document as string
-    std::string text(m_current, m_end - m_current);
-
-    auto matches = string::extract(text, format);
+    std::string match = "";
 
     // Was there a floating point number?
-    if (matches.size() > 0) {
-        return matches[0];
+    if (string::extractNext(m_current, m_end, format, match) > m_current)
+    {
+        return match;
     }
 
     // No

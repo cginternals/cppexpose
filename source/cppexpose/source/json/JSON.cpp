@@ -30,10 +30,14 @@ std::string escapeString(const std::string & in)
 {
     std::string out = "";
 
-    for (unsigned char c : in) {
-        if (c >= ' ' && c <= '~' && c != '\\' && c != '"') {
+    for (unsigned char c : in)
+    {
+        if (c >= ' ' && c <= '~' && c != '\\' && c != '"')
+        {
             out.append(1, c);
-        } else {
+        }
+        else
+        {
             out = out + '\\';
             switch(c) {
                 case '"':  out = out + "\"";  break;
@@ -56,19 +60,26 @@ std::string escapeString(const std::string & in)
 std::string jsonStringify(const Variant & root, bool beautify, const std::string & indent)
 {
     // Variant is an object
-    if (root.isVariantMap()) {
+    if (root.isVariantMap())
+    {
         // Quick output: {} if empty
         if (root.asMap()->empty()) return "{}";
 
         // Begin output
         std::string json = "{"; // [TODO] maybe a stringstream can be more performant
-        if (beautify) json += "\n";
+
+        if (beautify)
+            json += "\n";
 
         // Add all variables
         bool first = true;
-        for (auto it : *root.asMap()) {
+        for (auto it : *root.asMap())
+        {
             // Add separator (",")
-            if (!first) json += beautify ? ",\n" : ","; else first = false;
+            if (!first)
+                json += beautify ? ",\n" : ",";
+            else
+                first = false;
 
             // Get variable
             const std::string & name       = it.first;
@@ -76,13 +87,20 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
             // Get value
             std::string value;
-            if (var.isVariantMap() || var.isVariantArray()) {
+            if (var.isVariantMap() || var.isVariantArray())
+            {
                 value = jsonStringify(var, beautify, indent + "    ");
-            } else if (var.isNull()) {
+            }
+            else if (var.isNull())
+            {
                 value = "null";
-            } else {
+            }
+            else
+            {
                 value = escapeString(jsonStringify(var, beautify, ""));
-                if (var.hasType<std::string>()) {
+
+                if (var.hasType<std::string>())
+                {
                     value = "\"" + value + "\"";
                 }
             }
@@ -93,13 +111,16 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
         // Finish JSON
         json += (beautify ? "\n" + indent + "}" : "}");
+
         return json;
     }
 
     // Variant is an array
-    else if (root.isVariantArray()) {
+    else if (root.isVariantArray())
+    {
         // Quick output: [] if empty
-        if (root.asArray()->empty()) return "[]";
+        if (root.asArray()->empty())
+            return "[]";
 
         // Begin output
         std::string json = "["; // [TODO] maybe a stringstream can be more performant
@@ -107,19 +128,30 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
         // Add all elements
         bool first = true;
-        for (const cppexpose::Variant & var : *root.asArray()) {
+        for (const cppexpose::Variant & var : *root.asArray())
+        {
             // Add separator (",")
-            if (!first) json += beautify ? ",\n" : ","; else first = false;
+            if (!first)
+                json += beautify ? ",\n" : ",";
+            else
+                first = false;
 
             // Get value
             std::string value;
-            if (var.isVariantMap() || var.isVariantArray()) {
+            if (var.isVariantMap() || var.isVariantArray())
+            {
                 value = jsonStringify(var, beautify, indent + "    ");
-            } else if (var.isNull()) {
+            }
+            else if (var.isNull())
+            {
                 value = "null";
-            } else {
+            }
+            else
+            {
                 value = escapeString(jsonStringify(var, beautify, ""));
-                if (var.hasType<std::string>()) {
+
+                if (var.hasType<std::string>())
+                {
                     value = "\"" + value + "\"";
                 }
             }
@@ -130,18 +162,41 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
         // Finish JSON
         json += (beautify ? "\n" + indent + "]" : "]");
+
         return json;
     }
 
     // Primitive data types
-    else if (root.canConvert<std::string>()) {
+    else if (root.canConvert<std::string>())
+    {
         return root.toString();
     }
 
     // Invalid type for JSON output
-    else {
+    else
+    {
         return "null";
     }
+}
+
+Tokenizer createJSONTokenizer()
+{
+    // Create tokenizer for JSON
+    Tokenizer tokenizer;
+
+    tokenizer.setOptions(
+        Tokenizer::OptionParseStrings
+      | Tokenizer::OptionParseNumber
+      | Tokenizer::OptionParseBoolean
+      | Tokenizer::OptionParseNull
+      | Tokenizer::OptionCStyleComments
+      | Tokenizer::OptionCppStyleComments
+    );
+
+    tokenizer.setQuotationMarks("\"");
+    tokenizer.setSingleCharacters("{}[],:");
+
+    return tokenizer;
 }
 
 bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
@@ -365,20 +420,7 @@ std::string JSON::stringify(const Variant & root, JSON::OutputMode outputMode)
 
 bool JSON::load(Variant & root, const std::string & filename)
 {
-    // Create tokenizer for JSON
-    Tokenizer tokenizer;
-
-    tokenizer.setOptions(
-        Tokenizer::OptionParseStrings
-      | Tokenizer::OptionParseNumber
-      | Tokenizer::OptionParseBoolean
-      | Tokenizer::OptionParseNull
-      | Tokenizer::OptionCStyleComments
-      | Tokenizer::OptionCppStyleComments
-    );
-
-    tokenizer.setQuotationMarks("\"");
-    tokenizer.setSingleCharacters("{}[],:");
+    auto tokenizer = createJSONTokenizer();
 
     // Load file
     if (!tokenizer.loadDocument(filename))
@@ -392,20 +434,7 @@ bool JSON::load(Variant & root, const std::string & filename)
 
 bool JSON::parse(Variant & root, const std::string & document)
 {
-    // Create tokenizer for JSON
-    Tokenizer tokenizer;
-
-    tokenizer.setOptions(
-        Tokenizer::OptionParseStrings
-      | Tokenizer::OptionParseNumber
-      | Tokenizer::OptionParseBoolean
-      | Tokenizer::OptionParseNull
-      | Tokenizer::OptionCStyleComments
-      | Tokenizer::OptionCppStyleComments
-    );
-
-    tokenizer.setQuotationMarks("\"");
-    tokenizer.setSingleCharacters("{}[],:");
+    auto tokenizer = createJSONTokenizer();
 
     // Set document
     tokenizer.setDocument(document);
