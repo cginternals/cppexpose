@@ -6,13 +6,13 @@
 #include <memory>
 
 #include <cppexpose/cppexpose_api.h>
+#include <cppexpose/function/AbstractFunction.h>
 
 
 namespace cppexpose
 {
 
 
-class AbstractFunction;
 class Variant;
 
 
