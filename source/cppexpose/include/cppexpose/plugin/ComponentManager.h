@@ -130,12 +130,12 @@ public:
     *  @brief
     *    Scan for plugins and load all found ones
     *
-    *  @param[in] identifier
-    *    Load only plugins with the given identifier as a substring
+    *  @param[in] suffix
+    *    Load only libraries with the given suffix. If empty, all libraries are loaded.
     *  @param[in] reload
     *    Reload plugin libraries that are already loaded?
     */
-    void scanPlugins(const std::string & identifier = "", bool reload = false);
+    void scanPlugins(const std::string & suffix = "", bool reload = false);
 
     /**
     *  @brief
