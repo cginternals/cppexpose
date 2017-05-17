@@ -12,6 +12,8 @@
     #include <dirent.h>
 #endif
 
+#include <cppassist/logging/logging.h>
+#include <cppassist/string/manipulation.h>
 #include <cppassist/fs/SystemInfo.h>
 #include <cppassist/fs/FilePath.h>
 #include <cppassist/fs/directorytraversal.h>
@@ -113,19 +115,34 @@ void ComponentManager::removePluginPath(const std::string & path)
     }
 }
 
-void ComponentManager::scanPlugins(const std::string & identifier, bool reload)
+void ComponentManager::scanPlugins(const std::string & suffix, bool reload)
 {
+    // Log scan
+    cppassist::info() << "Scanning for plugins";
+
     // List files in all plugin paths
     const std::vector<std::string> files = cppassist::fs::getFiles(m_paths, false);
     for (const std::string & file : files)
     {
-        // Check if file is a library
-        if (cppassist::FilePath(file).extension() != cppassist::SystemInfo::libExtension())
-            continue;
+        // Split filename
+        auto filepath = cppassist::FilePath(file);
+        std::string extension = filepath.extension();
+        std::string baseName  = filepath.baseName();
 
-        // Check if library name corresponds to search criteria
-        if (identifier.empty() || file.find(identifier) != std::string::npos)
+        // Check if file is a library and and library name corresponds to search criteria
+        if (extension == cppassist::SystemInfo::libExtension() && (suffix.empty() || cppassist::string::hasSuffix(baseName, suffix)))
+        {
+            // Log plugin library
+            cppassist::info() << "Loading plugins from '" + file + "'";
+
+            // Load plugin library
             loadLibrary(file, reload);
+        }
+        else
+        {
+            // Skipped
+            cppassist::debug() << "Skipping '" + file + "'";
+        }
     }
 }
 
