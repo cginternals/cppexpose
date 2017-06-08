@@ -30,6 +30,11 @@ Function & Function::operator=(const Function & other)
     return *this;
 }
 
+bool Function::isEmpty() const
+{
+    return m_func != nullptr;
+}
+
 Variant Function::call(const std::vector<Variant> & args)
 {
     // Call function

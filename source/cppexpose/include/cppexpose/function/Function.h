@@ -67,6 +67,15 @@ public:
 
     /**
     *  @brief
+    *    Check if function is empty
+    *
+    *  @return
+    *    'true' if empty, else 'false'
+    */
+    bool isEmpty() const;
+
+    /**
+    *  @brief
     *    Call function
     *
     *  @param[in] args
