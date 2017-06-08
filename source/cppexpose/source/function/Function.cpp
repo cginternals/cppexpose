@@ -32,7 +32,7 @@ Function & Function::operator=(const Function & other)
 
 bool Function::isEmpty() const
 {
-    return m_func != nullptr;
+    return m_func == nullptr;
 }
 
 Variant Function::call(const std::vector<Variant> & args)
