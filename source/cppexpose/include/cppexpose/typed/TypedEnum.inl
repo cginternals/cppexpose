@@ -11,7 +11,30 @@ namespace cppexpose
 
 
 template <typename T, typename BASE>
+Variant TypedEnum<T, BASE>::defaultOptions()
+{
+    // Get default strings
+    auto defaultsMap = EnumDefaultStrings<T>()();
+
+    // Convert into choices enum
+    VariantArray choices;
+    for (const auto & it : defaultsMap)
+    {
+        choices.push_back(Variant(it.second));
+    }
+
+    // Create property options
+    VariantMap options;
+    options["choices"] = Variant(choices);
+
+    // Return options
+    return Variant(options);
+}
+
+
+template <typename T, typename BASE>
 TypedEnum<T, BASE>::TypedEnum()
+: Typed<T, BASE>(TypedEnum<T, BASE>::defaultOptions())
 {
     // Create default enum strings
     this->setStrings(EnumDefaultStrings<T>()());
@@ -68,10 +91,18 @@ bool TypedEnum<T, BASE>::isIntegral() const
 }
 
 template <typename T, typename BASE>
+Variant TypedEnum<T, BASE>::toVariant() const
+{
+    return Variant(toString());
+}
+
+template <typename T, typename BASE>
 bool TypedEnum<T, BASE>::fromVariant(const Variant & variant)
 {
     if (variant.hasType<T>()) {
         this->setValue(variant.value<T>());
+    } else if (variant.hasType<std::string>()) {
+        this->fromString(variant.toString());
     } else {
         this->setValue((T)variant.value<int>());
     }

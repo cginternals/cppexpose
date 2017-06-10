@@ -30,6 +30,19 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] options
+    *    Options with which the property is initialized
+    *
+    *  @remarks
+    *    The options will be passed on to the BASE class, therefore,
+    *    every class that is used as BASE needs to support this signature.
+    */
+    Typed(const Variant & options);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~Typed();

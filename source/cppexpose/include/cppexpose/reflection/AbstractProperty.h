@@ -39,6 +39,15 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] options
+    *    Options with which the property is initialized
+    */
+    AbstractProperty(const Variant & options);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~AbstractProperty();

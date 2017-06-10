@@ -10,6 +10,10 @@ AbstractTyped::AbstractTyped()
 {
 }
 
+AbstractTyped::AbstractTyped(const Variant &)
+{
+}
+
 AbstractTyped::~AbstractTyped()
 {
 }

@@ -24,6 +24,17 @@ class CPPEXPOSE_TEMPLATE_API TypedEnum : public Typed<T, BASE>
 public:
     /**
     *  @brief
+    *    Get default options for the enum property
+    *
+    *  @return
+    *    Property options
+    */
+    static Variant defaultOptions();
+
+
+public:
+    /**
+    *  @brief
     *    Constructor
     */
     TypedEnum();
@@ -56,6 +67,7 @@ public:
     virtual std::string typeName() const override;
     virtual bool isNumber() const override;
     virtual bool isIntegral() const override;
+    virtual Variant toVariant() const override;
     virtual bool fromVariant(const Variant & variant) override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;

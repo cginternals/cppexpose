@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <vector>
 #include <memory>
 
 #include <cppexpose/typed/TypeInterface.h>
@@ -24,6 +25,21 @@ public:
     *    Constructor
     */
     AbstractTyped();
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] options
+    *    Ignored
+    *
+    *  @remarks
+    *    This constructor is necessary, because Variant creates typed values
+    *    with AbstractTyped as BASE. In this case, however, we can ignore
+    *    the options. Keep in mind that every class that is used as BASE
+    *    needs to support this signature.
+    */
+    AbstractTyped(const Variant & options);
 
     /**
     *  @brief
