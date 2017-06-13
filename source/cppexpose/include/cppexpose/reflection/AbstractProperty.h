@@ -220,6 +220,19 @@ protected:
     */
     void setParent(Object * parent);
 
+    /**
+    *  @brief
+    *    Called when an option of the property has changed
+    *
+    *  @param[in] option
+    *    Name of the option
+    *
+    *  @remarks
+    *    This function is empty be default and can be implemented
+    *    in derived classes.
+    */
+    virtual void onOptionChanged(const std::string & option);
+
 
 protected:
     std::string   m_name;    ///< Name of the property

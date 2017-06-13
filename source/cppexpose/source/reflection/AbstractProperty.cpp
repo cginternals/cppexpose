@@ -75,6 +75,8 @@ void AbstractProperty::setOptions(const VariantMap & map)
     for (const auto & pair : map)
     {
         m_options[pair.first] = pair.second;
+
+        onOptionChanged(pair.first);
         optionChanged(pair.first);
     }
 }
@@ -99,6 +101,8 @@ const Variant & AbstractProperty::option(const std::string & key) const
 void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
     m_options[key] = value;
+
+    onOptionChanged(key);
     optionChanged(key);
 }
 
@@ -112,6 +116,8 @@ bool AbstractProperty::removeOption(const std::string & key)
     }
 
     m_options.erase(it);
+
+    onOptionChanged(key);
     optionChanged(key);
 
     return true;
@@ -135,6 +141,10 @@ void AbstractProperty::initProperty(const std::string & name, Object * parent)
 void AbstractProperty::setParent(Object * parent)
 {
     m_parent = parent;
+}
+
+void AbstractProperty::onOptionChanged(const std::string &)
+{
 }
 
 
