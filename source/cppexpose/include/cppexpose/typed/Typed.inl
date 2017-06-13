@@ -17,6 +17,12 @@ Typed<T, BASE>::Typed()
 }
 
 template <typename T, typename BASE>
+Typed<T, BASE>::Typed(const Variant & options)
+: BASE(options)
+{
+}
+
+template <typename T, typename BASE>
 Typed<T, BASE>::~Typed()
 {
 }

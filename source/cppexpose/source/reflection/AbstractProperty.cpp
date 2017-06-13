@@ -24,6 +24,16 @@ AbstractProperty::AbstractProperty()
 {
 }
 
+AbstractProperty::AbstractProperty(const Variant & options)
+: m_name("")
+, m_parent(nullptr)
+{
+    if (options.isVariantMap())
+    {
+        setOptions(*options.asMap());
+    }
+}
+
 AbstractProperty::~AbstractProperty()
 {
     beforeDestroy(this);
