@@ -2,9 +2,10 @@
 #pragma once
 
 
+#include <cppassist/fs/FilePath.h>
+
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/base/template_helpers.h>
-
 #include <cppexpose/typed/TypedGeneric.hh>
 #include <cppexpose/typed/TypedBool.hh>
 #include <cppexpose/typed/TypedString.hh>
@@ -14,6 +15,7 @@
 #include <cppexpose/typed/TypedEnum.hh>
 #include <cppexpose/typed/TypedArray.hh>
 #include <cppexpose/typed/TypedVariant.hh>
+#include <cppexpose/typed/TypedFilePath.hh>
 
 
 namespace cppexpose
@@ -141,6 +143,26 @@ template <typename BASE>
 struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant, BASE>
 {
     using Type = TypedVariant<const cppexpose::Variant, BASE>;
+};
+
+/**
+*  @brief
+*    Type selector for cppassist::FilePath
+*/
+template <typename BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppassist::FilePath, BASE>
+{
+    using Type = TypedFilePath<cppassist::FilePath, BASE>;
+};
+
+/**
+*  @brief
+*    Type selector for const cppassist::FilePath
+*/
+template <typename BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath, BASE>
+{
+    using Type = TypedFilePath<const cppassist::FilePath, BASE>;
 };
 
 

@@ -16,6 +16,7 @@
 #include <cppexpose/typed/TypedString.hh>
 #include <cppexpose/typed/TypedUnsignedIntegral.hh>
 #include <cppexpose/typed/TypedVariant.hh>
+#include <cppexpose/typed/TypedFilePath.hh>
 #include <cppexpose/typed/DirectValue.hh>
 #include <cppexpose/typed/DirectValueSingle.hh>
 #include <cppexpose/typed/DirectValueArray.hh>
@@ -37,6 +38,7 @@
 #include <cppexpose/typed/TypedString.inl>
 #include <cppexpose/typed/TypedUnsignedIntegral.inl>
 #include <cppexpose/typed/TypedVariant.inl>
+#include <cppexpose/typed/TypedFilePath.inl>
 #include <cppexpose/typed/DirectValue.inl>
 #include <cppexpose/typed/DirectValueSingle.inl>
 #include <cppexpose/typed/DirectValueArray.inl>

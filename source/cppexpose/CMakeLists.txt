@@ -108,6 +108,9 @@ set(headers
     ${include_path}/typed/TypedVariant.h
     ${include_path}/typed/TypedVariant.hh
     ${include_path}/typed/TypedVariant.inl
+    ${include_path}/typed/TypedFilePath.h
+    ${include_path}/typed/TypedFilePath.hh
+    ${include_path}/typed/TypedFilePath.inl
     ${include_path}/typed/DirectValue.h
     ${include_path}/typed/DirectValue.hh
     ${include_path}/typed/DirectValue.inl
@@ -310,10 +313,10 @@ target_link_libraries(${target}
     PRIVATE
     ${ADDITIONAL_LIBRARIES}
     cpplocate::cpplocate
-    cppassist::cppassist
 
     PUBLIC
     ${DEFAULT_LIBRARIES}
+    cppassist::cppassist
 
     INTERFACE
 )

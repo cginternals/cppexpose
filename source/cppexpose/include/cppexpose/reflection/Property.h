@@ -2,7 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/reflection/AbstractProperty.h>
 #include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/signal/Signal.h>
