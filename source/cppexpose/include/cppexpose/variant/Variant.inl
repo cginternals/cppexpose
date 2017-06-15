@@ -50,7 +50,7 @@ Variant Variant::fromValue(const T & value)
 }
 
 template <typename T>
-Variant Variant::arrayFromValues(const std::vector<T> & values)
+Variant Variant::fromVector(const std::vector<T> & values)
 {
     VariantArray array;
     for (const auto & val : values)

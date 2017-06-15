@@ -83,7 +83,7 @@ public:
     *    Variant array instance
     */
     template <typename T>
-    static Variant arrayFromValues(const std::vector<T> & values);
+    static Variant fromVector(const std::vector<T> & values);
 
     /**
     *  @brief
