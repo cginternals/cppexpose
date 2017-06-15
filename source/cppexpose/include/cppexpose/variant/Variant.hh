@@ -74,6 +74,19 @@ public:
 
     /**
     *  @brief
+    *    Create a variant array from a std::vector containing arbitrary values
+    *
+    *  @param[in] value
+    *    Vector of value
+    *
+    *  @return
+    *    Variant array instance
+    */
+    template <typename T>
+    static Variant arrayFromValues(const std::vector<T> & values);
+
+    /**
+    *  @brief
     *    Create an empty or specifically sized variant array
     *
     *  @param count
