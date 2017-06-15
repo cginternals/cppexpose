@@ -52,13 +52,13 @@ Variant Variant::fromValue(const T & value)
 template <typename T>
 Variant Variant::arrayFromValues(const std::vector<T> & values)
 {
-    VariantArray choices;
-    for (const auto & it : values)
+    VariantArray array;
+    for (const auto & val : values)
     {
-        choices.push_back(Variant(it));
+        array.push_back(Variant::fromValue(val));
     }
 
-    return Variant(choices);
+    return Variant(array);
 }
 
 template <typename T>
