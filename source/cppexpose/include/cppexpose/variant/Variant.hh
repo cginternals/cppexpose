@@ -311,6 +311,19 @@ public:
     std::string toJSON(JSON::OutputMode outputMode = JSON::Compact) const;
     //@}
 
+    /**
+    *  @brief
+    *    Create a std::vector from a variant array containing arbitrary values
+    *
+    *  @param[in] value
+    *    Variant array of value
+    *
+    *  @return
+    *    std::vector instance (empty instance if Variant is not a VariantArray)
+    */
+    template <typename T>
+    std::vector<T> toVector();
+
     // Virtual TypeInterface interface
     virtual bool isEnum() const override;
     virtual bool isArray() const override;
