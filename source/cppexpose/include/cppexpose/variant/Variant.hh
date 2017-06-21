@@ -74,6 +74,19 @@ public:
 
     /**
     *  @brief
+    *    Create a variant array from a std::vector containing arbitrary values
+    *
+    *  @param[in] value
+    *    Vector of value
+    *
+    *  @return
+    *    Variant array instance
+    */
+    template <typename T>
+    static Variant fromVector(const std::vector<T> & values);
+
+    /**
+    *  @brief
     *    Create an empty or specifically sized variant array
     *
     *  @param count
@@ -297,6 +310,19 @@ public:
     */
     std::string toJSON(JSON::OutputMode outputMode = JSON::Compact) const;
     //@}
+
+    /**
+    *  @brief
+    *    Create a std::vector from a variant array containing arbitrary values
+    *
+    *  @param[in] value
+    *    Variant array of value
+    *
+    *  @return
+    *    std::vector instance (empty instance if Variant is not a VariantArray)
+    */
+    template <typename T>
+    std::vector<T> toVector();
 
     // Virtual TypeInterface interface
     virtual bool isEnum() const override;

@@ -128,6 +128,17 @@ TEST_F(variantTest, constructorVariantArray)
     auto var = Variant(VariantArray());
     
     testType(var, &Variant::isVariantArray, methods);
+
+    std::vector<int> testVector;
+    testVector.push_back(4);
+    testVector.push_back(2);
+
+    var = Variant::fromVector(testVector);
+
+    testType(var, &Variant::isVariantArray, methods);
+    std::vector<int> recoveredVector = var.toVector<int>();
+    ASSERT_EQ(4, recoveredVector[0]);
+    ASSERT_EQ(2, recoveredVector[1]);
 }
 
 TEST_F(variantTest, staticConstructorVariantArray)

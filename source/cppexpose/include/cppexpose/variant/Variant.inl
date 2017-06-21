@@ -50,6 +50,36 @@ Variant Variant::fromValue(const T & value)
 }
 
 template <typename T>
+Variant Variant::fromVector(const std::vector<T> & values)
+{
+    VariantArray array;
+    for (const auto & val : values)
+    {
+        array.push_back(Variant::fromValue(val));
+    }
+
+    return Variant(array);
+}
+
+template <typename T>
+std::vector<T> Variant::toVector()
+{
+    std::vector<T> vector;
+
+    if (!isVariantArray()) {
+        return vector;
+    }
+
+    auto array = this->asArray();
+    for (const auto & val : *array)
+    {
+        vector.push_back(val.value<T>());
+    }
+
+    return vector;
+}
+
+template <typename T>
 bool Variant::hasType() const
 {
     if (!m_value) {
