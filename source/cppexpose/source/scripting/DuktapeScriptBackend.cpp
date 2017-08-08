@@ -278,6 +278,12 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
             duk_put_prop_string(m_context, -2, pair.first.c_str());
         }
     }
+
+    else
+    {
+        warning() << "Unknown variant type found: " << value.type().name();
+        duk_push_undefined(m_context);
+    }
 }
 
 int DuktapeScriptBackend::getNextStashIndex()
