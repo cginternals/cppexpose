@@ -30,6 +30,13 @@ DynamicProperty<T> * Object::createDynamicProperty(const std::string & name, con
     return propertyPtr;
 }
 
+template <typename Type, typename ... Arguments>
+bool Object::addProperty(const std::string & name, Arguments && ... arguments)
+{
+    auto property = cppassist::make_unique<Property<Type>>(name, nullptr, std::forward<Arguments>(arguments)...);
+    return addProperty(std::move(property));
+}
+
 template <typename RET, typename... Arguments>
 void Object::addFunction(const std::string & name, RET (*fn)(Arguments...))
 {
