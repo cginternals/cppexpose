@@ -4,6 +4,7 @@
 
 #include <string>
 #include <memory>
+#include <map>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
 
@@ -41,9 +42,34 @@ public:
     */
     virtual ~DuktapeScriptBackend();
 
+    /**
+    *  @brief
+    *    Copy constructor (deleted)
+    */
+    DuktapeScriptBackend(const DuktapeScriptBackend & other) = delete;
+
+    /**
+    *  @brief
+    *    Move constructor (deleted)
+    */
+    DuktapeScriptBackend(DuktapeScriptBackend && other) noexcept = delete;
+
+    /**
+    *  @brief
+    *    Copy assignment operator (deleted)
+    */
+    DuktapeScriptBackend & operator=(const DuktapeScriptBackend & other) = delete;
+
+    /**
+    *  @brief
+    *    Move assignment operator (deleted)
+    */
+    DuktapeScriptBackend & operator=(DuktapeScriptBackend && other) noexcept = delete;
+
     // Virtual AbstractScriptBackend interface
     virtual void initialize(ScriptContext * scriptContext) override;
-    virtual void setGlobalObject(Object * obj) override;
+    virtual void addGlobalObject(Object * obj) override;
+    virtual void removeGlobalObject(Object * obj) override;
     virtual Variant evaluate(const std::string & code) override;
 
 
@@ -96,8 +122,8 @@ protected:
 
 
 protected:
-    duk_context                         * m_context;          ///< Duktape context (never null)
-    std::unique_ptr<DuktapeObjectWrapper> m_globalObjWrapper; ///< Global object wrapper (can be null)
+    duk_context                                             * m_context;           ///< Duktape context (never null)
+    std::map<Object *, std::unique_ptr<DuktapeObjectWrapper>> m_globalObjWrappers; ///< Global object wrapper (can be null)
 };
 
 
