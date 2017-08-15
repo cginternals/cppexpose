@@ -6,6 +6,7 @@
 
 #include <cppexpose/function/StaticFunction.h>
 #include <cppexpose/function/MemberFunction.h>
+#include <cppexpose/function/ConstMemberFunction.h>
 
 
 namespace cppexpose
@@ -41,6 +42,13 @@ template <class T, typename RET, typename... Arguments>
 void Object::addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...))
 {
     auto func = cppassist::make_unique<MemberFunction<T, RET, Arguments...>>(obj, fn);
+    m_functions.push_back(Method(name, std::move(func)));
+}
+
+template <class T, typename RET, typename... Arguments>
+void Object::addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...) const)
+{
+    auto func = cppassist::make_unique<ConstMemberFunction<T, RET, Arguments...>>(obj, fn);
     m_functions.push_back(Method(name, std::move(func)));
 }
 
