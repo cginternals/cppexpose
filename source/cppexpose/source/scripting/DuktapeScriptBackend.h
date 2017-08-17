@@ -6,6 +6,7 @@
 #include <memory>
 #include <map>
 
+#include <cppexpose/cppexpose_features.h>
 #include <cppexpose/scripting/AbstractScriptBackend.h>
 
 #include "duktape-1.4.0/duktape.h"
@@ -52,7 +53,7 @@ public:
     *  @brief
     *    Move constructor (deleted)
     */
-    DuktapeScriptBackend(DuktapeScriptBackend && other) noexcept = delete;
+    DuktapeScriptBackend(DuktapeScriptBackend && other) CPPEXPOSE_NOEXCEPT = delete;
 
     /**
     *  @brief
@@ -64,7 +65,7 @@ public:
     *  @brief
     *    Move assignment operator (deleted)
     */
-    DuktapeScriptBackend & operator=(DuktapeScriptBackend && other) noexcept = delete;
+    DuktapeScriptBackend & operator=(DuktapeScriptBackend && other) CPPEXPOSE_NOEXCEPT = delete;
 
     // Virtual AbstractScriptBackend interface
     virtual void initialize(ScriptContext * scriptContext) override;
