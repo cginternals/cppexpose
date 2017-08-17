@@ -200,6 +200,29 @@ public:
 
     /**
     *  @brief
+    *    Create and add property to object
+    *
+    *  @param[in] name
+    *    Name of the new property
+    *
+    *  @param[in] arguments
+    *    Property constructor arguments
+    *
+    *  @return
+    *    'true' if the property has been added to the object, else 'false'
+    *
+    *  @remarks
+    *    Creates a property of the given type with the given arguments and adds it to the object.
+    *
+    *    The name of the property must be valid and unique to the object,
+    *    also the property must not belong to any other object already.
+    *    Otherwise, the property will not be added to the object.
+    */
+    template <typename Type, typename ... Arguments>
+    bool addProperty(const std::string & name, Arguments && ... arguments);
+
+    /**
+    *  @brief
     *    Remove property from object
     *
     *  @param[in] property
