@@ -46,19 +46,26 @@ public:
     *  @brief
     *    Wrap object into javascript object
     *
-    *  @param[in] parentIndex
-    *    Index of parent object on the stack
     *  @param[in] obj
     *    Object to be wrapped
     *
     *  @remarks
     *    This function creates a javascript object representing
-    *    a cppexpose object and puts it as a property into the
-    *    specified parent object. It also stores the object
-    *    wrapper into the global stash so that it can access
-    *    it later.
+    *    a cppexpose object and puts it on top of the stack. It
+    *    also stores the object wrapper into the global stash so
+    *    that it can access it later.
     */
-    void wrapObject(duk_idx_t parentIndex, Object * obj);
+    void wrapObject(Object * obj);
+
+    /**
+    *  @brief
+    *    Push internal javascript object representation onto duk stack
+    *
+    *  @remarks
+    *    Does nothing if there is no wrapped object (i.e., wrapObject()
+    *    has not been called).
+    */
+    void pushToDukStack();
 
 
 protected:

@@ -32,7 +32,7 @@ DuktapeObjectWrapper::~DuktapeObjectWrapper()
 {
 }
 
-void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
+void DuktapeObjectWrapper::wrapObject(Object * obj)
 {
     // Store pointer to wrapped object
     m_obj = obj;
@@ -113,16 +113,16 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
             // Create object wrapper
             auto objWrapper = cppassist::make_unique<DuktapeObjectWrapper>(m_scriptBackend);
 
-            // Add sub object
+            // Wrap sub object
             Object * subObj = static_cast<Object *>(prop);
-            objWrapper->wrapObject(objIndex, subObj);
+            objWrapper->wrapObject(subObj);
+
+            // Register sub-object in parent object
+            duk_put_prop_string(m_context, objIndex, obj->name().c_str());
 
             m_subObjects.push_back(std::move(objWrapper));
         }
     }
-
-    // Register object in parent object (global if it is no sub-object)
-    duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
 
     // Register callbacks for script engine update
     m_afterAddConnection = m_obj->afterAdd.connect([this](size_t index, cppexpose::AbstractProperty * property)
@@ -140,10 +140,17 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
             auto objWrapper = cppassist::make_unique<DuktapeObjectWrapper>(m_scriptBackend);
             assert(m_subObjects.size() == index);
 
-            // Expose object to scripting
+            // Get parent object from stash
             duk_push_global_stash(m_context);
             duk_get_prop_index(m_context, -1, m_stashIndex);
-            objWrapper->wrapObject(duk_get_top_index(m_context), obj);
+            const auto parentIndex = duk_get_top_index(m_context);
+
+            // Wrap object
+            objWrapper->wrapObject(obj);
+
+            // Register object in parent object
+            duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
+
             duk_pop(m_context);
             duk_pop(m_context);
 
@@ -231,6 +238,29 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
         duk_pop(m_context);
     });
 }
+
+
+void DuktapeObjectWrapper::pushToDukStack()
+{
+    if (m_obj == nullptr)
+    {
+        return;
+    }
+
+    // push placeholder object
+    duk_push_object(m_context);
+
+    // get object from stash
+    duk_push_global_stash(m_context);
+    duk_get_prop_index(m_context, -1, m_stashIndex);
+
+    // replace placeholder
+    duk_replace(m_context, -3);
+
+    // pop global stash
+    duk_pop(m_context);
+}
+
 
 duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
 {

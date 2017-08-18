@@ -123,8 +123,8 @@ protected:
 
 
 protected:
-    duk_context                                             * m_context;           ///< Duktape context (never null)
-    std::map<Object *, std::unique_ptr<DuktapeObjectWrapper>> m_globalObjWrappers; ///< Global object wrapper (can be null)
+    duk_context                                             * m_context;        ///< Duktape context (never null)
+    std::map<Object *, std::unique_ptr<DuktapeObjectWrapper>> m_objectWrappers; ///< Global object wrapper (can be null)
 };
 
 

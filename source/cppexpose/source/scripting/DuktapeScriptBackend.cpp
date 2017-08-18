@@ -64,8 +64,8 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
 void DuktapeScriptBackend::addGlobalObject(Object * obj)
 {
     // Check if obj exists
-    const auto itr = m_globalObjWrappers.find(obj);
-    if (itr != m_globalObjWrappers.end())
+    const auto itr = m_objectWrappers.find(obj);
+    if (itr != m_objectWrappers.end())
     {
         return;
     }
@@ -73,19 +73,26 @@ void DuktapeScriptBackend::addGlobalObject(Object * obj)
     // Create object wrapper
     auto wrapper = cppassist::make_unique<DuktapeObjectWrapper>(this);
 
-    // Wrap object in javascript object and put it into the global object
+    // Get global object
     duk_push_global_object(m_context);
-    wrapper->wrapObject(duk_get_top_index(m_context), obj);
+    const auto parentIndex = duk_get_top_index(m_context);
+
+    // Wrap object in javascript object
+    wrapper->wrapObject(obj);
+
+    // Register object in the global object
+    duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
+
     duk_pop(m_context);
 
-    m_globalObjWrappers[obj] = std::move(wrapper);
+    m_objectWrappers[obj] = std::move(wrapper);
 }
 
 void DuktapeScriptBackend::removeGlobalObject(Object * obj)
 {
     // Check if obj exists
-    const auto itr = m_globalObjWrappers.find(obj);
-    if (itr == m_globalObjWrappers.end())
+    const auto itr = m_objectWrappers.find(obj);
+    if (itr == m_objectWrappers.end())
     {
         return;
     }
@@ -96,7 +103,7 @@ void DuktapeScriptBackend::removeGlobalObject(Object * obj)
     duk_pop(m_context);
 
     // Destroy former global object wrapper
-    m_globalObjWrappers.erase(itr);
+    m_objectWrappers.erase(itr);
 }
 
 Variant DuktapeScriptBackend::evaluate(const std::string & code)
@@ -293,6 +300,29 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
         {
             pushToDukStack(pair.second);
             duk_put_prop_string(m_context, -2, pair.first.c_str());
+        }
+    }
+
+    else if (value.hasType<cppexpose::Object *>())
+    {
+        const auto object = value.value<cppexpose::Object *>();
+
+        // Check if object wrapper already exists
+        const auto itr = m_objectWrappers.find(object);
+        if (itr != m_objectWrappers.end())
+        {
+            // Push wrapper object to stack
+            const auto wrapper = itr->second.get();
+            wrapper->pushToDukStack();
+        }
+        else
+        {
+            // Wrap object and leave it on top of the stack
+            auto wrapper = std::make_unique<DuktapeObjectWrapper>(this);
+            wrapper->wrapObject(object);
+
+            // Save wrapper for later
+            m_objectWrappers[object] = std::move(wrapper);
         }
     }
 
