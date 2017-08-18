@@ -58,10 +58,10 @@ public:
 
     /**
     *  @brief
-    *    Get global object
+    *    Get global objects
     *
     *  @return
-    *    Global object (can be null)
+    *    List of global objects
     */
     const std::set<Object *> & globalObjects() const;
 
@@ -106,7 +106,7 @@ public:
 
 protected:
     std::unique_ptr<AbstractScriptBackend> m_backend;       ///< Scripting backend (can be null)
-    std::set<Object *>                     m_globalObjects; ///< Global object that is exposed to the scripting environment (can be null)
+    std::set<Object *>                     m_globalObjects; ///< Global objects that are exposed to the scripting environment
 };
 
 
