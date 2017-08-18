@@ -17,28 +17,9 @@ class AbstractComponent;
 
 /**
 *  @brief
-*    Function to get information about a plugin library
-*/
-using GetPluginInfoPtr = const char * (*)();
-
-/**
-*  @brief
-*    Function for initializing a plugin library
-*/
-using InitPluginPtr = void (*)();
-
-/**
-*  @brief
-*    Function for de-initializing a plugin library
-*/
-using DeInitPluginPtr = void (*)();
-
-
-/**
-*  @brief
 *    Represents a dynamic plugin library
 */
-class CPPEXPOSE_API PluginLibrary 
+class CPPEXPOSE_API PluginLibrary
 {
     friend class ComponentManager;
 
@@ -79,27 +60,6 @@ public:
 
     /**
     *  @brief
-    *    Get information about plugin library
-    *
-    *  @return
-    *    Identification string from plugin library
-    */
-    const char * pluginInfo();
-
-    /**
-    *  @brief
-    *    Initialize plugin library
-    */
-    void initPlugin();
-
-    /**
-    *  @brief
-    *    De-initialize plugin library
-    */
-    void deinitPlugin();
-
-    /**
-    *  @brief
     *    Get components that belong to the plugin library
     *
     *  @return
@@ -127,9 +87,6 @@ protected:
 protected:
     std::string                      m_filePath;         ///< Path to the loaded library
     void                           * m_handle;           ///< Library handle
-    GetPluginInfoPtr                 m_getPluginInfoPtr; ///< Pointer to function getPluginInfo()
-    InitPluginPtr                    m_initPluginPtr;    ///< Pointer to function initPlugin()
-    DeInitPluginPtr                  m_deinitPluginPtr;  ///< Pointer to function deinitPlugin()
     std::vector<AbstractComponent *> m_components;       ///< List of components that belong to the plugin library
 };
 
