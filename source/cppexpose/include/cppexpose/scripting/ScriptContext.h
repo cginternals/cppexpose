@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <set>
 
 #include <cppexpose/signal/Signal.h>
 
@@ -57,32 +58,38 @@ public:
 
     /**
     *  @brief
-    *    Get global object
+    *    Get global objects
     *
     *  @return
-    *    Global object (can be null)
+    *    List of global objects
     */
-    Object * globalObject() const;
+    const std::set<Object *> & globalObjects() const;
 
     /**
     *  @brief
-    *    Set global object
+    *    Add global object
     *
     *  @param[in] obj
-    *    Global object (can be null)
+    *    Global object (must NOT be null)
     *
     *  @remarks
-    *    Sets the root object that is exposed to the scripting environment.
+    *    Adds a global object that is exposed to the scripting environment.
     *    It will be available in the global namespace using the object's name.
     *    The script context does not take ownership over the object.
-    *
-    *    IMPORTANT: Some scripting backends may require a certain
-    *    name for the global object and will issue a warning if
-    *    the given object has a different name. The default scripting
-    *    backend however ("javascript", base on duktape) supports
-    *    any name for the global object.
     */
-    void setGlobalObject(Object * obj);
+    void addGlobalObject(Object * obj);
+
+    /**
+    *  @brief
+    *    Remove global object
+    *
+    *  @param[in] obj
+    *    Global object (must NOT be null)
+    *
+    *  @remarks
+    *    Removes a global object that is exposed to the scripting environment.
+    */
+    void removeGlobalObject(Object * obj);
 
     /**
     *  @brief
@@ -98,8 +105,8 @@ public:
 
 
 protected:
-    std::unique_ptr<AbstractScriptBackend> m_backend;      ///< Scripting backend (can be null)
-    Object                               * m_globalObject; ///< Global object that is exposed to the scripting environment (can be null)
+    std::unique_ptr<AbstractScriptBackend> m_backend;       ///< Scripting backend (can be null)
+    std::set<Object *>                     m_globalObjects; ///< Global objects that are exposed to the scripting environment
 };
 
 

@@ -14,7 +14,6 @@ namespace cppexpose
 
 ScriptContext::ScriptContext(const std::string & backend)
 : m_backend(nullptr)
-, m_globalObject(nullptr)
 {
     // Create backend
 
@@ -28,7 +27,6 @@ ScriptContext::ScriptContext(const std::string & backend)
 
 ScriptContext::ScriptContext(std::unique_ptr<AbstractScriptBackend> && backend)
 : m_backend(std::move(backend))
-, m_globalObject(nullptr)
 {
     // Register backend
     if (m_backend) {
@@ -40,12 +38,12 @@ ScriptContext::~ScriptContext()
 {
 }
 
-Object * ScriptContext::globalObject() const
+const std::set<Object *> & ScriptContext::globalObjects() const
 {
-    return m_globalObject;
+    return m_globalObjects;
 }
 
-void ScriptContext::setGlobalObject(Object * obj)
+void ScriptContext::addGlobalObject(Object * obj)
 {
     // Check if there is a valid scripting backend
     if (!m_backend)
@@ -53,9 +51,28 @@ void ScriptContext::setGlobalObject(Object * obj)
         return;
     }
 
-    // Set global object
-    m_globalObject = obj;
-    m_backend->setGlobalObject(obj);
+    // Add global object
+    const auto inserted = m_globalObjects.insert(obj);
+    if (inserted.second)
+    {
+        m_backend->addGlobalObject(obj);
+    }
+}
+
+void ScriptContext::removeGlobalObject(Object * obj)
+{
+    // Check if there is a valid scripting backend
+    if (!m_backend)
+    {
+        return;
+    }
+
+    // Remove global object
+    const auto removed = m_globalObjects.erase(obj);
+    if (removed > 0)
+    {
+        m_backend->removeGlobalObject(obj);
+    }
 }
 
 Variant ScriptContext::evaluate(const std::string & code)

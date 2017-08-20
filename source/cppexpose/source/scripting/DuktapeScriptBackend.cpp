@@ -29,7 +29,6 @@ const char * s_duktapePropertyNameKey    = "duktapePropertyName";
 
 DuktapeScriptBackend::DuktapeScriptBackend()
 : m_context(nullptr)
-, m_globalObjWrapper(nullptr)
 {
     // Create duktape script context
     m_context = duk_create_heap_default();
@@ -62,24 +61,42 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::setGlobalObject(Object * obj)
+void DuktapeScriptBackend::addGlobalObject(Object * obj)
 {
-    // Destroy former global object wrapper
-    if (m_globalObjWrapper)
+    // Check if obj exists
+    const auto itr = m_globalObjWrappers.find(obj);
+    if (itr != m_globalObjWrappers.end())
     {
-        // Remove property in the global object
-        duk_push_global_object(m_context);
-        duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
-        duk_pop(m_context);
+        return;
     }
 
     // Create object wrapper
-    m_globalObjWrapper = cppassist::make_unique<DuktapeObjectWrapper>(this);
+    auto wrapper = cppassist::make_unique<DuktapeObjectWrapper>(this);
 
     // Wrap object in javascript object and put it into the global object
     duk_push_global_object(m_context);
-    m_globalObjWrapper->wrapObject(duk_get_top_index(m_context), obj);
+    wrapper->wrapObject(duk_get_top_index(m_context), obj);
     duk_pop(m_context);
+
+    m_globalObjWrappers[obj] = std::move(wrapper);
+}
+
+void DuktapeScriptBackend::removeGlobalObject(Object * obj)
+{
+    // Check if obj exists
+    const auto itr = m_globalObjWrappers.find(obj);
+    if (itr == m_globalObjWrappers.end())
+    {
+        return;
+    }
+
+    // Remove property in the global object
+    duk_push_global_object(m_context);
+    duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
+    duk_pop(m_context);
+
+    // Destroy former global object wrapper
+    m_globalObjWrappers.erase(itr);
 }
 
 Variant DuktapeScriptBackend::evaluate(const std::string & code)
@@ -277,6 +294,12 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
             pushToDukStack(pair.second);
             duk_put_prop_string(m_context, -2, pair.first.c_str());
         }
+    }
+
+    else
+    {
+        warning() << "Unknown variant type found: " << value.type().name();
+        duk_push_undefined(m_context);
     }
 }
 

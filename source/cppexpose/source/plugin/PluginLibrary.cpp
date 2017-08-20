@@ -51,9 +51,6 @@ namespace cppexpose
 PluginLibrary::PluginLibrary(const std::string & filePath)
 : m_filePath(filePath)
 , m_handle(0)
-, m_getPluginInfoPtr(nullptr)
-, m_initPluginPtr(nullptr)
-, m_deinitPluginPtr(nullptr)
 {
     // Open library
     m_handle = dlopen(filePath.c_str(), RTLD_LAZY);
@@ -63,11 +60,6 @@ PluginLibrary::PluginLibrary(const std::string & filePath)
         cppassist::warning() << dlerror();
         return;
     }
-
-    // Get pointers to exported functions
-    *reinterpret_cast<void**>(&m_getPluginInfoPtr) = dlsym(m_handle, "getPluginInfo");
-    *reinterpret_cast<void**>(&m_initPluginPtr)    = dlsym(m_handle, "initPlugin");
-    *reinterpret_cast<void**>(&m_deinitPluginPtr)  = dlsym(m_handle, "deinitPlugin");
 }
 
 PluginLibrary::~PluginLibrary()
@@ -85,28 +77,7 @@ const std::string & PluginLibrary::filePath() const
 
 bool PluginLibrary::isValid() const
 {
-    return (m_getPluginInfoPtr != nullptr);
-}
-
-const char * PluginLibrary::pluginInfo()
-{
-    return (*m_getPluginInfoPtr)();
-}
-
-void PluginLibrary::initPlugin()
-{
-    if (m_initPluginPtr)
-    {
-        (*m_initPluginPtr)();
-    }
-}
-
-void PluginLibrary::deinitPlugin()
-{
-    if (m_deinitPluginPtr)
-    {
-        (*m_deinitPluginPtr)();
-    }
+    return (m_handle != 0);
 }
 
 const std::vector<AbstractComponent *> & PluginLibrary::components() const

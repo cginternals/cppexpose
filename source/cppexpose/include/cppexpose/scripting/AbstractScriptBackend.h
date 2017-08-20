@@ -58,12 +58,21 @@ public:
 
     /**
     *  @brief
-    *    Set global object that is exposed into the scripting environment
+    *    Add a global object that is exposed into the scripting environment
     *
     *  @param[in] obj
-    *    Global object (can be null)
+    *    Global object (must NOT be null)
     */
-    virtual void setGlobalObject(Object * obj) = 0;
+    virtual void addGlobalObject(Object * obj) = 0;
+
+    /**
+    *  @brief
+    *    Remove a global object that is exposed into the scripting environment
+    *
+    *  @param[in] obj
+    *    Global object (must NOT be null)
+    */
+    virtual void removeGlobalObject(Object * obj) = 0;
 
     /**
     *  @brief

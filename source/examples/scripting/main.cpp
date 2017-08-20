@@ -113,7 +113,7 @@ int main(int, char * [])
 
     // Create scripting environment
     Object script("script");
-    scriptContext.setGlobalObject(&script);
+    scriptContext.addGlobalObject(&script);
 
     MyObject obj ("obj");
     script.addProperty(&obj);

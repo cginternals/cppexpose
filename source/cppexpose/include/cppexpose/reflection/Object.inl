@@ -4,6 +4,8 @@
 
 #include <cppassist/memory/make_unique.h>
 
+#include <cppexpose/reflection/Property.h>
+
 #include <cppexpose/function/StaticFunction.h>
 #include <cppexpose/function/MemberFunction.h>
 #include <cppexpose/function/ConstMemberFunction.h>
@@ -29,6 +31,13 @@ DynamicProperty<T> * Object::createDynamicProperty(const std::string & name, con
 
     // Return property
     return propertyPtr;
+}
+
+template <typename Type, typename ... Arguments>
+bool Object::addProperty(const std::string & name, Arguments && ... arguments)
+{
+    auto property = cppassist::make_unique<Property<Type>>(name, nullptr, std::forward<Arguments>(arguments)...);
+    return addProperty(std::move(property));
 }
 
 template <typename RET, typename... Arguments>
