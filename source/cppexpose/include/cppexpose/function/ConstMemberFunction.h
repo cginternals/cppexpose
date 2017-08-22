@@ -13,17 +13,17 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of a member function
+*    Representation of a const member function
 */
 template <class T, typename RET, typename... Arguments>
-class CPPEXPOSE_TEMPLATE_API MemberFunction : public AbstractFunction
+class CPPEXPOSE_TEMPLATE_API ConstMemberFunction : public AbstractFunction
 {
 public:
     /**
     *  @brief
     *    Typed function pointer for a member function of class T
     */
-    typedef RET (T::*Func) (Arguments...);
+    typedef RET (T::*Func) (Arguments...) const;
 
 
 public:
@@ -36,13 +36,13 @@ public:
     *  @param[in] func
     *    Pointer to member function
     */
-    MemberFunction(T * obj, Func func);
+    ConstMemberFunction(const T * obj, Func func);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~MemberFunction();
+    virtual ~ConstMemberFunction();
 
     // Virtual AbstractFunction interface
     virtual std::unique_ptr<AbstractFunction> clone() override;
@@ -55,12 +55,12 @@ protected:
 
 
 protected:
-    T    * m_obj;  ///< Pointer to instance of class T
-    Func   m_func; ///< Function object (for non-const function)
+    const T * m_obj;  ///< Pointer to instance of class T
+    Func      m_func; ///< Function object (for non-const function)
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/function/MemberFunction.inl>
+#include <cppexpose/function/ConstMemberFunction.inl>

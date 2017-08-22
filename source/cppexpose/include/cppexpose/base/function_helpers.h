@@ -218,6 +218,37 @@ public:
     }
 };
 
+/**
+*  @brief
+*    Template for calling a const member function with a return value
+*/
+template <typename T, typename RET, typename... Arguments>
+class CPPEXPOSE_TEMPLATE_API CallConstMethod
+{
+public:
+    typedef RET (T::*MethodPtr) (Arguments...) const;
+
+    static Variant call(const T * obj, MethodPtr method, Arguments... args) {
+        return Variant((obj->*method)(args...));
+    }
+};
+
+/**
+*  @brief
+*    Template for calling a const member function without a return value
+*/
+template <typename T, typename... Arguments>
+class CPPEXPOSE_TEMPLATE_API CallConstMethod<T, void, Arguments...>
+{
+public:
+    typedef void (T::*MethodPtr) (Arguments...) const;
+
+    static Variant call(const T * obj, MethodPtr method, Arguments... args) {
+        (obj->*method)(args...);
+        return Variant();
+    }
+};
+
 
 } // namespace helper
 
