@@ -95,7 +95,7 @@ protected:
 
     void callFunction()
     {
-        m_func.call(std::vector<Variant>());
+        m_func.call({Variant::fromValue<cppexpose::Object *>(this)});
     }
 
 
