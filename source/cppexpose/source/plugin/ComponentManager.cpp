@@ -217,15 +217,7 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
     auto library = cppassist::make_unique<PluginLibrary>(filePath);
 
     // Check if it is a valid cppexpose plugin
-    bool valid = false;
-    if (library->isValid())
-    {
-        // Check plugin type
-        std::string pluginInfo = library->pluginInfo();
-        if (pluginInfo == "cppexpose_plugin") {
-            valid = true;
-        }
-    }
+    bool valid = library->isValid();
 
     // If loading failed, destroy library object and return failure
     if (!valid)
@@ -239,9 +231,6 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
     if (alreadyLoaded) {
         unloadLibrary(it->second.get());
     }
-
-    // Initialize plugin
-    library->initPlugin();
 
     // Add new components from library
     updateComponents(library.get());
@@ -265,9 +254,6 @@ void ComponentManager::unloadLibrary(PluginLibrary * library)
     {
         return;
     }
-
-    // De-initialize plugin
-    library->deinitPlugin();
 
     // Remove components belonging to the plugin library
     for (auto * component : library->components())

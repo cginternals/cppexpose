@@ -272,7 +272,7 @@ public:
 
     /**
     *  @brief
-    *    Add (export) function on object
+    *    Add (export) static function
     *
     *  @param[in] name
     *    Function name
@@ -295,6 +295,20 @@ public:
     */
     template <class T, typename RET, typename... Arguments>
     void addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...));
+
+    /**
+    *  @brief
+    *    Add (export) const method on object
+    *
+    *  @param[in] name
+    *    Function name
+    *  @param[in] obj
+    *    Pointer to object instance
+    *  @param[in] member
+    *    Method pointer
+    */
+    template <class T, typename RET, typename... Arguments>
+    void addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...) const);
 
     // Virtual AbstractProperty interface
     virtual bool isObject() const override;
