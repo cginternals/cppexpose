@@ -6,12 +6,14 @@
 #include <type_traits>
 #include <functional>
 
-#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
 {
+
+
+class Object;
 
 
 /**
@@ -28,9 +30,9 @@ namespace helper
 */
 template<typename T, size_t POS>
 struct CPPEXPOSE_TEMPLATE_API ArgValue {
-    static T get(const std::vector<Variant> & args) {
+    static int get(const std::vector<Variant> & args) {
         // Assume signed integral type by default
-        T value = 0;
+        int value = 0;
         if (POS < args.size()) {
             value = args[POS].value<int>();
         }
@@ -117,6 +119,25 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue<const std::vector<Variant> &, POS> {
         return list;
     }
 };
+
+template<size_t POS>
+struct CPPEXPOSE_TEMPLATE_API ArgValue<cppexpose::Object *, POS> {
+    static cppexpose::Object * get(const std::vector<Variant> & args) {
+        cppexpose::Object * obj = nullptr;
+        if (POS < args.size()) {
+            obj = args[POS].value<cppexpose::Object *>();
+        }
+        return obj;
+    }
+};
+
+template<size_t POS>
+struct CPPEXPOSE_TEMPLATE_API ArgValue<const cppexpose::Object *, POS> {
+    static const cppexpose::Object * get(const std::vector<Variant> & args) {
+        return ArgValue<cppexpose::Object *, POS>::get(args);
+    }
+};
+
 
 /**
 *  @brief
