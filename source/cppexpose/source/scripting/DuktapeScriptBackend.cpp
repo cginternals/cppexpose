@@ -203,14 +203,24 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
     else if (duk_is_object(m_context, index))
     {
         VariantMap map;
+        Object * object = nullptr;
 
         duk_enum(m_context, index, 0);
         while (duk_next(m_context, -1, 1))
         {
-            // Prevent the pointer to the C++ object that is stored in the Ecmascript object from being serialized
-            if (!(duk_is_pointer(m_context, -1) && fromDukStack(-2).value<std::string>() == s_duktapeObjectPointerKey))
+            // If a property s_duktapeObjectPointerKey exists, the object is a cppexpose::Object.
+            // In this case, extract the pointer and return that below
+            // Otherwise, continue to build a key-value map of the object's properties
+            if (duk_is_pointer(m_context, -1) && fromDukStack(-2).value<std::string>() == s_duktapeObjectPointerKey)
             {
-                map.insert({ fromDukStack(-2).value<std::string>(), fromDukStack(-1) });
+                const auto objWrapper = static_cast<DuktapeObjectWrapper *>(duk_get_pointer(m_context, -1));
+                object = objWrapper->object();
+
+                // no break/return here to avoid duplicating stack clean-up code
+            }
+            else
+            {
+                map.insert({fromDukStack(-2).value<std::string>(), fromDukStack(-1)});
             }
 
             duk_pop_2(m_context);
@@ -218,7 +228,8 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
 
         duk_pop(m_context);
 
-        return Variant(map);
+        // Return either the cppexpose::Object pointer (if exists) or the key-value map
+        return object != nullptr ? Variant::fromValue(object) : Variant(map);
     }
 
     // Pointer
