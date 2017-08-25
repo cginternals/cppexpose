@@ -79,6 +79,7 @@ void DuktapeScriptBackend::addGlobalObject(Object * obj)
     // Register object in the global object
     duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
 
+    // Pop global object from stack
     duk_pop(m_context);
 }
 
@@ -92,9 +93,10 @@ void DuktapeScriptBackend::removeGlobalObject(Object * obj)
 
 Variant DuktapeScriptBackend::evaluate(const std::string & code)
 {
-    // Check code for errors
+    // Execute code
     duk_int_t error = duk_peval_string(m_context, code.c_str());
 
+    // Check for errors
     if (error)
     {
         // Raise exception
@@ -311,7 +313,7 @@ DuktapeObjectWrapper * DuktapeScriptBackend::getOrCreateObjectWrapper(cppexpose:
     }
 
     // Wrap object
-    auto wrapper = std::make_unique<DuktapeObjectWrapper>(this, object);
+    auto wrapper = cppassist::make_unique<DuktapeObjectWrapper>(this, object);
 
     // Delete wrapper when object is destroyed
     // The connection will be deleted when this backend is destroyed
@@ -323,6 +325,7 @@ DuktapeObjectWrapper * DuktapeScriptBackend::getOrCreateObjectWrapper(cppexpose:
     // Save wrapper for later
     m_objectWrappers[object] = {std::move(wrapper), beforeDestroy};
 
+    // Return object wrapper
     return m_objectWrappers[object].first.get();
 }
 

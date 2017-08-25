@@ -99,7 +99,8 @@ void DuktapeObjectWrapper::wrapObject()
     }
 
     // Register sub-objects
-    for (unsigned int i=0; i<m_obj->numSubValues(); i++) {
+    for (unsigned int i=0; i<m_obj->numSubValues(); i++)
+    {
         // Get property
         AbstractProperty * prop = m_obj->property(i);
         std::string name = prop->name();
@@ -115,6 +116,7 @@ void DuktapeObjectWrapper::wrapObject()
             // Register sub-object in parent object
             duk_put_prop_string(m_context, objIndex, m_obj->name().c_str());
 
+            // Add wrapper to sub-object
             m_subObjects.push_back(objWrapper);
         }
     }
@@ -145,9 +147,11 @@ void DuktapeObjectWrapper::wrapObject()
             // Register object in parent object
             duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
 
+            // Clean up
             duk_pop(m_context);
             duk_pop(m_context);
 
+            // Add wrapper to sub-object
             m_subObjects.push_back(objWrapper);
         }
         else
@@ -233,29 +237,29 @@ void DuktapeObjectWrapper::wrapObject()
     });
 }
 
-
 void DuktapeObjectWrapper::pushToDukStack()
 {
+    // If object has not been wrapped before ...
     if (m_stashIndex == -1)
     {
-        wrapObject(); // leaves wrapper object on top of the stack
+        // Wrap object, leaves wrapper object on top of the stack
+        wrapObject();
         return;
     }
 
-    // push placeholder object
+    // Push placeholder object
     duk_push_object(m_context);
 
-    // get object from stash
+    // Get object from stash
     duk_push_global_stash(m_context);
     duk_get_prop_index(m_context, -1, m_stashIndex);
 
-    // replace placeholder
+    // Replace placeholder
     duk_replace(m_context, -3);
 
-    // pop global stash
+    // Pop global stash
     duk_pop(m_context);
 }
-
 
 duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
 {
@@ -268,6 +272,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
+    // Check if object wrapper was found
     if (objWrapper)
     {
         // Get object
@@ -311,6 +316,7 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
+    // Check if object wrapper was found
     if (objWrapper)
     {
         // Get object

@@ -39,7 +39,7 @@ public:
     *  @remarks
     *    Don't call this directly, use DuktapeScriptBackend::getOrCreateObjectWrapper
     *    instead to ensure only one javascript representation exists
-    *    for the given cppexpose object
+    *    for the given cppexpose::Object.
     */
     DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend, Object * obj);
 
@@ -51,13 +51,13 @@ public:
 
     /**
     *  @brief
-    *    Push internal javascript object representation onto duk stack
+    *    Push javascript object representation onto duk stack
     *
     *  @remarks
     *    Either pushes the existing wrapper object (if exists) or
     *    creates a new one on top of the stack.
-    *    
-    *  @see wrapObject(9
+    *
+    *  @see wrapObject()
     */
     void pushToDukStack();
 
@@ -69,12 +69,11 @@ protected:
     *
     *  @remarks
     *    This function creates a javascript object representing
-    *    a cppexpose object and puts it on top of the stack. It
+    *    a cppexpose::Object and puts it on top of the stack. It
     *    also stores the object wrapper into the global stash so
     *    that it can access it later.
     */
     void wrapObject();
-
 
     /**
     *  @brief
