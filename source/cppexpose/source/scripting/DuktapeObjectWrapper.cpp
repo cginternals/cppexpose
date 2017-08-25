@@ -114,7 +114,7 @@ void DuktapeObjectWrapper::wrapObject()
             objWrapper->pushToDukStack();
 
             // Register sub-object in parent object
-            duk_put_prop_string(m_context, objIndex, m_obj->name().c_str());
+            duk_put_prop_string(m_context, objIndex, subObj->name().c_str());
 
             // Add wrapper to sub-object
             m_subObjects.push_back(objWrapper);
