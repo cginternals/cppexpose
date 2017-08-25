@@ -202,34 +202,40 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
     // Object
     else if (duk_is_object(m_context, index))
     {
-        VariantMap map;
-        Object * object = nullptr;
-
-        duk_enum(m_context, index, 0);
-        while (duk_next(m_context, -1, 1))
+        // If a property s_duktapeObjectPointerKey exists, the object is a cppexpose::Object.
+        // In this case, extract the pointer and return that
+        if (duk_has_prop_string(m_context, index, s_duktapeObjectPointerKey))
         {
-            // If a property s_duktapeObjectPointerKey exists, the object is a cppexpose::Object.
-            // In this case, extract the pointer and return that below
-            // Otherwise, continue to build a key-value map of the object's properties
-            if (duk_is_pointer(m_context, -1) && fromDukStack(-2).value<std::string>() == s_duktapeObjectPointerKey)
-            {
-                const auto objWrapper = static_cast<DuktapeObjectWrapper *>(duk_get_pointer(m_context, -1));
-                object = objWrapper->object();
+            // Push property value
+            duk_get_prop_string(m_context, index, s_duktapeObjectPointerKey);
 
-                // no break/return here to avoid duplicating stack clean-up code
-            }
-            else
-            {
-                map.insert({fromDukStack(-2).value<std::string>(), fromDukStack(-1)});
-            }
+            // Get pointer to wrapper object
+            const auto objWrapper = static_cast<DuktapeObjectWrapper *>(duk_require_pointer(m_context, -1));
 
+            // Pop property value
+            duk_pop(m_context);
+
+            return Variant::fromValue(objWrapper->object());
+        }
+
+
+        // Otherwise, build a key-value map of the object's properties
+        VariantMap map;
+
+        // Push enumerator
+        duk_enum(m_context, index, 0);
+        while (duk_next(m_context, -1, 1)) // Push next key (-2) & value (-1)
+        {
+            map.insert({fromDukStack(-2).value<std::string>(), fromDukStack(-1)});
+
+            // Pop key & value
             duk_pop_2(m_context);
         }
 
+        // Pop enumerator
         duk_pop(m_context);
 
-        // Return either the cppexpose::Object pointer (if exists) or the key-value map
-        return object != nullptr ? Variant::fromValue(object) : Variant(map);
+        return Variant(map);
     }
 
     // Pointer
