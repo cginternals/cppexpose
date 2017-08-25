@@ -32,6 +32,16 @@ DuktapeObjectWrapper::~DuktapeObjectWrapper()
 {
 }
 
+Object * DuktapeObjectWrapper::object()
+{
+    return m_obj;
+}
+
+const Object * DuktapeObjectWrapper::object() const
+{
+    return m_obj;
+}
+
 void DuktapeObjectWrapper::wrapObject()
 {
     // Create empty object on the stack
@@ -114,7 +124,7 @@ void DuktapeObjectWrapper::wrapObject()
             objWrapper->pushToDukStack();
 
             // Register sub-object in parent object
-            duk_put_prop_string(m_context, objIndex, m_obj->name().c_str());
+            duk_put_prop_string(m_context, objIndex, subObj->name().c_str());
 
             // Add wrapper to sub-object
             m_subObjects.push_back(objWrapper);
@@ -389,6 +399,5 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
     warning() << "Error: No valid function pointer found." << std::endl;
     return DUK_RET_ERROR;
 }
-
 
 } // namespace cppexpose

@@ -32,9 +32,9 @@ public:
     *    Constructor
     *
     *  @param[in] scriptBackend
-    *    Duktape scripting backend
+    *    Duktape scripting backend (must not be null)
     *  @param[in] obj
-    *    Object to be wrapped
+    *    Object to be wrapped (must not be null)
     *
     *  @remarks
     *    Don't call this directly, use DuktapeScriptBackend::getOrCreateObjectWrapper
@@ -48,6 +48,18 @@ public:
     *    Destructor
     */
     ~DuktapeObjectWrapper();
+
+    /**
+    *  @brief
+    *    Get wrapped cppexpose::Object (never null)
+    */
+    Object * object();
+
+    /**
+    *  @brief
+    *    Get wrapped cppexpose::Object (never null)
+    */
+    const Object * object() const;
 
     /**
     *  @brief
