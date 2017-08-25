@@ -32,9 +32,16 @@ public:
     *    Constructor
     *
     *  @param[in] scriptBackend
-    *    Duktape scripting backend
+    *    Duktape scripting backend (must not be null)
+    *  @param[in] obj
+    *    Object to be wrapped (must not be null)
+    *
+    *  @remarks
+    *    Don't call this directly, use DuktapeScriptBackend::getOrCreateObjectWrapper
+    *    instead to ensure only one javascript representation exists
+    *    for the given cppexpose::Object.
     */
-    DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend);
+    DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend, Object * obj);
 
     /**
     *  @brief
@@ -44,24 +51,42 @@ public:
 
     /**
     *  @brief
-    *    Wrap object into javascript object
-    *
-    *  @param[in] parentIndex
-    *    Index of parent object on the stack
-    *  @param[in] obj
-    *    Object to be wrapped
+    *    Get wrapped cppexpose::Object (never null)
+    */
+    Object * object();
+
+    /**
+    *  @brief
+    *    Get wrapped cppexpose::Object (never null)
+    */
+    const Object * object() const;
+
+    /**
+    *  @brief
+    *    Push javascript object representation onto duk stack
     *
     *  @remarks
-    *    This function creates a javascript object representing
-    *    a cppexpose object and puts it as a property into the
-    *    specified parent object. It also stores the object
-    *    wrapper into the global stash so that it can access
-    *    it later.
+    *    Either pushes the existing wrapper object (if exists) or
+    *    creates a new one on top of the stack.
+    *
+    *  @see wrapObject()
     */
-    void wrapObject(duk_idx_t parentIndex, Object * obj);
+    void pushToDukStack();
 
 
 protected:
+    /**
+    *  @brief
+    *    Wrap object into javascript object
+    *
+    *  @remarks
+    *    This function creates a javascript object representing
+    *    a cppexpose::Object and puts it on top of the stack. It
+    *    also stores the object wrapper into the global stash so
+    *    that it can access it later.
+    */
+    void wrapObject();
+
     /**
     *  @brief
     *    Callback function for getting a property value
@@ -112,11 +137,11 @@ protected:
 
 
 protected:
-    duk_context                                      * m_context;       ///< Duktape context
-    DuktapeScriptBackend                             * m_scriptBackend; ///< Duktape scripting backend
-    Object                                           * m_obj;           ///< The wrapped object
-    int                                                m_stashIndex;    ///< Index of the wrapped object in the stash
-    std::vector<std::unique_ptr<DuktapeObjectWrapper>> m_subObjects;    ///< List of wrapped sub-objects
+    duk_context                       * m_context;       ///< Duktape context
+    DuktapeScriptBackend              * m_scriptBackend; ///< Duktape scripting backend
+    Object                            * m_obj;           ///< The wrapped object
+    int                                 m_stashIndex;    ///< Index of the wrapped object in the stash
+    std::vector<DuktapeObjectWrapper *> m_subObjects;    ///< List of wrapped sub-objects
 
     // Connections to the wrapped object
     cppexpose::ScopedConnection m_beforeDestroyConnection;

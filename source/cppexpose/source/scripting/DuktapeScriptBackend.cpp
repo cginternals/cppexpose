@@ -1,12 +1,9 @@
 
 #include "DuktapeScriptBackend.h"
 
-#include <iostream>
-
 #include <cppassist/logging/logging.h>
 
 #include <cppexpose/reflection/Object.h>
-#include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
 
 #include "DuktapeScriptFunction.h"
@@ -36,6 +33,12 @@ DuktapeScriptBackend::DuktapeScriptBackend()
 
 DuktapeScriptBackend::~DuktapeScriptBackend()
 {
+    // Disconnect from Object::beforeDestroy signals
+    for (auto & objectWrapper : m_objectWrappers)
+    {
+        objectWrapper.second.second.disconnect();
+    }
+
     // Destroy duktape script context
     duk_destroy_heap(m_context);
 }
@@ -63,47 +66,37 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
 
 void DuktapeScriptBackend::addGlobalObject(Object * obj)
 {
-    // Check if obj exists
-    const auto itr = m_globalObjWrappers.find(obj);
-    if (itr != m_globalObjWrappers.end())
-    {
-        return;
-    }
+    // Wrap object in javascript object
+    const auto objWrapper = getOrCreateObjectWrapper(obj);
 
-    // Create object wrapper
-    auto wrapper = cppassist::make_unique<DuktapeObjectWrapper>(this);
-
-    // Wrap object in javascript object and put it into the global object
+    // Get global object
     duk_push_global_object(m_context);
-    wrapper->wrapObject(duk_get_top_index(m_context), obj);
-    duk_pop(m_context);
+    const auto parentIndex = duk_get_top_index(m_context);
 
-    m_globalObjWrappers[obj] = std::move(wrapper);
+    // Push wrapper object
+    objWrapper->pushToDukStack();
+
+    // Register object in the global object
+    duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
+
+    // Pop global object from stack
+    duk_pop(m_context);
 }
 
 void DuktapeScriptBackend::removeGlobalObject(Object * obj)
 {
-    // Check if obj exists
-    const auto itr = m_globalObjWrappers.find(obj);
-    if (itr == m_globalObjWrappers.end())
-    {
-        return;
-    }
-
     // Remove property in the global object
     duk_push_global_object(m_context);
     duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
     duk_pop(m_context);
-
-    // Destroy former global object wrapper
-    m_globalObjWrappers.erase(itr);
 }
 
 Variant DuktapeScriptBackend::evaluate(const std::string & code)
 {
-    // Check code for errors
+    // Execute code
     duk_int_t error = duk_peval_string(m_context, code.c_str());
 
+    // Check for errors
     if (error)
     {
         // Raise exception
@@ -209,20 +202,37 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
     // Object
     else if (duk_is_object(m_context, index))
     {
+        // If a property s_duktapeObjectPointerKey exists, the object is a cppexpose::Object.
+        // In this case, extract the pointer and return that
+        if (duk_has_prop_string(m_context, index, s_duktapeObjectPointerKey))
+        {
+            // Push property value
+            duk_get_prop_string(m_context, index, s_duktapeObjectPointerKey);
+
+            // Get pointer to wrapper object
+            const auto objWrapper = static_cast<DuktapeObjectWrapper *>(duk_require_pointer(m_context, -1));
+
+            // Pop property value
+            duk_pop(m_context);
+
+            return Variant::fromValue(objWrapper->object());
+        }
+
+
+        // Otherwise, build a key-value map of the object's properties
         VariantMap map;
 
+        // Push enumerator
         duk_enum(m_context, index, 0);
-        while (duk_next(m_context, -1, 1))
+        while (duk_next(m_context, -1, 1)) // Push next key (-2) & value (-1)
         {
-            // Prevent the pointer to the C++ object that is stored in the Ecmascript object from being serialized
-            if (!(duk_is_pointer(m_context, -1) && fromDukStack(-2).value<std::string>() == s_duktapeObjectPointerKey))
-            {
-                map.insert({ fromDukStack(-2).value<std::string>(), fromDukStack(-1) });
-            }
+            map.insert({fromDukStack(-2).value<std::string>(), fromDukStack(-1)});
 
+            // Pop key & value
             duk_pop_2(m_context);
         }
 
+        // Pop enumerator
         duk_pop(m_context);
 
         return Variant(map);
@@ -296,11 +306,44 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
         }
     }
 
+    else if (value.hasType<cppexpose::Object *>())
+    {
+        const auto object = value.value<cppexpose::Object *>();
+        const auto objWrapper = getOrCreateObjectWrapper(object);
+        objWrapper->pushToDukStack();
+    }
+
     else
     {
         warning() << "Unknown variant type found: " << value.type().name();
         duk_push_undefined(m_context);
     }
+}
+
+DuktapeObjectWrapper * DuktapeScriptBackend::getOrCreateObjectWrapper(cppexpose::Object * object)
+{
+    // Check if wrapper exists
+    const auto itr = m_objectWrappers.find(object);
+    if (itr != m_objectWrappers.end())
+    {
+        return itr->second.first.get();
+    }
+
+    // Wrap object
+    auto wrapper = cppassist::make_unique<DuktapeObjectWrapper>(this, object);
+
+    // Delete wrapper when object is destroyed
+    // The connection will be deleted when this backend is destroyed
+    const auto beforeDestroy = object->beforeDestroy.connect([this, object](AbstractProperty *)
+    {
+        m_objectWrappers.erase(object);
+    });
+
+    // Save wrapper for later
+    m_objectWrappers[object] = {std::move(wrapper), beforeDestroy};
+
+    // Return object wrapper
+    return m_objectWrappers[object].first.get();
 }
 
 int DuktapeScriptBackend::getNextStashIndex()

@@ -8,6 +8,7 @@
 
 #include <cppexpose/cppexpose_features.h>
 #include <cppexpose/scripting/AbstractScriptBackend.h>
+#include <cppexpose/signal/ScopedConnection.h>
 
 #include "duktape-1.4.0/duktape.h"
 
@@ -114,6 +115,20 @@ protected:
 
     /**
     *  @brief
+    *    Get existing wrapper for object or create a new one
+    *
+    *  @param[in] object
+    *    Object to be wrapped
+    *
+    *  @remarks
+    *    The returned object wrapper is owned by the backend
+    *    and will be deleted if either the backend or the
+    *    wrapped object is destroyed
+    */
+    DuktapeObjectWrapper * getOrCreateObjectWrapper(cppexpose::Object * object);
+
+    /**
+    *  @brief
     *    Get index of the next free element in the stash
     *
     *  @return
@@ -123,8 +138,8 @@ protected:
 
 
 protected:
-    duk_context                                             * m_context;           ///< Duktape context (never null)
-    std::map<Object *, std::unique_ptr<DuktapeObjectWrapper>> m_globalObjWrappers; ///< Global object wrapper (can be null)
+    duk_context                                                                    * m_context;        ///< Duktape context (never null)
+    std::map<Object *, std::pair<std::unique_ptr<DuktapeObjectWrapper>, Connection>> m_objectWrappers; ///< Object wrappers + beforeDestroy connections
 };
 
 

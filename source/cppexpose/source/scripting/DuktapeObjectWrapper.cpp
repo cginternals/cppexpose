@@ -20,10 +20,10 @@ extern const char * s_duktapeObjectPointerKey;
 extern const char * s_duktapePropertyNameKey;
 
 
-DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend)
+DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend, Object * obj)
 : m_context(scriptBackend->m_context)
 , m_scriptBackend(scriptBackend)
-, m_obj(nullptr)
+, m_obj(obj)
 , m_stashIndex(-1)
 {
 }
@@ -32,11 +32,18 @@ DuktapeObjectWrapper::~DuktapeObjectWrapper()
 {
 }
 
-void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
+Object * DuktapeObjectWrapper::object()
 {
-    // Store pointer to wrapped object
-    m_obj = obj;
+    return m_obj;
+}
 
+const Object * DuktapeObjectWrapper::object() const
+{
+    return m_obj;
+}
+
+void DuktapeObjectWrapper::wrapObject()
+{
     // Create empty object on the stack
     duk_idx_t objIndex = duk_push_object(m_context);
 
@@ -53,10 +60,10 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
     duk_put_prop_string(m_context, -2, s_duktapeObjectPointerKey);
 
     // Register object properties
-    for (unsigned int i=0; i<obj->numSubValues(); i++)
+    for (unsigned int i=0; i<m_obj->numSubValues(); i++)
     {
         // Get property
-        AbstractProperty * prop = obj->property(i);
+        AbstractProperty * prop = m_obj->property(i);
         std::string propName = prop->name();
 
         // Register property (ignore sub-objects, they are added later)
@@ -88,7 +95,7 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
     }
 
     // Register object functions
-    const std::vector<Method> & funcs = obj->functions();
+    const std::vector<Method> & funcs = m_obj->functions();
     for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
     {
         const Method & method = *it;
@@ -102,27 +109,27 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
     }
 
     // Register sub-objects
-    for (unsigned int i=0; i<obj->numSubValues(); i++) {
+    for (unsigned int i=0; i<m_obj->numSubValues(); i++)
+    {
         // Get property
-        AbstractProperty * prop = obj->property(i);
+        AbstractProperty * prop = m_obj->property(i);
         std::string name = prop->name();
 
         // Check if it is an object
         if (prop->isObject())
         {
-            // Create object wrapper
-            auto objWrapper = cppassist::make_unique<DuktapeObjectWrapper>(m_scriptBackend);
+            // Wrap sub object
+            auto subObj = static_cast<Object *>(prop);
+            auto objWrapper = m_scriptBackend->getOrCreateObjectWrapper(subObj);
+            objWrapper->pushToDukStack();
 
-            // Add sub object
-            Object * subObj = static_cast<Object *>(prop);
-            objWrapper->wrapObject(objIndex, subObj);
+            // Register sub-object in parent object
+            duk_put_prop_string(m_context, objIndex, subObj->name().c_str());
 
-            m_subObjects.push_back(std::move(objWrapper));
+            // Add wrapper to sub-object
+            m_subObjects.push_back(objWrapper);
         }
     }
-
-    // Register object in parent object (global if it is no sub-object)
-    duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
 
     // Register callbacks for script engine update
     m_afterAddConnection = m_obj->afterAdd.connect([this](size_t index, cppexpose::AbstractProperty * property)
@@ -133,21 +140,29 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
         // Check if property is an object or a value property
         if (property->isObject())
         {
+            assert(m_subObjects.size() == index);
+
             // Get object
             Object * obj = static_cast<Object *>(property);
 
-            // Create object wrapper
-            auto objWrapper = cppassist::make_unique<DuktapeObjectWrapper>(m_scriptBackend);
-            assert(m_subObjects.size() == index);
-
-            // Expose object to scripting
+            // Get parent object from stash
             duk_push_global_stash(m_context);
             duk_get_prop_index(m_context, -1, m_stashIndex);
-            objWrapper->wrapObject(duk_get_top_index(m_context), obj);
+            const auto parentIndex = duk_get_top_index(m_context);
+
+            // Wrap object
+            const auto objWrapper = m_scriptBackend->getOrCreateObjectWrapper(obj);
+            objWrapper->pushToDukStack();
+
+            // Register object in parent object
+            duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
+
+            // Clean up
             duk_pop(m_context);
             duk_pop(m_context);
 
-            m_subObjects.push_back(std::move(objWrapper));
+            // Add wrapper to sub-object
+            m_subObjects.push_back(objWrapper);
         }
         else
         {
@@ -232,6 +247,30 @@ void DuktapeObjectWrapper::wrapObject(duk_idx_t parentIndex, Object * obj)
     });
 }
 
+void DuktapeObjectWrapper::pushToDukStack()
+{
+    // If object has not been wrapped before ...
+    if (m_stashIndex == -1)
+    {
+        // Wrap object, leaves wrapper object on top of the stack
+        wrapObject();
+        return;
+    }
+
+    // Push placeholder object
+    duk_push_object(m_context);
+
+    // Get object from stash
+    duk_push_global_stash(m_context);
+    duk_get_prop_index(m_context, -1, m_stashIndex);
+
+    // Replace placeholder
+    duk_replace(m_context, -3);
+
+    // Pop global stash
+    duk_pop(m_context);
+}
+
 duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
 {
     // Get script backend
@@ -243,6 +282,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
+    // Check if object wrapper was found
     if (objWrapper)
     {
         // Get object
@@ -286,6 +326,7 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
+    // Check if object wrapper was found
     if (objWrapper)
     {
         // Get object
@@ -358,6 +399,5 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
     warning() << "Error: No valid function pointer found." << std::endl;
     return DUK_RET_ERROR;
 }
-
 
 } // namespace cppexpose
