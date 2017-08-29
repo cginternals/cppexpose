@@ -40,18 +40,6 @@ public:
     */
     virtual ~AbstractTypedValue();
 
-    // Value access
-    virtual T value() const = 0;
-    virtual void setValue(const T & value) = 0;
-    virtual const T * ptr() const = 0;
-    virtual T * ptr() = 0;
-
-    // Array interface
-    virtual size_t numElements() const = 0;
-    virtual ElementType getElement(size_t i) const = 0;
-    virtual void setElement(size_t i, ElementType value) = 0;
-    virtual void push(ElementType value) = 0;
-
     // Virtual AbstractValue interface
     virtual const AbstractType & type() const override;
 
@@ -67,6 +55,18 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
+
+    // Value access
+    virtual T value() const = 0;
+    virtual void setValue(const T & value) = 0;
+    virtual const T * ptr() const = 0;
+    virtual T * ptr() = 0;
+
+    // Array interface
+    virtual size_t numElements() const = 0;
+    virtual ElementType getElement(size_t i) const = 0;
+    virtual void setElement(size_t i, ElementType value) = 0;
+    virtual void push(ElementType value) = 0;
 
 
 protected:
