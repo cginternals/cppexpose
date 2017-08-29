@@ -131,6 +131,37 @@ set(headers
     ${include_path}/typed/StoredValueArray.inl
     ${include_path}/typed/typed_includes.inl
 
+    ${include_path}/type/AbstractType.h
+    ${include_path}/type/AbstractTypedType.h
+    ${include_path}/type/AbstractTypedType.inl
+    ${include_path}/type/AbstractTypedValue.h
+    ${include_path}/type/AbstractTypedValue.inl
+    ${include_path}/type/AbstractValue.h
+    ${include_path}/type/GetType.h
+    ${include_path}/type/IType.h
+    ${include_path}/type/Type.h
+    ${include_path}/type/Type.inl
+    ${include_path}/type/TypeArray.h
+    ${include_path}/type/TypeArray.inl
+    ${include_path}/type/TypeBoolean.h
+    ${include_path}/type/TypeBoolean.inl
+    ${include_path}/type/TypeFloatingPoint.h
+    ${include_path}/type/TypeFloatingPoint.inl
+    ${include_path}/type/TypeGeneric.h
+    ${include_path}/type/TypeGeneric.inl
+    ${include_path}/type/TypeNumber.h
+    ${include_path}/type/TypeNumber.inl
+    ${include_path}/type/TypeSignedIntegral.h
+    ${include_path}/type/TypeSignedIntegral.inl
+    ${include_path}/type/TypeString.h
+    ${include_path}/type/TypeString.inl
+    ${include_path}/type/TypeUnsignedIntegral.h
+    ${include_path}/type/TypeUnsignedIntegral.inl
+    ${include_path}/type/TypeVector.h
+    ${include_path}/type/TypeVector.inl
+    ${include_path}/type/Value.h
+    ${include_path}/type/Value.inl
+
     ${include_path}/function/Function.h
     ${include_path}/function/AbstractFunction.h
     ${include_path}/function/StaticFunction.h
@@ -185,6 +216,10 @@ set(sources
 
     ${source_path}/typed/TypeInterface.cpp
     ${source_path}/typed/AbstractTyped.cpp
+
+    ${source_path}/type/AbstractType.cpp
+    ${source_path}/type/AbstractValue.cpp
+    ${source_path}/type/IType.cpp
 
     ${source_path}/function/Function.cpp
     ${source_path}/function/AbstractFunction.cpp
