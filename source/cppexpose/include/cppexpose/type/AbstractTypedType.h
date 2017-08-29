@@ -9,6 +9,10 @@ namespace cppexpose
 {
 
 
+template <typename T>
+class Type;
+
+
 /**
 *  @brief
 *    Abstract base class for types
@@ -28,6 +32,9 @@ public:
     *    Destructor
     */
     virtual ~AbstractTypedType();
+
+    // Virtual AbstractType interface
+    virtual const AbstractType & elementType() const override;
 
     // Default value
     virtual const T & defaultValue() const = 0;

@@ -24,7 +24,7 @@ public:
 
 
 public:
-    Signal<const T &> valueChanged;  ///< Called when the value has been changed
+    Signal<const T &> valueChanged; ///< Called when the value has been changed
 
 
 public:
@@ -70,7 +70,7 @@ public:
 
 
 protected:
-    Type<T> m_type;  ///< Object that described the type of the value
+    Type<T> m_type; ///< Object that describes the type of the value
 };
 
 

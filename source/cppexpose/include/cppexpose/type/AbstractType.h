@@ -27,6 +27,9 @@ public:
     *    Destructor
     */
     virtual ~AbstractType();
+
+    // Type information
+    virtual const AbstractType & elementType() const = 0;
 };
 
 
