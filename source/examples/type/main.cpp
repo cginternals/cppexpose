@@ -30,6 +30,14 @@ void printTypeInfo(const std::string & name, AbstractType & type)
 
 void printValue(const std::string & name, AbstractValue & value)
 {
+    std::cout << name << "(int) = " << value.value<int>() << std::endl;
+    std::cout << name << "(float) = " << value.value<float>() << std::endl;
+    std::cout << name << "(string) = " << value.toString() << std::endl;
+    std::cout << name << "(longlong) = " << value.toLongLong() << std::endl;
+    std::cout << name << "(ulonglong) = " << value.toULongLong() << std::endl;
+    std::cout << name << "(double) = " << value.toDouble() << std::endl;
+    std::cout << name << "(bool) = " << value.toBool() << std::endl;
+    std::cout << std::endl;
 }
 
 int main(int, char * [])
@@ -60,9 +68,9 @@ int main(int, char * [])
     printTypeInfo("vector<float>",  arrayType3);
 
     // Values
-    Value<bool> boolValue;
-    boolValue.setValue(true);
-    std::cout << "bool = " << (boolValue.value() ? "true" : "false") << std::endl;
+    Value<int> intValue;
+    intValue.setValue(23);
+    printValue("int", intValue);
 
     // Exit
     return 0;

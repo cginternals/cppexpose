@@ -36,6 +36,27 @@ public:
     virtual void setElement(size_t i, ElementType value) override;
     virtual void push(ElementType value) override;
 
+    // Virtual AbstractValue interface
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & value) override;
+    virtual bool toBool() const override;
+    virtual bool fromBool(bool value) override;
+    virtual long long toLongLong() const override;
+    virtual bool fromLongLong(long long value) override;
+    virtual unsigned long long toULongLong() const override;
+    virtual bool fromULongLong(unsigned long long value) override;
+    virtual double toDouble() const override;
+    virtual bool fromDouble(double value) override;
+
+    // Conversions
+    /*
+    template <typename U>
+    bool canConvert() const;
+
+    template <typename U>
+    U value() const;
+    */
+
 
 protected:
     T m_value; ///< Typed value

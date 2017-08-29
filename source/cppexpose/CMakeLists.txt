@@ -137,6 +137,9 @@ set(headers
     ${include_path}/type/AbstractTypedValue.h
     ${include_path}/type/AbstractTypedValue.inl
     ${include_path}/type/AbstractValue.h
+    ${include_path}/type/AbstractValue.inl
+    ${include_path}/type/Converter.h
+    ${include_path}/type/Converter.inl
     ${include_path}/type/GetType.h
     ${include_path}/type/IType.h
     ${include_path}/type/Type.h
@@ -159,6 +162,7 @@ set(headers
     ${include_path}/type/TypeUnsignedIntegral.inl
     ${include_path}/type/TypeVector.h
     ${include_path}/type/TypeVector.inl
+
     ${include_path}/type/Value.h
     ${include_path}/type/Value.inl
 
@@ -220,6 +224,7 @@ set(sources
     ${source_path}/type/AbstractType.cpp
     ${source_path}/type/AbstractValue.cpp
     ${source_path}/type/IType.cpp
+    ${source_path}/type/Converter.cpp
 
     ${source_path}/function/Function.cpp
     ${source_path}/function/AbstractFunction.cpp

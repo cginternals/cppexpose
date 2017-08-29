@@ -64,5 +64,91 @@ void Value<T>::push(ElementType value)
     this->m_type.push(m_value, value);
 }
 
+template <typename T>
+std::string Value<T>::toString() const
+{
+    return this->m_type.toString(m_value);
+}
+
+template <typename T>
+bool Value<T>::fromString(const std::string & value)
+{
+    return this->m_type.fromString(m_value, value);
+}
+
+template <typename T>
+bool Value<T>::toBool() const
+{
+    return this->m_type.toBool(m_value);
+}
+
+template <typename T>
+bool Value<T>::fromBool(bool value)
+{
+    return this->m_type.fromBool(m_value, value);
+}
+
+template <typename T>
+long long Value<T>::toLongLong() const
+{
+    return this->m_type.toLongLong(m_value);
+}
+
+template <typename T>
+bool Value<T>::fromLongLong(long long value)
+{
+    return this->m_type.fromLongLong(m_value, value);
+}
+
+template <typename T>
+unsigned long long Value<T>::toULongLong() const
+{
+    return this->m_type.toULongLong(m_value);
+}
+
+template <typename T>
+bool Value<T>::fromULongLong(unsigned long long value)
+{
+    return this->m_type.fromULongLong(m_value, value);
+}
+
+template <typename T>
+double Value<T>::toDouble() const
+{
+    return this->m_type.toDouble(m_value);
+}
+
+template <typename T>
+bool Value<T>::fromDouble(double value)
+{
+    return this->m_type.fromDouble(m_value, value);
+}
+
+/*
+template <typename T>
+template <typename U>
+bool Value<T>::canConvert() const
+{
+    // Check if a converter for that type exists
+    return Converter<U>::canConvert();
+}
+
+template <typename T>
+template <typename U>
+U Value<T>::value() const
+{
+    // Check if a converter for that type exists
+    if (Converter<U>::canConvert())
+    {
+        // Convert value
+        return Converter<U>::convertTo(*this);
+    }
+
+    // Return default value
+    Type<U> type;
+    return type.defaultValue();
+}
+*/
+
 
 } // namespace cppexpose
