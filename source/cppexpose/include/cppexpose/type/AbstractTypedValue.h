@@ -68,6 +68,11 @@ public:
     virtual void setElement(size_t i, ElementType value) = 0;
     virtual void push(ElementType value) = 0;
 
+    // Map interface
+    virtual std::vector<std::string> keys() const = 0;
+    virtual ElementType getElement(const std::string & key) const = 0;
+    virtual void setElement(const std::string & key, ElementType value) = 0;
+
 
 protected:
     Type<T> m_type; ///< Object that describes the type of the value

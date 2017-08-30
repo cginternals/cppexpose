@@ -63,6 +63,10 @@ public:
     virtual ET getElement(const T & var, size_t i) const override;
     virtual void setElement(T & var, size_t i, ET value) const override;
     virtual void push(T & var, ET value) const override;
+
+    virtual std::vector<std::string> keys(const T & var) const override;
+    virtual ET getElement(const T & var, const std::string & key) const override;
+    virtual void setElement(T & var, const std::string & key, ET value) const override;
 };
 
 

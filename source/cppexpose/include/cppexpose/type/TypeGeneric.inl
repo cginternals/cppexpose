@@ -180,5 +180,22 @@ void TypeGeneric<T>::push(T &, T) const
 {
 }
 
+template <typename T>
+std::vector<std::string> TypeGeneric<T>::keys(const T &) const
+{
+    return std::vector<std::string>();
+}
+
+template <typename T>
+T TypeGeneric<T>::getElement(const T &, const std::string &) const
+{
+    return this->defaultValue();
+}
+
+template <typename T>
+void TypeGeneric<T>::setElement(T &, const std::string &, T) const
+{
+}
+
 
 } // namespace cppexpose

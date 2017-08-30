@@ -56,6 +56,11 @@ public:
     virtual ET getElement(const T & var, size_t i) const = 0;
     virtual void setElement(T & var, size_t i, ET value) const = 0;
     virtual void push(T & var, ET value) const = 0;
+
+    // Map interface
+    virtual std::vector<std::string> keys(const T & var) const = 0;
+    virtual ET getElement(const T & var, const std::string & key) const = 0;
+    virtual void setElement(T & var, const std::string & key, ET value) const = 0;
 };
 
 

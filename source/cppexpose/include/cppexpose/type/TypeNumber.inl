@@ -151,5 +151,22 @@ void TypeNumber<T>::push(T &, T) const
 {
 }
 
+template <typename T>
+std::vector<std::string> TypeNumber<T>::keys(const T &) const
+{
+    return std::vector<std::string>();
+}
+
+template <typename T>
+T TypeNumber<T>::getElement(const T &, const std::string &) const
+{
+    return this->defaultValue();
+}
+
+template <typename T>
+void TypeNumber<T>::setElement(T &, const std::string &, T) const
+{
+}
+
 
 } // namespace cppexpose

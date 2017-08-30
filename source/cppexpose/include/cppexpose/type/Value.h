@@ -25,17 +25,6 @@ public:
     Value();
     virtual ~Value();
 
-    // Virtual AbstractTypedValue<T> interface
-    virtual T value() const override;
-    virtual void setValue(const T & value) override;
-    virtual const T * ptr() const override;
-    virtual T * ptr() override;
-
-    virtual size_t numElements() const override;
-    virtual ElementType getElement(size_t i) const override;
-    virtual void setElement(size_t i, ElementType value) override;
-    virtual void push(ElementType value) override;
-
     // Virtual AbstractValue interface
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
@@ -48,14 +37,20 @@ public:
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
 
-    // Conversions
-    /*
-    template <typename U>
-    bool canConvert() const;
+    // Virtual AbstractTypedValue<T> interface
+    virtual T value() const override;
+    virtual void setValue(const T & value) override;
+    virtual const T * ptr() const override;
+    virtual T * ptr() override;
 
-    template <typename U>
-    U value() const;
-    */
+    virtual size_t numElements() const override;
+    virtual ElementType getElement(size_t i) const override;
+    virtual void setElement(size_t i, ElementType value) override;
+    virtual void push(ElementType value) override;
+
+    virtual std::vector<std::string> keys() const override;
+    virtual ElementType getElement(const std::string & key) const override;
+    virtual void setElement(const std::string & key, ElementType value) override;
 
 
 protected:

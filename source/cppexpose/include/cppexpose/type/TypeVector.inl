@@ -211,5 +211,23 @@ void TypeVector<T, ET>::push(T & var, ET value) const
     var.push_back(value);
 }
 
+template <typename T, typename ET>
+std::vector<std::string> TypeVector<T, ET>::keys(const T &) const
+{
+    return std::vector<std::string>();
+}
+
+template <typename T, typename ET>
+ET TypeVector<T, ET>::getElement(const T &, const std::string &) const
+{
+    Type<ET> subType;
+    return subType.defaultValue();
+}
+
+template <typename T, typename ET>
+void TypeVector<T, ET>::setElement(T &, const std::string &, ET) const
+{
+}
+
 
 } // namespace cppexpose

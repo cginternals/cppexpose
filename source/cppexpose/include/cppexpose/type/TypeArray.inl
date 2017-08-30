@@ -214,5 +214,23 @@ void TypeArray<T, ET, SIZE>::push(T &, ET) const
     // Not supported for static arrays
 }
 
+template <typename T, typename ET, size_t SIZE>
+std::vector<std::string> TypeArray<T, ET, SIZE>::keys(const T &) const
+{
+    return std::vector<std::string>();
+}
+
+template <typename T, typename ET, size_t SIZE>
+ET TypeArray<T, ET, SIZE>::getElement(const T &, const std::string &) const
+{
+    Type<ET> subType;
+    return subType.defaultValue();
+}
+
+template <typename T, typename ET, size_t SIZE>
+void TypeArray<T, ET, SIZE>::setElement(T &, const std::string &, ET) const
+{
+}
+
 
 } // namespace cppexpose
