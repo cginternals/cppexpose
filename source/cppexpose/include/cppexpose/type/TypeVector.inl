@@ -54,6 +54,12 @@ bool TypeVector<T, ET>::isDynamicArray() const
 }
 
 template <typename T, typename ET>
+bool TypeVector<T, ET>::isMap() const
+{
+    return false;
+}
+
+template <typename T, typename ET>
 bool TypeVector<T, ET>::isBoolean() const
 {
     return false;

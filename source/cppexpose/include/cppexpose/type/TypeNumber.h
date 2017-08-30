@@ -33,6 +33,7 @@ public:
     virtual const std::type_info & typeInfo() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
+    virtual bool isMap() const override;
     virtual bool isBoolean() const override;
     virtual bool isNumber() const override;
     virtual bool isString() const override;

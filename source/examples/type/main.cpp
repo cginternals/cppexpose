@@ -1,6 +1,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <iostream>
 
 #include <cppexpose/type/Type.h>
@@ -12,7 +13,7 @@ using namespace cppexpose;
 
 void printTypeInfo(const std::string & name, AbstractType & type)
 {
-    std::cout << "typeof(" << name << "):  " << type.typeName() << std::endl;
+    std::cout << "typeof(" << name << "): " << type.typeName() << std::endl;
     std::cout << name << " is const:    " << (type.isConst() ? "true" : "false") << std::endl;
     std::cout << name << " is boolean:  " << (type.isBoolean() ? "true" : "false") << std::endl;
     std::cout << name << " is number:   " << (type.isNumber() ? "true" : "false") << std::endl;
@@ -22,8 +23,10 @@ void printTypeInfo(const std::string & name, AbstractType & type)
     std::cout << name << " is string:   " << (type.isString() ? "true" : "false") << std::endl;
     std::cout << name << " is array:    " << (type.isArray() ? "true" : "false") << std::endl;
     if (type.isArray()) {
+        std::cout << "- dynamic: " << (type.isDynamicArray() ? "true" : "false") << std::endl;
         std::cout << "- elementType: " << type.elementType().typeName() << std::endl;
     }
+    std::cout << name << " is map:      " << (type.isMap() ? "true" : "false") << std::endl;
 
     std::cout << std::endl;
 }
@@ -54,18 +57,20 @@ int main(int, char * [])
     Type<int[3]> arrayType1;
     Type<std::array<bool, 3>> arrayType2;
     Type<std::vector<float>> arrayType3;
+    Type<std::map<std::string, float>> mapType;
 
-    printTypeInfo("bool",           boolType);
-    printTypeInfo("int",            intType);
-    printTypeInfo("uint",           uintType);
-    printTypeInfo("long",           longType);
-    printTypeInfo("ulong",          ulongType);
-    printTypeInfo("float",          floatType);
-    printTypeInfo("double",         doubleType);
-    printTypeInfo("string",         stringType);
-    printTypeInfo("int_array[3]",   arrayType1);
-    printTypeInfo("array<bool, 3>", arrayType2);
-    printTypeInfo("vector<float>",  arrayType3);
+    printTypeInfo("bool",               boolType);
+    printTypeInfo("int",                intType);
+    printTypeInfo("uint",               uintType);
+    printTypeInfo("long",               longType);
+    printTypeInfo("ulong",              ulongType);
+    printTypeInfo("float",              floatType);
+    printTypeInfo("double",             doubleType);
+    printTypeInfo("string",             stringType);
+    printTypeInfo("int_array[3]",       arrayType1);
+    printTypeInfo("array<bool, 3>",     arrayType2);
+    printTypeInfo("vector<float>",      arrayType3);
+    printTypeInfo("map<string, float>", mapType);
 
     // Values
     Value<int> intValue;

@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <array>
 #include <vector>
+#include <map>
 
 #include <cppexpose/base/template_helpers.h>
 #include <cppexpose/type/TypeGeneric.h>
@@ -15,6 +16,7 @@
 #include <cppexpose/type/TypeString.h>
 #include <cppexpose/type/TypeArray.h>
 #include <cppexpose/type/TypeVector.h>
+#include <cppexpose/type/TypeMap.h>
 
 
 namespace cppexpose
@@ -80,6 +82,12 @@ template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::vector<T>>
 {
     using Type = TypeVector<std::vector<T>, T>;
+};
+
+template <typename T>
+struct CPPEXPOSE_TEMPLATE_API GetType<std::map<std::string, T>>
+{
+    using Type = TypeMap<std::map<std::string, T>, T>;
 };
 
 

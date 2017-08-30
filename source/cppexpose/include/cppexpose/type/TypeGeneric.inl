@@ -44,6 +44,12 @@ bool TypeGeneric<T>::isDynamicArray() const
 }
 
 template <typename T>
+bool TypeGeneric<T>::isMap() const
+{
+    return false;
+}
+
+template <typename T>
 bool TypeGeneric<T>::isBoolean() const
 {
     return false;

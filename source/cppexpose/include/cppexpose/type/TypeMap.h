@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <string>
+
 #include <cppexpose/type/AbstractTypedType.h>
 
 
@@ -11,10 +13,10 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of vector types
+*    Representation of map types
 */
 template <typename T, typename ET>
-class CPPEXPOSE_TEMPLATE_API TypeVector : public AbstractTypedType<T, ET>
+class CPPEXPOSE_TEMPLATE_API TypeMap : public AbstractTypedType<T, ET>
 {
 public:
     typedef T  BaseType;
@@ -26,13 +28,13 @@ public:
     *  @brief
     *    Constructor
     */
-    TypeVector();
+    TypeMap();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeVector();
+    virtual ~TypeMap();
 
     // Virtual AbstractType interface
     virtual const std::type_info & typeInfo() const override;
@@ -74,4 +76,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypeVector.inl>
+#include <cppexpose/type/TypeMap.inl>

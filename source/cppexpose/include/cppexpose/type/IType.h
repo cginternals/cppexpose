@@ -38,6 +38,7 @@ public:
     virtual bool isConst() const = 0;
     virtual bool isArray() const = 0;
     virtual bool isDynamicArray() const = 0;
+    virtual bool isMap() const = 0;
     virtual bool isBoolean() const = 0;
     virtual bool isNumber() const = 0;
     virtual bool isIntegral() const = 0;

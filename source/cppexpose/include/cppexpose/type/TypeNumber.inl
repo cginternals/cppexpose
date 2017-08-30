@@ -40,6 +40,12 @@ bool TypeNumber<T>::isDynamicArray() const
 }
 
 template <typename T>
+bool TypeNumber<T>::isMap() const
+{
+    return false;
+}
+
+template <typename T>
 bool TypeNumber<T>::isBoolean() const
 {
     return false;

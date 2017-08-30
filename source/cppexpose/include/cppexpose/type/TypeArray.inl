@@ -55,6 +55,12 @@ bool TypeArray<T, ET, SIZE>::isDynamicArray() const
 }
 
 template <typename T, typename ET, size_t SIZE>
+bool TypeArray<T, ET, SIZE>::isMap() const
+{
+    return false;
+}
+
+template <typename T, typename ET, size_t SIZE>
 bool TypeArray<T, ET, SIZE>::isBoolean() const
 {
     return false;

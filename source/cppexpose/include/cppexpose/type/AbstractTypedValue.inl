@@ -53,6 +53,12 @@ bool AbstractTypedValue<T>::isDynamicArray() const
 }
 
 template <typename T>
+bool AbstractTypedValue<T>::isMap() const
+{
+    return m_type.isMap();
+}
+
+template <typename T>
 bool AbstractTypedValue<T>::isBoolean() const
 {
     return m_type.isBoolean();

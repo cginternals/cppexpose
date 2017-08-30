@@ -49,6 +49,7 @@ public:
     virtual bool isConst() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
+    virtual bool isMap() const override;
     virtual bool isBoolean() const override;
     virtual bool isNumber() const override;
     virtual bool isIntegral() const override;
