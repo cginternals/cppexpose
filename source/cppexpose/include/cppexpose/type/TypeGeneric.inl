@@ -28,60 +28,70 @@ const std::type_info & TypeGeneric<T>::typeInfo() const
 template <typename T>
 std::string TypeGeneric<T>::typeName() const
 {
+    // Unknown type
     return "unknown";
 }
 
 template <typename T>
 bool TypeGeneric<T>::isArray() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isDynamicArray() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isMap() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isBoolean() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isNumber() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isIntegral() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isUnsigned() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isFloatingPoint() const
 {
+    // Unknown type
     return false;
 }
 
 template <typename T>
 bool TypeGeneric<T>::isString() const
 {
+    // Unknown type
     return false;
 }
 
@@ -94,72 +104,79 @@ const T & TypeGeneric<T>::defaultValue() const
 }
 
 template <typename T>
-std::string TypeGeneric<T>::toString(const T & var) const
+std::string TypeGeneric<T>::toString(const T &) const
 {
-    return var.toString();
+    // Unsupported for unknown type
+    return "";
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromString(T & var, const std::string & value) const
+bool TypeGeneric<T>::fromString(T &, const std::string &) const
 {
-    return var.fromString(value);
+    // Unsupported for unknown type
+    return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::toBool(const T & var) const
+bool TypeGeneric<T>::toBool(const T &) const
 {
-    return static_cast<bool>(var);
+    // Unsupported for unknown type
+    return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromBool(T & var, bool value) const
+bool TypeGeneric<T>::fromBool(T &, bool) const
 {
-    var = value;
-    return true;
+    // Unsupported for unknown type
+    return false;
 }
 
 template <typename T>
-long long TypeGeneric<T>::toLongLong(const T & var) const
+long long TypeGeneric<T>::toLongLong(const T &) const
 {
-    return static_cast<long long>(var);
+    // Unsupported for unknown type
+    return 0ll;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromLongLong(T & var, long long value) const
+bool TypeGeneric<T>::fromLongLong(T &, long long) const
 {
-    var = value;
-    return true;
+    // Unsupported for unknown type
+    return false;
 }
 
 template <typename T>
-unsigned long long TypeGeneric<T>::toULongLong(const T & var) const
+unsigned long long TypeGeneric<T>::toULongLong(const T &) const
 {
-    return static_cast<unsigned long long>(var);
+    // Unsupported for unknown type
+    return 0ull;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromULongLong(T & var, unsigned long long value) const
+bool TypeGeneric<T>::fromULongLong(T &, unsigned long long) const
 {
-    var = value;
-    return true;
+    // Unsupported for unknown type
+    return false;
 }
 
 template <typename T>
-double TypeGeneric<T>::toDouble(const T & var) const
+double TypeGeneric<T>::toDouble(const T &) const
 {
-    return static_cast<double>(var);
+    // Unsupported for unknown type
+    return 0.0;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromDouble(T & var, double value) const
+bool TypeGeneric<T>::fromDouble(T &, double) const
 {
-    var = value;
-    return true;
+    // Unsupported for unknown type
+    return false;
 }
 
 template <typename T>
 size_t TypeGeneric<T>::numElements(const T &) const
 {
+    // Unsupported for unknown type
     return 1;
 }
 
@@ -184,23 +201,27 @@ void TypeGeneric<T>::setElement(T & var, size_t i, T value) const
 template <typename T>
 void TypeGeneric<T>::push(T &, T) const
 {
+    // Unsupported for unknown type
 }
 
 template <typename T>
 std::vector<std::string> TypeGeneric<T>::keys(const T &) const
 {
+    // Unsupported for unknown type
     return std::vector<std::string>();
 }
 
 template <typename T>
 T TypeGeneric<T>::getElement(const T &, const std::string &) const
 {
+    // Unsupported for unknown type
     return this->defaultValue();
 }
 
 template <typename T>
 void TypeGeneric<T>::setElement(T &, const std::string &, T) const
 {
+    // Unsupported for unknown type
 }
 
 

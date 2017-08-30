@@ -11,6 +11,33 @@
 using namespace cppexpose;
 
 
+class Test
+{
+public:
+    Test()
+    : m_number(0)
+    {
+    }
+
+    ~Test()
+    {
+    }
+
+    int number() const
+    {
+        return m_number;
+    }
+
+    void setNumber(int number)
+    {
+        m_number = number;
+    }
+
+protected:
+    int m_number;
+};
+
+
 void printTypeInfo(const std::string & name, AbstractType & type)
 {
     std::cout << "typeof(" << name << "): " << type.typeName() << std::endl;
@@ -58,6 +85,7 @@ int main(int, char * [])
     Type<std::array<bool, 3>> arrayType2;
     Type<std::vector<float>> arrayType3;
     Type<std::map<std::string, float>> mapType;
+    Type<Test> testType;
 
     printTypeInfo("bool",               boolType);
     printTypeInfo("int",                intType);
@@ -71,6 +99,7 @@ int main(int, char * [])
     printTypeInfo("array<bool, 3>",     arrayType2);
     printTypeInfo("vector<float>",      arrayType3);
     printTypeInfo("map<string, float>", mapType);
+    printTypeInfo("test",               testType);
 
     // Values
     Value<int> intValue;
