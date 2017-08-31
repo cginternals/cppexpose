@@ -2,18 +2,37 @@
 #pragma once
 
 
+#include <cppassist/memory/make_unique.h>
+
+
 namespace cppexpose
 {
 
 
 template <typename T>
 Value<T>::Value()
+: m_value(this->m_type.defaultValue())
+{
+}
+
+template <typename T>
+Value<T>::Value(const T & value)
+: m_value(value)
 {
 }
 
 template <typename T>
 Value<T>::~Value()
 {
+}
+
+template <typename T>
+std::unique_ptr<AbstractValue> Value<T>::createCopy() const
+{
+    auto value = cppassist::make_unique<Value<T>>();
+    value->setValue(this->value());
+
+    return std::move(value);
 }
 
 template <typename T>

@@ -8,6 +8,7 @@
 #include <map>
 
 #include <cppexpose/base/template_helpers.h>
+#include <cppexpose/type/TypeNull.h>
 #include <cppexpose/type/TypeGeneric.h>
 #include <cppexpose/type/TypeBoolean.h>
 #include <cppexpose/type/TypeSignedIntegral.h>
@@ -35,6 +36,12 @@ template <typename T, typename = void>
 struct CPPEXPOSE_TEMPLATE_API GetType
 {
     using Type = TypeGeneric<T>;
+};
+
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetType<void>
+{
+    using Type = TypeNull;
 };
 
 template <>

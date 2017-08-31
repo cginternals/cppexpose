@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <memory>
+
 #include <cppexpose/type/IType.h>
 
 
@@ -39,6 +41,15 @@ public:
     *    Type object
     */
     virtual const AbstractType & type() const = 0;
+
+    /**
+    *  @brief
+    *    Create copy of the stored value
+    *
+    *  @return
+    *    Value
+    */
+    virtual std::unique_ptr<AbstractValue> createCopy() const = 0;
 
     // Basic type conversions
     virtual std::string toString() const = 0;

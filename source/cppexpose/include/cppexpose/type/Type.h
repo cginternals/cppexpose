@@ -17,8 +17,8 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API Type : public GetType<T>::Type
 {
 public:
-    typedef T BaseType;
-    typedef T ElementType;
+    typedef typename GetType<T>::Type::BaseType    BaseType;
+    typedef typename GetType<T>::Type::ElementType ElementType;
 
 
 public:
@@ -34,8 +34,8 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API Type<const T> : public GetType<T>::Type
 {
 public:
-    typedef T BaseType;
-    typedef T ElementType;
+    typedef typename GetType<T>::Type::BaseType    BaseType;
+    typedef typename GetType<T>::Type::ElementType ElementType;
 
 
 public:

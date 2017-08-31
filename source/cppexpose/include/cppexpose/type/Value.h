@@ -22,10 +22,29 @@ public:
 
 
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     Value();
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] value
+    *    Initial value
+    */
+    Value(const T & value);
+
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~Value();
 
     // Virtual AbstractValue interface
+    virtual std::unique_ptr<AbstractValue> createCopy() const override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
     virtual bool toBool() const override;
