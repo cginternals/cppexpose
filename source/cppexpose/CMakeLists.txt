@@ -141,6 +141,8 @@ set(headers
     ${include_path}/type/Converter.h
     ${include_path}/type/Converter.inl
     ${include_path}/type/GetType.h
+    ${include_path}/type/EnumStrings.h
+    ${include_path}/type/EnumStrings.inl
     ${include_path}/type/IType.h
     ${include_path}/type/Type.h
     ${include_path}/type/Type.inl
@@ -148,6 +150,8 @@ set(headers
     ${include_path}/type/TypeArray.inl
     ${include_path}/type/TypeBoolean.h
     ${include_path}/type/TypeBoolean.inl
+    ${include_path}/type/TypeEnum.h
+    ${include_path}/type/TypeEnum.inl
     ${include_path}/type/TypeFloatingPoint.h
     ${include_path}/type/TypeFloatingPoint.inl
     ${include_path}/type/TypeGeneric.h

@@ -11,34 +11,46 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of a generic number type
+*    Representation of an enum type
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API TypeNumber : public AbstractTypedType<T, T>
+class CPPEXPOSE_TEMPLATE_API TypeEnum : public AbstractTypedType<T, T>
 {
+public:
+    typedef T BaseType;
+    typedef T ElementType;
+    typedef typename std::underlying_type<T>::type UnderlyingType;
+
+
 public:
     /**
     *  @brief
     *    Constructor
     */
-    TypeNumber();
+    TypeEnum();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeNumber();
+    virtual ~TypeEnum();
 
     // Virtual AbstractType interface
     virtual const std::type_info & typeInfo() const override;
+    virtual std::string typeName() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
     virtual bool isMap() const override;
     virtual bool isBoolean() const override;
     virtual bool isNumber() const override;
+    virtual bool isIntegral() const override;
+    virtual bool isUnsigned() const override;
+    virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
 
     // Virtual AbstractTypedType<T, T> interface
+    virtual const T & defaultValue() const override;
+
     virtual std::string toString(const T & var) const override;
     virtual bool fromString(T & var, const std::string & value) const override;
     virtual bool toBool(const T & var) const override;
@@ -64,4 +76,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypeNumber.inl>
+#include <cppexpose/type/TypeEnum.inl>

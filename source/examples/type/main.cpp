@@ -37,6 +37,12 @@ protected:
     int m_number;
 };
 
+enum Weather
+{
+    Rain,
+    Cloudy,
+    Sunny
+};
 
 void printTypeInfo(const std::string & name, AbstractType & type)
 {
@@ -86,6 +92,7 @@ int main(int, char * [])
     Type<std::vector<float>> arrayType3;
     Type<std::map<std::string, float>> mapType;
     Type<Test> testType;
+    Type<Weather> weatherType;
 
     printTypeInfo("bool",               boolType);
     printTypeInfo("int",                intType);
@@ -100,6 +107,7 @@ int main(int, char * [])
     printTypeInfo("vector<float>",      arrayType3);
     printTypeInfo("map<string, float>", mapType);
     printTypeInfo("test",               testType);
+    printTypeInfo("weather",            weatherType);
 
     // Values
     Value<int> intValue;

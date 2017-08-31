@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <string>
+#include <map>
+
 #include <cppexpose/type/AbstractType.h>
 
 
@@ -33,6 +36,11 @@ public:
     */
     virtual ~AbstractTypedType();
 
+    // Symbolic names interface
+    bool hasSymbolicNames() const;
+    const std::map<T, std::string> & symbolicNames() const;
+    void setSymbolicNames(const std::map<T, std::string> & symbolicNames);
+
     // Virtual AbstractType interface
     virtual const AbstractType & elementType() const override;
 
@@ -61,6 +69,10 @@ public:
     virtual std::vector<std::string> keys(const T & var) const = 0;
     virtual ET getElement(const T & var, const std::string & key) const = 0;
     virtual void setElement(T & var, const std::string & key, ET value) const = 0;
+
+
+protected:
+    std::map<T, std::string> m_symbolicNames;
 };
 
 

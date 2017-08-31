@@ -14,6 +14,7 @@
 #include <cppexpose/type/TypeUnsignedIntegral.h>
 #include <cppexpose/type/TypeFloatingPoint.h>
 #include <cppexpose/type/TypeString.h>
+#include <cppexpose/type/TypeEnum.h>
 #include <cppexpose/type/TypeArray.h>
 #include <cppexpose/type/TypeVector.h>
 #include <cppexpose/type/TypeMap.h>
@@ -64,6 +65,12 @@ template <>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::string>
 {
     using Type = TypeString<std::string>;
+};
+
+template <typename T>
+struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<std::is_enum<T>>>
+{
+    using Type = TypeEnum<T>;
 };
 
 template <typename T, size_t SIZE>
