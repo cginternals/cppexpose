@@ -28,7 +28,17 @@ public:
     */
     virtual ~AbstractType();
 
-    // Type information
+    /**
+    *  @brief
+    *    Get type of elements
+    *
+    *  @return
+    *    Element type
+    *
+    *  @remarks
+    *    For array types, this returns the type of the items of the array.
+    *    For all other types, the original type is returned.
+    */
     virtual const AbstractType & elementType() const = 0;
 };
 

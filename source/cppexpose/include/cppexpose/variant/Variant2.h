@@ -41,20 +41,17 @@ using VariantMap = std::map<std::string, Variant2>;
 *
 *    A Variant can be used to store and pass arbitrary typed values in a uniform manner.
 *
-*    To create a Variant from the list of supported primitive data types, use one of the
-*    available constructors. To create a Variant from another data type, use the static
-*    function fromValue().
+*    To create a Variant from a specific data type, use the static function fromValue().
 *
-*    The type of the stored value can be determined by type() or hasType<Type>().
+*    The type of the stored value can be determined by type(), typeInfo(), or hasType<Type>().
 *    To access the value of a variant, call value<Type>(). If the given data type does not
 *    match the stored type, the value may be converted. Note that this only works for the
 *    supported primitive data types. To check if a type can be converted, use canConvert<Type>().
 *
 *    VariantArray and VariantMap can be used to store collections or hierarchies of variants.
-*    For simplified usage, use the convenience functions array() or map() to create such variants,
-*    and asArray() or asMap() to access their data. These composite variants will automatically
-*    be interpreted as JSON arrays or objects within scripting and can be serialized by the
-*    JSON tool class.
+*    For simplified usage, use the convenience functions array() or map() to create such variants.
+*    These composite variants will automatically be interpreted as JSON arrays or objects within
+*    scripting and can be serialized by the JSON tool class.
 */
 class CPPEXPOSE_API Variant2 : public IType
 {
@@ -115,6 +112,7 @@ public:
     Variant2(const Variant2 & variant);
     //@}
 
+    //@{
     /**
     *  @brief
     *    Constructor for a primitive data type
@@ -122,7 +120,6 @@ public:
     *  @param[in] value
     *    Primitive value
     */
-    //@{
     Variant2(bool value);
     Variant2(char value);
     Variant2(unsigned char value);
@@ -215,8 +212,8 @@ public:
     *  @return
     *    Stored value of type ValueType, or default value if type does not match and cannot be converted
     */
-    template <typename T>
-    T value() const;
+    template <typename ValueType>
+    ValueType value() const;
     //@}
 
     //@{
@@ -264,21 +261,9 @@ public:
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
 
-    // Value access and conversion
-    std::string toString() const;
-    bool fromString(const std::string & value);
-    bool toBool() const;
-    bool fromBool(bool value);
-    long long toLongLong() const;
-    bool fromLongLong(long long value);
-    unsigned long long toULongLong() const;
-    bool fromULongLong(unsigned long long value);
-    double toDouble() const;
-    bool fromDouble(double value);
-
 
 protected:
-    std::unique_ptr<AbstractValue> m_value;
+    std::unique_ptr<AbstractValue> m_value; ///< Stored value (can be null)
 };
 
 

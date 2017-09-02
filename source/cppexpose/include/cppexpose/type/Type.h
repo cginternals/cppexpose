@@ -22,7 +22,16 @@ public:
 
 
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     Type();
+
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~Type();
 
     // Virtual AbstractType interface
@@ -39,7 +48,16 @@ public:
 
 
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     Type();
+
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~Type();
 
     // Virtual AbstractType interface

@@ -38,66 +38,110 @@ struct CPPEXPOSE_TEMPLATE_API GetType
     using Type = TypeGeneric<T>;
 };
 
+/**
+*  @brief
+*    Type selector for void
+*/
 template <>
 struct CPPEXPOSE_TEMPLATE_API GetType<void>
 {
     using Type = TypeNull;
 };
 
+/**
+*  @brief
+*    Type selector for bool
+*/
 template <>
 struct CPPEXPOSE_TEMPLATE_API GetType<bool>
 {
     using Type = TypeBoolean<bool>;
 };
 
-template <typename T>
-struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isSignedIntegral<T>>>
-{
-    using Type = TypeSignedIntegral<T>;
-};
-
-template <typename T>
-struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isUnsignedIntegral<T>>>
-{
-    using Type = TypeUnsignedIntegral<T>;
-};
-
-template <typename T>
-struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isFloatingPoint<T>>>
-{
-    using Type = TypeFloatingPoint<T>;
-};
-
+/**
+*  @brief
+*    Type selector for std::string
+*/
 template <>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::string>
 {
     using Type = TypeString<std::string>;
 };
 
+/**
+*  @brief
+*    Type selector for signed integral types
+*/
+template <typename T>
+struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isSignedIntegral<T>>>
+{
+    using Type = TypeSignedIntegral<T>;
+};
+
+/**
+*  @brief
+*    Type selector for unsigned integral types
+*/
+template <typename T>
+struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isUnsignedIntegral<T>>>
+{
+    using Type = TypeUnsignedIntegral<T>;
+};
+
+/**
+*  @brief
+*    Type selector for floating point types
+*/
+template <typename T>
+struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isFloatingPoint<T>>>
+{
+    using Type = TypeFloatingPoint<T>;
+};
+
+/**
+*  @brief
+*    Type selector for enum types
+*/
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<std::is_enum<T>>>
 {
     using Type = TypeEnum<T>;
 };
 
+/**
+*  @brief
+*    Type selector for std::array types
+*/
 template <typename T, size_t SIZE>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::array<T, SIZE>>
 {
     using Type = TypeArray<std::array<T, SIZE>, T, SIZE>;
 };
 
+/**
+*  @brief
+*    Type selector for array types
+*/
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isArray2<T>>>
 {
     using Type = TypeArray<T, typename std::remove_extent<T>::type, std::extent<T>::value>;
 };
 
+/**
+*  @brief
+*    Type selector for std::vector types
+*/
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::vector<T>>
 {
     using Type = TypeVector<std::vector<T>, T>;
 };
 
+/**
+*  @brief
+*    Type selector for std::map types
+*/
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::map<std::string, T>>
 {

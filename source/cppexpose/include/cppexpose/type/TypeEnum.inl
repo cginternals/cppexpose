@@ -7,7 +7,7 @@
 
 #include <cppassist/string/conversion.h>
 
-#include <cppexpose/type/EnumStrings.h>
+#include <cppexpose/type/EnumValues.h>
 
 
 namespace cppexpose
@@ -17,7 +17,7 @@ namespace cppexpose
 template <typename T>
 TypeEnum<T>::TypeEnum()
 {
-    this->m_symbolicNames = EnumStrings<T>::symbolicNames();
+    this->m_namedValues = EnumValues<T>::namedValues();
 }
 
 template <typename T>

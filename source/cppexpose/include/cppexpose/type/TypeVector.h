@@ -59,12 +59,10 @@ public:
     virtual bool fromULongLong(T & var, unsigned long long value) const override;
     virtual double toDouble(const T & var) const override;
     virtual bool fromDouble(T & var, double value) const override;
-
     virtual size_t numElements(const T & var) const override;
     virtual ET getElement(const T & var, size_t i) const override;
     virtual void setElement(T & var, size_t i, ET value) const override;
     virtual void push(T & var, ET value) const override;
-
     virtual std::vector<std::string> keys(const T & var) const override;
     virtual ET getElement(const T & var, const std::string & key) const override;
     virtual void setElement(T & var, const std::string & key, ET value) const override;

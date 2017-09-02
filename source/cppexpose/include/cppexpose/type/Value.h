@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Typed value
+*    Typed value that is stored directly
 */
 template <typename T>
 class CPPEXPOSE_TEMPLATE_API Value : public AbstractTypedValue<T>
@@ -61,19 +61,17 @@ public:
     virtual void setValue(const T & value) override;
     virtual const T * ptr() const override;
     virtual T * ptr() override;
-
     virtual size_t numElements() const override;
     virtual ElementType getElement(size_t i) const override;
     virtual void setElement(size_t i, ElementType value) override;
     virtual void push(ElementType value) override;
-
     virtual std::vector<std::string> keys() const override;
     virtual ElementType getElement(const std::string & key) const override;
     virtual void setElement(const std::string & key, ElementType value) override;
 
 
 protected:
-    T m_value; ///< Typed value
+    T m_value; ///< Value
 };
 
 

@@ -19,7 +19,7 @@ namespace cppexpose
 *    Specialize this template to provide the name and value mappings for an enum.
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API EnumStrings
+class CPPEXPOSE_TEMPLATE_API EnumValues
 {
 public:
     /**
@@ -27,13 +27,13 @@ public:
     *    Get symbolic names and their values
     *
     *  @return
-    *    Map of values and strings
+    *    Map of symbolic names and values
     */
-    static std::map<T, std::string> symbolicNames();
+    static std::map<T, std::string> namedValues();
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/type/EnumStrings.inl>
+#include <cppexpose/type/EnumValues.inl>

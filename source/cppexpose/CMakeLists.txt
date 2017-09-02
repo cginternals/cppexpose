@@ -141,8 +141,8 @@ set(headers
     ${include_path}/type/Converter.h
     ${include_path}/type/Converter.inl
     ${include_path}/type/GetType.h
-    ${include_path}/type/EnumStrings.h
-    ${include_path}/type/EnumStrings.inl
+    ${include_path}/type/EnumValues.h
+    ${include_path}/type/EnumValues.inl
     ${include_path}/type/IType.h
     ${include_path}/type/ManagedValue.h
     ${include_path}/type/ManagedValue.inl

@@ -10,25 +10,25 @@ namespace cppexpose
 {
 
 
-template <typename T>
+template <typename ValueType>
 bool AbstractValue::canConvert() const
 {
     // Check if a converter for that type exists
-    return Converter<T>::canConvert();
+    return Converter<ValueType>::canConvert();
 }
 
-template <typename T>
-T AbstractValue::value() const
+template <typename ValueType>
+ValueType AbstractValue::value() const
 {
     // Check if a converter for that type exists
-    if (Converter<T>::canConvert())
+    if (Converter<ValueType>::canConvert())
     {
         // Convert value
-        return Converter<T>::convertTo(*this);
+        return Converter<ValueType>::convertTo(*this);
     }
 
     // Return default value
-    Type<T> type;
+    Type<ValueType> type;
     return type.defaultValue();
 }
 
