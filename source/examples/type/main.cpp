@@ -6,6 +6,7 @@
 
 #include <cppexpose/type/Type.h>
 #include <cppexpose/type/Value.h>
+#include <cppexpose/type/ManagedValue.h>
 
 
 using namespace cppexpose;
@@ -43,6 +44,18 @@ enum Weather
     Cloudy,
     Sunny
 };
+
+int intValue;
+
+int getInt()
+{
+    return intValue;
+}
+
+void setInt(const int & value)
+{
+    intValue = value;
+}
 
 void printTypeInfo(const std::string & name, AbstractType & type)
 {
@@ -113,6 +126,9 @@ int main(int, char * [])
     Value<int> intValue;
     intValue.setValue(23);
     printValue("int", intValue);
+
+    // Managed values
+    ManagedValue<int> value(getInt, setInt);
 
     // Exit
     return 0;

@@ -144,6 +144,8 @@ set(headers
     ${include_path}/type/EnumStrings.h
     ${include_path}/type/EnumStrings.inl
     ${include_path}/type/IType.h
+    ${include_path}/type/ManagedValue.h
+    ${include_path}/type/ManagedValue.inl
     ${include_path}/type/Type.h
     ${include_path}/type/Type.inl
     ${include_path}/type/TypeArray.h
@@ -166,7 +168,6 @@ set(headers
     ${include_path}/type/TypeUnsignedIntegral.inl
     ${include_path}/type/TypeVector.h
     ${include_path}/type/TypeVector.inl
-
     ${include_path}/type/Value.h
     ${include_path}/type/Value.inl
 

@@ -44,7 +44,12 @@ std::string Value<T>::toString() const
 template <typename T>
 bool Value<T>::fromString(const std::string & value)
 {
-    return this->m_type.fromString(m_value, value);
+    if (!this->m_type.fromString(m_value, value)) {
+        return false;
+    }
+
+    this->valueChanged(m_value);
+    return true;
 }
 
 template <typename T>
@@ -56,7 +61,12 @@ bool Value<T>::toBool() const
 template <typename T>
 bool Value<T>::fromBool(bool value)
 {
-    return this->m_type.fromBool(m_value, value);
+    if (!this->m_type.fromBool(m_value, value)) {
+        return false;
+    }
+
+    this->valueChanged(m_value);
+    return true;
 }
 
 template <typename T>
@@ -68,7 +78,12 @@ long long Value<T>::toLongLong() const
 template <typename T>
 bool Value<T>::fromLongLong(long long value)
 {
-    return this->m_type.fromLongLong(m_value, value);
+    if (!this->m_type.fromLongLong(m_value, value)) {
+        return false;
+    }
+
+    this->valueChanged(m_value);
+    return true;
 }
 
 template <typename T>
@@ -80,7 +95,12 @@ unsigned long long Value<T>::toULongLong() const
 template <typename T>
 bool Value<T>::fromULongLong(unsigned long long value)
 {
-    return this->m_type.fromULongLong(m_value, value);
+    if (!this->m_type.fromULongLong(m_value, value)) {
+        return false;
+    }
+
+    this->valueChanged(m_value);
+    return true;
 }
 
 template <typename T>
@@ -92,7 +112,12 @@ double Value<T>::toDouble() const
 template <typename T>
 bool Value<T>::fromDouble(double value)
 {
-    return this->m_type.fromDouble(m_value, value);
+    if (!this->m_type.fromDouble(m_value, value)) {
+        return false;
+    }
+
+    this->valueChanged(m_value);
+    return true;
 }
 
 template <typename T>
@@ -105,6 +130,7 @@ template <typename T>
 void Value<T>::setValue(const T & value)
 {
     m_value = value;
+    this->valueChanged(m_value);
 }
 
 template <typename T>
@@ -135,12 +161,14 @@ template <typename T>
 void Value<T>::setElement(size_t i, ElementType value)
 {
     this->m_type.setElement(m_value, i, value);
+    this->valueChanged(m_value);
 }
 
 template <typename T>
 void Value<T>::push(ElementType value)
 {
     this->m_type.push(m_value, value);
+    this->valueChanged(m_value);
 }
 
 template <typename T>
@@ -159,6 +187,7 @@ template <typename T>
 void Value<T>::setElement(const std::string & key, ElementType value)
 {
     this->m_type.setElement(m_value, key, value);
+    this->valueChanged(m_value);
 }
 
 
