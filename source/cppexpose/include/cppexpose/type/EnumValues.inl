@@ -7,9 +7,9 @@ namespace cppexpose
 
 
 template <typename T>
-std::map<T, std::string> EnumValues<T>::namedValues()
+std::map<std::string, T> EnumValues<T>::namedValues()
 {
-    static std::map<T, std::string> map;
+    static std::map<std::string, T> map;
     return map;
 }
 

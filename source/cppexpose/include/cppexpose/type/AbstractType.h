@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <string>
+#include <vector>
+
 #include <cppexpose/type/IType.h>
 
 
@@ -40,6 +43,24 @@ public:
     *    For all other types, the original type is returned.
     */
     virtual const AbstractType & elementType() const = 0;
+
+    /**
+    *  @brief
+    *    Check if there are symbolic names defined for the data type
+    *
+    *  @return
+    *    'true' if type has symbolic names, else 'false'
+    */
+    virtual bool hasSymbolicNames() const = 0;
+
+    /**
+    *  @brief
+    *    Get symbolic names defined for the data type
+    *
+    *  @return
+    *    List of symbolic names
+    */
+    virtual std::vector<std::string> symbolicNames() const = 0;
 };
 
 

@@ -29,7 +29,7 @@ public:
     *  @return
     *    Map of symbolic names and values
     */
-    static std::map<T, std::string> namedValues();
+    static std::map<std::string, T> namedValues();
 };
 
 

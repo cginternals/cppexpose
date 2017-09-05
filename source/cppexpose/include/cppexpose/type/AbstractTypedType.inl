@@ -36,20 +36,20 @@ std::vector<std::string> AbstractTypedType<T, ET>::symbolicNames() const
 
     for (auto it : m_namedValues)
     {
-        names.push_back(it->first);
+        names.push_back(it.first);
     }
 
     return names;
 }
 
 template <typename T, typename ET>
-const std::map<T, std::string> & AbstractTypedType<T, ET>::namedValues() const
+const std::map<std::string, T> & AbstractTypedType<T, ET>::namedValues() const
 {
     return m_namedValues;
 }
 
 template <typename T, typename ET>
-void AbstractTypedType<T, ET>::setNamedValues(const std::map<T, std::string> & namedValues)
+void AbstractTypedType<T, ET>::setNamedValues(const std::map<std::string, T> & namedValues)
 {
     m_namedValues = namedValues;
 }

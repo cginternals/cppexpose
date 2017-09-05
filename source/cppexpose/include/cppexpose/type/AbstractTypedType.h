@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <string>
-#include <vector>
 #include <map>
 
 #include <cppexpose/type/AbstractType.h>
@@ -43,24 +41,8 @@ public:
 
     // Virtual AbstractType interface
     virtual const AbstractType & elementType() const override;
-
-    /**
-    *  @brief
-    *    Check if there are symbolic names defined for the data type
-    *
-    *  @return
-    *    'true' if type has symbolic names, else 'false'
-    */
-    bool hasSymbolicNames() const;
-
-    /**
-    *  @brief
-    *    Get symbolic names defined for the data type
-    *
-    *  @return
-    *    List of symbolic names
-    */
-    std::vector<std::string> symbolicNames() const;
+    virtual bool hasSymbolicNames() const override;
+    virtual std::vector<std::string> symbolicNames() const override;
 
     /**
     *  @brief
@@ -69,7 +51,7 @@ public:
     *  @return
     *    Map of symbolic names and values
     */
-    const std::map<T, std::string> & namedValues() const;
+    const std::map<std::string, T> & namedValues() const;
 
     /**
     *  @brief
@@ -78,7 +60,7 @@ public:
     *  @param[in] namedValues
     *    Map of symbolic names and values
     */
-    void setNamedValues(const std::map<T, std::string> & namedValues);
+    void setNamedValues(const std::map<std::string, T> & namedValues);
 
     /**
     *  @brief
@@ -332,7 +314,7 @@ public:
 
 
 protected:
-    std::map<T, std::string> m_namedValues; ///< Map of symbolic names and values
+    std::map<std::string, T> m_namedValues; ///< Map of symbolic names and values
 };
 
 
