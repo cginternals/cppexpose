@@ -29,6 +29,18 @@ const AbstractType & AbstractTypedValue<T>::elementType() const
 }
 
 template <typename T>
+bool AbstractTypedValue<T>::hasSymbolicNames() const
+{
+    return m_type.hasSymbolicNames();
+}
+
+template <typename T>
+std::vector<std::string> AbstractTypedValue<T>::symbolicNames() const
+{
+    return m_type.symbolicNames();
+}
+
+template <typename T>
 const std::type_info & AbstractTypedValue<T>::typeInfo() const
 {
     return m_type.typeInfo();

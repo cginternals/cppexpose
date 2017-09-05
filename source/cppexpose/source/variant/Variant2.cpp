@@ -168,6 +168,16 @@ const AbstractType & Variant2::elementType() const
     return type();
 }
 
+bool Variant2::hasSymbolicNames() const
+{
+    return type().hasSymbolicNames();
+}
+
+std::vector<std::string> Variant2::symbolicNames() const
+{
+    return type().symbolicNames();
+}
+
 const std::type_info & Variant2::typeInfo() const
 {
     if (m_value) return m_value->typeInfo();

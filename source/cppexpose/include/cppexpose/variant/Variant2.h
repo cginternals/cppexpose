@@ -177,7 +177,7 @@ public:
     *  @return
     *    Type object
     */
-    const AbstractType & type() const;
+    virtual const AbstractType & type() const override;
 
     /**
     *  @brief
@@ -186,7 +186,25 @@ public:
     *  @return
     *    Type object
     */
-    const AbstractType & elementType() const;
+    virtual const AbstractType & elementType() const override;
+
+    /**
+    *  @brief
+    *    Check if there are symbolic names defined for the data type
+    *
+    *  @return
+    *    'true' if type has symbolic names, else 'false'
+    */
+    virtual bool hasSymbolicNames() const override;
+
+    /**
+    *  @brief
+    *    Get symbolic names defined for the data type
+    *
+    *  @return
+    *    List of symbolic names
+    */
+    virtual std::vector<std::string> symbolicNames() const override;
 
     /**
     *  @brief

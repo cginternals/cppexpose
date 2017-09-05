@@ -117,9 +117,9 @@ int main(int, char * [])
     Type<Weather> weatherType;
 
     weatherType.setNamedValues({
-        { Rainy, "Rainy" },
-        { Cloudy, "Cloudy" },
-        { Sunny, "Sunny" }
+        { "Rainy", Rainy },
+        { "Cloudy", Cloudy },
+        { "Sunny", Sunny }
     });
 
     printTypeInfo("bool",               boolType);
