@@ -37,6 +37,7 @@ public:
     virtual bool isBoolean() const override;
     virtual bool isNumber() const override;
     virtual bool isString() const override;
+    virtual bool isType() const override;
 
     // Virtual AbstractTypedType<T, T> interface
     virtual std::string toString(const T & var) const override;

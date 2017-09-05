@@ -96,6 +96,12 @@ bool TypeEnum<T>::isString() const
 }
 
 template <typename T>
+bool TypeEnum<T>::isType() const
+{
+    return false;
+}
+
+template <typename T>
 const T & TypeEnum<T>::defaultValue() const
 {
     static T value = static_cast<T>(0);

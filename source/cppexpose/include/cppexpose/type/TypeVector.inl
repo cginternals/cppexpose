@@ -96,6 +96,12 @@ bool TypeVector<T, ET>::isString() const
 }
 
 template <typename T, typename ET>
+bool TypeVector<T, ET>::isType() const
+{
+    return false;
+}
+
+template <typename T, typename ET>
 const T & TypeVector<T, ET>::defaultValue() const
 {
     static T value;

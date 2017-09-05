@@ -7,6 +7,7 @@
 #include <cppexpose/type/Type.h>
 #include <cppexpose/type/Value.h>
 #include <cppexpose/type/ManagedValue.h>
+#include <cppexpose/variant/Variant2.h>
 
 
 using namespace cppexpose;
@@ -40,7 +41,7 @@ protected:
 
 enum Weather
 {
-    Rain,
+    Rainy,
     Cloudy,
     Sunny
 };
@@ -55,6 +56,13 @@ int getInt()
 void setInt(const int & value)
 {
     intValue = value;
+}
+
+void printType(const std::string & name, const AbstractValue & value)
+{
+    std::cout << name << " is " << value.type().typeName() << std::endl;
+
+    std::cout << std::endl;
 }
 
 void printTypeInfo(const std::string & name, AbstractType & type)
@@ -86,6 +94,7 @@ void printValue(const std::string & name, AbstractValue & value)
     std::cout << name << "(ulonglong) = " << value.toULongLong() << std::endl;
     std::cout << name << "(double) = " << value.toDouble() << std::endl;
     std::cout << name << "(bool) = " << value.toBool() << std::endl;
+
     std::cout << std::endl;
 }
 
@@ -107,6 +116,12 @@ int main(int, char * [])
     Type<Test> testType;
     Type<Weather> weatherType;
 
+    weatherType.setNamedValues({
+        { Rainy, "Rainy" },
+        { Cloudy, "Cloudy" },
+        { Sunny, "Sunny" }
+    });
+
     printTypeInfo("bool",               boolType);
     printTypeInfo("int",                intType);
     printTypeInfo("uint",               uintType);
@@ -126,6 +141,12 @@ int main(int, char * [])
     Value<int> intValue;
     intValue.setValue(23);
     printValue("int", intValue);
+    printType("int", intValue);
+
+    Value<Weather> weatherValue;
+    weatherValue.fromString("Sunny");
+    printValue("weather", weatherValue);
+    printType("weather", weatherValue);
 
     // Managed values
     ManagedValue<int> value(getInt, setInt);

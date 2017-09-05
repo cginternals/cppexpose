@@ -97,6 +97,12 @@ bool TypeArray<T, ET, SIZE>::isString() const
 }
 
 template <typename T, typename ET, size_t SIZE>
+bool TypeArray<T, ET, SIZE>::isType() const
+{
+    return false;
+}
+
+template <typename T, typename ET, size_t SIZE>
 const T & TypeArray<T, ET, SIZE>::defaultValue() const
 {
     static T value;

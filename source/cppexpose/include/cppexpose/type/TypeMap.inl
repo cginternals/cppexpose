@@ -96,6 +96,12 @@ bool TypeMap<T, ET>::isString() const
 }
 
 template <typename T, typename ET>
+bool TypeMap<T, ET>::isType() const
+{
+    return false;
+}
+
+template <typename T, typename ET>
 const T & TypeMap<T, ET>::defaultValue() const
 {
     static T value;

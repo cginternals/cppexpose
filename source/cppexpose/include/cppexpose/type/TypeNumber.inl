@@ -64,6 +64,12 @@ bool TypeNumber<T>::isString() const
 }
 
 template <typename T>
+bool TypeNumber<T>::isType() const
+{
+    return false;
+}
+
+template <typename T>
 std::string TypeNumber<T>::toString(const T & var) const
 {
     return cppassist::string::toString<T>(var);

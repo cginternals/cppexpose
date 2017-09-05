@@ -42,8 +42,9 @@ public:
 
     // Virtual AbstractValue interface
     virtual const AbstractType & type() const override;
+    virtual const AbstractType & elementType() const override;
 
-    // Virtual IType interface
+    // Virtual AbstractType interface
     virtual const std::type_info & typeInfo() const override;
     virtual std::string typeName() const override;
     virtual bool isConst() const override;
@@ -56,6 +57,7 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
+    virtual bool isType() const override;
 
     /**
     *  @brief

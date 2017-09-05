@@ -23,6 +23,12 @@ const AbstractType & AbstractTypedValue<T>::type() const
 }
 
 template <typename T>
+const AbstractType & AbstractTypedValue<T>::elementType() const
+{
+    return m_type;
+}
+
+template <typename T>
 const std::type_info & AbstractTypedValue<T>::typeInfo() const
 {
     return m_type.typeInfo();
@@ -92,6 +98,12 @@ template <typename T>
 bool AbstractTypedValue<T>::isString() const
 {
     return m_type.isString();
+}
+
+template <typename T>
+bool AbstractTypedValue<T>::isType() const
+{
+    return m_type.isType();
 }
 
 

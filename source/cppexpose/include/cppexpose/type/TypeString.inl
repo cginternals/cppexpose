@@ -86,6 +86,12 @@ bool TypeString<T>::isString() const
 }
 
 template <typename T>
+bool TypeString<T>::isType() const
+{
+    return false;
+}
+
+template <typename T>
 const T & TypeString<T>::defaultValue() const
 {
     static T value = "";

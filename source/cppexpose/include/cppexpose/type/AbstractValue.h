@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include <cppexpose/type/IType.h>
+#include <cppexpose/type/AbstractType.h>
 
 
 namespace cppexpose
@@ -18,7 +18,7 @@ class AbstractType;
 *  @brief
 *    Abstract base class for values
 */
-class CPPEXPOSE_API AbstractValue : public IType
+class CPPEXPOSE_API AbstractValue : public AbstractType
 {
 public:
     /**
@@ -32,15 +32,6 @@ public:
     *    Destructor
     */
     virtual ~AbstractValue();
-
-    /**
-    *  @brief
-    *    Get type of the value
-    *
-    *  @return
-    *    Type object
-    */
-    virtual const AbstractType & type() const = 0;
 
     /**
     *  @brief

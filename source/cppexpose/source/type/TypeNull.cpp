@@ -81,5 +81,10 @@ bool TypeNull::isString() const
     return false;
 }
 
+bool TypeNull::isType() const
+{
+    return false;
+}
+
 
 } // namespace cppexpose

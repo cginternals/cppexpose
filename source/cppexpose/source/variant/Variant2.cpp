@@ -163,6 +163,11 @@ const AbstractType & Variant2::type() const
     else         return nullType;
 }
 
+const AbstractType & Variant2::elementType() const
+{
+    return type();
+}
+
 const std::type_info & Variant2::typeInfo() const
 {
     if (m_value) return m_value->typeInfo();
@@ -232,6 +237,12 @@ bool Variant2::isFloatingPoint() const
 bool Variant2::isString() const
 {
     if (m_value) return m_value->isString();
+    else         return false;
+}
+
+bool Variant2::isType() const
+{
+    if (m_value) return m_value->isType();
     else         return false;
 }
 

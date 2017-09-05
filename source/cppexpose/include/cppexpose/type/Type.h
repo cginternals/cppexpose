@@ -36,13 +36,13 @@ public:
 
     // Virtual AbstractType interface
     virtual bool isConst() const override;
+    virtual const AbstractType & type() const override;
 };
 
 
 template <typename T>
 class CPPEXPOSE_TEMPLATE_API Type<const T> : public GetType<T>::Type
-{
-public:
+{ public:
     typedef typename GetType<T>::Type::BaseType    BaseType;
     typedef typename GetType<T>::Type::ElementType ElementType;
 
@@ -62,6 +62,7 @@ public:
 
     // Virtual AbstractType interface
     virtual bool isConst() const override;
+    virtual const AbstractType & type() const override;
 };
 
 

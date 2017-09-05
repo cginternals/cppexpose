@@ -53,7 +53,7 @@ using VariantMap = std::map<std::string, Variant2>;
 *    These composite variants will automatically be interpreted as JSON arrays or objects within
 *    scripting and can be serialized by the JSON tool class.
 */
-class CPPEXPOSE_API Variant2 : public IType
+class CPPEXPOSE_API Variant2 : public AbstractType
 {
 public:
     //@{
@@ -181,6 +181,15 @@ public:
 
     /**
     *  @brief
+    *    Get type of variant value
+    *
+    *  @return
+    *    Type object
+    */
+    const AbstractType & elementType() const;
+
+    /**
+    *  @brief
     *    Check type of variant value
     *
     *  @return
@@ -247,7 +256,7 @@ public:
 //  std::string toJSON(JSON::OutputMode outputMode = JSON::Compact) const;
     //@}
 
-    // Virtual IType interface
+    // Virtual AbstractType interface
     virtual const std::type_info & typeInfo() const override;
     virtual std::string typeName() const override;
     virtual bool isConst() const override;
@@ -260,6 +269,7 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
+    virtual bool isType() const override;
 
 
 protected:

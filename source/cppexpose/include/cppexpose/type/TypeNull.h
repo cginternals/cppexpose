@@ -47,6 +47,7 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
+    virtual bool isType() const override;
 };
 
 

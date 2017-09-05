@@ -46,6 +46,7 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
+    virtual bool isType() const override;
 
     // Virtual AbstractTypedType<T, ET> interface
     virtual const T & defaultValue() const override;

@@ -96,6 +96,13 @@ bool TypeGeneric<T>::isString() const
 }
 
 template <typename T>
+bool TypeGeneric<T>::isType() const
+{
+    // Unknown type
+    return false;
+}
+
+template <typename T>
 const T & TypeGeneric<T>::defaultValue() const
 {
     static T value;

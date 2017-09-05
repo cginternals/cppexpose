@@ -143,9 +143,9 @@ set(headers
     ${include_path}/type/GetType.h
     ${include_path}/type/EnumValues.h
     ${include_path}/type/EnumValues.inl
-    ${include_path}/type/IType.h
     ${include_path}/type/ManagedValue.h
     ${include_path}/type/ManagedValue.inl
+    ${include_path}/type/MetaType.h
     ${include_path}/type/Type.h
     ${include_path}/type/Type.inl
     ${include_path}/type/TypeArray.h
@@ -231,7 +231,7 @@ set(sources
     ${source_path}/type/AbstractType.cpp
     ${source_path}/type/AbstractValue.cpp
     ${source_path}/type/Converter.cpp
-    ${source_path}/type/IType.cpp
+    ${source_path}/type/MetaType.cpp
     ${source_path}/type/TypeNull.cpp
 
     ${source_path}/function/Function.cpp
