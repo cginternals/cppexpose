@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <vector>
 
 #include <cppexpose/cppexpose_api.h>
 
@@ -171,6 +172,24 @@ public:
     *    'true' if type is a type, else 'false'
     */
     virtual bool isType() const = 0;
+
+    /**
+    *  @brief
+    *    Check if there are symbolic names defined for the data type
+    *
+    *  @return
+    *    'true' if type has symbolic names, else 'false'
+    */
+    virtual bool hasSymbolicNames() const = 0;
+
+    /**
+    *  @brief
+    *    Get symbolic names defined for the data type
+    *
+    *  @return
+    *    List of symbolic names
+    */
+    virtual std::vector<std::string> symbolicNames() const = 0;
 };
 
 

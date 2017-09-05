@@ -31,6 +31,18 @@ const AbstractType & TypeNull::elementType() const
     return *this;
 }
 
+bool TypeNull::hasSymbolicNames() const
+{
+    return false;
+}
+
+std::vector<std::string> TypeNull::symbolicNames() const
+{
+    static std::vector<std::string> emptyNames;
+
+    return emptyNames;
+}
+
 bool TypeNull::isConst() const
 {
     return false;
