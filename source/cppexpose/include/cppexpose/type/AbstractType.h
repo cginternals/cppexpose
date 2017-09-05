@@ -76,6 +76,15 @@ public:
 
     /**
     *  @brief
+    *    Check if type is empty
+    *
+    *  @return
+    *    'true' if type is empty, else 'false'
+    */
+    virtual bool isNull() const = 0;
+
+    /**
+    *  @brief
     *    Check if type is const (read-only)
     *
     *  @return

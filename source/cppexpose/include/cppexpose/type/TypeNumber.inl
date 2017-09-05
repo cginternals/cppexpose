@@ -28,6 +28,12 @@ const std::type_info & TypeNumber<T>::typeInfo() const
 }
 
 template <typename T>
+bool TypeNumber<T>::isNull() const
+{
+    return false;
+}
+
+template <typename T>
 bool TypeNumber<T>::isArray() const
 {
     return false;

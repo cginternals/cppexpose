@@ -42,6 +42,12 @@ std::string TypeMap<T, ET>::typeName() const
 }
 
 template <typename T, typename ET>
+bool TypeMap<T, ET>::isNull() const
+{
+    return false;
+}
+
+template <typename T, typename ET>
 bool TypeMap<T, ET>::isArray() const
 {
     return false;

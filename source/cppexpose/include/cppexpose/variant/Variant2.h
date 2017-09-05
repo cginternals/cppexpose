@@ -163,51 +163,6 @@ public:
 
     /**
     *  @brief
-    *    Check if variant is empty
-    *
-    *  @return
-    *    'true' if variant does not contain a value, else 'false'
-    */
-    bool isNull() const;
-
-    /**
-    *  @brief
-    *    Get type of variant value
-    *
-    *  @return
-    *    Type object
-    */
-    virtual const AbstractType & type() const override;
-
-    /**
-    *  @brief
-    *    Get type of variant value
-    *
-    *  @return
-    *    Type object
-    */
-    virtual const AbstractType & elementType() const override;
-
-    /**
-    *  @brief
-    *    Check if there are symbolic names defined for the data type
-    *
-    *  @return
-    *    'true' if type has symbolic names, else 'false'
-    */
-    virtual bool hasSymbolicNames() const override;
-
-    /**
-    *  @brief
-    *    Get symbolic names defined for the data type
-    *
-    *  @return
-    *    List of symbolic names
-    */
-    virtual std::vector<std::string> symbolicNames() const override;
-
-    /**
-    *  @brief
     *    Check type of variant value
     *
     *  @return
@@ -275,8 +230,11 @@ public:
     //@}
 
     // Virtual AbstractType interface
+    virtual const AbstractType & type() const override;
+    virtual const AbstractType & elementType() const override;
     virtual const std::type_info & typeInfo() const override;
     virtual std::string typeName() const override;
+    virtual bool isNull() const override;
     virtual bool isConst() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
@@ -288,6 +246,8 @@ public:
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
     virtual bool isType() const override;
+    virtual bool hasSymbolicNames() const override;
+    virtual std::vector<std::string> symbolicNames() const override;
 
 
 protected:

@@ -143,11 +143,6 @@ Variant2 & Variant2::operator=(const Variant2 & variant)
     return *this;
 }
 
-bool Variant2::isNull() const
-{
-    return !m_value;
-}
-
 /*
 std::string Variant2::toJSON(JSON::OutputMode outputMode) const
 {
@@ -168,16 +163,6 @@ const AbstractType & Variant2::elementType() const
     return type();
 }
 
-bool Variant2::hasSymbolicNames() const
-{
-    return type().hasSymbolicNames();
-}
-
-std::vector<std::string> Variant2::symbolicNames() const
-{
-    return type().symbolicNames();
-}
-
 const std::type_info & Variant2::typeInfo() const
 {
     if (m_value) return m_value->typeInfo();
@@ -188,6 +173,12 @@ std::string Variant2::typeName() const
 {
     if (m_value) return m_value->typeName();
     else         return "undefined";
+}
+
+bool Variant2::isNull() const
+{
+    if (m_value) return m_value->isNull();
+    else         return true;
 }
 
 bool Variant2::isConst() const
@@ -254,6 +245,16 @@ bool Variant2::isType() const
 {
     if (m_value) return m_value->isType();
     else         return false;
+}
+
+bool Variant2::hasSymbolicNames() const
+{
+    return type().hasSymbolicNames();
+}
+
+std::vector<std::string> Variant2::symbolicNames() const
+{
+    return type().symbolicNames();
 }
 
 

@@ -48,6 +48,11 @@ bool TypeNull::isConst() const
     return false;
 }
 
+bool TypeNull::isNull() const
+{
+    return true;
+}
+
 bool TypeNull::isArray() const
 {
     return false;

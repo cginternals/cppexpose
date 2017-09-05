@@ -33,6 +33,13 @@ std::string TypeGeneric<T>::typeName() const
 }
 
 template <typename T>
+bool TypeGeneric<T>::isNull() const
+{
+    // Unknown type
+    return false;
+}
+
+template <typename T>
 bool TypeGeneric<T>::isArray() const
 {
     // Unknown type

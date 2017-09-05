@@ -53,6 +53,12 @@ std::string AbstractTypedValue<T>::typeName() const
 }
 
 template <typename T>
+bool AbstractTypedValue<T>::isNull() const
+{
+    return m_type.isNull();
+}
+
+template <typename T>
 bool AbstractTypedValue<T>::isConst() const
 {
     return m_type.isConst();

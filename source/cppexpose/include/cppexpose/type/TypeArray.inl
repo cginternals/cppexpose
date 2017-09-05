@@ -43,6 +43,12 @@ std::string TypeArray<T, ET, SIZE>::typeName() const
 }
 
 template <typename T, typename ET, size_t SIZE>
+bool TypeArray<T, ET, SIZE>::isNull() const
+{
+    return false;
+}
+
+template <typename T, typename ET, size_t SIZE>
 bool TypeArray<T, ET, SIZE>::isArray() const
 {
     return true;

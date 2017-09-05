@@ -32,6 +32,12 @@ std::string TypeString<T>::typeName() const
 }
 
 template <typename T>
+bool TypeString<T>::isNull() const
+{
+    return false;
+}
+
+template <typename T>
 bool TypeString<T>::isArray() const
 {
     return false;

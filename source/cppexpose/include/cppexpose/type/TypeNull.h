@@ -39,6 +39,7 @@ public:
     virtual const AbstractType & elementType() const override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
+    virtual bool isNull() const override;
     virtual bool isConst() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;

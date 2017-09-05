@@ -42,6 +42,12 @@ std::string TypeVector<T, ET>::typeName() const
 }
 
 template <typename T, typename ET>
+bool TypeVector<T, ET>::isNull() const
+{
+    return false;
+}
+
+template <typename T, typename ET>
 bool TypeVector<T, ET>::isArray() const
 {
     return true;

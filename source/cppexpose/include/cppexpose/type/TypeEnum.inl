@@ -42,6 +42,12 @@ std::string TypeEnum<T>::typeName() const
 }
 
 template <typename T>
+bool TypeEnum<T>::isNull() const
+{
+    return false;
+}
+
+template <typename T>
 bool TypeEnum<T>::isArray() const
 {
     return false;
