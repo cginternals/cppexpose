@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <functional>
-
 #include <cppexpose/type/AbstractTypedValue.h>
 
 
@@ -13,22 +11,10 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Helper template to deduce the types for getter and setter functions
-*/
-template<typename T, typename Obj>
-struct CPPEXPOSE_TEMPLATE_API SetterFunctions
-{
-    typedef T (Obj::*getter) () const;
-    typedef void (Obj::*setter) (const T &);
-};
-
-
-/**
-*  @brief
-*    Typed value that is accessed via getter and setter functions
+*    Typed value that is stored directly
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API ManagedValue : public AbstractTypedValue<T>
+class CPPEXPOSE_TEMPLATE_API InternalValue : public AbstractTypedValue<T>
 {
 public:
     typedef typename AbstractTypedValue<T>::BaseType    BaseType;
@@ -39,44 +25,23 @@ public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] getter
-    *    Function to get the value
-    *  @param[in] setter
-    *    Function to set the value
-    *
-    *  @remarks
-    *    This creates a typed value that is accessed via getter
-    *    and setter methods, which can be provided by global
-    *    functions, member functions, or lambda functions.
-    *
-    *    Examples:
-    *      ManagedValue<int> value(&staticGetter, &staticSetter);
-    *      ManagedValue<int> value(myValue, &MyValue::value, &MyValue::setValue);
     */
-    ManagedValue(std::function<T ()> getter, std::function<void(const T &)> setter);
+    InternalValue();
 
     /**
     *  @brief
     *    Constructor
     *
-    *  @param[in] obj
-    *    Object pointer
-    *  @param[in] getter
-    *    Member function to get the value
-    *  @param[in] setter
-    *    Member function to set the value
+    *  @param[in] value
+    *    Initial value
     */
-    template <typename Obj>
-    ManagedValue(Obj * obj,
-        typename SetterFunctions<T, Obj>::getter getter,
-        typename SetterFunctions<T, Obj>::setter setter);
+    InternalValue(const T & value);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~ManagedValue();
+    virtual ~InternalValue();
 
     // Virtual AbstractValue interface
     virtual std::unique_ptr<AbstractValue> createCopy() const override;
@@ -106,12 +71,11 @@ public:
 
 
 protected:
-    std::function<T ()>            m_getter; ///< Function to get the value
-    std::function<void(const T &)> m_setter; ///< Function to set the value
+    T m_value; ///< Value
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/type/ManagedValue.inl>
+#include <cppexpose/type/InternalValue.inl>

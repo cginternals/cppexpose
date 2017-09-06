@@ -81,8 +81,8 @@ set(headers
     ${include_path}/type/GetType.h
     ${include_path}/type/EnumValues.h
     ${include_path}/type/EnumValues.inl
-    ${include_path}/type/ManagedValue.h
-    ${include_path}/type/ManagedValue.inl
+    ${include_path}/type/ExternalValue.h
+    ${include_path}/type/ExternalValue.inl
     ${include_path}/type/MetaType.h
     ${include_path}/type/Type.h
     ${include_path}/type/Type.inl
@@ -107,8 +107,8 @@ set(headers
     ${include_path}/type/TypeUnsignedIntegral.inl
     ${include_path}/type/TypeVector.h
     ${include_path}/type/TypeVector.inl
-    ${include_path}/type/Value.h
-    ${include_path}/type/Value.inl
+    ${include_path}/type/InternalValue.h
+    ${include_path}/type/InternalValue.inl
 
     ${include_path}/function/Function.h
     ${include_path}/function/AbstractFunction.h

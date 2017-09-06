@@ -4,7 +4,7 @@
 #include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/json/JSON.h>
-#include <cppexpose/type/Value.h>
+#include <cppexpose/type/InternalValue.h>
 
 
 namespace cppexpose
@@ -14,21 +14,21 @@ namespace cppexpose
 Variant Variant::array()
 {
     Variant variant;
-    variant.m_value = cppassist::make_unique<Value<VariantArray>>(VariantArray());
+    variant.m_value = cppassist::make_unique<InternalValue<VariantArray>>(VariantArray());
     return variant;
 }
 
 Variant Variant::array(size_t count)
 {
     Variant variant;
-    variant.m_value = cppassist::make_unique<Value<VariantArray>>(VariantArray(count));
+    variant.m_value = cppassist::make_unique<InternalValue<VariantArray>>(VariantArray(count));
     return variant;
 }
 
 Variant Variant::map()
 {
     Variant variant;
-    variant.m_value = cppassist::make_unique<Value<VariantMap>>(VariantMap());
+    variant.m_value = cppassist::make_unique<InternalValue<VariantMap>>(VariantMap());
     return variant;
 }
 
@@ -43,92 +43,92 @@ Variant::Variant(const Variant & variant)
 }
 
 Variant::Variant(bool value)
-: m_value(cppassist::make_unique<Value<bool>>(value))
+: m_value(cppassist::make_unique<InternalValue<bool>>(value))
 {
 }
 
 Variant::Variant(char value)
-: m_value(cppassist::make_unique<Value<char>>(value))
+: m_value(cppassist::make_unique<InternalValue<char>>(value))
 {
 }
 
 Variant::Variant(unsigned char value)
-: m_value(cppassist::make_unique<Value<unsigned char>>(value))
+: m_value(cppassist::make_unique<InternalValue<unsigned char>>(value))
 {
 }
 
 Variant::Variant(short value)
-: m_value(cppassist::make_unique<Value<short>>(value))
+: m_value(cppassist::make_unique<InternalValue<short>>(value))
 {
 }
 
 Variant::Variant(unsigned short value)
-: m_value(cppassist::make_unique<Value<unsigned short>>(value))
+: m_value(cppassist::make_unique<InternalValue<unsigned short>>(value))
 {
 }
 
 Variant::Variant(int value)
-: m_value(cppassist::make_unique<Value<int>>(value))
+: m_value(cppassist::make_unique<InternalValue<int>>(value))
 {
 }
 
 Variant::Variant(unsigned int value)
-: m_value(cppassist::make_unique<Value<unsigned int>>(value))
+: m_value(cppassist::make_unique<InternalValue<unsigned int>>(value))
 {
 }
 
 Variant::Variant(long value)
-: m_value(cppassist::make_unique<Value<long>>(value))
+: m_value(cppassist::make_unique<InternalValue<long>>(value))
 {
 }
 
 Variant::Variant(unsigned long value)
-: m_value(cppassist::make_unique<Value<unsigned long>>(value))
+: m_value(cppassist::make_unique<InternalValue<unsigned long>>(value))
 {
 }
 
 Variant::Variant(long long value)
-: m_value(cppassist::make_unique<Value<long long>>(value))
+: m_value(cppassist::make_unique<InternalValue<long long>>(value))
 {
 }
 
 Variant::Variant(unsigned long long value)
-: m_value(cppassist::make_unique<Value<unsigned long long>>(value))
+: m_value(cppassist::make_unique<InternalValue<unsigned long long>>(value))
 {
 }
 
 Variant::Variant(float value)
-: m_value(cppassist::make_unique<Value<float>>(value))
+: m_value(cppassist::make_unique<InternalValue<float>>(value))
 {
 }
 
 Variant::Variant(double value)
-: m_value(cppassist::make_unique<Value<double>>(value))
+: m_value(cppassist::make_unique<InternalValue<double>>(value))
 {
 }
 
 Variant::Variant(const char * value)
-: m_value(cppassist::make_unique<Value<std::string>>(std::string(value)))
+: m_value(cppassist::make_unique<InternalValue<std::string>>(std::string(value)))
 {
 }
 
 Variant::Variant(const std::string & value)
-: m_value(cppassist::make_unique<Value<std::string>>(value))
+: m_value(cppassist::make_unique<InternalValue<std::string>>(value))
 {
 }
 
 Variant::Variant(const std::vector<std::string> & value)
-: m_value(cppassist::make_unique<Value< std::vector<std::string> >>(value))
+: m_value(cppassist::make_unique<InternalValue< std::vector<std::string> >>(value))
 {
 }
 
 Variant::Variant(const VariantArray & array)
-: m_value(cppassist::make_unique<Value<VariantArray>>(array))
+: m_value(cppassist::make_unique<InternalValue<VariantArray>>(array))
 {
 }
 
 Variant::Variant(const VariantMap & map)
-: m_value(cppassist::make_unique<Value<VariantMap>>(map))
+: m_value(cppassist::make_unique<InternalValue<VariantMap>>(map))
 {
 }
 

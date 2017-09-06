@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <functional>
+
 #include <cppexpose/type/AbstractTypedValue.h>
 
 
@@ -11,10 +13,22 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Typed value that is stored directly
+*    Helper template to deduce the types for getter and setter functions
+*/
+template<typename T, typename Obj>
+struct CPPEXPOSE_TEMPLATE_API SetterFunctions
+{
+    typedef T (Obj::*getter) () const;
+    typedef void (Obj::*setter) (const T &);
+};
+
+
+/**
+*  @brief
+*    Typed value that is accessed via getter and setter functions
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API Value : public AbstractTypedValue<T>
+class CPPEXPOSE_TEMPLATE_API ExternalValue : public AbstractTypedValue<T>
 {
 public:
     typedef typename AbstractTypedValue<T>::BaseType    BaseType;
@@ -25,23 +39,44 @@ public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] getter
+    *    Function to get the value
+    *  @param[in] setter
+    *    Function to set the value
+    *
+    *  @remarks
+    *    This creates a typed value that is accessed via getter
+    *    and setter methods, which can be provided by global
+    *    functions, member functions, or lambda functions.
+    *
+    *    Examples:
+    *      ExternalValue<int> value(&staticGetter, &staticSetter);
+    *      ExternalValue<int> value(myValue, &MyValue::value, &MyValue::setValue);
     */
-    Value();
+    ExternalValue(std::function<T ()> getter, std::function<void(const T &)> setter);
 
     /**
     *  @brief
     *    Constructor
     *
-    *  @param[in] value
-    *    Initial value
+    *  @param[in] obj
+    *    Object pointer
+    *  @param[in] getter
+    *    Member function to get the value
+    *  @param[in] setter
+    *    Member function to set the value
     */
-    Value(const T & value);
+    template <typename Obj>
+    ExternalValue(Obj * obj,
+        typename SetterFunctions<T, Obj>::getter getter,
+        typename SetterFunctions<T, Obj>::setter setter);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~Value();
+    virtual ~ExternalValue();
 
     // Virtual AbstractValue interface
     virtual std::unique_ptr<AbstractValue> createCopy() const override;
@@ -71,11 +106,12 @@ public:
 
 
 protected:
-    T m_value; ///< Value
+    std::function<T ()>            m_getter; ///< Function to get the value
+    std::function<void(const T &)> m_setter; ///< Function to set the value
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/type/Value.inl>
+#include <cppexpose/type/ExternalValue.inl>

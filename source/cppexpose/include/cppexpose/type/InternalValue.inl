@@ -10,39 +10,39 @@ namespace cppexpose
 
 
 template <typename T>
-Value<T>::Value()
+InternalValue<T>::InternalValue()
 : m_value(this->m_type.defaultValue())
 {
 }
 
 template <typename T>
-Value<T>::Value(const T & value)
+InternalValue<T>::InternalValue(const T & value)
 : m_value(value)
 {
 }
 
 template <typename T>
-Value<T>::~Value()
+InternalValue<T>::~InternalValue()
 {
 }
 
 template <typename T>
-std::unique_ptr<AbstractValue> Value<T>::createCopy() const
+std::unique_ptr<AbstractValue> InternalValue<T>::createCopy() const
 {
-    auto value = cppassist::make_unique<Value<T>>();
+    auto value = cppassist::make_unique<InternalValue<T>>();
     value->setValue(this->value());
 
     return std::move(value);
 }
 
 template <typename T>
-std::string Value<T>::toString() const
+std::string InternalValue<T>::toString() const
 {
     return this->m_type.toString(m_value);
 }
 
 template <typename T>
-bool Value<T>::fromString(const std::string & value)
+bool InternalValue<T>::fromString(const std::string & value)
 {
     if (!this->m_type.fromString(m_value, value)) {
         return false;
@@ -53,13 +53,13 @@ bool Value<T>::fromString(const std::string & value)
 }
 
 template <typename T>
-bool Value<T>::toBool() const
+bool InternalValue<T>::toBool() const
 {
     return this->m_type.toBool(m_value);
 }
 
 template <typename T>
-bool Value<T>::fromBool(bool value)
+bool InternalValue<T>::fromBool(bool value)
 {
     if (!this->m_type.fromBool(m_value, value)) {
         return false;
@@ -70,13 +70,13 @@ bool Value<T>::fromBool(bool value)
 }
 
 template <typename T>
-long long Value<T>::toLongLong() const
+long long InternalValue<T>::toLongLong() const
 {
     return this->m_type.toLongLong(m_value);
 }
 
 template <typename T>
-bool Value<T>::fromLongLong(long long value)
+bool InternalValue<T>::fromLongLong(long long value)
 {
     if (!this->m_type.fromLongLong(m_value, value)) {
         return false;
@@ -87,13 +87,13 @@ bool Value<T>::fromLongLong(long long value)
 }
 
 template <typename T>
-unsigned long long Value<T>::toULongLong() const
+unsigned long long InternalValue<T>::toULongLong() const
 {
     return this->m_type.toULongLong(m_value);
 }
 
 template <typename T>
-bool Value<T>::fromULongLong(unsigned long long value)
+bool InternalValue<T>::fromULongLong(unsigned long long value)
 {
     if (!this->m_type.fromULongLong(m_value, value)) {
         return false;
@@ -104,13 +104,13 @@ bool Value<T>::fromULongLong(unsigned long long value)
 }
 
 template <typename T>
-double Value<T>::toDouble() const
+double InternalValue<T>::toDouble() const
 {
     return this->m_type.toDouble(m_value);
 }
 
 template <typename T>
-bool Value<T>::fromDouble(double value)
+bool InternalValue<T>::fromDouble(double value)
 {
     if (!this->m_type.fromDouble(m_value, value)) {
         return false;
@@ -121,70 +121,70 @@ bool Value<T>::fromDouble(double value)
 }
 
 template <typename T>
-T Value<T>::value() const
+T InternalValue<T>::value() const
 {
     return m_value;
 }
 
 template <typename T>
-void Value<T>::setValue(const T & value)
+void InternalValue<T>::setValue(const T & value)
 {
     m_value = value;
     this->valueChanged(m_value);
 }
 
 template <typename T>
-const T * Value<T>::ptr() const
+const T * InternalValue<T>::ptr() const
 {
     return &m_value;
 }
 
 template <typename T>
-T * Value<T>::ptr()
+T * InternalValue<T>::ptr()
 {
     return &m_value;
 }
 
 template <typename T>
-size_t Value<T>::numElements() const
+size_t InternalValue<T>::numElements() const
 {
     return this->m_type.numElements(m_value);
 }
 
 template <typename T>
-typename Value<T>::ElementType Value<T>::getElement(size_t i) const
+typename InternalValue<T>::ElementType InternalValue<T>::getElement(size_t i) const
 {
     return this->m_type.getElement(m_value, i);
 }
 
 template <typename T>
-void Value<T>::setElement(size_t i, ElementType value)
+void InternalValue<T>::setElement(size_t i, ElementType value)
 {
     this->m_type.setElement(m_value, i, value);
     this->valueChanged(m_value);
 }
 
 template <typename T>
-void Value<T>::push(ElementType value)
+void InternalValue<T>::push(ElementType value)
 {
     this->m_type.push(m_value, value);
     this->valueChanged(m_value);
 }
 
 template <typename T>
-std::vector<std::string> Value<T>::keys() const
+std::vector<std::string> InternalValue<T>::keys() const
 {
     return this->m_type.keys(m_value);
 }
 
 template <typename T>
-typename Value<T>::ElementType Value<T>::getElement(const std::string & key) const
+typename InternalValue<T>::ElementType InternalValue<T>::getElement(const std::string & key) const
 {
     return this->m_type.getElement(m_value, key);
 }
 
 template <typename T>
-void Value<T>::setElement(const std::string & key, ElementType value)
+void InternalValue<T>::setElement(const std::string & key, ElementType value)
 {
     this->m_type.setElement(m_value, key, value);
     this->valueChanged(m_value);

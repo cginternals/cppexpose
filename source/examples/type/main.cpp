@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include <cppexpose/type/Type.h>
-#include <cppexpose/type/Value.h>
-#include <cppexpose/type/ManagedValue.h>
+#include <cppexpose/type/InternalValue.h>
+#include <cppexpose/type/ExternalValue.h>
 #include <cppexpose/variant/Variant.h>
 
 
@@ -138,18 +138,18 @@ int main(int, char * [])
     printTypeInfo("weather",            weatherType);
 
     // Values
-    Value<int> intValue;
+    InternalValue<int> intValue;
     intValue.setValue(23);
     printValue("int", intValue);
     printType("int", intValue);
 
-    Value<Weather> weatherValue;
+    InternalValue<Weather> weatherValue;
     weatherValue.fromString("Sunny");
     printValue("weather", weatherValue);
     printType("weather", weatherValue);
 
     // Managed values
-    ManagedValue<int> value(getInt, setInt);
+    ExternalValue<int> value(getInt, setInt);
 
     // Exit
     return 0;

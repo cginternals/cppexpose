@@ -18,9 +18,6 @@ namespace cppexpose
 class AbstractValue;
 class Variant;
 
-template <typename T>
-class Value;
-
 
 /**
 *  @brief

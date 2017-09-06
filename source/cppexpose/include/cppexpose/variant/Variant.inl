@@ -12,10 +12,14 @@ namespace cppexpose
 
 
 template <typename T>
+class InternalValue;
+
+
+template <typename T>
 Variant Variant::fromValue(const T & value)
 {
     Variant variant;
-    variant.m_value = cppassist::make_unique<Value<T>>(value);
+    variant.m_value = cppassist::make_unique<InternalValue<T>>(value);
     return variant;
 }
 
@@ -45,7 +49,7 @@ T Variant::value() const
     // Type of variant is the wanted type
     if (m_value && typeid(T) == m_value->typeInfo())
     {
-        return static_cast<Value<T> *>(m_value.get())->value();
+        return static_cast<InternalValue<T> *>(m_value.get())->value();
     }
 
     // Variant has to be converted
@@ -65,7 +69,7 @@ template <typename T>
 T * Variant::ptr()
 {
     if (m_value && typeid(T) == m_value->typeInfo()) {
-        return static_cast<Value<T> *>(m_value.get())->ptr();
+        return static_cast<InternalValue<T> *>(m_value.get())->ptr();
     } else {
         return nullptr;
     }
@@ -75,7 +79,7 @@ template <typename T>
 const T * Variant::ptr() const
 {
     if (m_value && typeid(T) == m_value->typeInfo()) {
-        return static_cast<const Value<T> *>(m_value.get())->ptr();
+        return static_cast<const InternalValue<T> *>(m_value.get())->ptr();
     } else {
         return nullptr;
     }

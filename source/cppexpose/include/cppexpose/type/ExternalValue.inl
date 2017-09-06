@@ -4,7 +4,7 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/type/Value.h>
+#include <cppexpose/type/InternalValue.h>
 
 
 namespace cppexpose
@@ -12,7 +12,7 @@ namespace cppexpose
 
 
 template <typename T>
-ManagedValue<T>::ManagedValue(
+ExternalValue<T>::ExternalValue(
     std::function<T ()> getter
   , std::function<void(const T &)> setter)
 : m_getter(getter)
@@ -22,7 +22,7 @@ ManagedValue<T>::ManagedValue(
 
 template <typename T>
 template <typename Obj>
-ManagedValue<T>::ManagedValue(
+ExternalValue<T>::ExternalValue(
     Obj * obj,
     typename SetterFunctions<T, Obj>::getter g,
     typename SetterFunctions<T, Obj>::setter s)
@@ -42,27 +42,27 @@ ManagedValue<T>::ManagedValue(
 }
 
 template <typename T>
-ManagedValue<T>::~ManagedValue()
+ExternalValue<T>::~ExternalValue()
 {
 }
 
 template <typename T>
-std::unique_ptr<AbstractValue> ManagedValue<T>::createCopy() const
+std::unique_ptr<AbstractValue> ExternalValue<T>::createCopy() const
 {
-    auto value = cppassist::make_unique<Value<T>>();
+    auto value = cppassist::make_unique<InternalValue<T>>();
     value->setValue(this->value());
 
     return std::move(value);
 }
 
 template <typename T>
-std::string ManagedValue<T>::toString() const
+std::string ExternalValue<T>::toString() const
 {
     return this->m_type.toString(this->value());
 }
 
 template <typename T>
-bool ManagedValue<T>::fromString(const std::string & value)
+bool ExternalValue<T>::fromString(const std::string & value)
 {
     T tmp;
 
@@ -75,13 +75,13 @@ bool ManagedValue<T>::fromString(const std::string & value)
 }
 
 template <typename T>
-bool ManagedValue<T>::toBool() const
+bool ExternalValue<T>::toBool() const
 {
     return this->m_type.toBool(this->value());
 }
 
 template <typename T>
-bool ManagedValue<T>::fromBool(bool value)
+bool ExternalValue<T>::fromBool(bool value)
 {
     T tmp;
 
@@ -94,13 +94,13 @@ bool ManagedValue<T>::fromBool(bool value)
 }
 
 template <typename T>
-long long ManagedValue<T>::toLongLong() const
+long long ExternalValue<T>::toLongLong() const
 {
     return this->m_type.toLongLong(this->value());
 }
 
 template <typename T>
-bool ManagedValue<T>::fromLongLong(long long value)
+bool ExternalValue<T>::fromLongLong(long long value)
 {
     T tmp;
 
@@ -113,13 +113,13 @@ bool ManagedValue<T>::fromLongLong(long long value)
 }
 
 template <typename T>
-unsigned long long ManagedValue<T>::toULongLong() const
+unsigned long long ExternalValue<T>::toULongLong() const
 {
     return this->m_type.toULongLong(this->value());
 }
 
 template <typename T>
-bool ManagedValue<T>::fromULongLong(unsigned long long value)
+bool ExternalValue<T>::fromULongLong(unsigned long long value)
 {
     T tmp;
 
@@ -132,13 +132,13 @@ bool ManagedValue<T>::fromULongLong(unsigned long long value)
 }
 
 template <typename T>
-double ManagedValue<T>::toDouble() const
+double ExternalValue<T>::toDouble() const
 {
     return this->m_type.toDouble(this->value());
 }
 
 template <typename T>
-bool ManagedValue<T>::fromDouble(double value)
+bool ExternalValue<T>::fromDouble(double value)
 {
     T tmp;
 
@@ -151,44 +151,44 @@ bool ManagedValue<T>::fromDouble(double value)
 }
 
 template <typename T>
-T ManagedValue<T>::value() const
+T ExternalValue<T>::value() const
 {
     return m_getter();
 }
 
 template <typename T>
-void ManagedValue<T>::setValue(const T & value)
+void ExternalValue<T>::setValue(const T & value)
 {
     m_setter(value);
     this->valueChanged(value);
 }
 
 template <typename T>
-const T * ManagedValue<T>::ptr() const
+const T * ExternalValue<T>::ptr() const
 {
     return nullptr;
 }
 
 template <typename T>
-T * ManagedValue<T>::ptr()
+T * ExternalValue<T>::ptr()
 {
     return nullptr;
 }
 
 template <typename T>
-size_t ManagedValue<T>::numElements() const
+size_t ExternalValue<T>::numElements() const
 {
     return this->m_type.numElements(this->value());
 }
 
 template <typename T>
-typename ManagedValue<T>::ElementType ManagedValue<T>::getElement(size_t i) const
+typename ExternalValue<T>::ElementType ExternalValue<T>::getElement(size_t i) const
 {
     return this->m_type.getElement(this->value(), i);
 }
 
 template <typename T>
-void ManagedValue<T>::setElement(size_t i, ElementType value)
+void ExternalValue<T>::setElement(size_t i, ElementType value)
 {
     T tmp = this->value();
 
@@ -197,7 +197,7 @@ void ManagedValue<T>::setElement(size_t i, ElementType value)
 }
 
 template <typename T>
-void ManagedValue<T>::push(ElementType value)
+void ExternalValue<T>::push(ElementType value)
 {
     T tmp = this->value();
 
@@ -206,19 +206,19 @@ void ManagedValue<T>::push(ElementType value)
 }
 
 template <typename T>
-std::vector<std::string> ManagedValue<T>::keys() const
+std::vector<std::string> ExternalValue<T>::keys() const
 {
     return this->m_type.keys(this->value());
 }
 
 template <typename T>
-typename ManagedValue<T>::ElementType ManagedValue<T>::getElement(const std::string & key) const
+typename ExternalValue<T>::ElementType ExternalValue<T>::getElement(const std::string & key) const
 {
     return this->m_type.getElement(this->value(), key);
 }
 
 template <typename T>
-void ManagedValue<T>::setElement(const std::string & key, ElementType value)
+void ExternalValue<T>::setElement(const std::string & key, ElementType value)
 {
     T tmp = this->value();
 
