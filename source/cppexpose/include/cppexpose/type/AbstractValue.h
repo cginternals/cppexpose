@@ -4,21 +4,18 @@
 
 #include <memory>
 
-#include <cppexpose/type/AbstractType.h>
+#include <cppexpose/type/Typed.h>
 
 
 namespace cppexpose
 {
 
 
-class AbstractType;
-
-
 /**
 *  @brief
 *    Abstract base class for values
 */
-class CPPEXPOSE_API AbstractValue : public AbstractType
+class CPPEXPOSE_API AbstractValue : public Typed
 {
 public:
     /**

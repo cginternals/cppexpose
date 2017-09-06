@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <memory>
+
+#include <cppexpose/type/Typed.h>
 #include <cppexpose/type/AbstractType.h>
 
 
@@ -11,37 +14,68 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Empty (null) type
+*    Type information
 */
-class CPPEXPOSE_API TypeNull : public AbstractType
+class CPPEXPOSE_API Type : public Typed
 {
 public:
-    typedef void BaseType;
-    typedef void ElementType;
+    //@{
+    /**
+    *  @brief
+    *    Create type object for a basic data type
+    *
+    *  @tparam[in] T
+    *    C++ type
+    *
+    *  @return
+    *    Type object
+    */
+    template <typename T>
+    static Type basicType();
+    //@}
 
 
 public:
+    //@{
     /**
     *  @brief
-    *    Constructor
+    *    Constructor for an empty type
     */
-    TypeNull();
+    Type();
+
+    /**
+    *  @brief
+    *    Copy constructor
+    *
+    *  @param[in] type
+    *    Type that will be copied
+    */
+    Type(const Type & type);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeNull();
+    ~Type();
 
-    // Virtual AbstractType interface
-    virtual std::unique_ptr<AbstractType> createCopy() const override;
+    /**
+    *  @brief
+    *    Assignment operator
+    *
+    *  @param[in] type
+    *    Type that will be copied
+    *
+    *  @return
+    *    Type object
+    */
+    Type & operator=(const Type & type);
+    //@}
 
     // Virtual Typed interface
     virtual const AbstractType & type() const override;
     virtual const AbstractType & elementType() const override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
-    virtual bool isType() const override;
     virtual bool isConst() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
@@ -52,9 +86,17 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
+    virtual bool isType() const override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
+
+
+protected:
+    std::unique_ptr<AbstractType> m_type; ///< Stored value (can be null)
 };
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/type/Type.inl>

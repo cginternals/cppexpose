@@ -35,6 +35,9 @@ public:
     virtual ~TypedType();
 
     // Virtual AbstractType interface
+    virtual std::unique_ptr<AbstractType> createCopy() const override;
+
+    // Virtual Typed interface
     virtual bool isConst() const override;
     virtual const AbstractType & type() const override;
 };
@@ -61,6 +64,9 @@ public:
     virtual ~TypedType();
 
     // Virtual AbstractType interface
+    virtual std::unique_ptr<AbstractType> createCopy() const override;
+
+    // Virtual Typed interface
     virtual bool isConst() const override;
     virtual const AbstractType & type() const override;
 };

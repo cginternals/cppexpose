@@ -1,5 +1,5 @@
 
-#include <typeinfo>
+#include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/type/TypeNull.h>
 
@@ -16,9 +16,14 @@ TypeNull::~TypeNull()
 {
 }
 
-std::string TypeNull::typeName() const
+std::unique_ptr<AbstractType> TypeNull::createCopy() const
 {
-    return "undefined";
+    return cppassist::make_unique<TypeNull>();
+}
+
+const AbstractType & TypeNull::type() const
+{
+    return *this;
 }
 
 const AbstractType & TypeNull::elementType() const
@@ -26,26 +31,24 @@ const AbstractType & TypeNull::elementType() const
     return *this;
 }
 
-bool TypeNull::hasSymbolicNames() const
+std::string TypeNull::typeName() const
 {
-    return false;
-}
-
-std::vector<std::string> TypeNull::symbolicNames() const
-{
-    static std::vector<std::string> emptyNames;
-
-    return emptyNames;
-}
-
-bool TypeNull::isConst() const
-{
-    return false;
+    return "undefined";
 }
 
 bool TypeNull::isNull() const
 {
     return true;
+}
+
+bool TypeNull::isType() const
+{
+    return false;
+}
+
+bool TypeNull::isConst() const
+{
+    return false;
 }
 
 bool TypeNull::isArray() const
@@ -93,9 +96,16 @@ bool TypeNull::isString() const
     return false;
 }
 
-bool TypeNull::isType() const
+bool TypeNull::hasSymbolicNames() const
 {
     return false;
+}
+
+std::vector<std::string> TypeNull::symbolicNames() const
+{
+    static std::vector<std::string> emptyNames;
+
+    return emptyNames;
 }
 
 

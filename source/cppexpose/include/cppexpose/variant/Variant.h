@@ -8,7 +8,7 @@
 #include <string>
 
 #include <cppexpose/json/JSON.h>
-#include <cppexpose/type/AbstractType.h>
+#include <cppexpose/type/Typed.h>
 
 
 namespace cppexpose
@@ -16,6 +16,7 @@ namespace cppexpose
 
 
 class AbstractValue;
+class AbstractType;
 class Variant;
 
 
@@ -50,7 +51,7 @@ using VariantMap = std::map<std::string, Variant>;
 *    These composite variants will automatically be interpreted as JSON arrays or objects within
 *    scripting and can be serialized by the JSON tool class.
 */
-class CPPEXPOSE_API Variant : public AbstractType
+class CPPEXPOSE_API Variant : public Typed
 {
 public:
     //@{

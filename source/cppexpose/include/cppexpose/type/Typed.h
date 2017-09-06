@@ -12,6 +12,9 @@ namespace cppexpose
 {
 
 
+class AbstractType;
+
+
 /**
 *  @brief
 *    Base interface for accessing types
@@ -41,7 +44,7 @@ public:
     *  @return
     *    Type object
     */
-    virtual const Typed & type() const = 0;
+    virtual const AbstractType & type() const = 0;
 
     /**
     *  @brief
@@ -54,7 +57,7 @@ public:
     *    For array types, this returns the type of the items of the array.
     *    For all other types, the original type is returned.
     */
-    virtual const Typed & elementType() const = 0;
+    virtual const AbstractType & elementType() const = 0;
 
     /**
     *  @brief

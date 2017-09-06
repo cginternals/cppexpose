@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -33,6 +34,15 @@ public:
     *    Destructor
     */
     virtual ~AbstractType();
+
+    /**
+    *  @brief
+    *    Create copy of the type
+    *
+    *  @return
+    *    Type
+    */
+    virtual std::unique_ptr<AbstractType> createCopy() const = 0;
 
     // Virtual Typed interface
     virtual const AbstractType & type() const override = 0;
