@@ -8,8 +8,8 @@ endif()
 add_subdirectory(example-plugins)
 
 # Example applications
-add_subdirectory(property)
-add_subdirectory(scripting)
-add_subdirectory(plugin)
-add_subdirectory(parser)
+#add_subdirectory(property)
+#add_subdirectory(scripting)
+#add_subdirectory(plugin)
+#add_subdirectory(parser)
 add_subdirectory(type)
