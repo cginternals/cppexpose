@@ -41,15 +41,6 @@ public:
 
     /**
     *  @brief
-    *    Get RTTI type information
-    *
-    *  @return
-    *    RTTI Type information
-    */
-    virtual const std::type_info & typeInfo() const override;
-
-    /**
-    *  @brief
     *    Get type name
     *
     *  @return

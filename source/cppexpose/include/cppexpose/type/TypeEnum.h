@@ -36,7 +36,6 @@ public:
     virtual ~TypeEnum();
 
     // Virtual AbstractType interface
-    virtual const std::type_info & typeInfo() const override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isArray() const override;

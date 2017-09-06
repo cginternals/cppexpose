@@ -6,49 +6,49 @@ namespace cppexpose
 {
 
 
-// Type<T>
+// TypedType<T>
 template <typename T>
-Type<T>::Type()
+TypedType<T>::TypedType()
 {
 }
 
 template <typename T>
-Type<T>::~Type()
+TypedType<T>::~TypedType()
 {
 }
 
 template <typename T>
-bool Type<T>::isConst() const
+bool TypedType<T>::isConst() const
 {
     return false;
 }
 
 template <typename T>
-const AbstractType & Type<T>::type() const
+const AbstractType & TypedType<T>::type() const
 {
     return this->elementType();
 }
 
 
-// Type<const T>
+// TypedType<const T>
 template <typename T>
-Type<const T>::Type()
+TypedType<const T>::TypedType()
 {
 }
 
 template <typename T>
-Type<const T>::~Type()
+TypedType<const T>::~TypedType()
 {
 }
 
 template <typename T>
-bool Type<const T>::isConst() const
+bool TypedType<const T>::isConst() const
 {
     return true;
 }
 
 template <typename T>
-const AbstractType & Type<const T>::type() const
+const AbstractType & TypedType<const T>::type() const
 {
     return this->elementType();
 }

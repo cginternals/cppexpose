@@ -26,15 +26,9 @@ TypeEnum<T>::~TypeEnum()
 }
 
 template <typename T>
-const std::type_info & TypeEnum<T>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T>
 std::string TypeEnum<T>::typeName() const
 {
-    Type<typename std::underlying_type<T>::type> underlyingType;
+    TypedType<typename std::underlying_type<T>::type> underlyingType;
 
     std::stringstream s;
     s << "enum<" << underlyingType.typeName() << ">";

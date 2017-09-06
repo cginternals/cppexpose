@@ -30,7 +30,6 @@ public:
     virtual ~TypeNumber();
 
     // Virtual AbstractType interface
-    virtual const std::type_info & typeInfo() const override;
     virtual bool isNull() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;

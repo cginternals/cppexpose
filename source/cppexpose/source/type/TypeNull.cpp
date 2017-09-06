@@ -16,11 +16,6 @@ TypeNull::~TypeNull()
 {
 }
 
-const std::type_info & TypeNull::typeInfo() const
-{
-    return typeid(void);
-}
-
 std::string TypeNull::typeName() const
 {
     return "undefined";

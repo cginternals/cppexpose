@@ -4,7 +4,7 @@
 #include <map>
 #include <iostream>
 
-#include <cppexpose/type/Type.h>
+#include <cppexpose/type/TypedType.h>
 #include <cppexpose/type/InternalValue.h>
 #include <cppexpose/type/ExternalValue.h>
 #include <cppexpose/variant/Variant.h>
@@ -101,20 +101,20 @@ void printValue(const std::string & name, AbstractValue & value)
 int main(int, char * [])
 {
     // Types
-    Type<bool> boolType;
-    Type<int> intType;
-    Type<unsigned int> uintType;
-    Type<long> longType;
-    Type<unsigned long> ulongType;
-    Type<float> floatType;
-    Type<double> doubleType;
-    Type<std::string> stringType;
-    Type<int[3]> arrayType1;
-    Type<std::array<bool, 3>> arrayType2;
-    Type<std::vector<float>> arrayType3;
-    Type<std::map<std::string, float>> mapType;
-    Type<Test> testType;
-    Type<Weather> weatherType;
+    TypedType<bool> boolType;
+    TypedType<int> intType;
+    TypedType<unsigned int> uintType;
+    TypedType<long> longType;
+    TypedType<unsigned long> ulongType;
+    TypedType<float> floatType;
+    TypedType<double> doubleType;
+    TypedType<std::string> stringType;
+    TypedType<int[3]> arrayType1;
+    TypedType<std::array<bool, 3>> arrayType2;
+    TypedType<std::vector<float>> arrayType3;
+    TypedType<std::map<std::string, float>> mapType;
+    TypedType<Test> testType;
+    TypedType<Weather> weatherType;
 
     weatherType.setNamedValues({
         { "Rainy", Rainy },

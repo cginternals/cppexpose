@@ -4,7 +4,7 @@
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/type/AbstractValue.h>
-#include <cppexpose/type/Type.h>
+#include <cppexpose/type/TypedType.h>
 
 
 namespace cppexpose
@@ -19,8 +19,8 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API AbstractTypedValue : public AbstractValue
 {
 public:
-    typedef typename Type<T>::BaseType    BaseType;
-    typedef typename Type<T>::ElementType ElementType;
+    typedef typename TypedType<T>::BaseType    BaseType;
+    typedef typename TypedType<T>::ElementType ElementType;
 
 
 public:
@@ -45,7 +45,6 @@ public:
     virtual const AbstractType & elementType() const override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
-    virtual const std::type_info & typeInfo() const override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isConst() const override;
@@ -205,7 +204,7 @@ public:
 
 
 protected:
-    Type<T> m_type; ///< Object that describes the type of the value
+    TypedType<T> m_type; ///< Object that describes the type of the value
 };
 
 

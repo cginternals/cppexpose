@@ -14,7 +14,7 @@ namespace cppexpose
 *    Representation of a type
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API Type : public GetType<T>::Type
+class CPPEXPOSE_TEMPLATE_API TypedType : public GetType<T>::Type
 {
 public:
     typedef typename GetType<T>::Type::BaseType    BaseType;
@@ -26,13 +26,13 @@ public:
     *  @brief
     *    Constructor
     */
-    Type();
+    TypedType();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~Type();
+    virtual ~TypedType();
 
     // Virtual AbstractType interface
     virtual bool isConst() const override;
@@ -41,7 +41,7 @@ public:
 
 
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API Type<const T> : public GetType<T>::Type
+class CPPEXPOSE_TEMPLATE_API TypedType<const T> : public GetType<T>::Type
 { public:
     typedef typename GetType<T>::Type::BaseType    BaseType;
     typedef typename GetType<T>::Type::ElementType ElementType;
@@ -52,13 +52,13 @@ public:
     *  @brief
     *    Constructor
     */
-    Type();
+    TypedType();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~Type();
+    virtual ~TypedType();
 
     // Virtual AbstractType interface
     virtual bool isConst() const override;
@@ -69,4 +69,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/Type.inl>
+#include <cppexpose/type/TypedType.inl>

@@ -12,7 +12,7 @@ namespace cppexpose
 
 
 template <typename T>
-class Type;
+class TypedType;
 
 
 template <typename T, typename ET>
@@ -26,15 +26,9 @@ TypeMap<T, ET>::~TypeMap()
 }
 
 template <typename T, typename ET>
-const std::type_info & TypeMap<T, ET>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T, typename ET>
 std::string TypeMap<T, ET>::typeName() const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
 
     std::stringstream s;
     s << "map<string, " << subType.typeName() << ">";
@@ -186,7 +180,7 @@ size_t TypeMap<T, ET>::numElements(const T &) const
 template <typename T, typename ET>
 ET TypeMap<T, ET>::getElement(const T &, size_t) const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
     return subType.defaultValue();
 }
 
@@ -222,7 +216,7 @@ ET TypeMap<T, ET>::getElement(const T & var, const std::string & key) const
     }
 
     else {
-        Type<ET> subType;
+        TypedType<ET> subType;
         return subType.defaultValue();
     }
 }

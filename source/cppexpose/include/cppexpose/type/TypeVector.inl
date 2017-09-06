@@ -12,7 +12,7 @@ namespace cppexpose
 
 
 template <typename T>
-class Type;
+class TypedType;
 
 
 template <typename T, typename ET>
@@ -26,15 +26,9 @@ TypeVector<T, ET>::~TypeVector()
 }
 
 template <typename T, typename ET>
-const std::type_info & TypeVector<T, ET>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T, typename ET>
 std::string TypeVector<T, ET>::typeName() const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
 
     std::stringstream s;
     s << "vector<" << subType.typeName() << ">";
@@ -118,7 +112,7 @@ const T & TypeVector<T, ET>::defaultValue() const
 template <typename T, typename ET>
 std::string TypeVector<T, ET>::toString(const T & var) const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
 
     std::string str = "(";
 
@@ -137,7 +131,7 @@ std::string TypeVector<T, ET>::toString(const T & var) const
 template <typename T, typename ET>
 bool TypeVector<T, ET>::fromString(T & var, const std::string & value) const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
 
     var.clear();
 
@@ -238,7 +232,7 @@ std::vector<std::string> TypeVector<T, ET>::keys(const T &) const
 template <typename T, typename ET>
 ET TypeVector<T, ET>::getElement(const T &, const std::string &) const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
     return subType.defaultValue();
 }
 

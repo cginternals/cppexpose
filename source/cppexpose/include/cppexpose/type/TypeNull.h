@@ -34,7 +34,6 @@ public:
     virtual ~TypeNull();
 
     // Virtual AbstractType interface
-    virtual const std::type_info & typeInfo() const override;
     virtual std::string typeName() const override;
     virtual const AbstractType & elementType() const override;
     virtual bool hasSymbolicNames() const override;

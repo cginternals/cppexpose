@@ -22,12 +22,6 @@ TypeNumber<T>::~TypeNumber()
 }
 
 template <typename T>
-const std::type_info & TypeNumber<T>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T>
 bool TypeNumber<T>::isNull() const
 {
     return false;

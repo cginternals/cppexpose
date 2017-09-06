@@ -20,12 +20,6 @@ TypeGeneric<T>::~TypeGeneric()
 }
 
 template <typename T>
-const std::type_info & TypeGeneric<T>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T>
 std::string TypeGeneric<T>::typeName() const
 {
     // Unknown type

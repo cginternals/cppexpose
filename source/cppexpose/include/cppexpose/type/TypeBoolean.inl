@@ -20,12 +20,6 @@ TypeBoolean<T>::~TypeBoolean()
 }
 
 template <typename T>
-const std::type_info & TypeBoolean<T>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T>
 std::string TypeBoolean<T>::typeName() const
 {
     return "bool";

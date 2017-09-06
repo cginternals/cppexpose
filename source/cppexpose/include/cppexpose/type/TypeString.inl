@@ -20,12 +20,6 @@ TypeString<T>::~TypeString()
 }
 
 template <typename T>
-const std::type_info & TypeString<T>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T>
 std::string TypeString<T>::typeName() const
 {
     return "string";

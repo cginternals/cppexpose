@@ -41,12 +41,6 @@ std::vector<std::string> AbstractTypedValue<T>::symbolicNames() const
 }
 
 template <typename T>
-const std::type_info & AbstractTypedValue<T>::typeInfo() const
-{
-    return m_type.typeInfo();
-}
-
-template <typename T>
 std::string AbstractTypedValue<T>::typeName() const
 {
     return m_type.typeName();

@@ -30,7 +30,7 @@ bool Variant::hasType() const
         return false;
     }
 
-    return typeid(T) == m_value->typeInfo();
+    return TypedType<T>().typeName() == typeName();
 }
 
 template <typename T>
@@ -47,7 +47,7 @@ template <typename T>
 T Variant::value() const
 {
     // Type of variant is the wanted type
-    if (m_value && typeid(T) == m_value->typeInfo())
+    if (m_value && m_value->hasType<T>())
     {
         return static_cast<InternalValue<T> *>(m_value.get())->value();
     }
@@ -61,14 +61,14 @@ T Variant::value() const
     // No conversion possible
     else
     {
-        return Type<T>().defaultValue();
+        return TypedType<T>().defaultValue();
     }
 }
 
 template <typename T>
 T * Variant::ptr()
 {
-    if (m_value && typeid(T) == m_value->typeInfo()) {
+    if (m_value && m_value->hasType<T>()) {
         return static_cast<InternalValue<T> *>(m_value.get())->ptr();
     } else {
         return nullptr;
@@ -78,7 +78,7 @@ T * Variant::ptr()
 template <typename T>
 const T * Variant::ptr() const
 {
-    if (m_value && typeid(T) == m_value->typeInfo()) {
+    if (m_value && m_value->hasType<T>()) {
         return static_cast<const InternalValue<T> *>(m_value.get())->ptr();
     } else {
         return nullptr;

@@ -69,6 +69,7 @@ set(headers
     ${include_path}/signal/Signal.h
     ${include_path}/signal/Signal.inl
 
+    ${include_path}/type/Typed.h
     ${include_path}/type/AbstractType.h
     ${include_path}/type/AbstractTypedType.h
     ${include_path}/type/AbstractTypedType.inl
@@ -84,8 +85,8 @@ set(headers
     ${include_path}/type/ExternalValue.h
     ${include_path}/type/ExternalValue.inl
     ${include_path}/type/MetaType.h
-    ${include_path}/type/Type.h
-    ${include_path}/type/Type.inl
+    ${include_path}/type/TypedType.h
+    ${include_path}/type/TypedType.inl
     ${include_path}/type/TypeNull.h
     ${include_path}/type/TypeArray.h
     ${include_path}/type/TypeArray.inl
@@ -161,6 +162,7 @@ set(sources
     ${source_path}/signal/Connection.cpp
     ${source_path}/signal/ScopedConnection.cpp
 
+    ${source_path}/type/Typed.cpp
     ${source_path}/type/AbstractType.cpp
     ${source_path}/type/AbstractValue.cpp
     ${source_path}/type/Converter.cpp

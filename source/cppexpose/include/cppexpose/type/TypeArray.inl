@@ -13,7 +13,7 @@ namespace cppexpose
 
 
 template <typename T>
-class Type;
+class TypedType;
 
 
 template <typename T, typename ET, size_t SIZE>
@@ -27,15 +27,9 @@ TypeArray<T, ET, SIZE>::~TypeArray()
 }
 
 template <typename T, typename ET, size_t SIZE>
-const std::type_info & TypeArray<T, ET, SIZE>::typeInfo() const
-{
-    return typeid(T);
-}
-
-template <typename T, typename ET, size_t SIZE>
 std::string TypeArray<T, ET, SIZE>::typeName() const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
 
     std::stringstream s;
     s << "array<" << subType.typeName() << ", " << SIZE << ">";
@@ -119,7 +113,7 @@ const T & TypeArray<T, ET, SIZE>::defaultValue() const
 template <typename T, typename ET, size_t SIZE>
 std::string TypeArray<T, ET, SIZE>::toString(const T & var) const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
 
     std::string str = "(";
 
@@ -138,7 +132,7 @@ std::string TypeArray<T, ET, SIZE>::toString(const T & var) const
 template <typename T, typename ET, size_t SIZE>
 bool TypeArray<T, ET, SIZE>::fromString(T & var, const std::string & value) const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
 
     std::vector<std::string> elementStrings = cppassist::string::parseArray(value, SIZE);
 
@@ -241,7 +235,7 @@ std::vector<std::string> TypeArray<T, ET, SIZE>::keys(const T &) const
 template <typename T, typename ET, size_t SIZE>
 ET TypeArray<T, ET, SIZE>::getElement(const T &, const std::string &) const
 {
-    Type<ET> subType;
+    TypedType<ET> subType;
     return subType.defaultValue();
 }
 

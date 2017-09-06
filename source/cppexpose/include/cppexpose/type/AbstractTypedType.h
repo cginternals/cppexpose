@@ -12,7 +12,7 @@ namespace cppexpose
 
 
 template <typename T>
-class Type;
+class TypedType;
 
 
 /**

@@ -152,7 +152,7 @@ std::string Variant::toJSON(JSON::OutputMode outputMode) const
 
 const AbstractType & Variant::type() const
 {
-    static Type<void> nullType;
+    static TypedType<void> nullType;
 
     if (m_value) return m_value->type();
     else         return nullType;
@@ -161,12 +161,6 @@ const AbstractType & Variant::type() const
 const AbstractType & Variant::elementType() const
 {
     return type();
-}
-
-const std::type_info & Variant::typeInfo() const
-{
-    if (m_value) return m_value->typeInfo();
-    else         return typeid(void);
 }
 
 std::string Variant::typeName() const

@@ -21,11 +21,6 @@ const AbstractType & MetaType::type() const
     return *this;
 }
 
-const std::type_info & MetaType::typeInfo() const
-{
-    return typeid(*this);
-}
-
 std::string MetaType::typeName() const
 {
     return "type";

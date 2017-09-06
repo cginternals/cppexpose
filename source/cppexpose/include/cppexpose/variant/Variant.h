@@ -40,7 +40,7 @@ using VariantMap = std::map<std::string, Variant>;
 *
 *    To create a Variant from a specific data type, use the static function fromValue().
 *
-*    The type of the stored value can be determined by type(), typeInfo(), or hasType<Type>().
+*    The type of the stored value can be determined by type(), or hasType<Type>().
 *    To access the value of a variant, call value<Type>(). If the given data type does not
 *    match the stored type, the value may be converted. Note that this only works for the
 *    supported primitive data types. To check if a type can be converted, use canConvert<Type>().
@@ -229,7 +229,6 @@ public:
     // Virtual AbstractType interface
     virtual const AbstractType & type() const override;
     virtual const AbstractType & elementType() const override;
-    virtual const std::type_info & typeInfo() const override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isConst() const override;
