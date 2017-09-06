@@ -1,5 +1,5 @@
 
-#include <cppexpose/variant/Variant2.h>
+#include <cppexpose/variant/Variant.h>
 
 #include <cppassist/memory/make_unique.h>
 
@@ -11,132 +11,132 @@ namespace cppexpose
 {
 
 
-Variant2 Variant2::array()
+Variant Variant::array()
 {
-    Variant2 variant;
+    Variant variant;
     variant.m_value = cppassist::make_unique<Value<VariantArray>>(VariantArray());
     return variant;
 }
 
-Variant2 Variant2::array(size_t count)
+Variant Variant::array(size_t count)
 {
-    Variant2 variant;
+    Variant variant;
     variant.m_value = cppassist::make_unique<Value<VariantArray>>(VariantArray(count));
     return variant;
 }
 
-Variant2 Variant2::map()
+Variant Variant::map()
 {
-    Variant2 variant;
+    Variant variant;
     variant.m_value = cppassist::make_unique<Value<VariantMap>>(VariantMap());
     return variant;
 }
 
-Variant2::Variant2()
+Variant::Variant()
 : m_value(nullptr)
 {
 }
 
-Variant2::Variant2(const Variant2 & variant)
+Variant::Variant(const Variant & variant)
 : m_value(variant.m_value ? variant.m_value->createCopy() : nullptr)
 {
 }
 
-Variant2::Variant2(bool value)
+Variant::Variant(bool value)
 : m_value(cppassist::make_unique<Value<bool>>(value))
 {
 }
 
-Variant2::Variant2(char value)
+Variant::Variant(char value)
 : m_value(cppassist::make_unique<Value<char>>(value))
 {
 }
 
-Variant2::Variant2(unsigned char value)
+Variant::Variant(unsigned char value)
 : m_value(cppassist::make_unique<Value<unsigned char>>(value))
 {
 }
 
-Variant2::Variant2(short value)
+Variant::Variant(short value)
 : m_value(cppassist::make_unique<Value<short>>(value))
 {
 }
 
-Variant2::Variant2(unsigned short value)
+Variant::Variant(unsigned short value)
 : m_value(cppassist::make_unique<Value<unsigned short>>(value))
 {
 }
 
-Variant2::Variant2(int value)
+Variant::Variant(int value)
 : m_value(cppassist::make_unique<Value<int>>(value))
 {
 }
 
-Variant2::Variant2(unsigned int value)
+Variant::Variant(unsigned int value)
 : m_value(cppassist::make_unique<Value<unsigned int>>(value))
 {
 }
 
-Variant2::Variant2(long value)
+Variant::Variant(long value)
 : m_value(cppassist::make_unique<Value<long>>(value))
 {
 }
 
-Variant2::Variant2(unsigned long value)
+Variant::Variant(unsigned long value)
 : m_value(cppassist::make_unique<Value<unsigned long>>(value))
 {
 }
 
-Variant2::Variant2(long long value)
+Variant::Variant(long long value)
 : m_value(cppassist::make_unique<Value<long long>>(value))
 {
 }
 
-Variant2::Variant2(unsigned long long value)
+Variant::Variant(unsigned long long value)
 : m_value(cppassist::make_unique<Value<unsigned long long>>(value))
 {
 }
 
-Variant2::Variant2(float value)
+Variant::Variant(float value)
 : m_value(cppassist::make_unique<Value<float>>(value))
 {
 }
 
-Variant2::Variant2(double value)
+Variant::Variant(double value)
 : m_value(cppassist::make_unique<Value<double>>(value))
 {
 }
 
-Variant2::Variant2(const char * value)
+Variant::Variant(const char * value)
 : m_value(cppassist::make_unique<Value<std::string>>(std::string(value)))
 {
 }
 
-Variant2::Variant2(const std::string & value)
+Variant::Variant(const std::string & value)
 : m_value(cppassist::make_unique<Value<std::string>>(value))
 {
 }
 
-Variant2::Variant2(const std::vector<std::string> & value)
+Variant::Variant(const std::vector<std::string> & value)
 : m_value(cppassist::make_unique<Value< std::vector<std::string> >>(value))
 {
 }
 
-Variant2::Variant2(const VariantArray & array)
+Variant::Variant(const VariantArray & array)
 : m_value(cppassist::make_unique<Value<VariantArray>>(array))
 {
 }
 
-Variant2::Variant2(const VariantMap & map)
+Variant::Variant(const VariantMap & map)
 : m_value(cppassist::make_unique<Value<VariantMap>>(map))
 {
 }
 
-Variant2::~Variant2()
+Variant::~Variant()
 {
 }
 
-Variant2 & Variant2::operator=(const Variant2 & variant)
+Variant & Variant::operator=(const Variant & variant)
 {
     m_value = variant.m_value ? variant.m_value->createCopy() : nullptr;
 
@@ -144,13 +144,13 @@ Variant2 & Variant2::operator=(const Variant2 & variant)
 }
 
 /*
-std::string Variant2::toJSON(JSON::OutputMode outputMode) const
+std::string Variant::toJSON(JSON::OutputMode outputMode) const
 {
     return JSON::stringify(*this, outputMode);
 }
 */
 
-const AbstractType & Variant2::type() const
+const AbstractType & Variant::type() const
 {
     static Type<void> nullType;
 
@@ -158,101 +158,101 @@ const AbstractType & Variant2::type() const
     else         return nullType;
 }
 
-const AbstractType & Variant2::elementType() const
+const AbstractType & Variant::elementType() const
 {
     return type();
 }
 
-const std::type_info & Variant2::typeInfo() const
+const std::type_info & Variant::typeInfo() const
 {
     if (m_value) return m_value->typeInfo();
     else         return typeid(void);
 }
 
-std::string Variant2::typeName() const
+std::string Variant::typeName() const
 {
     if (m_value) return m_value->typeName();
     else         return "undefined";
 }
 
-bool Variant2::isNull() const
+bool Variant::isNull() const
 {
     if (m_value) return m_value->isNull();
     else         return true;
 }
 
-bool Variant2::isConst() const
+bool Variant::isConst() const
 {
     if (m_value) return m_value->isConst();
     else         return false;
 }
 
-bool Variant2::isArray() const
+bool Variant::isArray() const
 {
     if (m_value) return m_value->isArray();
     else         return false;
 }
 
-bool Variant2::isDynamicArray() const
+bool Variant::isDynamicArray() const
 {
     if (m_value) return m_value->isDynamicArray();
     else         return false;
 }
 
-bool Variant2::isMap() const
+bool Variant::isMap() const
 {
     if (m_value) return m_value->isMap();
     else         return false;
 }
 
-bool Variant2::isBoolean() const
+bool Variant::isBoolean() const
 {
     if (m_value) return m_value->isBoolean();
     else         return false;
 }
 
-bool Variant2::isNumber() const
+bool Variant::isNumber() const
 {
     if (m_value) return m_value->isNumber();
     else         return false;
 }
 
-bool Variant2::isIntegral() const
+bool Variant::isIntegral() const
 {
     if (m_value) return m_value->isIntegral();
     else         return false;
 }
 
-bool Variant2::isUnsigned() const
+bool Variant::isUnsigned() const
 {
     if (m_value) return m_value->isUnsigned();
     else         return false;
 }
 
-bool Variant2::isFloatingPoint() const
+bool Variant::isFloatingPoint() const
 {
     if (m_value) return m_value->isFloatingPoint();
     else         return false;
 }
 
-bool Variant2::isString() const
+bool Variant::isString() const
 {
     if (m_value) return m_value->isString();
     else         return false;
 }
 
-bool Variant2::isType() const
+bool Variant::isType() const
 {
     if (m_value) return m_value->isType();
     else         return false;
 }
 
-bool Variant2::hasSymbolicNames() const
+bool Variant::hasSymbolicNames() const
 {
     return type().hasSymbolicNames();
 }
 
-std::vector<std::string> Variant2::symbolicNames() const
+std::vector<std::string> Variant::symbolicNames() const
 {
     return type().symbolicNames();
 }

@@ -119,8 +119,8 @@ set(headers
     ${include_path}/function/ConstMemberFunction.h
     ${include_path}/function/ConstMemberFunction.inl
 
-    ${include_path}/variant/Variant2.h
-    ${include_path}/variant/Variant2.inl
+    ${include_path}/variant/Variant.h
+    ${include_path}/variant/Variant.inl
 
 #    ${include_path}/reflection/AbstractProperty.h
 #    ${include_path}/reflection/AbstractProperty.inl
@@ -170,7 +170,7 @@ set(sources
 #    ${source_path}/function/Function.cpp
 #    ${source_path}/function/AbstractFunction.cpp
 
-    ${source_path}/variant/Variant2.cpp
+    ${source_path}/variant/Variant.cpp
 
 #    ${source_path}/reflection/AbstractProperty.cpp
 #    ${source_path}/reflection/Object.cpp

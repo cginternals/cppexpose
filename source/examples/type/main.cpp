@@ -7,7 +7,7 @@
 #include <cppexpose/type/Type.h>
 #include <cppexpose/type/Value.h>
 #include <cppexpose/type/ManagedValue.h>
-#include <cppexpose/variant/Variant2.h>
+#include <cppexpose/variant/Variant.h>
 
 
 using namespace cppexpose;

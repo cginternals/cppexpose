@@ -16,7 +16,7 @@ namespace cppexpose
 
 
 class AbstractValue;
-class Variant2;
+class Variant;
 
 template <typename T>
 class Value;
@@ -26,13 +26,13 @@ class Value;
 *  @brief
 *    Variant array (analog to a JSON array)
 */
-using VariantArray = std::vector<Variant2>;
+using VariantArray = std::vector<Variant>;
 
 /**
 *  @brief
 *    Variant map (analog to a JSON object)
 */
-using VariantMap = std::map<std::string, Variant2>;
+using VariantMap = std::map<std::string, Variant>;
 
 
 /**
@@ -53,7 +53,7 @@ using VariantMap = std::map<std::string, Variant2>;
 *    These composite variants will automatically be interpreted as JSON arrays or objects within
 *    scripting and can be serialized by the JSON tool class.
 */
-class CPPEXPOSE_API Variant2 : public AbstractType
+class CPPEXPOSE_API Variant : public AbstractType
 {
 public:
     //@{
@@ -68,7 +68,7 @@ public:
     *    Variant instance
     */
     template <typename T>
-    static Variant2 fromValue(const T & value);
+    static Variant fromValue(const T & value);
 
     /**
     *  @brief
@@ -80,8 +80,8 @@ public:
     *  @return
     *    Variant instance
     */
-    static Variant2 array();
-    static Variant2 array(size_t count);
+    static Variant array();
+    static Variant array(size_t count);
 
     /**
     *  @brief
@@ -90,7 +90,7 @@ public:
     *  @return
     *    Variant instance
     */
-    static Variant2 map();
+    static Variant map();
     //@}
 
 
@@ -100,7 +100,7 @@ public:
     *  @brief
     *    Constructor for an empty value
     */
-    Variant2();
+    Variant();
 
     /**
     *  @brief
@@ -109,7 +109,7 @@ public:
     *  @param[in] variant
     *    Variant whose value will be copied
     */
-    Variant2(const Variant2 & variant);
+    Variant(const Variant & variant);
     //@}
 
     //@{
@@ -120,24 +120,24 @@ public:
     *  @param[in] value
     *    Primitive value
     */
-    Variant2(bool value);
-    Variant2(char value);
-    Variant2(unsigned char value);
-    Variant2(short value);
-    Variant2(unsigned short value);
-    Variant2(int value);
-    Variant2(unsigned int value);
-    Variant2(long value);
-    Variant2(unsigned long value);
-    Variant2(long long value);
-    Variant2(unsigned long long value);
-    Variant2(float value);
-    Variant2(double value);
-    Variant2(const char * value);
-    Variant2(const std::string & value);
-    Variant2(const std::vector<std::string> & value);
-    Variant2(const VariantArray & array);
-    Variant2(const VariantMap & map);
+    Variant(bool value);
+    Variant(char value);
+    Variant(unsigned char value);
+    Variant(short value);
+    Variant(unsigned short value);
+    Variant(int value);
+    Variant(unsigned int value);
+    Variant(long value);
+    Variant(unsigned long value);
+    Variant(long long value);
+    Variant(unsigned long long value);
+    Variant(float value);
+    Variant(double value);
+    Variant(const char * value);
+    Variant(const std::string & value);
+    Variant(const std::vector<std::string> & value);
+    Variant(const VariantArray & array);
+    Variant(const VariantMap & map);
     //@}
 
     //@{
@@ -145,7 +145,7 @@ public:
     *  @brief
     *    Destructor
     */
-    ~Variant2();
+    ~Variant();
     //@}
 
     //@{
@@ -159,7 +159,7 @@ public:
     *  @return
     *    Variant
     */
-    Variant2 & operator=(const Variant2 & variant);
+    Variant & operator=(const Variant & variant);
 
     /**
     *  @brief
@@ -258,4 +258,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/variant/Variant2.inl>
+#include <cppexpose/variant/Variant.inl>

@@ -12,15 +12,15 @@ namespace cppexpose
 
 
 template <typename T>
-Variant2 Variant2::fromValue(const T & value)
+Variant Variant::fromValue(const T & value)
 {
-    Variant2 variant;
+    Variant variant;
     variant.m_value = cppassist::make_unique<Value<T>>(value);
     return variant;
 }
 
 template <typename T>
-bool Variant2::hasType() const
+bool Variant::hasType() const
 {
     if (!m_value) {
         return false;
@@ -30,7 +30,7 @@ bool Variant2::hasType() const
 }
 
 template <typename T>
-bool Variant2::canConvert() const
+bool Variant::canConvert() const
 {
     if (m_value) {
         return m_value->canConvert<T>();
@@ -40,7 +40,7 @@ bool Variant2::canConvert() const
 }
 
 template <typename T>
-T Variant2::value() const
+T Variant::value() const
 {
     // Type of variant is the wanted type
     if (m_value && typeid(T) == m_value->typeInfo())
@@ -62,7 +62,7 @@ T Variant2::value() const
 }
 
 template <typename T>
-T * Variant2::ptr()
+T * Variant::ptr()
 {
     if (m_value && typeid(T) == m_value->typeInfo()) {
         return static_cast<Value<T> *>(m_value.get())->ptr();
@@ -72,7 +72,7 @@ T * Variant2::ptr()
 }
 
 template <typename T>
-const T * Variant2::ptr() const
+const T * Variant::ptr() const
 {
     if (m_value && typeid(T) == m_value->typeInfo()) {
         return static_cast<const Value<T> *>(m_value.get())->ptr();
