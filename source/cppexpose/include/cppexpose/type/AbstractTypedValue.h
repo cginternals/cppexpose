@@ -40,9 +40,11 @@ public:
     */
     virtual ~AbstractTypedValue();
 
-    // Virtual AbstractType interface
-    virtual const AbstractType & type() const override;
-    virtual const AbstractType & elementType() const override;
+    // Virtual Typed interface
+    virtual const Type & type() const override;
+    virtual Type & type() override;
+    virtual const Type & elementType() const override;
+    virtual Type & elementType() override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
     virtual std::string typeName() const override;
@@ -205,6 +207,10 @@ public:
 
 protected:
     TypedType<T> m_type; ///< Object that describes the type of the value
+
+    //    Type m_type; ///< Object that describes the type of the value
+    //    : m_type(Type::basicType<T>())
+
 };
 
 

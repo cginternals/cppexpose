@@ -3,6 +3,8 @@
 
 #include <typeinfo>
 
+#include <cppassist/memory/make_unique.h>
+
 
 namespace cppexpose
 {
@@ -16,7 +18,17 @@ MetaType::~MetaType()
 {
 }
 
-const AbstractType & MetaType::type() const
+std::unique_ptr<AbstractType> MetaType::createCopy() const
+{
+    return cppassist::make_unique<MetaType>();
+}
+
+AbstractType & MetaType::type()
+{
+    return *this;
+}
+
+AbstractType & MetaType::elementType()
 {
     return *this;
 }
@@ -24,6 +36,21 @@ const AbstractType & MetaType::type() const
 std::string MetaType::typeName() const
 {
     return "type";
+}
+
+bool MetaType::isNull() const
+{
+    return false;
+}
+
+bool MetaType::isConst() const
+{
+    return false;
+}
+
+bool MetaType::isType() const
+{
+    return true;
 }
 
 bool MetaType::isArray() const
@@ -71,9 +98,16 @@ bool MetaType::isString() const
     return false;
 }
 
-bool MetaType::isType() const
+bool MetaType::hasSymbolicNames() const
 {
-    return true;
+    return false;
+}
+
+std::vector<std::string> MetaType::symbolicNames() const
+{
+    static std::vector<std::string> emptyNames;
+
+    return emptyNames;
 }
 
 

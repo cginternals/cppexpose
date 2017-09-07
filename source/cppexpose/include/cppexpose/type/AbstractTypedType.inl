@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cppexpose/type/Type.h>
+
+
 namespace cppexpose
 {
 
@@ -17,7 +20,13 @@ AbstractTypedType<T, ET>::~AbstractTypedType()
 }
 
 template <typename T, typename ET>
-const AbstractType & AbstractTypedType<T, ET>::elementType() const
+AbstractType & AbstractTypedType<T, ET>::type()
+{
+    return *this;
+}
+
+template <typename T, typename ET>
+AbstractType & AbstractTypedType<T, ET>::elementType()
 {
     static TypedType<ET> elementType;
     return elementType;

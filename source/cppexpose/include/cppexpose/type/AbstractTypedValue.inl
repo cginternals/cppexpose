@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cppexpose/type/TypedType.h>
+
+
 namespace cppexpose
 {
 
@@ -17,15 +20,31 @@ AbstractTypedValue<T>::~AbstractTypedValue()
 }
 
 template <typename T>
-const AbstractType & AbstractTypedValue<T>::type() const
+const Type & AbstractTypedValue<T>::type() const
 {
-    return m_type;
+    static Type type(m_type.createCopy());
+    return type;
 }
 
 template <typename T>
-const AbstractType & AbstractTypedValue<T>::elementType() const
+Type & AbstractTypedValue<T>::type()
 {
-    return m_type;
+    static Type type(m_type.createCopy());
+    return type;
+}
+
+template <typename T>
+const Type & AbstractTypedValue<T>::elementType() const
+{
+    static Type type(m_type.createCopy());
+    return type.elementType();
+}
+
+template <typename T>
+Type & AbstractTypedValue<T>::elementType()
+{
+    static Type type(m_type.createCopy());
+    return type.elementType();
 }
 
 template <typename T>

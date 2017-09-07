@@ -40,7 +40,8 @@ public:
     virtual ~AbstractTypedType();
 
     // Virtual AbstractType interface
-    virtual const AbstractType & elementType() const override;
+    virtual AbstractType & type() override;
+    virtual AbstractType & elementType() override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
 

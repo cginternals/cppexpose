@@ -21,12 +21,12 @@ std::unique_ptr<AbstractType> TypeNull::createCopy() const
     return cppassist::make_unique<TypeNull>();
 }
 
-const AbstractType & TypeNull::type() const
+AbstractType & TypeNull::type()
 {
     return *this;
 }
 
-const AbstractType & TypeNull::elementType() const
+AbstractType & TypeNull::elementType()
 {
     return *this;
 }

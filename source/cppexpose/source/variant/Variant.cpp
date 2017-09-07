@@ -150,17 +150,36 @@ std::string Variant::toJSON(JSON::OutputMode outputMode) const
 }
 */
 
-const AbstractType & Variant::type() const
+Type & Variant::type()
 {
-    static TypedType<void> nullType;
+    static Type nullType;
 
     if (m_value) return m_value->type();
     else         return nullType;
 }
 
-const AbstractType & Variant::elementType() const
+const Type & Variant::type() const
 {
-    return type();
+    static Type nullType;
+
+    if (m_value) return m_value->type();
+    else         return nullType;
+}
+
+Type & Variant::elementType()
+{
+    static Type nullType;
+
+    if (m_value) return m_value->type();
+    else         return nullType;
+}
+
+const Type & Variant::elementType() const
+{
+    static Type nullType;
+
+    if (m_value) return m_value->type();
+    else         return nullType;
 }
 
 std::string Variant::typeName() const

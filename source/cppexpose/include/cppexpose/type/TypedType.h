@@ -39,7 +39,6 @@ public:
 
     // Virtual Typed interface
     virtual bool isConst() const override;
-    virtual const AbstractType & type() const override;
 };
 
 
@@ -68,7 +67,6 @@ public:
 
     // Virtual Typed interface
     virtual bool isConst() const override;
-    virtual const AbstractType & type() const override;
 };
 
 

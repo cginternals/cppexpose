@@ -29,114 +29,25 @@ public:
     */
     virtual ~MetaType();
 
-
-    /**
-    *  @brief
-    *    Get type instance
-    *
-    *  @return
-    *    Type object
-    */
-    virtual const AbstractType & type() const override;
-
-    /**
-    *  @brief
-    *    Get type name
-    *
-    *  @return
-    *    Type name
-    */
+    // Virtual AbstractType interface
+    virtual std::unique_ptr<AbstractType> createCopy() const override;
+    virtual AbstractType & type() override;
+    virtual AbstractType & elementType() override;
     virtual std::string typeName() const override;
-
-    /**
-    *  @brief
-    *    Check if type is an array-type
-    *
-    *  @return
-    *    'true' if type is an array, else 'false'
-    */
-    virtual bool isArray() const override;
-
-    /**
-    *  @brief
-    *    Check if type is an array of dynamic size
-    *
-    *  @return
-    *    'true' if type is an array of dynamic size, else 'false'
-    */
-    virtual bool isDynamicArray() const override;
-
-    /**
-    *  @brief
-    *    Check if type is a string-map
-    *
-    *  @return
-    *    'true' if type is a map (e.g., std::map<std::string, T>), else 'false'
-    */
-    virtual bool isMap() const override;
-
-    /**
-    *  @brief
-    *    Check if type is a boolean
-    *
-    *  @return
-    *    'true' if type is a boolean, else 'false'
-    */
-    virtual bool isBoolean() const override;
-
-    /**
-    *  @brief
-    *    Check if type is a number
-    *
-    *  @return
-    *    'true' if type is a number, else 'false'
-    */
-    virtual bool isNumber() const override;
-
-    /**
-    *  @brief
-    *    Check if type is an integral number
-    *
-    *  @return
-    *    'true' if type is an integral number, else 'false'
-    */
-    virtual bool isIntegral() const override;
-
-    /**
-    *  @brief
-    *    Check if type is an unsigned number
-    *
-    *  @return
-    *    'true' if type is an unsigned number, else 'false'
-    */
-    virtual bool isUnsigned() const override;
-
-    /**
-    *  @brief
-    *    Check if type is a floating point number
-    *
-    *  @return
-    *    'true' if type is a floating point number, else 'false'
-    */
-    virtual bool isFloatingPoint() const override;
-
-    /**
-    *  @brief
-    *    Check if type is a string
-    *
-    *  @return
-    *    'true' if type is a string, else 'false'
-    */
-    virtual bool isString() const override;
-
-    /**
-    *  @brief
-    *    Check if type is a type
-    *
-    *  @return
-    *    'true' if type is a type, else 'false'
-    */
+    virtual bool isNull() const override;
     virtual bool isType() const override;
+    virtual bool isConst() const override;
+    virtual bool isArray() const override;
+    virtual bool isDynamicArray() const override;
+    virtual bool isMap() const override;
+    virtual bool isBoolean() const override;
+    virtual bool isNumber() const override;
+    virtual bool isIntegral() const override;
+    virtual bool isUnsigned() const override;
+    virtual bool isFloatingPoint() const override;
+    virtual bool isString() const override;
+    virtual bool hasSymbolicNames() const override;
+    virtual std::vector<std::string> symbolicNames() const override;
 };
 
 

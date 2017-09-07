@@ -16,6 +16,11 @@ Type::Type()
 {
 }
 
+Type::Type(std::unique_ptr<AbstractType> && basicType)
+: m_type(std::move(basicType))
+{
+}
+
 Type::Type(const Type & type)
 : m_type(type.m_type->createCopy())
 {
@@ -28,18 +33,29 @@ Type::~Type()
 Type & Type::operator=(const Type & type)
 {
     m_type = type.m_type->createCopy();
-
     return *this;
 }
 
-const AbstractType & Type::type() const
+const Type & Type::type() const
 {
-    return m_type->type();
+    return *this;
 }
 
-const AbstractType & Type::elementType() const
+Type & Type::type()
 {
-    return m_type->elementType();
+    return *this;
+}
+
+const Type & Type::elementType() const
+{
+    static Type elementType(m_type->elementType().createCopy());
+    return elementType;
+}
+
+Type & Type::elementType()
+{
+    static Type elementType(m_type->elementType().createCopy());
+    return elementType;
 }
 
 std::string Type::typeName() const

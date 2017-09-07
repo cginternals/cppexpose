@@ -35,10 +35,8 @@ public:
 
     // Virtual AbstractType interface
     virtual std::unique_ptr<AbstractType> createCopy() const override;
-
-    // Virtual Typed interface
-    virtual const AbstractType & type() const override;
-    virtual const AbstractType & elementType() const override;
+    virtual AbstractType & type() override;
+    virtual AbstractType & elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;

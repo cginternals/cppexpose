@@ -227,9 +227,11 @@ public:
 //  std::string toJSON(JSON::OutputMode outputMode = JSON::Compact) const;
     //@}
 
-    // Virtual AbstractType interface
-    virtual const AbstractType & type() const override;
-    virtual const AbstractType & elementType() const override;
+    // Virtual Typed interface
+    virtual const Type & type() const override;
+    virtual Type & type() override;
+    virtual const Type & elementType() const override;
+    virtual Type & elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isConst() const override;

@@ -45,6 +45,12 @@ public:
 
     /**
     *  @brief
+    *    Constructor for a given basic type
+    */
+    Type(std::unique_ptr<AbstractType> && basicType);
+
+    /**
+    *  @brief
     *    Copy constructor
     *
     *  @param[in] type
@@ -72,8 +78,10 @@ public:
     //@}
 
     // Virtual Typed interface
-    virtual const AbstractType & type() const override;
-    virtual const AbstractType & elementType() const override;
+    virtual const Type & type() const override;
+    virtual Type & type() override;
+    virtual const Type & elementType() const override;
+    virtual Type & elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isConst() const override;

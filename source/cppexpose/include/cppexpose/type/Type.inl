@@ -16,6 +16,7 @@ Type Type::basicType()
 {
     Type type;
     type.m_type = cppassist::make_unique<TypedType<T>>();
+
     return type;
 }
 
