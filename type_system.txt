@@ -1,0 +1,28 @@
+
+AbstractTyped
+|-- Type
+    |-- ConcreteType<T>
+|-- Variant
+|-- AbstractValue
+    |-- InternalValue
+    |-- ExternalValue
+    |-- Property
+    |-- Slot
+
+AbstractBaseType
+|-- MetaType
+|-- NullType
+|-- BaseTypeImpl<T, ET>
+    |-- BaseTypeImplGeneric<T>
+    |-- BaseTypeImplBool<T>
+    |-- BaseTypeImplNumber<T>
+        |-- BaseTypeImplSignedIntegral<T>
+        |-- BaseTypeImplUnsignedIntegral<T>
+        |-- BaseTypeImplFloatingPoint<T>
+    |-- BaseTypeImplString<T>
+    |-- BaseTypeImplEnum<T>
+    |-- BaseTypeImplArray<T>
+    |-- BaseTypeImplVector<T>
+    |-- BaseTypeImplMap<T>
+...
+  |-- BaseType<T>
