@@ -40,12 +40,20 @@ public:
 
     /**
     *  @brief
-    *    Get type instance
+    *    Get type
     *
     *  @return
     *    Type object
     */
     virtual const Type & type() const = 0;
+
+    /**
+    *  @brief
+    *    Get type
+    *
+    *  @return
+    *    Type object
+    */
     virtual Type & type() = 0;
 
     /**
@@ -60,6 +68,18 @@ public:
     *    For all other types, the original type is returned.
     */
     virtual const Type & elementType() const = 0;
+
+    /**
+    *  @brief
+    *    Get type of elements
+    *
+    *  @return
+    *    Element type
+    *
+    *  @remarks
+    *    For array types, this returns the type of the items of the array.
+    *    For all other types, the original type is returned.
+    */
     virtual Type & elementType() = 0;
 
     /**
