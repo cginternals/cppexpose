@@ -3,6 +3,7 @@
 
 
 #include <typeinfo>
+#include <limits>
 
 #include <cppassist/string/conversion.h>
 
@@ -13,6 +14,8 @@ namespace cppexpose
 
 template <typename T>
 BaseTypeImplNumber<T>::BaseTypeImplNumber()
+: m_minimumValue(std::numeric_limits<T>::lowest())
+, m_maximumValue(std::numeric_limits<T>::max())
 {
 }
 
@@ -67,6 +70,30 @@ template <typename T>
 bool BaseTypeImplNumber<T>::isString() const
 {
     return false;
+}
+
+template <typename T>
+const T & BaseTypeImplNumber<T>::minimumValue() const
+{
+    return m_minimumValue;
+}
+
+template <typename T>
+void BaseTypeImplNumber<T>::setMinimumValue(const T & value)
+{
+    m_minimumValue = value;
+}
+
+template <typename T>
+const T & BaseTypeImplNumber<T>::maximumValue() const
+{
+    return m_maximumValue;
+}
+
+template <typename T>
+void BaseTypeImplNumber<T>::setMaximumValue(const T & value)
+{
+    m_maximumValue = value;
 }
 
 template <typename T>

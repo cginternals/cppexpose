@@ -63,5 +63,29 @@ void BaseTypeImpl<T, ET>::setNamedValues(const std::map<std::string, T> & namedV
     m_namedValues = namedValues;
 }
 
+template <typename T, typename ET>
+const T & BaseTypeImpl<T, ET>::minimumValue() const
+{
+    return this->defaultValue();
+}
+
+template <typename T, typename ET>
+void BaseTypeImpl<T, ET>::setMinimumValue(const T &)
+{
+    // No implementation by default
+}
+
+template <typename T, typename ET>
+const T & BaseTypeImpl<T, ET>::maximumValue() const
+{
+    return this->defaultValue();
+}
+
+template <typename T, typename ET>
+void BaseTypeImpl<T, ET>::setMaximumValue(const T &)
+{
+    // No implementation by default
+}
+
 
 } // namespace cppexpose

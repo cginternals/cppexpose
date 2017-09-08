@@ -61,6 +61,58 @@ public:
 
     /**
     *  @brief
+    *    Get minimum value
+    *
+    *  @return
+    *    Minimum value
+    *
+    *  @remarks
+    *    Returns the minimum value if supported by the type.
+    *    Otherwise, defaultValue() is returned.
+    */
+    virtual const T & minimumValue() const;
+
+    /**
+    *  @brief
+    *    Set minimum value
+    *
+    *  @param[in] value
+    *    Minimum value
+    *
+    *  @remarks
+    *    Sets the minimum value if supported by the type.
+    *    Otherwise, nothing happens.
+    */
+    virtual void setMinimumValue(const T & value);
+
+    /**
+    *  @brief
+    *    Get maximum value
+    *
+    *  @return
+    *    Maximum value
+    *
+    *  @remarks
+    *    Returns the maximum value if supported by the type.
+    *    Otherwise, defaultValue() is returned.
+    */
+    virtual const T & maximumValue() const;
+
+    /**
+    *  @brief
+    *    Set maximum value
+    *
+    *  @param[in] value
+    *    Maximum value
+    *
+    *  @remarks
+    *    Sets the maximum value if supported by the type.
+    *    Otherwise, nothing happens.
+    */
+    virtual void setMaximumValue(const T & value);
+
+    /**
+    *  @brief
     *    Get default value
     *
     *  @return

@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <string>
+#include <map>
+
 #include <cppexpose/type/Type.h>
 
 
@@ -33,6 +36,15 @@ public:
     *    Destructor
     */
     ~ConcreteType();
+
+    // Access functions to the concrete type
+    const std::map<std::string, T> & namedValues() const;
+    void setNamedValues(const std::map<std::string, T> & namedValues);
+    const T & defaultValue() const;
+    const T & minimumValue() const;
+    void setMinimumValue(const T & value);
+    const T & maximumValue() const;
+    void setMaximumValue(const T & value);
 };
 
 

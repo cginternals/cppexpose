@@ -117,13 +117,19 @@ int main(int, char * [])
     ConcreteType<Test> testType;
     ConcreteType<Weather> weatherType;
 
-    /*
+    std::cout << "int: "           << intType.minimumValue()    << " .. " << intType.maximumValue()    << std::endl;
+    std::cout << "unsigned int: "  << uintType.minimumValue()   << " .. " << uintType.maximumValue()   << std::endl;
+    std::cout << "long: "          << longType.minimumValue()   << " .. " << longType.maximumValue()   << std::endl;
+    std::cout << "unsigned long: " << ulongType.minimumValue()  << " .. " << ulongType.maximumValue()  << std::endl;
+    std::cout << "float: "         << floatType.minimumValue()  << " .. " << floatType.maximumValue()  << std::endl;
+    std::cout << "double: "        << doubleType.minimumValue() << " .. " << doubleType.maximumValue() << std::endl;
+    std::cout << std::endl;
+
     weatherType.setNamedValues({
         { "Rainy", Rainy },
         { "Cloudy", Cloudy },
         { "Sunny", Sunny }
     });
-    */
 
     printTypeInfo("bool",               boolType);
     printTypeInfo("int",                intType);
