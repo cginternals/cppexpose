@@ -4,7 +4,7 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/type/AbstractValue.h>
+#include <cppexpose/value/AbstractValue.h>
 
 
 namespace cppexpose

@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include <cppexpose/type/BaseType.h>
-#include <cppexpose/type/InternalValue.h>
-#include <cppexpose/type/ExternalValue.h>
+#include <cppexpose/value/InternalValue.h>
+#include <cppexpose/value/ExternalValue.h>
 #include <cppexpose/variant/Variant.h>
 
 

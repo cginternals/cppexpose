@@ -3,8 +3,8 @@
 
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/type/AbstractValue.h>
 #include <cppexpose/type/BaseType.h>
+#include <cppexpose/value/AbstractValue.h>
 
 
 namespace cppexpose
@@ -216,4 +216,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/AbstractTypedValue.inl>
+#include <cppexpose/value/AbstractTypedValue.inl>

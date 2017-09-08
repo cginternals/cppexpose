@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractTypedValue.h>
+#include <cppexpose/value/AbstractTypedValue.h>
 
 
 namespace cppexpose
@@ -77,4 +77,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/InternalValue.inl>
+#include <cppexpose/value/InternalValue.inl>

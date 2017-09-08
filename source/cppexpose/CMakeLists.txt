@@ -71,10 +71,6 @@ set(headers
 
     ${include_path}/type/AbstractBaseType.h
     ${include_path}/type/AbstractTyped.h
-    ${include_path}/type/AbstractTypedValue.h
-    ${include_path}/type/AbstractTypedValue.inl
-    ${include_path}/type/AbstractValue.h
-    ${include_path}/type/AbstractValue.inl
     ${include_path}/type/BaseType.h
     ${include_path}/type/BaseType.inl
     ${include_path}/type/BaseTypeImpl.h
@@ -105,14 +101,19 @@ set(headers
     ${include_path}/type/Converter.inl
     ${include_path}/type/EnumValues.h
     ${include_path}/type/EnumValues.inl
-    ${include_path}/type/ExternalValue.h
-    ${include_path}/type/ExternalValue.inl
     ${include_path}/type/GetType.h
-    ${include_path}/type/InternalValue.h
-    ${include_path}/type/InternalValue.inl
     ${include_path}/type/MetaType.h
     ${include_path}/type/NullType.h
     ${include_path}/type/Type.h
+
+    ${include_path}/value/AbstractTypedValue.h
+    ${include_path}/value/AbstractTypedValue.inl
+    ${include_path}/value/AbstractValue.h
+    ${include_path}/value/AbstractValue.inl
+    ${include_path}/value/ExternalValue.h
+    ${include_path}/value/ExternalValue.inl
+    ${include_path}/value/InternalValue.h
+    ${include_path}/value/InternalValue.inl
 
     ${include_path}/function/Function.h
     ${include_path}/function/AbstractFunction.h
@@ -167,11 +168,12 @@ set(sources
 
     ${source_path}/type/AbstractBaseType.cpp
     ${source_path}/type/AbstractTyped.cpp
-    ${source_path}/type/AbstractValue.cpp
     ${source_path}/type/Converter.cpp
     ${source_path}/type/MetaType.cpp
     ${source_path}/type/NullType.cpp
     ${source_path}/type/Type.cpp
+
+    ${source_path}/value/AbstractValue.cpp
 
 #    ${source_path}/function/Function.cpp
 #    ${source_path}/function/AbstractFunction.cpp

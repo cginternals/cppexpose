@@ -4,7 +4,7 @@
 #include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/json/JSON.h>
-#include <cppexpose/type/InternalValue.h>
+#include <cppexpose/value/InternalValue.h>
 
 
 namespace cppexpose

@@ -4,7 +4,7 @@
 
 #include <functional>
 
-#include <cppexpose/type/AbstractTypedValue.h>
+#include <cppexpose/value/AbstractTypedValue.h>
 
 
 namespace cppexpose
@@ -113,4 +113,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/ExternalValue.inl>
+#include <cppexpose/value/ExternalValue.inl>

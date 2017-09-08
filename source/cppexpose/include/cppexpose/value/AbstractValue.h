@@ -175,4 +175,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/AbstractValue.inl>
+#include <cppexpose/value/AbstractValue.inl>

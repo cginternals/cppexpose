@@ -1,5 +1,5 @@
 
-#include <cppexpose/type/AbstractValue.h>
+#include <cppexpose/value/AbstractValue.h>
 
 
 namespace cppexpose
