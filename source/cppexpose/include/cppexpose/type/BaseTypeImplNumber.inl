@@ -28,6 +28,12 @@ bool BaseTypeImplNumber<T>::isNull() const
 }
 
 template <typename T>
+bool BaseTypeImplNumber<T>::isType() const
+{
+    return false;
+}
+
+template <typename T>
 bool BaseTypeImplNumber<T>::isArray() const
 {
     return false;
@@ -59,12 +65,6 @@ bool BaseTypeImplNumber<T>::isNumber() const
 
 template <typename T>
 bool BaseTypeImplNumber<T>::isString() const
-{
-    return false;
-}
-
-template <typename T>
-bool BaseTypeImplNumber<T>::isType() const
 {
     return false;
 }

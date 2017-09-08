@@ -42,6 +42,12 @@ bool BaseTypeImplVector<T, ET>::isNull() const
 }
 
 template <typename T, typename ET>
+bool BaseTypeImplVector<T, ET>::isType() const
+{
+    return false;
+}
+
+template <typename T, typename ET>
 bool BaseTypeImplVector<T, ET>::isArray() const
 {
     return true;
@@ -91,12 +97,6 @@ bool BaseTypeImplVector<T, ET>::isFloatingPoint() const
 
 template <typename T, typename ET>
 bool BaseTypeImplVector<T, ET>::isString() const
-{
-    return false;
-}
-
-template <typename T, typename ET>
-bool BaseTypeImplVector<T, ET>::isType() const
 {
     return false;
 }

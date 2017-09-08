@@ -11,8 +11,10 @@ namespace cppexpose
 
 /**
 *  @brief
-*    The type of all abstract types.
-*    The type of the MetaType is a MetaType.
+*    The type of all types
+*
+*  @remarkss
+*    The type of Type is the MetaType.
 */
 class CPPEXPOSE_API MetaType : public AbstractBaseType
 {
@@ -30,7 +32,9 @@ public:
     virtual ~MetaType();
 
     // Virtual AbstractBaseType interface
-    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
+    virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
+    virtual bool hasElementType() const override;
+    virtual std::shared_ptr<AbstractBaseType> elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
@@ -44,8 +48,6 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool hasElementType() const override;
-    virtual std::shared_ptr<AbstractBaseType> elementType() override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
 };

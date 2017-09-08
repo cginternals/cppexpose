@@ -34,7 +34,9 @@ public:
     virtual ~NullType();
 
     // Virtual AbstractBaseType interface
-    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
+    virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
+    virtual bool hasElementType() const override;
+    virtual std::shared_ptr<AbstractBaseType> elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
@@ -48,8 +50,6 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool hasElementType() const override;
-    virtual std::shared_ptr<AbstractBaseType> elementType() override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
 };

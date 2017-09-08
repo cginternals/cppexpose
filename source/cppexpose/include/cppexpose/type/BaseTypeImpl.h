@@ -13,7 +13,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Abstract base class template for types.
+*    Abstract base class template for types
 *
 *    If you want to provide your own type, it should inherit
 *    from BaseTypeImpl. Then, create a specialization of

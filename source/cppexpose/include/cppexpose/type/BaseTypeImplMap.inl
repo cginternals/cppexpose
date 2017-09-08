@@ -42,6 +42,12 @@ bool BaseTypeImplMap<T, ET>::isNull() const
 }
 
 template <typename T, typename ET>
+bool BaseTypeImplMap<T, ET>::isType() const
+{
+    return false;
+}
+
+template <typename T, typename ET>
 bool BaseTypeImplMap<T, ET>::isArray() const
 {
     return false;
@@ -91,12 +97,6 @@ bool BaseTypeImplMap<T, ET>::isFloatingPoint() const
 
 template <typename T, typename ET>
 bool BaseTypeImplMap<T, ET>::isString() const
-{
-    return false;
-}
-
-template <typename T, typename ET>
-bool BaseTypeImplMap<T, ET>::isType() const
 {
     return false;
 }

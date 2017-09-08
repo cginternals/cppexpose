@@ -16,9 +16,19 @@ NullType::~NullType()
 {
 }
 
-std::unique_ptr<AbstractBaseType> NullType::createCopy() const
+std::shared_ptr<AbstractBaseType> NullType::createCopy() const
 {
-    return cppassist::make_unique<NullType>();
+    return std::shared_ptr<AbstractBaseType>(new NullType);
+}
+
+bool NullType::hasElementType() const
+{
+    return false;
+}
+
+std::shared_ptr<AbstractBaseType> NullType::elementType()
+{
+    return nullptr;
 }
 
 std::string NullType::typeName() const
@@ -84,16 +94,6 @@ bool NullType::isFloatingPoint() const
 bool NullType::isString() const
 {
     return false;
-}
-
-bool NullType::hasElementType() const
-{
-    return false;
-}
-
-std::shared_ptr<AbstractBaseType> NullType::elementType()
-{
-    return nullptr;
 }
 
 bool NullType::hasSymbolicNames() const

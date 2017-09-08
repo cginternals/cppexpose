@@ -27,7 +27,7 @@ std::shared_ptr<AbstractBaseType> BaseTypeImplContainer<T, ET>::elementType()
 {
     if (!m_elementType)
     {
-        return std::shared_ptr<AbstractBaseType>(new BaseType<ET>());
+        m_elementType = std::shared_ptr<AbstractBaseType>(new BaseType<ET>());
     }
 
     return m_elementType;

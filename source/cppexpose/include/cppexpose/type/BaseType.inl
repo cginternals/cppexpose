@@ -21,9 +21,9 @@ BaseType<T>::~BaseType()
 }
 
 template <typename T>
-std::unique_ptr<AbstractBaseType> BaseType<T>::createCopy() const
+std::shared_ptr<AbstractBaseType> BaseType<T>::createCopy() const
 {
-    return cppassist::make_unique<BaseType<T>>();
+    return std::shared_ptr<AbstractBaseType>(new BaseType<T>);
 }
 
 template <typename T>
@@ -45,9 +45,9 @@ BaseType<const T>::~BaseType()
 }
 
 template <typename T>
-std::unique_ptr<AbstractBaseType> BaseType<const T>::createCopy() const
+std::shared_ptr<AbstractBaseType> BaseType<const T>::createCopy() const
 {
-    return cppassist::make_unique<BaseType<const T>>();
+    return std::shared_ptr<AbstractBaseType>(new BaseType<const T>);
 }
 
 template <typename T>

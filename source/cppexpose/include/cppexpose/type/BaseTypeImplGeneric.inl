@@ -34,6 +34,13 @@ bool BaseTypeImplGeneric<T>::isNull() const
 }
 
 template <typename T>
+bool BaseTypeImplGeneric<T>::isType() const
+{
+    // Unknown type
+    return false;
+}
+
+template <typename T>
 bool BaseTypeImplGeneric<T>::isArray() const
 {
     // Unknown type
@@ -91,13 +98,6 @@ bool BaseTypeImplGeneric<T>::isFloatingPoint() const
 
 template <typename T>
 bool BaseTypeImplGeneric<T>::isString() const
-{
-    // Unknown type
-    return false;
-}
-
-template <typename T>
-bool BaseTypeImplGeneric<T>::isType() const
 {
     // Unknown type
     return false;

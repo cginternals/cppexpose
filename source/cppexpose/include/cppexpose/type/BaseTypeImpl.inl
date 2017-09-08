@@ -27,15 +27,15 @@ bool BaseTypeImpl<T, ET>::hasElementType() const
 }
 
 template <typename T, typename ET>
-bool BaseTypeImpl<T, ET>::hasSymbolicNames() const
-{
-    return !m_namedValues.empty();
-}
-
-template <typename T, typename ET>
 std::shared_ptr<AbstractBaseType> BaseTypeImpl<T, ET>::elementType()
 {
     return nullptr;
+}
+
+template <typename T, typename ET>
+bool BaseTypeImpl<T, ET>::hasSymbolicNames() const
+{
+    return !m_namedValues.empty();
 }
 
 template <typename T, typename ET>

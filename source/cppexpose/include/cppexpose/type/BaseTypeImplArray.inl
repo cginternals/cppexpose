@@ -43,6 +43,12 @@ bool BaseTypeImplArray<T, ET, SIZE>::isNull() const
 }
 
 template <typename T, typename ET, size_t SIZE>
+bool BaseTypeImplArray<T, ET, SIZE>::isType() const
+{
+    return false;
+}
+
+template <typename T, typename ET, size_t SIZE>
 bool BaseTypeImplArray<T, ET, SIZE>::isArray() const
 {
     return true;
@@ -92,12 +98,6 @@ bool BaseTypeImplArray<T, ET, SIZE>::isFloatingPoint() const
 
 template <typename T, typename ET, size_t SIZE>
 bool BaseTypeImplArray<T, ET, SIZE>::isString() const
-{
-    return false;
-}
-
-template <typename T, typename ET, size_t SIZE>
-bool BaseTypeImplArray<T, ET, SIZE>::isType() const
 {
     return false;
 }

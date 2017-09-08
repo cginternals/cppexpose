@@ -15,6 +15,12 @@ namespace cppexpose
 /**
 *  @brief
 *    Type information
+*
+*  @remarks
+*    This class represents a data type. It can be used to query information about
+*    a type, and to change its options, such as value range or symbolic names.
+*
+*    Type can be copied, using copy-on-change paradigm.
 */
 class CPPEXPOSE_API Type : public AbstractTyped
 {
@@ -80,13 +86,14 @@ public:
     Type & operator=(const Type & type);
     //@}
 
-    // Virtual Typed interface
+    // Virtual AbstractTyped interface
     virtual const Type & type() const override;
     virtual Type & type() override;
     virtual const Type & elementType() const override;
     virtual Type & elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
+    virtual bool isType() const override;
     virtual bool isConst() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
@@ -97,13 +104,34 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool isType() const override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
 
 
 protected:
-    void fork();
+    /**
+    *  @brief
+    *    Make sure the type is unique
+    *
+    *  @remarks
+    *    Before making changes to a type (e.g., setting contrains or named strings),
+    *    this function must be called. It will check if the internal type is used only
+    *    by this instance of Type, and if not, create a unique copy of the internal type.
+    */
+    void makeUnique();
+
+    /**
+    *  @brief
+    *    Check if element type is available, and create it if possible
+    *
+    *  @return
+    *    'true' if element type is available, else 'false'
+    *
+    *  @remarks
+    *    This function will check if the element type is already available. If not, it tries
+    *    to create the element type by asking the internal type for it. If no element type is
+    *    available (for non-container types), it will return false.
+    */
     bool ensureElementType() const;
 
 

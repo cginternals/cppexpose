@@ -42,6 +42,12 @@ bool BaseTypeImplEnum<T>::isNull() const
 }
 
 template <typename T>
+bool BaseTypeImplEnum<T>::isType() const
+{
+    return false;
+}
+
+template <typename T>
 bool BaseTypeImplEnum<T>::isArray() const
 {
     return false;
@@ -91,12 +97,6 @@ bool BaseTypeImplEnum<T>::isFloatingPoint() const
 
 template <typename T>
 bool BaseTypeImplEnum<T>::isString() const
-{
-    return false;
-}
-
-template <typename T>
-bool BaseTypeImplEnum<T>::isType() const
 {
     return false;
 }

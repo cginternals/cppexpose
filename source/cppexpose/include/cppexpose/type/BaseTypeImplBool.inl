@@ -32,6 +32,12 @@ bool BaseTypeImplBool<T>::isNull() const
 }
 
 template <typename T>
+bool BaseTypeImplBool<T>::isType() const
+{
+    return false;
+}
+
+template <typename T>
 bool BaseTypeImplBool<T>::isArray() const
 {
     return false;
@@ -81,12 +87,6 @@ bool BaseTypeImplBool<T>::isFloatingPoint() const
 
 template <typename T>
 bool BaseTypeImplBool<T>::isString() const
-{
-    return false;
-}
-
-template <typename T>
-bool BaseTypeImplBool<T>::isType() const
 {
     return false;
 }

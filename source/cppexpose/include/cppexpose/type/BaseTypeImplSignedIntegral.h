@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of signed integral data types
+*    Implementation helper for signed integral number types
 */
 template <typename T>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplSignedIntegral : public BaseTypeImplNumber<T>

@@ -32,6 +32,12 @@ bool BaseTypeImplString<T>::isNull() const
 }
 
 template <typename T>
+bool BaseTypeImplString<T>::isType() const
+{
+    return false;
+}
+
+template <typename T>
 bool BaseTypeImplString<T>::isArray() const
 {
     return false;
@@ -83,12 +89,6 @@ template <typename T>
 bool BaseTypeImplString<T>::isString() const
 {
     return true;
-}
-
-template <typename T>
-bool BaseTypeImplString<T>::isType() const
-{
-    return false;
 }
 
 template <typename T>

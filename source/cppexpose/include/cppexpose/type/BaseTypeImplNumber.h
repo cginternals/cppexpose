@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of number types
+*    Implementation helper for number types
 */
 template <typename T>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplNumber : public BaseTypeImpl<T, T>
@@ -31,13 +31,13 @@ public:
 
     // Virtual AbstractBaseType interface
     virtual bool isNull() const override;
+    virtual bool isType() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
     virtual bool isMap() const override;
     virtual bool isBoolean() const override;
     virtual bool isNumber() const override;
     virtual bool isString() const override;
-    virtual bool isType() const override;
 
     // Virtual BaseTypeImpl<T, T> interface
     virtual std::string toString(const T & var) const override;

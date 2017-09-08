@@ -18,7 +18,7 @@ class Type;
 
 /**
 *  @brief
-*    Base interface for accessing types
+*    Base interface for accessing types and typed values
 *
 *    This interface allows for accessing and querying information about
 *    data types. It is used for both types and typed values.
@@ -61,10 +61,10 @@ public:
     *    Get type of elements
     *
     *  @return
-    *    Element type
+    *    Type object
     *
     *  @remarks
-    *    For array types, this returns the type of the items of the array.
+    *    For container types, this returns the type of the items of the container.
     *    For all other types, the original type is returned.
     */
     virtual const Type & elementType() const = 0;
@@ -74,10 +74,10 @@ public:
     *    Get type of elements
     *
     *  @return
-    *    Element type
+    *    Type object
     *
     *  @remarks
-    *    For array types, this returns the type of the items of the array.
+    *    For container types, this returns the type of the items of the container.
     *    For all other types, the original type is returned.
     */
     virtual Type & elementType() = 0;

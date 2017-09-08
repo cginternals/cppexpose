@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of a generic type
+*    Implementation helper for generic types
 */
 template <typename T>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplGeneric : public BaseTypeImpl<T, T>
@@ -36,6 +36,7 @@ public:
     // Virtual AbstractBaseType interface
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
+    virtual bool isType() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
     virtual bool isMap() const override;
@@ -45,7 +46,6 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool isType() const override;
 
     // Virtual BaseTypeImpl<T, T> interface
     virtual const T & defaultValue() const override;

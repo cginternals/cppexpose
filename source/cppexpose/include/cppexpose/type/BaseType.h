@@ -34,7 +34,7 @@ public:
     virtual ~BaseType();
 
     // Virtual AbstractBaseType interface
-    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
+    virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
 
     // Virtual Typed interface
     virtual bool isConst() const override;
@@ -62,7 +62,7 @@ public:
     virtual ~BaseType();
 
     // Virtual AbstractBaseType interface
-    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
+    virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
 
     // Virtual Typed interface
     virtual bool isConst() const override;

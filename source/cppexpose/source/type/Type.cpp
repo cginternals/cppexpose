@@ -81,6 +81,11 @@ bool Type::isNull() const
     return m_type->isNull();
 }
 
+bool Type::isType() const
+{
+    return m_type->isType();
+}
+
 bool Type::isConst() const
 {
     return m_type->isConst();
@@ -131,11 +136,6 @@ bool Type::isString() const
     return m_type->isString();
 }
 
-bool Type::isType() const
-{
-    return m_type->isType();
-}
-
 bool Type::hasSymbolicNames() const
 {
     return m_type->hasSymbolicNames();
@@ -146,7 +146,7 @@ std::vector<std::string> Type::symbolicNames() const
     return m_type->symbolicNames();
 }
 
-void Type::fork()
+void Type::makeUnique()
 {
     if (m_type.use_count() > 1)
     {

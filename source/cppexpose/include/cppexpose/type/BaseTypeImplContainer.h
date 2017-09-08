@@ -13,7 +13,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of container types
+*    Implementation helper for container types
 */
 template <typename T, typename ET>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplContainer : public BaseTypeImpl<T, ET>
@@ -37,7 +37,7 @@ public:
 
 
 protected:
-    std::shared_ptr<AbstractBaseType> m_elementType; ///< Type representation for elements
+    std::shared_ptr<AbstractBaseType> m_elementType; ///< Type of elements
 };
 
 

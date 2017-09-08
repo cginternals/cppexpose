@@ -18,9 +18,19 @@ MetaType::~MetaType()
 {
 }
 
-std::unique_ptr<AbstractBaseType> MetaType::createCopy() const
+std::shared_ptr<AbstractBaseType> MetaType::createCopy() const
 {
-    return cppassist::make_unique<MetaType>();
+    return std::shared_ptr<AbstractBaseType>(new MetaType);
+}
+
+bool MetaType::hasElementType() const
+{
+    return false;
+}
+
+std::shared_ptr<AbstractBaseType> MetaType::elementType()
+{
+    return nullptr;
 }
 
 std::string MetaType::typeName() const
@@ -33,14 +43,14 @@ bool MetaType::isNull() const
     return false;
 }
 
-bool MetaType::isConst() const
-{
-    return false;
-}
-
 bool MetaType::isType() const
 {
     return true;
+}
+
+bool MetaType::isConst() const
+{
+    return false;
 }
 
 bool MetaType::isArray() const
@@ -86,16 +96,6 @@ bool MetaType::isFloatingPoint() const
 bool MetaType::isString() const
 {
     return false;
-}
-
-bool MetaType::hasElementType() const
-{
-    return false;
-}
-
-std::shared_ptr<AbstractBaseType> MetaType::elementType()
-{
-    return nullptr;
 }
 
 bool MetaType::hasSymbolicNames() const

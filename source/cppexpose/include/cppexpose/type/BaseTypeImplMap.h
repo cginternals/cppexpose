@@ -13,7 +13,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of map types
+*    Implementation helper for map types
 */
 template <typename T, typename ET>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplMap : public BaseTypeImplContainer<T, ET>
@@ -38,6 +38,7 @@ public:
     // Virtual AbstractBaseType interface
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
+    virtual bool isType() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
     virtual bool isMap() const override;
@@ -47,7 +48,6 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool isType() const override;
 
     // Virtual BaseTypeImpl<T, ET> interface
     virtual const T & defaultValue() const override;

@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of a floating point data type
+*    Implementation helper for floating point number types
 */
 template <typename T>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplFloatingPoint : public BaseTypeImplNumber<T>
