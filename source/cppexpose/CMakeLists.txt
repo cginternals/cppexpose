@@ -105,6 +105,8 @@ set(headers
     ${include_path}/type/MetaType.h
     ${include_path}/type/NullType.h
     ${include_path}/type/Type.h
+    ${include_path}/type/ConcreteType.h
+    ${include_path}/type/ConcreteType.inl
 
     ${include_path}/value/AbstractTypedValue.h
     ${include_path}/value/AbstractTypedValue.inl

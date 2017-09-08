@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <cppexpose/type/Type.h>
+#include <cppexpose/type/ConcreteType.h>
 #include <cppexpose/value/InternalValue.h>
 #include <cppexpose/value/ExternalValue.h>
 #include <cppexpose/variant/Variant.h>
@@ -101,20 +102,20 @@ void printValue(const std::string & name, AbstractValue & value)
 int main(int, char * [])
 {
     // Types
-    Type boolType = Type::basicType<bool>();
-    Type intType = Type::basicType<int>();
-    Type uintType = Type::basicType<unsigned int>();
-    Type longType = Type::basicType<long>();
-    Type ulongType = Type::basicType<unsigned long>();
-    Type floatType = Type::basicType<float>();
-    Type doubleType = Type::basicType<double>();
-    Type stringType = Type::basicType<std::string>();
-    Type arrayType1 = Type::basicType<int[3]>();
-    Type arrayType2 = Type::basicType<std::array<bool, 3>>();
-    Type arrayType3 = Type::basicType<std::vector<float>>();
-    Type mapType = Type::basicType<std::map<std::string, float>>();
-    Type testType = Type::basicType<Test>();
-    Type weatherType = Type::basicType<Weather>();
+    ConcreteType<bool> boolType;
+    ConcreteType<int> intType;
+    ConcreteType<unsigned int> uintType;
+    ConcreteType<long> longType;
+    ConcreteType<unsigned long> ulongType;
+    ConcreteType<float> floatType;
+    ConcreteType<double> doubleType;
+    ConcreteType<std::string> stringType;
+    ConcreteType<int[3]> arrayType1;
+    ConcreteType<std::array<bool, 3>> arrayType2;
+    ConcreteType<std::vector<float>> arrayType3;
+    ConcreteType<std::map<std::string, float>> mapType;
+    ConcreteType<Test> testType;
+    ConcreteType<Weather> weatherType;
 
     /*
     weatherType.setNamedValues({

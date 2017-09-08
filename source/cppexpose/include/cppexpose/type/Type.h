@@ -28,23 +28,6 @@ public:
     //@{
     /**
     *  @brief
-    *    Create type object for a basic data type
-    *
-    *  @tparam[in] T
-    *    C++ type
-    *
-    *  @return
-    *    Type object
-    */
-    template <typename T>
-    static Type basicType();
-    //@}
-
-
-public:
-    //@{
-    /**
-    *  @brief
     *    Constructor for an empty type
     */
     Type();
@@ -142,6 +125,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/Type.inl>

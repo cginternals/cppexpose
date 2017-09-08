@@ -12,12 +12,14 @@ namespace cppexpose
 
 
 template <typename T>
-Type Type::basicType()
+ConcreteType<T>::ConcreteType()
+: Type(std::shared_ptr<BaseType<T>>(new BaseType<T>))
 {
-    Type type;
-    type.m_type = cppassist::make_unique<BaseType<T>>();
+}
 
-    return type;
+template <typename T>
+ConcreteType<T>::~ConcreteType()
+{
 }
 
 
