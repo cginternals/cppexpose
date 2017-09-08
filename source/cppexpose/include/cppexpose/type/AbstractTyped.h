@@ -23,20 +23,20 @@ class Type;
 *    This interface allows for accessing and querying information about
 *    data types. It is used for both types and typed values.
 */
-class CPPEXPOSE_API Typed
+class CPPEXPOSE_API AbstractTyped
 {
 public:
     /**
     *  @brief
     *    Constructor
     */
-    Typed();
+    AbstractTyped();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~Typed();
+    virtual ~AbstractTyped();
 
     /**
     *  @brief

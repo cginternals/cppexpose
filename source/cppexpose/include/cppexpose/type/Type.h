@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include <cppexpose/type/Typed.h>
+#include <cppexpose/type/AbstractTyped.h>
 #include <cppexpose/type/AbstractType.h>
 
 
@@ -16,7 +16,7 @@ namespace cppexpose
 *  @brief
 *    Type information
 */
-class CPPEXPOSE_API Type : public Typed
+class CPPEXPOSE_API Type : public AbstractTyped
 {
 public:
     //@{
