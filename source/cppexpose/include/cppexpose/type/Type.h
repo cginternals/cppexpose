@@ -46,8 +46,11 @@ public:
     /**
     *  @brief
     *    Constructor for a given basic type
+    *
+    *  @param[in] basicType
+    *    Basic type
     */
-    Type(std::unique_ptr<AbstractBaseType> && basicType);
+    Type(const std::shared_ptr<AbstractBaseType> & basicType);
 
     /**
     *  @brief
@@ -100,7 +103,13 @@ public:
 
 
 protected:
-    std::unique_ptr<AbstractBaseType> m_type; ///< Stored value (can be null)
+    void fork();
+    bool ensureElementType() const;
+
+
+protected:
+    std::shared_ptr<AbstractBaseType> m_type;        ///< Base type (never null)
+    mutable std::unique_ptr<Type>     m_elementType; ///< Element type (can be null)
 };
 
 

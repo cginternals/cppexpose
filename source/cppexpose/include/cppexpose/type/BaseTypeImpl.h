@@ -36,8 +36,8 @@ public:
     virtual ~BaseTypeImpl();
 
     // Virtual AbstractBaseType interface
-    virtual AbstractBaseType & type() override;
-    virtual AbstractBaseType & elementType() override;
+    virtual bool hasElementType() const override;
+    virtual std::shared_ptr<AbstractBaseType> elementType() override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
 

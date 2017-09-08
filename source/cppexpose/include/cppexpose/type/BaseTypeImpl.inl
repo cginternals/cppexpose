@@ -21,22 +21,21 @@ BaseTypeImpl<T, ET>::~BaseTypeImpl()
 }
 
 template <typename T, typename ET>
-AbstractBaseType & BaseTypeImpl<T, ET>::type()
+bool BaseTypeImpl<T, ET>::hasElementType() const
 {
-    return *this;
-}
-
-template <typename T, typename ET>
-AbstractBaseType & BaseTypeImpl<T, ET>::elementType()
-{
-    static BaseType<ET> elementType;
-    return elementType;
+    return false;
 }
 
 template <typename T, typename ET>
 bool BaseTypeImpl<T, ET>::hasSymbolicNames() const
 {
     return !m_namedValues.empty();
+}
+
+template <typename T, typename ET>
+std::shared_ptr<AbstractBaseType> BaseTypeImpl<T, ET>::elementType()
+{
+    return nullptr;
 }
 
 template <typename T, typename ET>

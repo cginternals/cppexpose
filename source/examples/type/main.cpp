@@ -4,7 +4,7 @@
 #include <map>
 #include <iostream>
 
-#include <cppexpose/type/BaseType.h>
+#include <cppexpose/type/Type.h>
 #include <cppexpose/value/InternalValue.h>
 #include <cppexpose/value/ExternalValue.h>
 #include <cppexpose/variant/Variant.h>
@@ -65,7 +65,7 @@ void printType(const std::string & name, const AbstractValue & value)
     std::cout << std::endl;
 }
 
-void printTypeInfo(const std::string & name, AbstractBaseType & type)
+void printTypeInfo(const std::string & name, Type & type)
 {
     std::cout << "typeof(" << name << "): " << type.typeName() << std::endl;
     std::cout << name << " is const:    " << (type.isConst() ? "true" : "false") << std::endl;
@@ -101,26 +101,28 @@ void printValue(const std::string & name, AbstractValue & value)
 int main(int, char * [])
 {
     // Types
-    BaseType<bool> boolType;
-    BaseType<int> intType;
-    BaseType<unsigned int> uintType;
-    BaseType<long> longType;
-    BaseType<unsigned long> ulongType;
-    BaseType<float> floatType;
-    BaseType<double> doubleType;
-    BaseType<std::string> stringType;
-    BaseType<int[3]> arrayType1;
-    BaseType<std::array<bool, 3>> arrayType2;
-    BaseType<std::vector<float>> arrayType3;
-    BaseType<std::map<std::string, float>> mapType;
-    BaseType<Test> testType;
-    BaseType<Weather> weatherType;
+    Type boolType = Type::basicType<bool>();
+    Type intType = Type::basicType<int>();
+    Type uintType = Type::basicType<unsigned int>();
+    Type longType = Type::basicType<long>();
+    Type ulongType = Type::basicType<unsigned long>();
+    Type floatType = Type::basicType<float>();
+    Type doubleType = Type::basicType<double>();
+    Type stringType = Type::basicType<std::string>();
+    Type arrayType1 = Type::basicType<int[3]>();
+    Type arrayType2 = Type::basicType<std::array<bool, 3>>();
+    Type arrayType3 = Type::basicType<std::vector<float>>();
+    Type mapType = Type::basicType<std::map<std::string, float>>();
+    Type testType = Type::basicType<Test>();
+    Type weatherType = Type::basicType<Weather>();
 
+    /*
     weatherType.setNamedValues({
         { "Rainy", Rainy },
         { "Cloudy", Cloudy },
         { "Sunny", Sunny }
     });
+    */
 
     printTypeInfo("bool",               boolType);
     printTypeInfo("int",                intType);

@@ -44,8 +44,6 @@ public:
     */
     virtual std::unique_ptr<AbstractBaseType> createCopy() const = 0;
 
-    virtual AbstractBaseType & type() = 0;
-    virtual AbstractBaseType & elementType() = 0;
     virtual std::string typeName() const = 0;
     virtual bool isNull() const = 0;
     virtual bool isConst() const = 0;
@@ -59,6 +57,8 @@ public:
     virtual bool isFloatingPoint() const = 0;
     virtual bool isString() const = 0;
     virtual bool isType() const = 0;
+    virtual bool hasElementType() const = 0;
+    virtual std::shared_ptr<AbstractBaseType> elementType() = 0;
     virtual bool hasSymbolicNames() const = 0;
     virtual std::vector<std::string> symbolicNames() const = 0;
 };

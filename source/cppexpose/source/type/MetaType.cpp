@@ -23,16 +23,6 @@ std::unique_ptr<AbstractBaseType> MetaType::createCopy() const
     return cppassist::make_unique<MetaType>();
 }
 
-AbstractBaseType & MetaType::type()
-{
-    return *this;
-}
-
-AbstractBaseType & MetaType::elementType()
-{
-    return *this;
-}
-
 std::string MetaType::typeName() const
 {
     return "type";
@@ -96,6 +86,16 @@ bool MetaType::isFloatingPoint() const
 bool MetaType::isString() const
 {
     return false;
+}
+
+bool MetaType::hasElementType() const
+{
+    return false;
+}
+
+std::shared_ptr<AbstractBaseType> MetaType::elementType()
+{
+    return nullptr;
 }
 
 bool MetaType::hasSymbolicNames() const

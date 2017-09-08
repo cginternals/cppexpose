@@ -1,8 +1,6 @@
 
 #include <cppexpose/type/Type.h>
 
-#include <cppassist/memory/make_unique.h>
-
 #include <cppexpose/type/NullType.h>
 
 
@@ -15,13 +13,13 @@ Type::Type()
 {
 }
 
-Type::Type(std::unique_ptr<AbstractBaseType> && basicType)
-: m_type(std::move(basicType))
+Type::Type(const std::shared_ptr<AbstractBaseType> & basicType)
+: m_type(basicType)
 {
 }
 
 Type::Type(const Type & type)
-: m_type(type.m_type->createCopy())
+: m_type(type.m_type)
 {
 }
 
@@ -31,7 +29,9 @@ Type::~Type()
 
 Type & Type::operator=(const Type & type)
 {
-    m_type = type.m_type->createCopy();
+    m_type = type.m_type;
+    m_elementType.reset();
+
     return *this;
 }
 
@@ -47,14 +47,28 @@ Type & Type::type()
 
 const Type & Type::elementType() const
 {
-    static Type elementType(m_type->elementType().createCopy());
-    return elementType;
+    // Check if type has an element type
+    if (ensureElementType())
+    {
+        // Return element type
+        return *m_elementType.get();
+    }
+
+    // No element type
+    return *this;
 }
 
 Type & Type::elementType()
 {
-    static Type elementType(m_type->elementType().createCopy());
-    return elementType;
+    // Check if type has an element type
+    if (ensureElementType())
+    {
+        // Return element type
+        return *m_elementType.get();
+    }
+
+    // No element type
+    return *this;
 }
 
 std::string Type::typeName() const
@@ -130,6 +144,39 @@ bool Type::hasSymbolicNames() const
 std::vector<std::string> Type::symbolicNames() const
 {
     return m_type->symbolicNames();
+}
+
+void Type::fork()
+{
+    if (m_type.use_count() > 1)
+    {
+        m_type = m_type->createCopy();
+        m_elementType.reset();
+    }
+}
+
+bool Type::ensureElementType() const
+{
+    // Check if the element type has already been created
+    if (!m_elementType)
+    {
+        // No. Try to create it.
+        std::shared_ptr<AbstractBaseType> elementType = m_type->elementType();
+
+        // Check if type has an element type
+        if (elementType)
+        {
+            // Create wrapper for element type
+            m_elementType.reset(new Type(elementType));
+            return true;
+        }
+
+        // No element type defined
+        return false;
+    }
+
+    // Element type already existent
+    return true;
 }
 
 
