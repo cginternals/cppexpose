@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/BaseTypeImpl.h>
+#include <cppexpose/type/BaseTypeImplContainer.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    Representation of array types with a static size
 */
 template <typename T, typename ET, size_t SIZE>
-class CPPEXPOSE_TEMPLATE_API BaseTypeImplArray : public BaseTypeImpl<T, ET>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplArray : public BaseTypeImplContainer<T, ET>
 {
 public:
     typedef ET ElementType;

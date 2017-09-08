@@ -11,9 +11,10 @@ AbstractBaseType
         |-- BaseTypeImplFloatingPoint<T>
     |-- BaseTypeImplString<T>
     |-- BaseTypeImplEnum<T>
-    |-- BaseTypeImplArray<T>
-    |-- BaseTypeImplVector<T>
-    |-- BaseTypeImplMap<T>
+    |-- BaseTypeImplContainer<T, ET>
+        |-- BaseTypeImplArray<T>
+        |-- BaseTypeImplVector<T>
+        |-- BaseTypeImplMap<T>
 ...
   |-- BaseType<T>
 

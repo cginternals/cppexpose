@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <cppexpose/type/BaseTypeImpl.h>
+#include <cppexpose/type/BaseTypeImplContainer.h>
 
 
 namespace cppexpose
@@ -16,7 +16,7 @@ namespace cppexpose
 *    Representation of map types
 */
 template <typename T, typename ET>
-class CPPEXPOSE_TEMPLATE_API BaseTypeImplMap : public BaseTypeImpl<T, ET>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplMap : public BaseTypeImplContainer<T, ET>
 {
 public:
     typedef ET ElementType;

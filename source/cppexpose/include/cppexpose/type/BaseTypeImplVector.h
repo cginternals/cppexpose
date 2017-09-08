@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/BaseTypeImpl.h>
+#include <cppexpose/type/BaseTypeImplContainer.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    Representation of vector types
 */
 template <typename T, typename ET>
-class CPPEXPOSE_TEMPLATE_API BaseTypeImplVector : public BaseTypeImpl<T, ET>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplVector : public BaseTypeImplContainer<T, ET>
 {
 public:
     typedef ET ElementType;
