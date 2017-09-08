@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractTypedType.h>
+#include <cppexpose/type/BaseTypeImpl.h>
 
 
 namespace cppexpose
@@ -11,35 +11,44 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of number types
+*    Representation of a generic type
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API TypeNumber : public AbstractTypedType<T, T>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplGeneric : public BaseTypeImpl<T, T>
 {
+public:
+    typedef T ElementType;
+
+
 public:
     /**
     *  @brief
     *    Constructor
     */
-    TypeNumber();
+    BaseTypeImplGeneric();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeNumber();
+    virtual ~BaseTypeImplGeneric();
 
-    // Virtual AbstractType interface
+    // Virtual AbstractBaseType interface
+    virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
     virtual bool isMap() const override;
     virtual bool isBoolean() const override;
     virtual bool isNumber() const override;
+    virtual bool isIntegral() const override;
+    virtual bool isUnsigned() const override;
+    virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
     virtual bool isType() const override;
 
-    // Virtual AbstractTypedType<T, T> interface
+    // Virtual BaseTypeImpl<T, T> interface
+    virtual const T & defaultValue() const override;
     virtual std::string toString(const T & var) const override;
     virtual bool fromString(T & var, const std::string & value) const override;
     virtual bool toBool(const T & var) const override;
@@ -63,4 +72,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypeNumber.inl>
+#include <cppexpose/type/BaseTypeImplGeneric.inl>

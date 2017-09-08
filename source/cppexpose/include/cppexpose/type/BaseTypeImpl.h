@@ -4,15 +4,11 @@
 
 #include <map>
 
-#include <cppexpose/type/AbstractType.h>
+#include <cppexpose/type/AbstractBaseType.h>
 
 
 namespace cppexpose
 {
-
-
-template <typename T>
-class TypedType;
 
 
 /**
@@ -20,28 +16,28 @@ class TypedType;
 *    Abstract base class template for types.
 *
 *    If you want to provide your own type, it should inherit
-*    from AbstractTypedType. Then, create a specialization of
+*    from BaseTypeImpl. Then, create a specialization of
 *    GetType<> to make the new type known in the type system.
 */
 template <typename T, typename ET>
-class CPPEXPOSE_TEMPLATE_API AbstractTypedType : public AbstractType
+class CPPEXPOSE_TEMPLATE_API BaseTypeImpl : public AbstractBaseType
 {
 public:
     /**
     *  @brief
     *    Constructor
     */
-    AbstractTypedType();
+    BaseTypeImpl();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~AbstractTypedType();
+    virtual ~BaseTypeImpl();
 
-    // Virtual AbstractType interface
-    virtual AbstractType & type() override;
-    virtual AbstractType & elementType() override;
+    // Virtual AbstractBaseType interface
+    virtual AbstractBaseType & type() override;
+    virtual AbstractBaseType & elementType() override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
 
@@ -322,4 +318,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/AbstractTypedType.inl>
+#include <cppexpose/type/BaseTypeImpl.inl>

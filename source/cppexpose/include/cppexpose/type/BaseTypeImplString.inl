@@ -10,89 +10,89 @@ namespace cppexpose
 
 
 template <typename T>
-TypeString<T>::TypeString()
+BaseTypeImplString<T>::BaseTypeImplString()
 {
 }
 
 template <typename T>
-TypeString<T>::~TypeString()
+BaseTypeImplString<T>::~BaseTypeImplString()
 {
 }
 
 template <typename T>
-std::string TypeString<T>::typeName() const
+std::string BaseTypeImplString<T>::typeName() const
 {
     return "string";
 }
 
 template <typename T>
-bool TypeString<T>::isNull() const
+bool BaseTypeImplString<T>::isNull() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isArray() const
+bool BaseTypeImplString<T>::isArray() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isDynamicArray() const
+bool BaseTypeImplString<T>::isDynamicArray() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isMap() const
+bool BaseTypeImplString<T>::isMap() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isBoolean() const
+bool BaseTypeImplString<T>::isBoolean() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isNumber() const
+bool BaseTypeImplString<T>::isNumber() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isIntegral() const
+bool BaseTypeImplString<T>::isIntegral() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isUnsigned() const
+bool BaseTypeImplString<T>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isFloatingPoint() const
+bool BaseTypeImplString<T>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeString<T>::isString() const
+bool BaseTypeImplString<T>::isString() const
 {
     return true;
 }
 
 template <typename T>
-bool TypeString<T>::isType() const
+bool BaseTypeImplString<T>::isType() const
 {
     return false;
 }
 
 template <typename T>
-const T & TypeString<T>::defaultValue() const
+const T & BaseTypeImplString<T>::defaultValue() const
 {
     static T value = "";
 
@@ -100,26 +100,26 @@ const T & TypeString<T>::defaultValue() const
 }
 
 template <typename T>
-std::string TypeString<T>::toString(const T & var) const
+std::string BaseTypeImplString<T>::toString(const T & var) const
 {
     return var;
 }
 
 template <typename T>
-bool TypeString<T>::fromString(T & var, const std::string & value) const
+bool BaseTypeImplString<T>::fromString(T & var, const std::string & value) const
 {
     var = value;
     return true;
 }
 
 template <typename T>
-bool TypeString<T>::toBool(const T & var) const
+bool BaseTypeImplString<T>::toBool(const T & var) const
 {
     return (var == "true");
 }
 
 template <typename T>
-bool TypeString<T>::fromBool(T & var, bool value) const
+bool BaseTypeImplString<T>::fromBool(T & var, bool value) const
 {
     var = (value ? "true" : "false");
     return true;
@@ -128,13 +128,13 @@ bool TypeString<T>::fromBool(T & var, bool value) const
 ///-->
 
 template <typename T>
-long long TypeString<T>::toLongLong(const T & var) const
+long long BaseTypeImplString<T>::toLongLong(const T & var) const
 {
     return cppassist::string::fromString<long long>(var);
 }
 
 template <typename T>
-bool TypeString<T>::fromLongLong(T & var, long long value) const
+bool BaseTypeImplString<T>::fromLongLong(T & var, long long value) const
 {
     std::string str = cppassist::string::toString<long long>(value);
 
@@ -147,13 +147,13 @@ bool TypeString<T>::fromLongLong(T & var, long long value) const
 }
 
 template <typename T>
-unsigned long long TypeString<T>::toULongLong(const T & var) const
+unsigned long long BaseTypeImplString<T>::toULongLong(const T & var) const
 {
     return cppassist::string::fromString<unsigned long long>(var);
 }
 
 template <typename T>
-bool TypeString<T>::fromULongLong(T & var, unsigned long long value) const
+bool BaseTypeImplString<T>::fromULongLong(T & var, unsigned long long value) const
 {
     std::string str = cppassist::string::toString<unsigned long long>(value);
 
@@ -166,13 +166,13 @@ bool TypeString<T>::fromULongLong(T & var, unsigned long long value) const
 }
 
 template <typename T>
-double TypeString<T>::toDouble(const T & var) const
+double BaseTypeImplString<T>::toDouble(const T & var) const
 {
     return cppassist::string::fromString<double>(var);
 }
 
 template <typename T>
-bool TypeString<T>::fromDouble(T & var, double value) const
+bool BaseTypeImplString<T>::fromDouble(T & var, double value) const
 {
     std::string str = cppassist::string::toString<double>(value);
 
@@ -185,13 +185,13 @@ bool TypeString<T>::fromDouble(T & var, double value) const
 }
 
 template <typename T>
-size_t TypeString<T>::numElements(const T &) const
+size_t BaseTypeImplString<T>::numElements(const T &) const
 {
     return 1;
 }
 
 template <typename T>
-T TypeString<T>::getElement(const T & var, size_t i) const
+T BaseTypeImplString<T>::getElement(const T & var, size_t i) const
 {
     if (i == 0) {
         return var;
@@ -201,7 +201,7 @@ T TypeString<T>::getElement(const T & var, size_t i) const
 }
 
 template <typename T>
-void TypeString<T>::setElement(T & var, size_t i, T value) const
+void BaseTypeImplString<T>::setElement(T & var, size_t i, T value) const
 {
     if (i == 0) {
         var = value;
@@ -209,24 +209,24 @@ void TypeString<T>::setElement(T & var, size_t i, T value) const
 }
 
 template <typename T>
-void TypeString<T>::push(T &, T) const
+void BaseTypeImplString<T>::push(T &, T) const
 {
 }
 
 template <typename T>
-std::vector<std::string> TypeString<T>::keys(const T &) const
+std::vector<std::string> BaseTypeImplString<T>::keys(const T &) const
 {
     return std::vector<std::string>();
 }
 
 template <typename T>
-T TypeString<T>::getElement(const T &, const std::string &) const
+T BaseTypeImplString<T>::getElement(const T &, const std::string &) const
 {
     return this->defaultValue();
 }
 
 template <typename T>
-void TypeString<T>::setElement(T &, const std::string &, T) const
+void BaseTypeImplString<T>::setElement(T &, const std::string &, T) const
 {
 }
 

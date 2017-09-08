@@ -11,17 +11,17 @@ namespace cppexpose
 
 
 template <typename T>
-TypeSignedIntegral<T>::TypeSignedIntegral()
+BaseTypeImplSignedIntegral<T>::BaseTypeImplSignedIntegral()
 {
 }
 
 template <typename T>
-TypeSignedIntegral<T>::~TypeSignedIntegral()
+BaseTypeImplSignedIntegral<T>::~BaseTypeImplSignedIntegral()
 {
 }
 
 template <typename T>
-std::string TypeSignedIntegral<T>::typeName() const
+std::string BaseTypeImplSignedIntegral<T>::typeName() const
 {
     std::stringstream s;
     s << "int";
@@ -30,25 +30,25 @@ std::string TypeSignedIntegral<T>::typeName() const
 }
 
 template <typename T>
-bool TypeSignedIntegral<T>::isIntegral() const
+bool BaseTypeImplSignedIntegral<T>::isIntegral() const
 {
     return true;
 }
 
 template <typename T>
-bool TypeSignedIntegral<T>::isUnsigned() const
+bool BaseTypeImplSignedIntegral<T>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeSignedIntegral<T>::isFloatingPoint() const
+bool BaseTypeImplSignedIntegral<T>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T>
-const T & TypeSignedIntegral<T>::defaultValue() const
+const T & BaseTypeImplSignedIntegral<T>::defaultValue() const
 {
     static T value = 0;
 

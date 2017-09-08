@@ -1,8 +1,6 @@
 
 #include <cppexpose/reflection/AbstractProperty2.h>
 
-#include <cppexpose/type/TypeNull.h>
-
 //#include <cppexpose/reflection/Object.h>
 
 
@@ -124,7 +122,7 @@ bool AbstractProperty2::isString() const
     return m_value->isString();
 }
 
-const AbstractType & AbstractProperty2::type() const
+const AbstractBaseType & AbstractProperty2::type() const
 {
     return m_value->type();
 }

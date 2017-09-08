@@ -12,7 +12,7 @@ namespace cppexpose
 {
 
 
-class AbstractType;
+class AbstractBaseType;
 class Type;
 
 

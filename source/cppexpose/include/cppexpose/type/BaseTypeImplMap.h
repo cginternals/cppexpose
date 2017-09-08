@@ -2,7 +2,9 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractTypedType.h>
+#include <string>
+
+#include <cppexpose/type/BaseTypeImpl.h>
 
 
 namespace cppexpose
@@ -11,13 +13,12 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of vector types
+*    Representation of map types
 */
 template <typename T, typename ET>
-class CPPEXPOSE_TEMPLATE_API TypeVector : public AbstractTypedType<T, ET>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplMap : public BaseTypeImpl<T, ET>
 {
 public:
-    typedef T  BaseType;
     typedef ET ElementType;
 
 
@@ -26,15 +27,15 @@ public:
     *  @brief
     *    Constructor
     */
-    TypeVector();
+    BaseTypeImplMap();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeVector();
+    virtual ~BaseTypeImplMap();
 
-    // Virtual AbstractType interface
+    // Virtual AbstractBaseType interface
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isArray() const override;
@@ -48,7 +49,7 @@ public:
     virtual bool isString() const override;
     virtual bool isType() const override;
 
-    // Virtual AbstractTypedType<T, ET> interface
+    // Virtual BaseTypeImpl<T, ET> interface
     virtual const T & defaultValue() const override;
     virtual std::string toString(const T & var) const override;
     virtual bool fromString(T & var, const std::string & value) const override;
@@ -73,4 +74,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypeVector.inl>
+#include <cppexpose/type/BaseTypeImplMap.inl>

@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <cppexpose/type/AbstractTyped.h>
-#include <cppexpose/type/AbstractType.h>
+#include <cppexpose/type/AbstractBaseType.h>
 
 
 namespace cppexpose
@@ -47,7 +47,7 @@ public:
     *  @brief
     *    Constructor for a given basic type
     */
-    Type(std::unique_ptr<AbstractType> && basicType);
+    Type(std::unique_ptr<AbstractBaseType> && basicType);
 
     /**
     *  @brief
@@ -100,7 +100,7 @@ public:
 
 
 protected:
-    std::unique_ptr<AbstractType> m_type; ///< Stored value (can be null)
+    std::unique_ptr<AbstractBaseType> m_type; ///< Stored value (can be null)
 };
 
 

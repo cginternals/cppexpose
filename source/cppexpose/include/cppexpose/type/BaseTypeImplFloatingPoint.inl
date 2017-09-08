@@ -10,17 +10,17 @@ namespace cppexpose
 
 
 template <typename T>
-TypeFloatingPoint<T>::TypeFloatingPoint()
+BaseTypeImplFloatingPoint<T>::BaseTypeImplFloatingPoint()
 {
 }
 
 template <typename T>
-TypeFloatingPoint<T>::~TypeFloatingPoint()
+BaseTypeImplFloatingPoint<T>::~BaseTypeImplFloatingPoint()
 {
 }
 
 template <typename T>
-std::string TypeFloatingPoint<T>::typeName() const
+std::string BaseTypeImplFloatingPoint<T>::typeName() const
 {
          if (sizeof(T)  > sizeof(float)) return "double";
     else if (sizeof(T) == sizeof(float)) return "float";
@@ -28,25 +28,25 @@ std::string TypeFloatingPoint<T>::typeName() const
 }
 
 template <typename T>
-bool TypeFloatingPoint<T>::isIntegral() const
+bool BaseTypeImplFloatingPoint<T>::isIntegral() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeFloatingPoint<T>::isUnsigned() const
+bool BaseTypeImplFloatingPoint<T>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeFloatingPoint<T>::isFloatingPoint() const
+bool BaseTypeImplFloatingPoint<T>::isFloatingPoint() const
 {
     return true;
 }
 
 template <typename T>
-const T & TypeFloatingPoint<T>::defaultValue() const
+const T & BaseTypeImplFloatingPoint<T>::defaultValue() const
 {
     static T value = 0.0;
 

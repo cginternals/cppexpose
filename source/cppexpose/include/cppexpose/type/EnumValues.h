@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-#include <cppexpose/type/TypeSignedIntegral.h>
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/TypeNumber.h>
+#include <cppexpose/type/BaseTypeImplNumber.h>
 
 
 namespace cppexpose
@@ -11,13 +11,12 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of unsigned integral data types
+*    Representation of a floating point data type
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API TypeUnsignedIntegral : public TypeNumber<T>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplFloatingPoint : public BaseTypeImplNumber<T>
 {
 public:
-    typedef T BaseType;
     typedef T ElementType;
 
 
@@ -26,21 +25,21 @@ public:
     *  @brief
     *    Constructor
     */
-    TypeUnsignedIntegral();
+    BaseTypeImplFloatingPoint();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeUnsignedIntegral();
+    virtual ~BaseTypeImplFloatingPoint();
 
-    // Virtual AbstractType interface
+    // Virtual AbstractBaseType interface
     virtual std::string typeName() const override;
     virtual bool isIntegral() const override;
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
 
-    // Virtual AbstractTypedType<T, T> interface
+    // Virtual BaseTypeImpl<T, T> interface
     virtual const T & defaultValue() const override;
 };
 
@@ -48,4 +47,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypeUnsignedIntegral.inl>
+#include <cppexpose/type/BaseTypeImplFloatingPoint.inl>

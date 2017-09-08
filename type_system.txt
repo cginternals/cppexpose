@@ -1,14 +1,4 @@
 
-AbstractTyped
-|-- Type
-    |-- ConcreteType<T>
-|-- Variant
-|-- AbstractValue
-    |-- InternalValue
-    |-- ExternalValue
-    |-- Property
-    |-- Slot
-
 AbstractBaseType
 |-- MetaType
 |-- NullType
@@ -26,3 +16,13 @@ AbstractBaseType
     |-- BaseTypeImplMap<T>
 ...
   |-- BaseType<T>
+
+AbstractTyped
+|-- Type
+    |-- ConcreteType<T>
+|-- Variant
+|-- AbstractValue
+    |-- InternalValue
+    |-- ExternalValue
+    |-- Property
+    |-- Slot

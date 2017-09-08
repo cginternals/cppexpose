@@ -3,8 +3,7 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/type/TypeNull.h>
-#include <cppexpose/type/TypedType.h>
+#include <cppexpose/type/NullType.h>
 
 
 namespace cppexpose
@@ -12,11 +11,11 @@ namespace cppexpose
 
 
 Type::Type()
-: m_type(new TypeNull())
+: m_type(new NullType())
 {
 }
 
-Type::Type(std::unique_ptr<AbstractType> && basicType)
+Type::Type(std::unique_ptr<AbstractBaseType> && basicType)
 : m_type(std::move(basicType))
 {
 }

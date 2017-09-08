@@ -20,20 +20,20 @@ namespace cppexpose
 *    This is the base class for type representations. It can be used to
 *    query information about data types and to query generic types.
 */
-class CPPEXPOSE_API AbstractType
+class CPPEXPOSE_API AbstractBaseType
 {
 public:
     /**
     *  @brief
     *    Constructor
     */
-    AbstractType();
+    AbstractBaseType();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~AbstractType();
+    virtual ~AbstractBaseType();
 
     /**
     *  @brief
@@ -42,10 +42,10 @@ public:
     *  @return
     *    Type
     */
-    virtual std::unique_ptr<AbstractType> createCopy() const = 0;
+    virtual std::unique_ptr<AbstractBaseType> createCopy() const = 0;
 
-    virtual AbstractType & type() = 0;
-    virtual AbstractType & elementType() = 0;
+    virtual AbstractBaseType & type() = 0;
+    virtual AbstractBaseType & elementType() = 0;
     virtual std::string typeName() const = 0;
     virtual bool isNull() const = 0;
     virtual bool isConst() const = 0;

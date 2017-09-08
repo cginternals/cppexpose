@@ -69,48 +69,50 @@ set(headers
     ${include_path}/signal/Signal.h
     ${include_path}/signal/Signal.inl
 
+    ${include_path}/type/AbstractBaseType.h
     ${include_path}/type/AbstractTyped.h
-    ${include_path}/type/AbstractType.h
-    ${include_path}/type/AbstractTypedType.h
-    ${include_path}/type/AbstractTypedType.inl
     ${include_path}/type/AbstractTypedValue.h
     ${include_path}/type/AbstractTypedValue.inl
     ${include_path}/type/AbstractValue.h
     ${include_path}/type/AbstractValue.inl
+    ${include_path}/type/BaseType.h
+    ${include_path}/type/BaseType.inl
+    ${include_path}/type/BaseTypeImpl.h
+    ${include_path}/type/BaseTypeImpl.inl
+    ${include_path}/type/BaseTypeImplArray.h
+    ${include_path}/type/BaseTypeImplArray.inl
+    ${include_path}/type/BaseTypeImplMap.h
+    ${include_path}/type/BaseTypeImplMap.inl
+    ${include_path}/type/BaseTypeImplBool.h
+    ${include_path}/type/BaseTypeImplBool.inl
+    ${include_path}/type/BaseTypeImplEnum.h
+    ${include_path}/type/BaseTypeImplEnum.inl
+    ${include_path}/type/BaseTypeImplFloatingPoint.h
+    ${include_path}/type/BaseTypeImplFloatingPoint.inl
+    ${include_path}/type/BaseTypeImplGeneric.h
+    ${include_path}/type/BaseTypeImplGeneric.inl
+    ${include_path}/type/BaseTypeImplNumber.h
+    ${include_path}/type/BaseTypeImplNumber.inl
+    ${include_path}/type/BaseTypeImplSignedIntegral.h
+    ${include_path}/type/BaseTypeImplSignedIntegral.inl
+    ${include_path}/type/BaseTypeImplString.h
+    ${include_path}/type/BaseTypeImplString.inl
+    ${include_path}/type/BaseTypeImplUnsignedIntegral.h
+    ${include_path}/type/BaseTypeImplUnsignedIntegral.inl
+    ${include_path}/type/BaseTypeImplVector.h
+    ${include_path}/type/BaseTypeImplVector.inl
     ${include_path}/type/Converter.h
     ${include_path}/type/Converter.inl
-    ${include_path}/type/GetType.h
     ${include_path}/type/EnumValues.h
     ${include_path}/type/EnumValues.inl
     ${include_path}/type/ExternalValue.h
     ${include_path}/type/ExternalValue.inl
-    ${include_path}/type/MetaType.h
-    ${include_path}/type/Type.h
-    ${include_path}/type/TypedType.h
-    ${include_path}/type/TypedType.inl
-    ${include_path}/type/TypeNull.h
-    ${include_path}/type/TypeArray.h
-    ${include_path}/type/TypeArray.inl
-    ${include_path}/type/TypeBoolean.h
-    ${include_path}/type/TypeBoolean.inl
-    ${include_path}/type/TypeEnum.h
-    ${include_path}/type/TypeEnum.inl
-    ${include_path}/type/TypeFloatingPoint.h
-    ${include_path}/type/TypeFloatingPoint.inl
-    ${include_path}/type/TypeGeneric.h
-    ${include_path}/type/TypeGeneric.inl
-    ${include_path}/type/TypeNumber.h
-    ${include_path}/type/TypeNumber.inl
-    ${include_path}/type/TypeSignedIntegral.h
-    ${include_path}/type/TypeSignedIntegral.inl
-    ${include_path}/type/TypeString.h
-    ${include_path}/type/TypeString.inl
-    ${include_path}/type/TypeUnsignedIntegral.h
-    ${include_path}/type/TypeUnsignedIntegral.inl
-    ${include_path}/type/TypeVector.h
-    ${include_path}/type/TypeVector.inl
+    ${include_path}/type/GetType.h
     ${include_path}/type/InternalValue.h
     ${include_path}/type/InternalValue.inl
+    ${include_path}/type/MetaType.h
+    ${include_path}/type/NullType.h
+    ${include_path}/type/Type.h
 
     ${include_path}/function/Function.h
     ${include_path}/function/AbstractFunction.h
@@ -163,13 +165,13 @@ set(sources
     ${source_path}/signal/Connection.cpp
     ${source_path}/signal/ScopedConnection.cpp
 
+    ${source_path}/type/AbstractBaseType.cpp
     ${source_path}/type/AbstractTyped.cpp
-    ${source_path}/type/AbstractType.cpp
     ${source_path}/type/AbstractValue.cpp
     ${source_path}/type/Converter.cpp
     ${source_path}/type/MetaType.cpp
+    ${source_path}/type/NullType.cpp
     ${source_path}/type/Type.cpp
-    ${source_path}/type/TypeNull.cpp
 
 #    ${source_path}/function/Function.cpp
 #    ${source_path}/function/AbstractFunction.cpp

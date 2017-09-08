@@ -10,89 +10,89 @@ namespace cppexpose
 
 
 template <typename T>
-TypeBoolean<T>::TypeBoolean()
+BaseTypeImplBool<T>::BaseTypeImplBool()
 {
 }
 
 template <typename T>
-TypeBoolean<T>::~TypeBoolean()
+BaseTypeImplBool<T>::~BaseTypeImplBool()
 {
 }
 
 template <typename T>
-std::string TypeBoolean<T>::typeName() const
+std::string BaseTypeImplBool<T>::typeName() const
 {
     return "bool";
 }
 
 template <typename T>
-bool TypeBoolean<T>::isNull() const
+bool BaseTypeImplBool<T>::isNull() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isArray() const
+bool BaseTypeImplBool<T>::isArray() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isDynamicArray() const
+bool BaseTypeImplBool<T>::isDynamicArray() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isMap() const
+bool BaseTypeImplBool<T>::isMap() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isBoolean() const
+bool BaseTypeImplBool<T>::isBoolean() const
 {
     return true;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isNumber() const
+bool BaseTypeImplBool<T>::isNumber() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isIntegral() const
+bool BaseTypeImplBool<T>::isIntegral() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isUnsigned() const
+bool BaseTypeImplBool<T>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isFloatingPoint() const
+bool BaseTypeImplBool<T>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isString() const
+bool BaseTypeImplBool<T>::isString() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeBoolean<T>::isType() const
+bool BaseTypeImplBool<T>::isType() const
 {
     return false;
 }
 
 template <typename T>
-const T & TypeBoolean<T>::defaultValue() const
+const T & BaseTypeImplBool<T>::defaultValue() const
 {
     static T value = false;
 
@@ -100,78 +100,78 @@ const T & TypeBoolean<T>::defaultValue() const
 }
 
 template <typename T>
-std::string TypeBoolean<T>::toString(const T & var) const
+std::string BaseTypeImplBool<T>::toString(const T & var) const
 {
     return static_cast<bool>(var) ? "true" : "false";
 }
 
 template <typename T>
-bool TypeBoolean<T>::fromString(T & var, const std::string & value) const
+bool BaseTypeImplBool<T>::fromString(T & var, const std::string & value) const
 {
     var = (value == "true");
     return true;
 }
 
 template <typename T>
-bool TypeBoolean<T>::toBool(const T & var) const
+bool BaseTypeImplBool<T>::toBool(const T & var) const
 {
     return static_cast<bool>(var);
 }
 
 template <typename T>
-bool TypeBoolean<T>::fromBool(T & var, bool value) const
+bool BaseTypeImplBool<T>::fromBool(T & var, bool value) const
 {
     var = value;
     return true;
 }
 
 template <typename T>
-long long TypeBoolean<T>::toLongLong(const T & var) const
+long long BaseTypeImplBool<T>::toLongLong(const T & var) const
 {
     return static_cast<bool>(var) ? 1ll : 0ll;
 }
 
 template <typename T>
-bool TypeBoolean<T>::fromLongLong(T & var, long long value) const
+bool BaseTypeImplBool<T>::fromLongLong(T & var, long long value) const
 {
     var = static_cast<bool>(value);
     return true;
 }
 
 template <typename T>
-unsigned long long TypeBoolean<T>::toULongLong(const T & var) const
+unsigned long long BaseTypeImplBool<T>::toULongLong(const T & var) const
 {
     return static_cast<bool>(var) ? 1ull : 0ull;
 }
 
 template <typename T>
-bool TypeBoolean<T>::fromULongLong(T & var, unsigned long long value) const
+bool BaseTypeImplBool<T>::fromULongLong(T & var, unsigned long long value) const
 {
     var = static_cast<bool>(value);
     return true;
 }
 
 template <typename T>
-double TypeBoolean<T>::toDouble(const T & var) const
+double BaseTypeImplBool<T>::toDouble(const T & var) const
 {
     return static_cast<bool>(var) ? 1.0 : 0.0;
 }
 
 template <typename T>
-bool TypeBoolean<T>::fromDouble(T & var, double value) const
+bool BaseTypeImplBool<T>::fromDouble(T & var, double value) const
 {
     var = static_cast<bool>(value);
     return true;
 }
 
 template <typename T>
-size_t TypeBoolean<T>::numElements(const T &) const
+size_t BaseTypeImplBool<T>::numElements(const T &) const
 {
     return 1;
 }
 
 template <typename T>
-T TypeBoolean<T>::getElement(const T & var, size_t i) const
+T BaseTypeImplBool<T>::getElement(const T & var, size_t i) const
 {
     if (i == 0) {
         return var;
@@ -181,7 +181,7 @@ T TypeBoolean<T>::getElement(const T & var, size_t i) const
 }
 
 template <typename T>
-void TypeBoolean<T>::setElement(T & var, size_t i, T value) const
+void BaseTypeImplBool<T>::setElement(T & var, size_t i, T value) const
 {
     if (i == 0) {
         var = value;
@@ -189,24 +189,24 @@ void TypeBoolean<T>::setElement(T & var, size_t i, T value) const
 }
 
 template <typename T>
-void TypeBoolean<T>::push(T &, T) const
+void BaseTypeImplBool<T>::push(T &, T) const
 {
 }
 
 template <typename T>
-std::vector<std::string> TypeBoolean<T>::keys(const T &) const
+std::vector<std::string> BaseTypeImplBool<T>::keys(const T &) const
 {
     return std::vector<std::string>();
 }
 
 template <typename T>
-T TypeBoolean<T>::getElement(const T &, const std::string &) const
+T BaseTypeImplBool<T>::getElement(const T &, const std::string &) const
 {
     return this->defaultValue();
 }
 
 template <typename T>
-void TypeBoolean<T>::setElement(T &, const std::string &, T) const
+void BaseTypeImplBool<T>::setElement(T &, const std::string &, T) const
 {
 }
 

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractTypedType.h>
+#include <cppexpose/type/BaseTypeImpl.h>
 
 
 namespace cppexpose
@@ -11,14 +11,13 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of array types with a static size
+*    Representation of a boolean type
 */
-template <typename T, typename ET, size_t SIZE>
-class CPPEXPOSE_TEMPLATE_API TypeArray : public AbstractTypedType<T, ET>
+template <typename T>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplBool : public BaseTypeImpl<T, T>
 {
 public:
-    typedef T  BaseType;
-    typedef ET ElementType;
+    typedef T ElementType;
 
 
 public:
@@ -26,15 +25,15 @@ public:
     *  @brief
     *    Constructor
     */
-    TypeArray();
+    BaseTypeImplBool();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeArray();
+    virtual ~BaseTypeImplBool();
 
-    // Virtual AbstractType interface
+    // Virtual AbstractBaseType interface
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isArray() const override;
@@ -48,7 +47,7 @@ public:
     virtual bool isString() const override;
     virtual bool isType() const override;
 
-    // Virtual AbstractTypedType<T, ET> interface
+    // Virtual BaseTypeImpl<T, T> interface
     virtual const T & defaultValue() const override;
     virtual std::string toString(const T & var) const override;
     virtual bool fromString(T & var, const std::string & value) const override;
@@ -61,16 +60,16 @@ public:
     virtual double toDouble(const T & var) const override;
     virtual bool fromDouble(T & var, double value) const override;
     virtual size_t numElements(const T & var) const override;
-    virtual ET getElement(const T & var, size_t i) const override;
-    virtual void setElement(T & var, size_t i, ET value) const override;
-    virtual void push(T & var, ET value) const override;
+    virtual T getElement(const T & var, size_t i) const override;
+    virtual void setElement(T & var, size_t i, T value) const override;
+    virtual void push(T & var, T value) const override;
     virtual std::vector<std::string> keys(const T & var) const override;
-    virtual ET getElement(const T & var, const std::string & key) const override;
-    virtual void setElement(T & var, const std::string & key, ET value) const override;
+    virtual T getElement(const T & var, const std::string & key) const override;
+    virtual void setElement(T & var, const std::string & key, T value) const override;
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypeArray.inl>
+#include <cppexpose/type/BaseTypeImplBool.inl>

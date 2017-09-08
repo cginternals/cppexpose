@@ -4,7 +4,7 @@
 #include <map>
 #include <iostream>
 
-#include <cppexpose/type/TypedType.h>
+#include <cppexpose/type/BaseType.h>
 #include <cppexpose/type/InternalValue.h>
 #include <cppexpose/type/ExternalValue.h>
 #include <cppexpose/variant/Variant.h>
@@ -65,7 +65,7 @@ void printType(const std::string & name, const AbstractValue & value)
     std::cout << std::endl;
 }
 
-void printTypeInfo(const std::string & name, AbstractType & type)
+void printTypeInfo(const std::string & name, AbstractBaseType & type)
 {
     std::cout << "typeof(" << name << "): " << type.typeName() << std::endl;
     std::cout << name << " is const:    " << (type.isConst() ? "true" : "false") << std::endl;
@@ -101,20 +101,20 @@ void printValue(const std::string & name, AbstractValue & value)
 int main(int, char * [])
 {
     // Types
-    TypedType<bool> boolType;
-    TypedType<int> intType;
-    TypedType<unsigned int> uintType;
-    TypedType<long> longType;
-    TypedType<unsigned long> ulongType;
-    TypedType<float> floatType;
-    TypedType<double> doubleType;
-    TypedType<std::string> stringType;
-    TypedType<int[3]> arrayType1;
-    TypedType<std::array<bool, 3>> arrayType2;
-    TypedType<std::vector<float>> arrayType3;
-    TypedType<std::map<std::string, float>> mapType;
-    TypedType<Test> testType;
-    TypedType<Weather> weatherType;
+    BaseType<bool> boolType;
+    BaseType<int> intType;
+    BaseType<unsigned int> uintType;
+    BaseType<long> longType;
+    BaseType<unsigned long> ulongType;
+    BaseType<float> floatType;
+    BaseType<double> doubleType;
+    BaseType<std::string> stringType;
+    BaseType<int[3]> arrayType1;
+    BaseType<std::array<bool, 3>> arrayType2;
+    BaseType<std::vector<float>> arrayType3;
+    BaseType<std::map<std::string, float>> mapType;
+    BaseType<Test> testType;
+    BaseType<Weather> weatherType;
 
     weatherType.setNamedValues({
         { "Rainy", Rainy },

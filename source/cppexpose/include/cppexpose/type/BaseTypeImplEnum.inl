@@ -15,20 +15,20 @@ namespace cppexpose
 
 
 template <typename T>
-TypeEnum<T>::TypeEnum()
+BaseTypeImplEnum<T>::BaseTypeImplEnum()
 {
     this->m_namedValues = EnumValues<T>::namedValues();
 }
 
 template <typename T>
-TypeEnum<T>::~TypeEnum()
+BaseTypeImplEnum<T>::~BaseTypeImplEnum()
 {
 }
 
 template <typename T>
-std::string TypeEnum<T>::typeName() const
+std::string BaseTypeImplEnum<T>::typeName() const
 {
-    TypedType<typename std::underlying_type<T>::type> underlyingType;
+    BaseType<typename std::underlying_type<T>::type> underlyingType;
 
     std::stringstream s;
     s << "enum<" << underlyingType.typeName() << ">";
@@ -36,73 +36,73 @@ std::string TypeEnum<T>::typeName() const
 }
 
 template <typename T>
-bool TypeEnum<T>::isNull() const
+bool BaseTypeImplEnum<T>::isNull() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isArray() const
+bool BaseTypeImplEnum<T>::isArray() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isDynamicArray() const
+bool BaseTypeImplEnum<T>::isDynamicArray() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isMap() const
+bool BaseTypeImplEnum<T>::isMap() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isBoolean() const
+bool BaseTypeImplEnum<T>::isBoolean() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isNumber() const
+bool BaseTypeImplEnum<T>::isNumber() const
 {
     return true;
 }
 
 template <typename T>
-bool TypeEnum<T>::isIntegral() const
+bool BaseTypeImplEnum<T>::isIntegral() const
 {
     return true;
 }
 
 template <typename T>
-bool TypeEnum<T>::isUnsigned() const
+bool BaseTypeImplEnum<T>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isFloatingPoint() const
+bool BaseTypeImplEnum<T>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isString() const
+bool BaseTypeImplEnum<T>::isString() const
 {
     return false;
 }
 
 template <typename T>
-bool TypeEnum<T>::isType() const
+bool BaseTypeImplEnum<T>::isType() const
 {
     return false;
 }
 
 template <typename T>
-const T & TypeEnum<T>::defaultValue() const
+const T & BaseTypeImplEnum<T>::defaultValue() const
 {
     static T value = static_cast<T>(0);
 
@@ -110,65 +110,65 @@ const T & TypeEnum<T>::defaultValue() const
 }
 
 template <typename T>
-std::string TypeEnum<T>::toString(const T & var) const
+std::string BaseTypeImplEnum<T>::toString(const T & var) const
 {
     return cppassist::string::toString<UnderlyingType>(static_cast<UnderlyingType>(var));
 }
 
 template <typename T>
-bool TypeEnum<T>::fromString(T & var, const std::string & value) const
+bool BaseTypeImplEnum<T>::fromString(T & var, const std::string & value) const
 {
     var = static_cast<T>(cppassist::string::fromString<UnderlyingType>(value));
     return true;
 }
 
 template <typename T>
-bool TypeEnum<T>::toBool(const T & var) const
+bool BaseTypeImplEnum<T>::toBool(const T & var) const
 {
     return static_cast<bool>(var);
 }
 
 template <typename T>
-bool TypeEnum<T>::fromBool(T & var, bool value) const
+bool BaseTypeImplEnum<T>::fromBool(T & var, bool value) const
 {
     var = static_cast<T>(value);
     return true;
 }
 
 template <typename T>
-long long TypeEnum<T>::toLongLong(const T & var) const
+long long BaseTypeImplEnum<T>::toLongLong(const T & var) const
 {
     return static_cast<long long>(var);
 }
 
 template <typename T>
-bool TypeEnum<T>::fromLongLong(T & var, long long value) const
+bool BaseTypeImplEnum<T>::fromLongLong(T & var, long long value) const
 {
     var = static_cast<T>(value);
     return true;
 }
 
 template <typename T>
-unsigned long long TypeEnum<T>::toULongLong(const T & var) const
+unsigned long long BaseTypeImplEnum<T>::toULongLong(const T & var) const
 {
     return static_cast<unsigned long long>(var);
 }
 
 template <typename T>
-bool TypeEnum<T>::fromULongLong(T & var, unsigned long long value) const
+bool BaseTypeImplEnum<T>::fromULongLong(T & var, unsigned long long value) const
 {
     var = static_cast<T>(value);
     return true;
 }
 
 template <typename T>
-double TypeEnum<T>::toDouble(const T & var) const
+double BaseTypeImplEnum<T>::toDouble(const T & var) const
 {
     return static_cast<double>(var);
 }
 
 template <typename T>
-bool TypeEnum<T>::fromDouble(T & var, double value) const
+bool BaseTypeImplEnum<T>::fromDouble(T & var, double value) const
 {
     // [TODO] Provide an UNUSED() macro in cppassist
     (void)(value);
@@ -178,13 +178,13 @@ bool TypeEnum<T>::fromDouble(T & var, double value) const
 }
 
 template <typename T>
-size_t TypeEnum<T>::numElements(const T &) const
+size_t BaseTypeImplEnum<T>::numElements(const T &) const
 {
     return 1;
 }
 
 template <typename T>
-T TypeEnum<T>::getElement(const T & var, size_t i) const
+T BaseTypeImplEnum<T>::getElement(const T & var, size_t i) const
 {
     if (i == 0) {
         return var;
@@ -194,7 +194,7 @@ T TypeEnum<T>::getElement(const T & var, size_t i) const
 }
 
 template <typename T>
-void TypeEnum<T>::setElement(T & var, size_t i, T value) const
+void BaseTypeImplEnum<T>::setElement(T & var, size_t i, T value) const
 {
     if (i == 0) {
         var = value;
@@ -202,24 +202,24 @@ void TypeEnum<T>::setElement(T & var, size_t i, T value) const
 }
 
 template <typename T>
-void TypeEnum<T>::push(T &, T) const
+void BaseTypeImplEnum<T>::push(T &, T) const
 {
 }
 
 template <typename T>
-std::vector<std::string> TypeEnum<T>::keys(const T &) const
+std::vector<std::string> BaseTypeImplEnum<T>::keys(const T &) const
 {
     return std::vector<std::string>();
 }
 
 template <typename T>
-T TypeEnum<T>::getElement(const T &, const std::string &) const
+T BaseTypeImplEnum<T>::getElement(const T &, const std::string &) const
 {
     return this->defaultValue();
 }
 
 template <typename T>
-void TypeEnum<T>::setElement(T &, const std::string &, T) const
+void BaseTypeImplEnum<T>::setElement(T &, const std::string &, T) const
 {
 }
 

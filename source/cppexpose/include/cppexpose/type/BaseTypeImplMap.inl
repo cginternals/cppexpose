@@ -12,23 +12,23 @@ namespace cppexpose
 
 
 template <typename T>
-class TypedType;
+class BaseType;
 
 
 template <typename T, typename ET>
-TypeMap<T, ET>::TypeMap()
+BaseTypeImplMap<T, ET>::BaseTypeImplMap()
 {
 }
 
 template <typename T, typename ET>
-TypeMap<T, ET>::~TypeMap()
+BaseTypeImplMap<T, ET>::~BaseTypeImplMap()
 {
 }
 
 template <typename T, typename ET>
-std::string TypeMap<T, ET>::typeName() const
+std::string BaseTypeImplMap<T, ET>::typeName() const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
 
     std::stringstream s;
     s << "map<string, " << subType.typeName() << ">";
@@ -36,73 +36,73 @@ std::string TypeMap<T, ET>::typeName() const
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isNull() const
+bool BaseTypeImplMap<T, ET>::isNull() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isArray() const
+bool BaseTypeImplMap<T, ET>::isArray() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isDynamicArray() const
+bool BaseTypeImplMap<T, ET>::isDynamicArray() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isMap() const
+bool BaseTypeImplMap<T, ET>::isMap() const
 {
     return true;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isBoolean() const
+bool BaseTypeImplMap<T, ET>::isBoolean() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isNumber() const
+bool BaseTypeImplMap<T, ET>::isNumber() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isIntegral() const
+bool BaseTypeImplMap<T, ET>::isIntegral() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isUnsigned() const
+bool BaseTypeImplMap<T, ET>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isFloatingPoint() const
+bool BaseTypeImplMap<T, ET>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isString() const
+bool BaseTypeImplMap<T, ET>::isString() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::isType() const
+bool BaseTypeImplMap<T, ET>::isType() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-const T & TypeMap<T, ET>::defaultValue() const
+const T & BaseTypeImplMap<T, ET>::defaultValue() const
 {
     static T value;
 
@@ -110,92 +110,92 @@ const T & TypeMap<T, ET>::defaultValue() const
 }
 
 template <typename T, typename ET>
-std::string TypeMap<T, ET>::toString(const T &) const
+std::string BaseTypeImplMap<T, ET>::toString(const T &) const
 {
     // Not implemented
     return "";
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::fromString(T &, const std::string &) const
+bool BaseTypeImplMap<T, ET>::fromString(T &, const std::string &) const
 {
     // Not implemented
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::toBool(const T &) const
+bool BaseTypeImplMap<T, ET>::toBool(const T &) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::fromBool(T &, bool) const
+bool BaseTypeImplMap<T, ET>::fromBool(T &, bool) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-long long TypeMap<T, ET>::toLongLong(const T &) const
+long long BaseTypeImplMap<T, ET>::toLongLong(const T &) const
 {
     return 0;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::fromLongLong(T &, long long) const
+bool BaseTypeImplMap<T, ET>::fromLongLong(T &, long long) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-unsigned long long TypeMap<T, ET>::toULongLong(const T &) const
+unsigned long long BaseTypeImplMap<T, ET>::toULongLong(const T &) const
 {
     return 0;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::fromULongLong(T &, unsigned long long) const
+bool BaseTypeImplMap<T, ET>::fromULongLong(T &, unsigned long long) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-double TypeMap<T, ET>::toDouble(const T &) const
+double BaseTypeImplMap<T, ET>::toDouble(const T &) const
 {
     return 0.0;
 }
 
 template <typename T, typename ET>
-bool TypeMap<T, ET>::fromDouble(T &, double) const
+bool BaseTypeImplMap<T, ET>::fromDouble(T &, double) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-size_t TypeMap<T, ET>::numElements(const T &) const
+size_t BaseTypeImplMap<T, ET>::numElements(const T &) const
 {
     return 1;
 }
 
 template <typename T, typename ET>
-ET TypeMap<T, ET>::getElement(const T &, size_t) const
+ET BaseTypeImplMap<T, ET>::getElement(const T &, size_t) const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
     return subType.defaultValue();
 }
 
 template <typename T, typename ET>
-void TypeMap<T, ET>::setElement(T &, size_t, ET) const
+void BaseTypeImplMap<T, ET>::setElement(T &, size_t, ET) const
 {
 }
 
 template <typename T, typename ET>
-void TypeMap<T, ET>::push(T &, ET) const
+void BaseTypeImplMap<T, ET>::push(T &, ET) const
 {
 }
 
 template <typename T, typename ET>
-std::vector<std::string> TypeMap<T, ET>::keys(const T & var) const
+std::vector<std::string> BaseTypeImplMap<T, ET>::keys(const T & var) const
 {
     std::vector<std::string> keys;
 
@@ -207,7 +207,7 @@ std::vector<std::string> TypeMap<T, ET>::keys(const T & var) const
 }
 
 template <typename T, typename ET>
-ET TypeMap<T, ET>::getElement(const T & var, const std::string & key) const
+ET BaseTypeImplMap<T, ET>::getElement(const T & var, const std::string & key) const
 {
     auto it = var.find(key);
 
@@ -216,13 +216,13 @@ ET TypeMap<T, ET>::getElement(const T & var, const std::string & key) const
     }
 
     else {
-        TypedType<ET> subType;
+        BaseType<ET> subType;
         return subType.defaultValue();
     }
 }
 
 template <typename T, typename ET>
-void TypeMap<T, ET>::setElement(T & var, const std::string & key, ET value) const
+void BaseTypeImplMap<T, ET>::setElement(T & var, const std::string & key, ET value) const
 {
     var[key] = value;
 }

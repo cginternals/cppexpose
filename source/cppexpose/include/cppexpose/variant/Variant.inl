@@ -30,7 +30,7 @@ bool Variant::hasType() const
         return false;
     }
 
-    return TypedType<T>().typeName() == typeName();
+    return BaseType<T>().typeName() == typeName();
 }
 
 template <typename T>
@@ -61,7 +61,7 @@ T Variant::value() const
     // No conversion possible
     else
     {
-        return TypedType<T>().defaultValue();
+        return BaseType<T>().defaultValue();
     }
 }
 

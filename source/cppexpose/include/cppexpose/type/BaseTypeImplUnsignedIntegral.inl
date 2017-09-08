@@ -10,17 +10,17 @@ namespace cppexpose
 
 
 template <typename T>
-TypeUnsignedIntegral<T>::TypeUnsignedIntegral()
+BaseTypeImplUnsignedIntegral<T>::BaseTypeImplUnsignedIntegral()
 {
 }
 
 template <typename T>
-TypeUnsignedIntegral<T>::~TypeUnsignedIntegral()
+BaseTypeImplUnsignedIntegral<T>::~BaseTypeImplUnsignedIntegral()
 {
 }
 
 template <typename T>
-std::string TypeUnsignedIntegral<T>::typeName() const
+std::string BaseTypeImplUnsignedIntegral<T>::typeName() const
 {
     std::stringstream s;
     s << "uint";
@@ -29,25 +29,25 @@ std::string TypeUnsignedIntegral<T>::typeName() const
 }
 
 template <typename T>
-bool TypeUnsignedIntegral<T>::isIntegral() const
+bool BaseTypeImplUnsignedIntegral<T>::isIntegral() const
 {
     return true;
 }
 
 template <typename T>
-bool TypeUnsignedIntegral<T>::isUnsigned() const
+bool BaseTypeImplUnsignedIntegral<T>::isUnsigned() const
 {
     return true;
 }
 
 template <typename T>
-bool TypeUnsignedIntegral<T>::isFloatingPoint() const
+bool BaseTypeImplUnsignedIntegral<T>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T>
-const T & TypeUnsignedIntegral<T>::defaultValue() const
+const T & BaseTypeImplUnsignedIntegral<T>::defaultValue() const
 {
     static T value = 0;
 

@@ -12,23 +12,23 @@ namespace cppexpose
 
 
 template <typename T>
-class TypedType;
+class BaseType;
 
 
 template <typename T, typename ET>
-TypeVector<T, ET>::TypeVector()
+BaseTypeImplVector<T, ET>::BaseTypeImplVector()
 {
 }
 
 template <typename T, typename ET>
-TypeVector<T, ET>::~TypeVector()
+BaseTypeImplVector<T, ET>::~BaseTypeImplVector()
 {
 }
 
 template <typename T, typename ET>
-std::string TypeVector<T, ET>::typeName() const
+std::string BaseTypeImplVector<T, ET>::typeName() const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
 
     std::stringstream s;
     s << "vector<" << subType.typeName() << ">";
@@ -36,73 +36,73 @@ std::string TypeVector<T, ET>::typeName() const
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isNull() const
+bool BaseTypeImplVector<T, ET>::isNull() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isArray() const
+bool BaseTypeImplVector<T, ET>::isArray() const
 {
     return true;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isDynamicArray() const
+bool BaseTypeImplVector<T, ET>::isDynamicArray() const
 {
     return true;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isMap() const
+bool BaseTypeImplVector<T, ET>::isMap() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isBoolean() const
+bool BaseTypeImplVector<T, ET>::isBoolean() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isNumber() const
+bool BaseTypeImplVector<T, ET>::isNumber() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isIntegral() const
+bool BaseTypeImplVector<T, ET>::isIntegral() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isUnsigned() const
+bool BaseTypeImplVector<T, ET>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isFloatingPoint() const
+bool BaseTypeImplVector<T, ET>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isString() const
+bool BaseTypeImplVector<T, ET>::isString() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::isType() const
+bool BaseTypeImplVector<T, ET>::isType() const
 {
     return false;
 }
 
 template <typename T, typename ET>
-const T & TypeVector<T, ET>::defaultValue() const
+const T & BaseTypeImplVector<T, ET>::defaultValue() const
 {
     static T value;
 
@@ -110,9 +110,9 @@ const T & TypeVector<T, ET>::defaultValue() const
 }
 
 template <typename T, typename ET>
-std::string TypeVector<T, ET>::toString(const T & var) const
+std::string BaseTypeImplVector<T, ET>::toString(const T & var) const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
 
     std::string str = "(";
 
@@ -129,9 +129,9 @@ std::string TypeVector<T, ET>::toString(const T & var) const
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::fromString(T & var, const std::string & value) const
+bool BaseTypeImplVector<T, ET>::fromString(T & var, const std::string & value) const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
 
     var.clear();
 
@@ -152,92 +152,92 @@ bool TypeVector<T, ET>::fromString(T & var, const std::string & value) const
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::toBool(const T &) const
+bool BaseTypeImplVector<T, ET>::toBool(const T &) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::fromBool(T &, bool) const
+bool BaseTypeImplVector<T, ET>::fromBool(T &, bool) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-long long TypeVector<T, ET>::toLongLong(const T &) const
+long long BaseTypeImplVector<T, ET>::toLongLong(const T &) const
 {
     return 0;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::fromLongLong(T &, long long) const
+bool BaseTypeImplVector<T, ET>::fromLongLong(T &, long long) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-unsigned long long TypeVector<T, ET>::toULongLong(const T &) const
+unsigned long long BaseTypeImplVector<T, ET>::toULongLong(const T &) const
 {
     return 0;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::fromULongLong(T &, unsigned long long) const
+bool BaseTypeImplVector<T, ET>::fromULongLong(T &, unsigned long long) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-double TypeVector<T, ET>::toDouble(const T &) const
+double BaseTypeImplVector<T, ET>::toDouble(const T &) const
 {
     return 0.0;
 }
 
 template <typename T, typename ET>
-bool TypeVector<T, ET>::fromDouble(T &, double) const
+bool BaseTypeImplVector<T, ET>::fromDouble(T &, double) const
 {
     return false;
 }
 
 template <typename T, typename ET>
-size_t TypeVector<T, ET>::numElements(const T & var) const
+size_t BaseTypeImplVector<T, ET>::numElements(const T & var) const
 {
     return var.size();
 }
 
 template <typename T, typename ET>
-ET TypeVector<T, ET>::getElement(const T & var, size_t i) const
+ET BaseTypeImplVector<T, ET>::getElement(const T & var, size_t i) const
 {
     return var[i];
 }
 
 template <typename T, typename ET>
-void TypeVector<T, ET>::setElement(T & var, size_t i, ET value) const
+void BaseTypeImplVector<T, ET>::setElement(T & var, size_t i, ET value) const
 {
     var[i] = value;
 }
 
 template <typename T, typename ET>
-void TypeVector<T, ET>::push(T & var, ET value) const
+void BaseTypeImplVector<T, ET>::push(T & var, ET value) const
 {
     var.push_back(value);
 }
 
 template <typename T, typename ET>
-std::vector<std::string> TypeVector<T, ET>::keys(const T &) const
+std::vector<std::string> BaseTypeImplVector<T, ET>::keys(const T &) const
 {
     return std::vector<std::string>();
 }
 
 template <typename T, typename ET>
-ET TypeVector<T, ET>::getElement(const T &, const std::string &) const
+ET BaseTypeImplVector<T, ET>::getElement(const T &, const std::string &) const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
     return subType.defaultValue();
 }
 
 template <typename T, typename ET>
-void TypeVector<T, ET>::setElement(T &, const std::string &, ET) const
+void BaseTypeImplVector<T, ET>::setElement(T &, const std::string &, ET) const
 {
 }
 

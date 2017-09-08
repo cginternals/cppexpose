@@ -10,101 +10,101 @@ namespace cppexpose
 
 
 template <typename T>
-TypeGeneric<T>::TypeGeneric()
+BaseTypeImplGeneric<T>::BaseTypeImplGeneric()
 {
 }
 
 template <typename T>
-TypeGeneric<T>::~TypeGeneric()
+BaseTypeImplGeneric<T>::~BaseTypeImplGeneric()
 {
 }
 
 template <typename T>
-std::string TypeGeneric<T>::typeName() const
+std::string BaseTypeImplGeneric<T>::typeName() const
 {
     // Unknown type
     return "unknown";
 }
 
 template <typename T>
-bool TypeGeneric<T>::isNull() const
+bool BaseTypeImplGeneric<T>::isNull() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isArray() const
+bool BaseTypeImplGeneric<T>::isArray() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isDynamicArray() const
+bool BaseTypeImplGeneric<T>::isDynamicArray() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isMap() const
+bool BaseTypeImplGeneric<T>::isMap() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isBoolean() const
+bool BaseTypeImplGeneric<T>::isBoolean() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isNumber() const
+bool BaseTypeImplGeneric<T>::isNumber() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isIntegral() const
+bool BaseTypeImplGeneric<T>::isIntegral() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isUnsigned() const
+bool BaseTypeImplGeneric<T>::isUnsigned() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isFloatingPoint() const
+bool BaseTypeImplGeneric<T>::isFloatingPoint() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isString() const
+bool BaseTypeImplGeneric<T>::isString() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::isType() const
+bool BaseTypeImplGeneric<T>::isType() const
 {
     // Unknown type
     return false;
 }
 
 template <typename T>
-const T & TypeGeneric<T>::defaultValue() const
+const T & BaseTypeImplGeneric<T>::defaultValue() const
 {
     static T value;
 
@@ -112,84 +112,84 @@ const T & TypeGeneric<T>::defaultValue() const
 }
 
 template <typename T>
-std::string TypeGeneric<T>::toString(const T &) const
+std::string BaseTypeImplGeneric<T>::toString(const T &) const
 {
     // Unsupported for unknown type
     return "";
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromString(T &, const std::string &) const
+bool BaseTypeImplGeneric<T>::fromString(T &, const std::string &) const
 {
     // Unsupported for unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::toBool(const T &) const
+bool BaseTypeImplGeneric<T>::toBool(const T &) const
 {
     // Unsupported for unknown type
     return false;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromBool(T &, bool) const
+bool BaseTypeImplGeneric<T>::fromBool(T &, bool) const
 {
     // Unsupported for unknown type
     return false;
 }
 
 template <typename T>
-long long TypeGeneric<T>::toLongLong(const T &) const
+long long BaseTypeImplGeneric<T>::toLongLong(const T &) const
 {
     // Unsupported for unknown type
     return 0ll;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromLongLong(T &, long long) const
+bool BaseTypeImplGeneric<T>::fromLongLong(T &, long long) const
 {
     // Unsupported for unknown type
     return false;
 }
 
 template <typename T>
-unsigned long long TypeGeneric<T>::toULongLong(const T &) const
+unsigned long long BaseTypeImplGeneric<T>::toULongLong(const T &) const
 {
     // Unsupported for unknown type
     return 0ull;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromULongLong(T &, unsigned long long) const
+bool BaseTypeImplGeneric<T>::fromULongLong(T &, unsigned long long) const
 {
     // Unsupported for unknown type
     return false;
 }
 
 template <typename T>
-double TypeGeneric<T>::toDouble(const T &) const
+double BaseTypeImplGeneric<T>::toDouble(const T &) const
 {
     // Unsupported for unknown type
     return 0.0;
 }
 
 template <typename T>
-bool TypeGeneric<T>::fromDouble(T &, double) const
+bool BaseTypeImplGeneric<T>::fromDouble(T &, double) const
 {
     // Unsupported for unknown type
     return false;
 }
 
 template <typename T>
-size_t TypeGeneric<T>::numElements(const T &) const
+size_t BaseTypeImplGeneric<T>::numElements(const T &) const
 {
     // Unsupported for unknown type
     return 1;
 }
 
 template <typename T>
-T TypeGeneric<T>::getElement(const T & var, size_t i) const
+T BaseTypeImplGeneric<T>::getElement(const T & var, size_t i) const
 {
     if (i == 0) {
         return var;
@@ -199,7 +199,7 @@ T TypeGeneric<T>::getElement(const T & var, size_t i) const
 }
 
 template <typename T>
-void TypeGeneric<T>::setElement(T & var, size_t i, T value) const
+void BaseTypeImplGeneric<T>::setElement(T & var, size_t i, T value) const
 {
     if (i == 0) {
         var = value;
@@ -207,27 +207,27 @@ void TypeGeneric<T>::setElement(T & var, size_t i, T value) const
 }
 
 template <typename T>
-void TypeGeneric<T>::push(T &, T) const
+void BaseTypeImplGeneric<T>::push(T &, T) const
 {
     // Unsupported for unknown type
 }
 
 template <typename T>
-std::vector<std::string> TypeGeneric<T>::keys(const T &) const
+std::vector<std::string> BaseTypeImplGeneric<T>::keys(const T &) const
 {
     // Unsupported for unknown type
     return std::vector<std::string>();
 }
 
 template <typename T>
-T TypeGeneric<T>::getElement(const T &, const std::string &) const
+T BaseTypeImplGeneric<T>::getElement(const T &, const std::string &) const
 {
     // Unsupported for unknown type
     return this->defaultValue();
 }
 
 template <typename T>
-void TypeGeneric<T>::setElement(T &, const std::string &, T) const
+void BaseTypeImplGeneric<T>::setElement(T &, const std::string &, T) const
 {
     // Unsupported for unknown type
 }

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/TypedType.h>
+#include <cppexpose/type/Type.h>
 
 
 namespace cppexpose

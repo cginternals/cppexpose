@@ -18,17 +18,17 @@ MetaType::~MetaType()
 {
 }
 
-std::unique_ptr<AbstractType> MetaType::createCopy() const
+std::unique_ptr<AbstractBaseType> MetaType::createCopy() const
 {
     return cppassist::make_unique<MetaType>();
 }
 
-AbstractType & MetaType::type()
+AbstractBaseType & MetaType::type()
 {
     return *this;
 }
 
-AbstractType & MetaType::elementType()
+AbstractBaseType & MetaType::elementType()
 {
     return *this;
 }

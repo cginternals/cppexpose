@@ -3,7 +3,7 @@
 
 
 #include <cppexpose/type/Converter.h>
-#include <cppexpose/type/TypedType.h>
+#include <cppexpose/type/BaseType.h>
 
 
 namespace cppexpose
@@ -28,7 +28,7 @@ ValueType AbstractValue::value() const
     }
 
     // Return default value
-    TypedType<ValueType> type;
+    BaseType<ValueType> type;
     return type.defaultValue();
 }
 

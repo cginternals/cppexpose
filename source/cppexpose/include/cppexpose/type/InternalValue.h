@@ -17,7 +17,6 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API InternalValue : public AbstractTypedValue<T>
 {
 public:
-    typedef typename AbstractTypedValue<T>::BaseType    BaseType;
     typedef typename AbstractTypedValue<T>::ElementType ElementType;
 
 

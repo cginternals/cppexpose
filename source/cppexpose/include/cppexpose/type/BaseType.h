@@ -14,10 +14,9 @@ namespace cppexpose
 *    Representation of a type
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API TypedType : public GetType<T>::Type
+class CPPEXPOSE_TEMPLATE_API BaseType : public GetType<T>::Type
 {
 public:
-    typedef typename GetType<T>::Type::BaseType    BaseType;
     typedef typename GetType<T>::Type::ElementType ElementType;
 
 
@@ -26,16 +25,16 @@ public:
     *  @brief
     *    Constructor
     */
-    TypedType();
+    BaseType();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypedType();
+    virtual ~BaseType();
 
-    // Virtual AbstractType interface
-    virtual std::unique_ptr<AbstractType> createCopy() const override;
+    // Virtual AbstractBaseType interface
+    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
 
     // Virtual Typed interface
     virtual bool isConst() const override;
@@ -43,9 +42,9 @@ public:
 
 
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API TypedType<const T> : public GetType<T>::Type
-{ public:
-    typedef typename GetType<T>::Type::BaseType    BaseType;
+class CPPEXPOSE_TEMPLATE_API BaseType<const T> : public GetType<T>::Type
+{
+public:
     typedef typename GetType<T>::Type::ElementType ElementType;
 
 
@@ -54,16 +53,16 @@ public:
     *  @brief
     *    Constructor
     */
-    TypedType();
+    BaseType();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypedType();
+    virtual ~BaseType();
 
-    // Virtual AbstractType interface
-    virtual std::unique_ptr<AbstractType> createCopy() const override;
+    // Virtual AbstractBaseType interface
+    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
 
     // Virtual Typed interface
     virtual bool isConst() const override;
@@ -73,4 +72,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypedType.inl>
+#include <cppexpose/type/BaseType.inl>

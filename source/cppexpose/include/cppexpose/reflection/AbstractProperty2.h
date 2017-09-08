@@ -93,7 +93,7 @@ public:
     */
     virtual bool isObject() const = 0;
 
-    // Virtual AbstractType interface
+    // Virtual AbstractBaseType interface
     virtual std::string typeName() const override;
     virtual bool isConst() const override;
     virtual bool isArray() const override;
@@ -107,7 +107,7 @@ public:
     virtual bool isString() const override;
 
     // Virtual AbstractValue interface
-    virtual const AbstractType & type() const override;
+    virtual const AbstractBaseType & type() const override;
     virtual std::unique_ptr<AbstractValue> createCopy() const override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractType.h>
+#include <cppexpose/type/AbstractBaseType.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    The type of all abstract types.
 *    The type of the MetaType is a MetaType.
 */
-class CPPEXPOSE_API MetaType : public AbstractType
+class CPPEXPOSE_API MetaType : public AbstractBaseType
 {
 public:
     /**
@@ -29,10 +29,10 @@ public:
     */
     virtual ~MetaType();
 
-    // Virtual AbstractType interface
-    virtual std::unique_ptr<AbstractType> createCopy() const override;
-    virtual AbstractType & type() override;
-    virtual AbstractType & elementType() override;
+    // Virtual AbstractBaseType interface
+    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
+    virtual AbstractBaseType & type() override;
+    virtual AbstractBaseType & elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;

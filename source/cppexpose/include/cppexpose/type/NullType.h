@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractType.h>
+#include <cppexpose/type/AbstractBaseType.h>
 
 
 namespace cppexpose
@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    Empty (null) type
 */
-class CPPEXPOSE_API TypeNull : public AbstractType
+class CPPEXPOSE_API NullType : public AbstractBaseType
 {
 public:
     typedef void BaseType;
@@ -25,18 +25,18 @@ public:
     *  @brief
     *    Constructor
     */
-    TypeNull();
+    NullType();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeNull();
+    virtual ~NullType();
 
-    // Virtual AbstractType interface
-    virtual std::unique_ptr<AbstractType> createCopy() const override;
-    virtual AbstractType & type() override;
-    virtual AbstractType & elementType() override;
+    // Virtual AbstractBaseType interface
+    virtual std::unique_ptr<AbstractBaseType> createCopy() const override;
+    virtual AbstractBaseType & type() override;
+    virtual AbstractBaseType & elementType() override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;

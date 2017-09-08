@@ -2,44 +2,45 @@
 #pragma once
 
 
-#include <cppexpose/type/Type.h>
-
-
 namespace cppexpose
 {
 
 
+template <typename T>
+class BaseType;
+
+
 template <typename T, typename ET>
-AbstractTypedType<T, ET>::AbstractTypedType()
+BaseTypeImpl<T, ET>::BaseTypeImpl()
 {
 }
 
 template <typename T, typename ET>
-AbstractTypedType<T, ET>::~AbstractTypedType()
+BaseTypeImpl<T, ET>::~BaseTypeImpl()
 {
 }
 
 template <typename T, typename ET>
-AbstractType & AbstractTypedType<T, ET>::type()
+AbstractBaseType & BaseTypeImpl<T, ET>::type()
 {
     return *this;
 }
 
 template <typename T, typename ET>
-AbstractType & AbstractTypedType<T, ET>::elementType()
+AbstractBaseType & BaseTypeImpl<T, ET>::elementType()
 {
-    static TypedType<ET> elementType;
+    static BaseType<ET> elementType;
     return elementType;
 }
 
 template <typename T, typename ET>
-bool AbstractTypedType<T, ET>::hasSymbolicNames() const
+bool BaseTypeImpl<T, ET>::hasSymbolicNames() const
 {
     return !m_namedValues.empty();
 }
 
 template <typename T, typename ET>
-std::vector<std::string> AbstractTypedType<T, ET>::symbolicNames() const
+std::vector<std::string> BaseTypeImpl<T, ET>::symbolicNames() const
 {
     std::vector<std::string> names;
 
@@ -52,13 +53,13 @@ std::vector<std::string> AbstractTypedType<T, ET>::symbolicNames() const
 }
 
 template <typename T, typename ET>
-const std::map<std::string, T> & AbstractTypedType<T, ET>::namedValues() const
+const std::map<std::string, T> & BaseTypeImpl<T, ET>::namedValues() const
 {
     return m_namedValues;
 }
 
 template <typename T, typename ET>
-void AbstractTypedType<T, ET>::setNamedValues(const std::map<std::string, T> & namedValues)
+void BaseTypeImpl<T, ET>::setNamedValues(const std::map<std::string, T> & namedValues)
 {
     m_namedValues = namedValues;
 }

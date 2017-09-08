@@ -13,23 +13,23 @@ namespace cppexpose
 
 
 template <typename T>
-class TypedType;
+class BaseType;
 
 
 template <typename T, typename ET, size_t SIZE>
-TypeArray<T, ET, SIZE>::TypeArray()
+BaseTypeImplArray<T, ET, SIZE>::BaseTypeImplArray()
 {
 }
 
 template <typename T, typename ET, size_t SIZE>
-TypeArray<T, ET, SIZE>::~TypeArray()
+BaseTypeImplArray<T, ET, SIZE>::~BaseTypeImplArray()
 {
 }
 
 template <typename T, typename ET, size_t SIZE>
-std::string TypeArray<T, ET, SIZE>::typeName() const
+std::string BaseTypeImplArray<T, ET, SIZE>::typeName() const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
 
     std::stringstream s;
     s << "array<" << subType.typeName() << ", " << SIZE << ">";
@@ -37,73 +37,73 @@ std::string TypeArray<T, ET, SIZE>::typeName() const
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isNull() const
+bool BaseTypeImplArray<T, ET, SIZE>::isNull() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isArray() const
+bool BaseTypeImplArray<T, ET, SIZE>::isArray() const
 {
     return true;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isDynamicArray() const
+bool BaseTypeImplArray<T, ET, SIZE>::isDynamicArray() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isMap() const
+bool BaseTypeImplArray<T, ET, SIZE>::isMap() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isBoolean() const
+bool BaseTypeImplArray<T, ET, SIZE>::isBoolean() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isNumber() const
+bool BaseTypeImplArray<T, ET, SIZE>::isNumber() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isIntegral() const
+bool BaseTypeImplArray<T, ET, SIZE>::isIntegral() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isUnsigned() const
+bool BaseTypeImplArray<T, ET, SIZE>::isUnsigned() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isFloatingPoint() const
+bool BaseTypeImplArray<T, ET, SIZE>::isFloatingPoint() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isString() const
+bool BaseTypeImplArray<T, ET, SIZE>::isString() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::isType() const
+bool BaseTypeImplArray<T, ET, SIZE>::isType() const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-const T & TypeArray<T, ET, SIZE>::defaultValue() const
+const T & BaseTypeImplArray<T, ET, SIZE>::defaultValue() const
 {
     static T value;
 
@@ -111,9 +111,9 @@ const T & TypeArray<T, ET, SIZE>::defaultValue() const
 }
 
 template <typename T, typename ET, size_t SIZE>
-std::string TypeArray<T, ET, SIZE>::toString(const T & var) const
+std::string BaseTypeImplArray<T, ET, SIZE>::toString(const T & var) const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
 
     std::string str = "(";
 
@@ -130,9 +130,9 @@ std::string TypeArray<T, ET, SIZE>::toString(const T & var) const
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::fromString(T & var, const std::string & value) const
+bool BaseTypeImplArray<T, ET, SIZE>::fromString(T & var, const std::string & value) const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
 
     std::vector<std::string> elementStrings = cppassist::string::parseArray(value, SIZE);
 
@@ -155,92 +155,92 @@ bool TypeArray<T, ET, SIZE>::fromString(T & var, const std::string & value) cons
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::toBool(const T &) const
+bool BaseTypeImplArray<T, ET, SIZE>::toBool(const T &) const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::fromBool(T &, bool) const
+bool BaseTypeImplArray<T, ET, SIZE>::fromBool(T &, bool) const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-long long TypeArray<T, ET, SIZE>::toLongLong(const T &) const
+long long BaseTypeImplArray<T, ET, SIZE>::toLongLong(const T &) const
 {
     return 0;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::fromLongLong(T &, long long) const
+bool BaseTypeImplArray<T, ET, SIZE>::fromLongLong(T &, long long) const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-unsigned long long TypeArray<T, ET, SIZE>::toULongLong(const T &) const
+unsigned long long BaseTypeImplArray<T, ET, SIZE>::toULongLong(const T &) const
 {
     return 0;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::fromULongLong(T &, unsigned long long) const
+bool BaseTypeImplArray<T, ET, SIZE>::fromULongLong(T &, unsigned long long) const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-double TypeArray<T, ET, SIZE>::toDouble(const T &) const
+double BaseTypeImplArray<T, ET, SIZE>::toDouble(const T &) const
 {
     return 0.0;
 }
 
 template <typename T, typename ET, size_t SIZE>
-bool TypeArray<T, ET, SIZE>::fromDouble(T &, double) const
+bool BaseTypeImplArray<T, ET, SIZE>::fromDouble(T &, double) const
 {
     return false;
 }
 
 template <typename T, typename ET, size_t SIZE>
-size_t TypeArray<T, ET, SIZE>::numElements(const T &) const
+size_t BaseTypeImplArray<T, ET, SIZE>::numElements(const T &) const
 {
     return SIZE;
 }
 
 template <typename T, typename ET, size_t SIZE>
-ET TypeArray<T, ET, SIZE>::getElement(const T & var, size_t i) const
+ET BaseTypeImplArray<T, ET, SIZE>::getElement(const T & var, size_t i) const
 {
     return var[i];
 }
 
 template <typename T, typename ET, size_t SIZE>
-void TypeArray<T, ET, SIZE>::setElement(T & var, size_t i, ET value) const
+void BaseTypeImplArray<T, ET, SIZE>::setElement(T & var, size_t i, ET value) const
 {
     var[i] = value;
 }
 
 template <typename T, typename ET, size_t SIZE>
-void TypeArray<T, ET, SIZE>::push(T &, ET) const
+void BaseTypeImplArray<T, ET, SIZE>::push(T &, ET) const
 {
     // Not supported for static arrays
 }
 
 template <typename T, typename ET, size_t SIZE>
-std::vector<std::string> TypeArray<T, ET, SIZE>::keys(const T &) const
+std::vector<std::string> BaseTypeImplArray<T, ET, SIZE>::keys(const T &) const
 {
     return std::vector<std::string>();
 }
 
 template <typename T, typename ET, size_t SIZE>
-ET TypeArray<T, ET, SIZE>::getElement(const T &, const std::string &) const
+ET BaseTypeImplArray<T, ET, SIZE>::getElement(const T &, const std::string &) const
 {
-    TypedType<ET> subType;
+    BaseType<ET> subType;
     return subType.defaultValue();
 }
 
 template <typename T, typename ET, size_t SIZE>
-void TypeArray<T, ET, SIZE>::setElement(T &, const std::string &, ET) const
+void BaseTypeImplArray<T, ET, SIZE>::setElement(T &, const std::string &, ET) const
 {
 }
 

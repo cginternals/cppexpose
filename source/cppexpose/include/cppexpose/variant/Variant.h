@@ -16,7 +16,6 @@ namespace cppexpose
 
 
 class AbstractValue;
-class AbstractType;
 class Variant;
 
 

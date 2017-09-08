@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractTypedType.h>
+#include <cppexpose/type/BaseTypeImpl.h>
 
 
 namespace cppexpose
@@ -14,11 +14,10 @@ namespace cppexpose
 *    Representation of an enum type
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API TypeEnum : public AbstractTypedType<T, T>
+class CPPEXPOSE_TEMPLATE_API BaseTypeImplEnum : public BaseTypeImpl<T, T>
 {
 public:
-    typedef T BaseType;
-    typedef T ElementType;
+    typedef T                                      ElementType;
     typedef typename std::underlying_type<T>::type UnderlyingType;
 
 
@@ -27,15 +26,15 @@ public:
     *  @brief
     *    Constructor
     */
-    TypeEnum();
+    BaseTypeImplEnum();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypeEnum();
+    virtual ~BaseTypeImplEnum();
 
-    // Virtual AbstractType interface
+    // Virtual AbstractBaseType interface
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isArray() const override;
@@ -49,7 +48,7 @@ public:
     virtual bool isString() const override;
     virtual bool isType() const override;
 
-    // Virtual AbstractTypedType<T, T> interface
+    // Virtual BaseTypeImpl<T, T> interface
     virtual const T & defaultValue() const override;
 
     virtual std::string toString(const T & var) const override;
@@ -75,4 +74,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/type/TypeEnum.inl>
+#include <cppexpose/type/BaseTypeImplEnum.inl>

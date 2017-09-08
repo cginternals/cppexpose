@@ -8,17 +8,17 @@
 #include <map>
 
 #include <cppexpose/base/template_helpers.h>
-#include <cppexpose/type/TypeNull.h>
-#include <cppexpose/type/TypeGeneric.h>
-#include <cppexpose/type/TypeBoolean.h>
-#include <cppexpose/type/TypeSignedIntegral.h>
-#include <cppexpose/type/TypeUnsignedIntegral.h>
-#include <cppexpose/type/TypeFloatingPoint.h>
-#include <cppexpose/type/TypeString.h>
-#include <cppexpose/type/TypeEnum.h>
-#include <cppexpose/type/TypeArray.h>
-#include <cppexpose/type/TypeVector.h>
-#include <cppexpose/type/TypeMap.h>
+#include <cppexpose/type/NullType.h>
+#include <cppexpose/type/BaseTypeImplGeneric.h>
+#include <cppexpose/type/BaseTypeImplBool.h>
+#include <cppexpose/type/BaseTypeImplSignedIntegral.h>
+#include <cppexpose/type/BaseTypeImplUnsignedIntegral.h>
+#include <cppexpose/type/BaseTypeImplFloatingPoint.h>
+#include <cppexpose/type/BaseTypeImplString.h>
+#include <cppexpose/type/BaseTypeImplEnum.h>
+#include <cppexpose/type/BaseTypeImplArray.h>
+#include <cppexpose/type/BaseTypeImplVector.h>
+#include <cppexpose/type/BaseTypeImplMap.h>
 
 
 namespace cppexpose
@@ -35,7 +35,7 @@ namespace cppexpose
 template <typename T, typename = void>
 struct CPPEXPOSE_TEMPLATE_API GetType
 {
-    using Type = TypeGeneric<T>;
+    using Type = BaseTypeImplGeneric<T>;
 };
 
 /**
@@ -45,7 +45,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType
 template <>
 struct CPPEXPOSE_TEMPLATE_API GetType<void>
 {
-    using Type = TypeNull;
+    using Type = NullType;
 };
 
 /**
@@ -55,7 +55,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<void>
 template <>
 struct CPPEXPOSE_TEMPLATE_API GetType<bool>
 {
-    using Type = TypeBoolean<bool>;
+    using Type = BaseTypeImplBool<bool>;
 };
 
 /**
@@ -65,7 +65,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<bool>
 template <>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::string>
 {
-    using Type = TypeString<std::string>;
+    using Type = BaseTypeImplString<std::string>;
 };
 
 /**
@@ -75,7 +75,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<std::string>
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isSignedIntegral<T>>>
 {
-    using Type = TypeSignedIntegral<T>;
+    using Type = BaseTypeImplSignedIntegral<T>;
 };
 
 /**
@@ -85,7 +85,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isSignedIntegr
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isUnsignedIntegral<T>>>
 {
-    using Type = TypeUnsignedIntegral<T>;
+    using Type = BaseTypeImplUnsignedIntegral<T>;
 };
 
 /**
@@ -95,7 +95,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isUnsignedInte
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isFloatingPoint<T>>>
 {
-    using Type = TypeFloatingPoint<T>;
+    using Type = BaseTypeImplFloatingPoint<T>;
 };
 
 /**
@@ -105,7 +105,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isFloatingPoin
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<std::is_enum<T>>>
 {
-    using Type = TypeEnum<T>;
+    using Type = BaseTypeImplEnum<T>;
 };
 
 /**
@@ -115,7 +115,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<std::is_enum<T>>>
 template <typename T, size_t SIZE>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::array<T, SIZE>>
 {
-    using Type = TypeArray<std::array<T, SIZE>, T, SIZE>;
+    using Type = BaseTypeImplArray<std::array<T, SIZE>, T, SIZE>;
 };
 
 /**
@@ -125,7 +125,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<std::array<T, SIZE>>
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isArray2<T>>>
 {
-    using Type = TypeArray<T, typename std::remove_extent<T>::type, std::extent<T>::value>;
+    using Type = BaseTypeImplArray<T, typename std::remove_extent<T>::type, std::extent<T>::value>;
 };
 
 /**
@@ -135,7 +135,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<T, helper::EnableIf<helper::isArray2<T>>>
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::vector<T>>
 {
-    using Type = TypeVector<std::vector<T>, T>;
+    using Type = BaseTypeImplVector<std::vector<T>, T>;
 };
 
 /**
@@ -145,7 +145,7 @@ struct CPPEXPOSE_TEMPLATE_API GetType<std::vector<T>>
 template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::map<std::string, T>>
 {
-    using Type = TypeMap<std::map<std::string, T>, T>;
+    using Type = BaseTypeImplMap<std::map<std::string, T>, T>;
 };
 
 
