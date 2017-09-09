@@ -1,4 +1,13 @@
 
+TODO
+====
+- Implement hasType() in AbstractBaseType, use it from elsewhere
+- Implement untyped array and map functions
+- Implement function to set named values from Type (using template function and hasType())
+- BaseType<T>::createCopy() does not copy contraints and named values
+- Implement fromString/toString to use named values
+
+
 AbstractBaseType
 |-- MetaType
 |-- NullType
