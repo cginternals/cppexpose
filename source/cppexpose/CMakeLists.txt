@@ -71,6 +71,7 @@ set(headers
 
     ${include_path}/type/AbstractBaseType.h
     ${include_path}/type/AbstractTyped.h
+    ${include_path}/type/AbstractTyped.inl
     ${include_path}/type/BaseType.h
     ${include_path}/type/BaseType.inl
     ${include_path}/type/BaseTypeImpl.h

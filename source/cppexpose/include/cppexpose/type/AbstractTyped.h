@@ -14,6 +14,8 @@ namespace cppexpose
 
 class AbstractBaseType;
 class Type;
+template <typename T>
+class BaseType;
 
 
 /**
@@ -37,6 +39,16 @@ public:
     *    Destructor
     */
     virtual ~AbstractTyped();
+
+    /**
+    *  @brief
+    *    Check type
+    *
+    *  @return
+    *    'true' if type equals ValueType, else 'false'
+    */
+    template <typename ValueType>
+    bool hasType() const;
 
     /**
     *  @brief
@@ -202,3 +214,6 @@ public:
 
 
 } // namespace cppexpose
+
+
+#include <cppexpose/type/AbstractTyped.inl>

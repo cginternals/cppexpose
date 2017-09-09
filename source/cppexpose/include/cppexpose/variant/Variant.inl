@@ -25,16 +25,6 @@ Variant Variant::fromValue(const T & value)
 }
 
 template <typename T>
-bool Variant::hasType() const
-{
-    if (!m_value) {
-        return false;
-    }
-
-    return BaseType<T>().typeName() == typeName();
-}
-
-template <typename T>
 bool Variant::canConvert() const
 {
     if (m_value) {

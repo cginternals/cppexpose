@@ -158,16 +158,6 @@ public:
 
     /**
     *  @brief
-    *    Check type of variant value
-    *
-    *  @return
-    *    'true' if variant value has the template type ValueType, else 'false'
-    */
-    template <typename ValueType>
-    bool hasType() const;
-
-    /**
-    *  @brief
     *    Check if variant type can be converted
     *
     *  @return
