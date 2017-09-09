@@ -1,7 +1,7 @@
 
 #include <cppexpose/type/Converter.h>
 
-#include <cppexpose/value/AbstractValue.h>
+#include <cppexpose/value/AbstractValueContainer.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ bool Converter<bool>::canConvert()
     return true;
 }
 
-bool Converter<bool>::convertTo(const cppexpose::AbstractValue & value)
+bool Converter<bool>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return value.toBool();
 }
@@ -25,7 +25,7 @@ bool Converter<char>::canConvert()
     return true;
 }
 
-char Converter<char>::convertTo(const cppexpose::AbstractValue & value)
+char Converter<char>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<char>(value.toLongLong());
 }
@@ -36,7 +36,7 @@ bool Converter<unsigned char>::canConvert()
     return true;
 }
 
-unsigned char Converter<unsigned char>::convertTo(const cppexpose::AbstractValue & value)
+unsigned char Converter<unsigned char>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<unsigned char>(value.toULongLong());
 }
@@ -47,7 +47,7 @@ bool Converter<short>::canConvert()
     return true;
 }
 
-short Converter<short>::convertTo(const cppexpose::AbstractValue & value)
+short Converter<short>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<short>(value.toLongLong());
 }
@@ -58,7 +58,7 @@ bool Converter<unsigned short>::canConvert()
     return true;
 }
 
-unsigned short Converter<unsigned short>::convertTo(const cppexpose::AbstractValue & value)
+unsigned short Converter<unsigned short>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<unsigned short>(value.toULongLong());
 }
@@ -69,7 +69,7 @@ bool Converter<int>::canConvert()
     return true;
 }
 
-int Converter<int>::convertTo(const cppexpose::AbstractValue & value)
+int Converter<int>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<int>(value.toLongLong());
 }
@@ -80,7 +80,7 @@ bool Converter<unsigned int>::canConvert()
     return true;
 }
 
-unsigned int Converter<unsigned int>::convertTo(const cppexpose::AbstractValue & value)
+unsigned int Converter<unsigned int>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<unsigned int>(value.toULongLong());
 }
@@ -91,7 +91,7 @@ bool Converter<long>::canConvert()
     return true;
 }
 
-long Converter<long>::convertTo(const cppexpose::AbstractValue & value)
+long Converter<long>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<long>(value.toLongLong());
 }
@@ -102,7 +102,7 @@ bool Converter<unsigned long>::canConvert()
     return true;
 }
 
-unsigned long Converter<unsigned long>::convertTo(const cppexpose::AbstractValue & value)
+unsigned long Converter<unsigned long>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<unsigned long>(value.toULongLong());
 }
@@ -113,7 +113,7 @@ bool Converter<long long>::canConvert()
     return true;
 }
 
-long long Converter<long long>::convertTo(const cppexpose::AbstractValue & value)
+long long Converter<long long>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return value.toLongLong();
 }
@@ -124,7 +124,7 @@ bool Converter<unsigned long long>::canConvert()
     return true;
 }
 
-unsigned long long Converter<unsigned long long>::convertTo(const cppexpose::AbstractValue & value)
+unsigned long long Converter<unsigned long long>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return value.toULongLong();
 }
@@ -135,7 +135,7 @@ bool Converter<float>::canConvert()
     return true;
 }
 
-float Converter<float>::convertTo(const cppexpose::AbstractValue & value)
+float Converter<float>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return static_cast<float>(value.toDouble());
 }
@@ -146,7 +146,7 @@ bool Converter<double>::canConvert()
     return true;
 }
 
-double Converter<double>::convertTo(const cppexpose::AbstractValue & value)
+double Converter<double>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return value.toDouble();
 }
@@ -157,7 +157,7 @@ bool Converter<std::string>::canConvert()
     return true;
 }
 
-std::string Converter<std::string>::convertTo(const cppexpose::AbstractValue & value)
+std::string Converter<std::string>::convertTo(const cppexpose::AbstractValueContainer & value)
 {
     return value.toString();
 }

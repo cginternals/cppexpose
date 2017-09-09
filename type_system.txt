@@ -22,8 +22,10 @@ AbstractTyped
 |-- Type
     |-- ConcreteType<T>
 |-- Variant
-|-- AbstractValue
-    |-- InternalValue
-    |-- ExternalValue
-    |-- Property
-    |-- Slot
+|-- AbstractValueContainer
+    |-- ValueContainer<T>
+        |-- InternalValue<T>
+        |-- ExternalValue<T>
+    |-- AbstractProperty
+        |-- Property<T>
+        |-- Slot<T>

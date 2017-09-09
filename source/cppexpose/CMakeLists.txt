@@ -108,10 +108,10 @@ set(headers
     ${include_path}/type/ConcreteType.h
     ${include_path}/type/ConcreteType.inl
 
-    ${include_path}/value/AbstractTypedValue.h
-    ${include_path}/value/AbstractTypedValue.inl
-    ${include_path}/value/AbstractValue.h
-    ${include_path}/value/AbstractValue.inl
+    ${include_path}/value/AbstractValueContainer.h
+    ${include_path}/value/AbstractValueContainer.inl
+    ${include_path}/value/ValueContainer.h
+    ${include_path}/value/ValueContainer.inl
     ${include_path}/value/ExternalValue.h
     ${include_path}/value/ExternalValue.inl
     ${include_path}/value/InternalValue.h
@@ -175,7 +175,7 @@ set(sources
     ${source_path}/type/NullType.cpp
     ${source_path}/type/Type.cpp
 
-    ${source_path}/value/AbstractValue.cpp
+    ${source_path}/value/AbstractValueContainer.cpp
 
 #    ${source_path}/function/Function.cpp
 #    ${source_path}/function/AbstractFunction.cpp

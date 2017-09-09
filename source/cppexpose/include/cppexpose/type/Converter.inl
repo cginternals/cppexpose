@@ -14,7 +14,7 @@ bool Converter<T>::canConvert()
 }
 
 template <typename T>
-T Converter<T>::convertTo(const cppexpose::AbstractValue &)
+T Converter<T>::convertTo(const cppexpose::AbstractValueContainer &)
 {
     return T();
 }

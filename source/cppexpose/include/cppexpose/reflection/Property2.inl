@@ -27,7 +27,7 @@ Value<T>::~Value()
 }
 
 template <typename T>
-std::unique_ptr<AbstractValue> Value<T>::createCopy() const
+std::unique_ptr<AbstractValueContainer> Value<T>::createCopy() const
 {
     auto value = cppassist::make_unique<Value<T>>();
     value->setValue(this->value());

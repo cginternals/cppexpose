@@ -11,14 +11,14 @@ namespace cppexpose
 
 
 template <typename ValueType>
-bool AbstractValue::canConvert() const
+bool AbstractValueContainer::canConvert() const
 {
     // Check if a converter for that type exists
     return Converter<ValueType>::canConvert();
 }
 
 template <typename ValueType>
-ValueType AbstractValue::value() const
+ValueType AbstractValueContainer::value() const
 {
     // Check if a converter for that type exists
     if (Converter<ValueType>::canConvert())

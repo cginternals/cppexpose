@@ -11,7 +11,7 @@ namespace cppexpose
 {
 
 
-class AbstractValue;
+class AbstractValueContainer;
 
 
 /**
@@ -23,7 +23,7 @@ struct CPPEXPOSE_TEMPLATE_API Converter
 {
     /**
     *  @brief
-    *    Check if an AbstractValue can be converted into type T
+    *    Check if an AbstractValueContainer can be converted into type T
     *
     *  @return
     *    'true' if value can be converted, else 'false'
@@ -32,7 +32,7 @@ struct CPPEXPOSE_TEMPLATE_API Converter
 
     /**
     *  @brief
-    *    Convert AbstractValue into type T
+    *    Convert AbstractValueContainer into type T
     *
     *  @param[in] value
     *    Typed value
@@ -40,161 +40,161 @@ struct CPPEXPOSE_TEMPLATE_API Converter
     *  @return
     *    Converted value
     */
-    static T convertTo(const cppexpose::AbstractValue & value);
+    static T convertTo(const cppexpose::AbstractValueContainer & value);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to bool
+*    Converter specialization from AbstractValueContainer to bool
 */
 template <>
 struct CPPEXPOSE_API Converter<bool>
 {
     static bool canConvert();
-    static bool convertTo(const cppexpose::AbstractValue &);
+    static bool convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to char
+*    Converter specialization from AbstractValueContainer to char
 */
 template <>
 struct CPPEXPOSE_API Converter<char>
 {
     static bool canConvert();
-    static char convertTo(const cppexpose::AbstractValue &);
+    static char convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to unsigned char
+*    Converter specialization from AbstractValueContainer to unsigned char
 */
 template <>
 struct CPPEXPOSE_API Converter<unsigned char>
 {
     static bool canConvert();
-    static unsigned char convertTo(const cppexpose::AbstractValue &);
+    static unsigned char convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to short
+*    Converter specialization from AbstractValueContainer to short
 */
 template <>
 struct CPPEXPOSE_API Converter<short>
 {
     static bool canConvert();
-    static short convertTo(const cppexpose::AbstractValue &);
+    static short convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to unsigned short
+*    Converter specialization from AbstractValueContainer to unsigned short
 */
 template <>
 struct CPPEXPOSE_API Converter<unsigned short>
 {
     static bool canConvert();
-    static unsigned short convertTo(const cppexpose::AbstractValue &);
+    static unsigned short convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to int
+*    Converter specialization from AbstractValueContainer to int
 */
 template <>
 struct CPPEXPOSE_API Converter<int>
 {
     static bool canConvert();
-    static int convertTo(const cppexpose::AbstractValue &);
+    static int convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to unsigned int
+*    Converter specialization from AbstractValueContainer to unsigned int
 */
 template <>
 struct CPPEXPOSE_API Converter<unsigned int>
 {
     static bool canConvert();
-    static unsigned int convertTo(const cppexpose::AbstractValue &);
+    static unsigned int convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to long
+*    Converter specialization from AbstractValueContainer to long
 */
 template <>
 struct CPPEXPOSE_API Converter<long>
 {
     static bool canConvert();
-    static long convertTo(const cppexpose::AbstractValue &);
+    static long convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to unsigned long
+*    Converter specialization from AbstractValueContainer to unsigned long
 */
 template <>
 struct CPPEXPOSE_API Converter<unsigned long>
 {
     static bool canConvert();
-    static unsigned long convertTo(const cppexpose::AbstractValue &);
+    static unsigned long convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to long long
+*    Converter specialization from AbstractValueContainer to long long
 */
 template <>
 struct CPPEXPOSE_API Converter<long long>
 {
     static bool canConvert();
-    static long long convertTo(const cppexpose::AbstractValue &);
+    static long long convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to unsigned long long
+*    Converter specialization from AbstractValueContainer to unsigned long long
 */
 template <>
 struct CPPEXPOSE_API Converter<unsigned long long>
 {
     static bool canConvert();
-    static unsigned long long convertTo(const cppexpose::AbstractValue &);
+    static unsigned long long convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to float
+*    Converter specialization from AbstractValueContainer to float
 */
 template <>
 struct CPPEXPOSE_API Converter<float>
 {
     static bool canConvert();
-    static float convertTo(const cppexpose::AbstractValue &);
+    static float convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to double
+*    Converter specialization from AbstractValueContainer to double
 */
 template <>
 struct CPPEXPOSE_API Converter<double>
 {
     static bool canConvert();
-    static double convertTo(const cppexpose::AbstractValue &);
+    static double convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 /**
 *  @brief
-*    Converter specialization from AbstractValue to std::string
+*    Converter specialization from AbstractValueContainer to std::string
 */
 template <>
 struct CPPEXPOSE_API Converter<std::string>
 {
     static bool canConvert();
-    static std::string convertTo(const cppexpose::AbstractValue &);
+    static std::string convertTo(const cppexpose::AbstractValueContainer &);
 };
 
 

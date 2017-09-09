@@ -15,7 +15,7 @@ namespace cppexpose
 {
 
 
-class AbstractValue;
+class AbstractValueContainer;
 class Variant;
 
 
@@ -249,7 +249,7 @@ public:
 
 
 protected:
-    std::unique_ptr<AbstractValue> m_value; ///< Stored value (can be null)
+    std::unique_ptr<AbstractValueContainer> m_value; ///< Stored value (can be null)
 };
 
 

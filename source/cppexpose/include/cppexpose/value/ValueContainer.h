@@ -3,8 +3,8 @@
 
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/type/BaseType.h>
-#include <cppexpose/value/AbstractValue.h>
+#include <cppexpose/type/ConcreteType.h>
+#include <cppexpose/value/AbstractValueContainer.h>
 
 
 namespace cppexpose
@@ -13,10 +13,10 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Abstract base class for typed values
+*    Base class template for typed values
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API AbstractTypedValue : public AbstractValue
+class CPPEXPOSE_TEMPLATE_API ValueContainer : public AbstractValueContainer
 {
 public:
     typedef typename BaseType<T>::ElementType ElementType;
@@ -31,23 +31,22 @@ public:
     *  @brief
     *    Constructor
     */
-    AbstractTypedValue();
+    ValueContainer();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~AbstractTypedValue();
+    virtual ~ValueContainer();
 
     // Virtual Typed interface
     virtual const Type & type() const override;
     virtual Type & type() override;
     virtual const Type & elementType() const override;
     virtual Type & elementType() override;
-    virtual bool hasSymbolicNames() const override;
-    virtual std::vector<std::string> symbolicNames() const override;
     virtual std::string typeName() const override;
     virtual bool isNull() const override;
+    virtual bool isType() const override;
     virtual bool isConst() const override;
     virtual bool isArray() const override;
     virtual bool isDynamicArray() const override;
@@ -58,7 +57,8 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool isType() const override;
+    virtual bool hasSymbolicNames() const override;
+    virtual std::vector<std::string> symbolicNames() const override;
 
     /**
     *  @brief
@@ -205,15 +205,11 @@ public:
 
 
 protected:
-    BaseType<T> m_type; ///< Object that describes the type of the value
-
-    //    Type m_type; ///< Object that describes the type of the value
-    //    : m_type(Type::basicType<T>())
-
+    ConcreteType<T> m_type; ///< Object that describes the type of the value
 };
 
 
 } // namespace cppexpose
 
 
-#include <cppexpose/value/AbstractTypedValue.inl>
+#include <cppexpose/value/ValueContainer.inl>

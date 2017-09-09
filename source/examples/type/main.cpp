@@ -59,7 +59,7 @@ void setInt(const int & value)
     intValue = value;
 }
 
-void printType(const std::string & name, const AbstractValue & value)
+void printType(const std::string & name, const AbstractValueContainer & value)
 {
     std::cout << name << " is " << value.type().typeName() << std::endl;
 
@@ -86,7 +86,7 @@ void printTypeInfo(const std::string & name, Type & type)
     std::cout << std::endl;
 }
 
-void printValue(const std::string & name, AbstractValue & value)
+void printValue(const std::string & name, AbstractValueContainer & value)
 {
     std::cout << name << "(int) = " << value.value<int>() << std::endl;
     std::cout << name << "(float) = " << value.value<float>() << std::endl;

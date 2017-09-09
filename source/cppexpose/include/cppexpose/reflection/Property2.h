@@ -38,8 +38,8 @@ public:
     */
     virtual ~Property();
 
-    // Virtual AbstractValue interface
-    virtual std::unique_ptr<AbstractValue> createCopy() const override;
+    // Virtual AbstractValueContainer interface
+    virtual std::unique_ptr<AbstractValueContainer> createCopy() const override;
 
     /**
     *  @brief

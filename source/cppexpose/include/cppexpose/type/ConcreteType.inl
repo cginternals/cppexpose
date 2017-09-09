@@ -4,8 +4,6 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/type/BaseType.h>
-
 
 namespace cppexpose
 {
@@ -20,6 +18,18 @@ ConcreteType<T>::ConcreteType()
 template <typename T>
 ConcreteType<T>::~ConcreteType()
 {
+}
+
+template <typename T>
+const BaseType<T> * ConcreteType<T>::baseType() const
+{
+    return static_cast<BaseType<T> *>(m_type.get());
+}
+
+template <typename T>
+BaseType<T> * ConcreteType<T>::baseType()
+{
+    return static_cast<BaseType<T> *>(m_type.get());
 }
 
 template <typename T>

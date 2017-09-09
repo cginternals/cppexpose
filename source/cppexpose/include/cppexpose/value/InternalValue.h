@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/value/AbstractTypedValue.h>
+#include <cppexpose/value/ValueContainer.h>
 
 
 namespace cppexpose
@@ -14,10 +14,10 @@ namespace cppexpose
 *    Typed value that is stored directly
 */
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API InternalValue : public AbstractTypedValue<T>
+class CPPEXPOSE_TEMPLATE_API InternalValue : public ValueContainer<T>
 {
 public:
-    typedef typename AbstractTypedValue<T>::ElementType ElementType;
+    typedef typename ValueContainer<T>::ElementType ElementType;
 
 
 public:
@@ -42,8 +42,8 @@ public:
     */
     virtual ~InternalValue();
 
-    // Virtual AbstractValue interface
-    virtual std::unique_ptr<AbstractValue> createCopy() const override;
+    // Virtual AbstractValueContainer interface
+    virtual std::unique_ptr<AbstractValueContainer> createCopy() const override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
     virtual bool toBool() const override;
@@ -55,7 +55,7 @@ public:
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
 
-    // Virtual AbstractTypedValue<T> interface
+    // Virtual ValueContainer<T> interface
     virtual T value() const override;
     virtual void setValue(const T & value) override;
     virtual const T * ptr() const override;

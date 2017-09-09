@@ -7,7 +7,7 @@
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/variant/Variant.h>
-#include <cppexpose/type/AbstractValue.h>
+#include <cppexpose/type/AbstractValueContainer.h>
 
 
 namespace cppexpose
@@ -15,14 +15,14 @@ namespace cppexpose
 
 
 class Object;
-class AbstractValue;
+class AbstractValueContainer;
 
 
 /**
 *  @brief
 *    Base class for properties
 */
-class CPPEXPOSE_API AbstractProperty2 : public AbstractValue
+class CPPEXPOSE_API AbstractProperty2 : public AbstractValueContainer
 {
     friend class Object;
 
@@ -106,9 +106,9 @@ public:
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
 
-    // Virtual AbstractValue interface
+    // Virtual AbstractValueContainer interface
     virtual const AbstractBaseType & type() const override;
-    virtual std::unique_ptr<AbstractValue> createCopy() const override;
+    virtual std::unique_ptr<AbstractValueContainer> createCopy() const override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
     virtual bool toBool() const override;
@@ -153,9 +153,9 @@ protected:
 
 
 protected:
-    std::string                    m_name;   ///< Name of the property
-    Object                       * m_parent; ///< Parent object
-    std::unique_ptr<AbstractValue> m_value;  ///< Typed value
+    std::string                             m_name;   ///< Name of the property
+    Object                                * m_parent; ///< Parent object
+    std::unique_ptr<AbstractValueContainer> m_value;  ///< Typed value
 };
 
 

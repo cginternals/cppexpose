@@ -127,7 +127,7 @@ const AbstractBaseType & AbstractProperty2::type() const
     return m_value->type();
 }
 
-std::unique_ptr<AbstractValue> AbstractProperty2::createCopy() const
+std::unique_ptr<AbstractValueContainer> AbstractProperty2::createCopy() const
 {
     return m_value->createCopy();
 }
