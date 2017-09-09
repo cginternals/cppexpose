@@ -48,7 +48,7 @@ template <typename T>
 T Variant::value() const
 {
     // Type of variant is the wanted type
-    if (m_value && m_value->hasType<T>())
+    if (m_value && this->hasType<T>())
     {
         return static_cast<InternalValue<T> *>(m_value.get())->value();
     }
@@ -69,7 +69,7 @@ T Variant::value() const
 template <typename T>
 T * Variant::ptr()
 {
-    if (m_value && m_value->hasType<T>()) {
+    if (m_value && this->hasType<T>()) {
         return static_cast<InternalValue<T> *>(m_value.get())->ptr();
     } else {
         return nullptr;
@@ -79,7 +79,7 @@ T * Variant::ptr()
 template <typename T>
 const T * Variant::ptr() const
 {
-    if (m_value && m_value->hasType<T>()) {
+    if (m_value && this->hasType<T>()) {
         return static_cast<const InternalValue<T> *>(m_value.get())->ptr();
     } else {
         return nullptr;

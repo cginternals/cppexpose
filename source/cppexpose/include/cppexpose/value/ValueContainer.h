@@ -57,8 +57,6 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool hasSymbolicNames() const override;
-    virtual std::vector<std::string> symbolicNames() const override;
 
     /**
     *  @brief

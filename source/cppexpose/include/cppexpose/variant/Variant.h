@@ -242,8 +242,6 @@ public:
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
     virtual bool isType() const override;
-    virtual bool hasSymbolicNames() const override;
-    virtual std::vector<std::string> symbolicNames() const override;
 
 
 protected:

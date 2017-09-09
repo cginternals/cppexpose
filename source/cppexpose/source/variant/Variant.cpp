@@ -254,15 +254,5 @@ bool Variant::isType() const
     else         return false;
 }
 
-bool Variant::hasSymbolicNames() const
-{
-    return type().hasSymbolicNames();
-}
-
-std::vector<std::string> Variant::symbolicNames() const
-{
-    return type().symbolicNames();
-}
-
 
 } // namespace cppexpose

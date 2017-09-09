@@ -4,6 +4,7 @@
 #include <typeinfo>
 
 #include <cppassist/memory/make_unique.h>
+#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
@@ -108,6 +109,24 @@ std::vector<std::string> MetaType::symbolicNames() const
     static std::vector<std::string> emptyNames;
 
     return emptyNames;
+}
+
+Variant MetaType::minimum() const
+{
+    return Variant();
+}
+
+void MetaType::setMinimum(const Variant &)
+{
+}
+
+Variant MetaType::maximum() const
+{
+    return Variant();
+}
+
+void MetaType::setMaximum(const Variant &)
+{
 }
 
 

@@ -121,17 +121,5 @@ bool ValueContainer<T>::isString() const
     return m_type.isString();
 }
 
-template <typename T>
-bool ValueContainer<T>::hasSymbolicNames() const
-{
-    return m_type.hasSymbolicNames();
-}
-
-template <typename T>
-std::vector<std::string> ValueContainer<T>::symbolicNames() const
-{
-    return m_type.symbolicNames();
-}
-
 
 } // namespace cppexpose

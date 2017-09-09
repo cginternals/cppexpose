@@ -2,6 +2,7 @@
 #include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/type/NullType.h>
+#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
@@ -106,6 +107,24 @@ std::vector<std::string> NullType::symbolicNames() const
     static std::vector<std::string> emptyNames;
 
     return emptyNames;
+}
+
+Variant NullType::minimum() const
+{
+    return Variant();
+}
+
+void NullType::setMinimum(const Variant &)
+{
+}
+
+Variant NullType::maximum() const
+{
+    return Variant();
+}
+
+void NullType::setMaximum(const Variant &)
+{
 }
 
 

@@ -2,6 +2,7 @@
 #include <cppexpose/type/Type.h>
 
 #include <cppexpose/type/NullType.h>
+#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
@@ -139,6 +140,26 @@ bool Type::isString() const
 bool Type::hasSymbolicNames() const
 {
     return m_type->hasSymbolicNames();
+}
+
+Variant Type::minimum() const
+{
+    return m_type->minimum();
+}
+
+void Type::setMinimum(const Variant & value)
+{
+    m_type->setMinimum(value);
+}
+
+Variant Type::maximum() const
+{
+    return m_type->maximum();
+}
+
+void Type::setMaximum(const Variant & value)
+{
+    m_type->setMaximum(value);
 }
 
 std::vector<std::string> Type::symbolicNames() const

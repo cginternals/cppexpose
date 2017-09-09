@@ -3,6 +3,7 @@
 
 
 #include <cppexpose/type/GetType.h>
+#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
@@ -35,6 +36,10 @@ public:
 
     // Virtual AbstractBaseType interface
     virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
+    virtual Variant minimum() const override;
+    virtual void setMinimum(const Variant & value) override;
+    virtual Variant maximum() const override;
+    virtual void setMaximum(const Variant & value) override;
 
     // Virtual Typed interface
     virtual bool isConst() const override;
@@ -63,6 +68,10 @@ public:
 
     // Virtual AbstractBaseType interface
     virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
+    virtual Variant minimum() const override;
+    virtual void setMinimum(const Variant & value) override;
+    virtual Variant maximum() const override;
+    virtual void setMaximum(const Variant & value) override;
 
     // Virtual Typed interface
     virtual bool isConst() const override;

@@ -68,22 +68,21 @@ void printType(const std::string & name, const AbstractValueContainer & value)
 
 void printTypeInfo(const std::string & name, Type & type)
 {
-    std::cout << "typeof(" << name << "): " << type.typeName() << std::endl;
-    std::cout << name << " is const:    " << (type.isConst() ? "true" : "false") << std::endl;
-    std::cout << name << " is boolean:  " << (type.isBoolean() ? "true" : "false") << std::endl;
-    std::cout << name << " is number:   " << (type.isNumber() ? "true" : "false") << std::endl;
-    std::cout << name << " is integral: " << (type.isIntegral() ? "true" : "false") << std::endl;
-    std::cout << name << " is unsigned: " << (type.isUnsigned() ? "true" : "false") << std::endl;
-    std::cout << name << " is float:    " << (type.isFloatingPoint() ? "true" : "false") << std::endl;
-    std::cout << name << " is string:   " << (type.isString() ? "true" : "false") << std::endl;
-    std::cout << name << " is array:    " << (type.isArray() ? "true" : "false") << std::endl;
+    std::cout << "typeof(" << name << "): " << type.typeName() << " ";
+    std::cout << "(";
     if (type.isArray()) {
-        std::cout << "- dynamic: " << (type.isDynamicArray() ? "true" : "false") << std::endl;
-        std::cout << "- elementType: " << type.elementType().typeName() << std::endl;
+        std::cout << "array[] ";
     }
-    std::cout << name << " is map:      " << (type.isMap() ? "true" : "false") << std::endl;
-
-    std::cout << std::endl;
+    if (type.isIntegral() && type.isUnsigned()) {
+        std::cout << "min: " << type.minimum().value<unsigned long long>() << " " << "max: " << type.maximum().value<unsigned long long>();
+    }
+    if (type.isIntegral() && !type.isUnsigned()) {
+        std::cout << "min: " << type.minimum().value<long long>() << " " << "max: " << type.maximum().value<long long>();
+    }
+    if (type.isFloatingPoint()) {
+        std::cout << "min: " << type.minimum().value<double>() << " " << "max: " << type.maximum().value<double>();
+    }
+    std::cout << ")" << std::endl;
 }
 
 void printValue(const std::string & name, AbstractValueContainer & value)
@@ -110,9 +109,8 @@ int main(int, char * [])
     ConcreteType<float> floatType;
     ConcreteType<double> doubleType;
     ConcreteType<std::string> stringType;
-    ConcreteType<int[3]> arrayType1;
-    ConcreteType<std::array<bool, 3>> arrayType2;
-    ConcreteType<std::vector<float>> arrayType3;
+    ConcreteType<std::array<bool, 3>> arrayType1;
+    ConcreteType<std::vector<float>> arrayType2;
     ConcreteType<std::map<std::string, float>> mapType;
     ConcreteType<Test> testType;
     ConcreteType<Weather> weatherType;
@@ -139,9 +137,8 @@ int main(int, char * [])
     printTypeInfo("float",              floatType);
     printTypeInfo("double",             doubleType);
     printTypeInfo("string",             stringType);
-    printTypeInfo("int_array[3]",       arrayType1);
-    printTypeInfo("array<bool, 3>",     arrayType2);
-    printTypeInfo("vector<float>",      arrayType3);
+    printTypeInfo("array<bool, 3>",     arrayType1);
+    printTypeInfo("vector<float>",      arrayType2);
     printTypeInfo("map<string, float>", mapType);
     printTypeInfo("test",               testType);
     printTypeInfo("weather",            weatherType);

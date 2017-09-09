@@ -13,6 +13,13 @@ namespace cppexpose
 {
 
 
+// Do not include Variant in this header file or any of the BaseTypeImpl files.
+// As Variant has to pull in all the types again, this would end up in an inclusion loop
+// that cannot be solved. However, a forward declaration of Variant here allows virtual
+// functions to be defined, which can be implemented in class BaseType (but not before).
+class Variant;
+
+
 /**
 *  @brief
 *    Representation of a basic type
@@ -203,6 +210,58 @@ public:
     *    List of symbolic names
     */
     virtual std::vector<std::string> symbolicNames() const = 0;
+
+    /**
+    *  @brief
+    *    Get minimum value
+    *
+    *  @return
+    *    Minimum value
+    *
+    *  @remarks
+    *    Returns the minimum value if supported by the type.
+    *    Otherwise, defaultValue() is returned.
+    */
+    virtual Variant minimum() const = 0;
+
+    /**
+    *  @brief
+    *    Set minimum value
+    *
+    *  @param[in] value
+    *    Minimum value
+    *
+    *  @remarks
+    *    Sets the minimum value if supported by the type.
+    *    Otherwise, nothing happens.
+    */
+    virtual void setMinimum(const Variant & value) = 0;
+
+    /**
+    *  @brief
+    *    Get maximum value
+    *
+    *  @return
+    *    Maximum value
+    *
+    *  @remarks
+    *    Returns the maximum value if supported by the type.
+    *    Otherwise, defaultValue() is returned.
+    */
+    virtual Variant maximum() const = 0;
+
+    /**
+    *  @brief
+    *    Set maximum value
+    *
+    *  @param[in] value
+    *    Maximum value
+    *
+    *  @remarks
+    *    Sets the maximum value if supported by the type.
+    *    Otherwise, nothing happens.
+    */
+    virtual void setMaximum(const Variant & value) = 0;
 };
 
 

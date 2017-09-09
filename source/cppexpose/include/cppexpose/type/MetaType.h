@@ -50,6 +50,10 @@ public:
     virtual bool isString() const override;
     virtual bool hasSymbolicNames() const override;
     virtual std::vector<std::string> symbolicNames() const override;
+    virtual Variant minimum() const override;
+    virtual void setMinimum(const Variant & value) override;
+    virtual Variant maximum() const override;
+    virtual void setMaximum(const Variant & value) override;
 };
 
 

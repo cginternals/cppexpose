@@ -87,8 +87,76 @@ public:
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
-    virtual bool hasSymbolicNames() const override;
-    virtual std::vector<std::string> symbolicNames() const override;
+
+    /**
+    *  @brief
+    *    Check if there are symbolic names defined for the data type
+    *
+    *  @return
+    *    'true' if type has symbolic names, else 'false'
+    */
+    bool hasSymbolicNames() const;
+
+    /**
+    *  @brief
+    *    Get symbolic names defined for the data type
+    *
+    *  @return
+    *    List of symbolic names
+    */
+    std::vector<std::string> symbolicNames() const;
+
+    /**
+    *  @brief
+    *    Get minimum value
+    *
+    *  @return
+    *    Minimum value
+    *
+    *  @remarks
+    *    Returns the minimum value if supported by the type.
+    *    Otherwise, defaultValue() is returned.
+    */
+    Variant minimum() const;
+
+    /**
+    *  @brief
+    *    Set minimum value
+    *
+    *  @param[in] value
+    *    Minimum value
+    *
+    *  @remarks
+    *    Sets the minimum value if supported by the type.
+    *    Otherwise, nothing happens.
+    */
+    void setMinimum(const Variant & value);
+
+    /**
+    *  @brief
+    *    Get maximum value
+    *
+    *  @return
+    *    Maximum value
+    *
+    *  @remarks
+    *    Returns the maximum value if supported by the type.
+    *    Otherwise, defaultValue() is returned.
+    */
+    Variant maximum() const;
+
+    /**
+    *  @brief
+    *    Set maximum value
+    *
+    *  @param[in] value
+    *    Maximum value
+    *
+    *  @remarks
+    *    Sets the maximum value if supported by the type.
+    *    Otherwise, nothing happens.
+    */
+    void setMaximum(const Variant & value);
 
 
 protected:
