@@ -20,6 +20,7 @@ Variant Variant::fromValue(const T & value)
 {
     Variant variant;
     variant.m_value = cppassist::make_unique<InternalValue<T>>(value);
+
     return variant;
 }
 

@@ -143,9 +143,7 @@ public:
     *    Destructor
     */
     ~Variant();
-    //@}
 
-    //@{
     /**
     *  @brief
     *    Copy operator

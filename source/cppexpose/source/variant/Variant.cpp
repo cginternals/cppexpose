@@ -13,23 +13,17 @@ namespace cppexpose
 
 Variant Variant::array()
 {
-    Variant variant;
-    variant.m_value = cppassist::make_unique<InternalValue<VariantArray>>(VariantArray());
-    return variant;
+    return Variant::fromValue(VariantArray());
 }
 
 Variant Variant::array(size_t count)
 {
-    Variant variant;
-    variant.m_value = cppassist::make_unique<InternalValue<VariantArray>>(VariantArray(count));
-    return variant;
+    return Variant::fromValue(VariantArray(count));
 }
 
 Variant Variant::map()
 {
-    Variant variant;
-    variant.m_value = cppassist::make_unique<InternalValue<VariantMap>>(VariantMap());
-    return variant;
+    return Variant::fromValue(VariantMap());
 }
 
 Variant::Variant()
