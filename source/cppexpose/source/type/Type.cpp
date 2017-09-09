@@ -142,6 +142,11 @@ bool Type::hasSymbolicNames() const
     return m_type->hasSymbolicNames();
 }
 
+std::vector<std::string> Type::symbolicNames() const
+{
+    return m_type->symbolicNames();
+}
+
 Variant Type::minimum() const
 {
     return m_type->minimum();
@@ -160,11 +165,6 @@ Variant Type::maximum() const
 void Type::setMaximum(const Variant & value)
 {
     m_type->setMaximum(value);
-}
-
-std::vector<std::string> Type::symbolicNames() const
-{
-    return m_type->symbolicNames();
 }
 
 void Type::makeUnique()
