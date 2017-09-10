@@ -133,19 +133,19 @@ public:
     virtual bool fromULongLong(unsigned long long value) override;
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
+    virtual size_t numElements() const override;
+    virtual std::vector<std::string> keys() const override;
 
     // Virtual ValueContainer<T> interface
     virtual T value() const override;
     virtual void setValue(const T & value) override;
     virtual const T * ptr() const override;
     virtual T * ptr() override;
-    virtual size_t numElements() const override;
-    virtual ElementType getElement(size_t i) const override;
-    virtual void setElement(size_t i, ElementType value) override;
+    virtual ElementType elementValue(size_t i) const override;
+    virtual void setElementValue(size_t i, ElementType value) override;
     virtual void push(ElementType value) override;
-    virtual std::vector<std::string> keys() const override;
-    virtual ElementType getElement(const std::string & key) const override;
-    virtual void setElement(const std::string & key, ElementType value) override;
+    virtual ElementType elementValue(const std::string & key) const override;
+    virtual void setElementValue(const std::string & key, ElementType value) override;
 
 
 protected:

@@ -214,11 +214,11 @@ int main(int, char * [])
     test.print();
     extValue3.setValue(std::array<int, 3>({{0, 0, 0}}));
     test.print();
-    extValue3.setElement(0, 100);
+    extValue3.setElementValue(0, 100);
     test.print();
-    extValue3.setElement(1, 101);
+    extValue3.setElement(1, "101");
     test.print();
-    extValue3.setElement(2, 102);
+    extValue3.setElementValue(2, 102);
     test.print();
 
     // Exit

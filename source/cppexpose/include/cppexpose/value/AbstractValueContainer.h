@@ -3,12 +3,17 @@
 
 
 #include <memory>
+#include <vector>
+#include <string>
 
 #include <cppexpose/type/AbstractTyped.h>
 
 
 namespace cppexpose
 {
+
+
+class Variant;
 
 
 /**
@@ -169,6 +174,101 @@ public:
     *    'true' if value could be set, else 'false'
     */
     virtual bool fromDouble(double value) = 0;
+
+    /**
+    *  @brief
+    *    Get number of elements of an array
+    *
+    *  @return
+    *    Number of elements, 1 if not an array
+    *
+    *  @remarks
+    *    Only works if the type is an array (see isArray()).
+    */
+    virtual size_t numElements() const = 0;
+
+    /**
+    *  @brief
+    *    Get element of an array as variant
+    *
+    *  @param[in] i
+    *    Index of element
+    *
+    *  @return
+    *    Value of element, default value if index is invalid
+    *
+    *  @remarks
+    *    Only works if the type is an array (see isArray()).
+    */
+    virtual Variant element(size_t i) const = 0;
+
+    /**
+    *  @brief
+    *    Set element of an array as variant
+    *
+    *  @param[in] i
+    *    Index of element
+    *  @param[in] value
+    *    Value of element
+    *
+    *  @remarks
+    *    Only works if the type is an array (see isArray()).
+    */
+    virtual void setElement(size_t i, const Variant & value) = 0;
+
+    /**
+    *  @brief
+    *    Add element as variant to an array
+    *
+    *  @param[in] value
+    *    Value of element
+    *
+    *  @remarks
+    *    Only works if the type is a dynamic array (see isDynamicArray()).
+    *    The default implementation of this function does nothing (NOP).
+    */
+    virtual void pushElement(const Variant & value) = 0;
+
+    /**
+    *  @brief
+    *    Get list of keys of a map
+    *
+    *  @return
+    *    List of keys, empty list if not a map
+    *
+    *  @remarks
+    *    Only works if the type is a map (see isMap()).
+    */
+    virtual std::vector<std::string> keys() const = 0;
+
+    /**
+    *  @brief
+    *    Get element of a map as variant
+    *
+    *  @param[in] key
+    *    Key
+    *
+    *  @return
+    *    Value of element, default value if key is invalid
+    *
+    *  @remarks
+    *    Only works if the type is a map (see isMap()).
+    */
+    virtual Variant element(const std::string & key) const = 0;
+
+    /**
+    *  @brief
+    *    Set element of a map as variant
+    *
+    *  @param[in] key
+    *    Key
+    *  @param[in] value
+    *    Value of element
+    *
+    *  @remarks
+    *    Only works if the type is a map (see isMap()).
+    */
+    virtual void setElement(const std::string & key, const Variant & value) = 0;
 };
 
 

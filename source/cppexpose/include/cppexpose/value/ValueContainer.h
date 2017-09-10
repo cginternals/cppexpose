@@ -58,6 +58,13 @@ public:
     virtual bool isFloatingPoint() const override;
     virtual bool isString() const override;
 
+    // Virtual AbstractValueContainer interface
+    virtual Variant element(size_t i) const override;
+    virtual void setElement(size_t i, const Variant & value) override;
+    virtual void pushElement(const Variant & value) override;
+    virtual Variant element(const std::string & key) const override;
+    virtual void setElement(const std::string & key, const Variant & value) override;
+
     /**
     *  @brief
     *    Get value
@@ -108,18 +115,6 @@ public:
 
     /**
     *  @brief
-    *    Get number of elements of an array
-    *
-    *  @return
-    *    Number of elements, 1 if not an array
-    *
-    *  @remarks
-    *    Only works if the type is an array (see isArray()).
-    */
-    virtual size_t numElements() const = 0;
-
-    /**
-    *  @brief
     *    Get element of an array
     *
     *  @param[in] i
@@ -131,7 +126,7 @@ public:
     *  @remarks
     *    Only works if the type is an array (see isArray()).
     */
-    virtual ElementType getElement(size_t i) const = 0;
+    virtual ElementType elementValue(size_t i) const = 0;
 
     /**
     *  @brief
@@ -145,7 +140,7 @@ public:
     *  @remarks
     *    Only works if the type is an array (see isArray()).
     */
-    virtual void setElement(size_t i, ElementType value) = 0;
+    virtual void setElementValue(size_t i, ElementType value) = 0;
 
     /**
     *  @brief
@@ -162,18 +157,6 @@ public:
 
     /**
     *  @brief
-    *    Get list of keys of a map
-    *
-    *  @return
-    *    List of keys, empty list if not a map
-    *
-    *  @remarks
-    *    Only works if the type is a map (see isMap()).
-    */
-    virtual std::vector<std::string> keys() const = 0;
-
-    /**
-    *  @brief
     *    Get element of a map
     *
     *  @param[in] key
@@ -185,7 +168,7 @@ public:
     *  @remarks
     *    Only works if the type is a map (see isMap()).
     */
-    virtual ElementType getElement(const std::string & key) const = 0;
+    virtual ElementType elementValue(const std::string & key) const = 0;
 
     /**
     *  @brief
@@ -199,7 +182,7 @@ public:
     *  @remarks
     *    Only works if the type is a map (see isMap()).
     */
-    virtual void setElement(const std::string & key, ElementType value) = 0;
+    virtual void setElementValue(const std::string & key, ElementType value) = 0;
 
 
 protected:

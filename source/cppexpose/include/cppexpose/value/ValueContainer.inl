@@ -3,6 +3,7 @@
 
 
 #include <cppexpose/type/Type.h>
+#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose
@@ -119,6 +120,36 @@ template <typename T>
 bool ValueContainer<T>::isString() const
 {
     return m_type.isString();
+}
+
+template <typename T>
+Variant ValueContainer<T>::element(size_t i) const
+{
+    return Variant::fromValue<ElementType>(this->elementValue(i));
+}
+
+template <typename T>
+void ValueContainer<T>::setElement(size_t i, const Variant & value)
+{
+    this->setElementValue(i, value.value<ElementType>());
+}
+
+template <typename T>
+void ValueContainer<T>::pushElement(const Variant & value)
+{
+    this->push(value.value<ElementType>());
+}
+
+template <typename T>
+Variant ValueContainer<T>::element(const std::string & key) const
+{
+    return Variant::fromValue<ElementType>(this->elementValue(key));
+}
+
+template <typename T>
+void ValueContainer<T>::setElement(const std::string & key, const Variant & value)
+{
+    this->setElementValue(key, value.value<ElementType>());
 }
 
 

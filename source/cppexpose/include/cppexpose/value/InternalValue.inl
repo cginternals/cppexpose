@@ -121,6 +121,18 @@ bool InternalValue<T>::fromDouble(double value)
 }
 
 template <typename T>
+size_t InternalValue<T>::numElements() const
+{
+    return this->m_type.baseType()->numElements(m_value);
+}
+
+template <typename T>
+std::vector<std::string> InternalValue<T>::keys() const
+{
+    return this->m_type.baseType()->keys(m_value);
+}
+
+template <typename T>
 T InternalValue<T>::value() const
 {
     return m_value;
@@ -146,19 +158,13 @@ T * InternalValue<T>::ptr()
 }
 
 template <typename T>
-size_t InternalValue<T>::numElements() const
-{
-    return this->m_type.baseType()->numElements(m_value);
-}
-
-template <typename T>
-typename InternalValue<T>::ElementType InternalValue<T>::getElement(size_t i) const
+typename InternalValue<T>::ElementType InternalValue<T>::elementValue(size_t i) const
 {
     return this->m_type.baseType()->getElement(m_value, i);
 }
 
 template <typename T>
-void InternalValue<T>::setElement(size_t i, ElementType value)
+void InternalValue<T>::setElementValue(size_t i, ElementType value)
 {
     this->m_type.baseType()->setElement(m_value, i, value);
     this->valueChanged(m_value);
@@ -172,19 +178,13 @@ void InternalValue<T>::push(ElementType value)
 }
 
 template <typename T>
-std::vector<std::string> InternalValue<T>::keys() const
-{
-    return this->m_type.baseType()->keys(m_value);
-}
-
-template <typename T>
-typename InternalValue<T>::ElementType InternalValue<T>::getElement(const std::string & key) const
+typename InternalValue<T>::ElementType InternalValue<T>::elementValue(const std::string & key) const
 {
     return this->m_type.baseType()->getElement(m_value, key);
 }
 
 template <typename T>
-void InternalValue<T>::setElement(const std::string & key, ElementType value)
+void InternalValue<T>::setElementValue(const std::string & key, ElementType value)
 {
     this->m_type.baseType()->setElement(m_value, key, value);
     this->valueChanged(m_value);

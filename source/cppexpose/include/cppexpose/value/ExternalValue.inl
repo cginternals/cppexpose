@@ -203,6 +203,18 @@ bool ExternalValue<T>::fromDouble(double value)
 }
 
 template <typename T>
+size_t ExternalValue<T>::numElements() const
+{
+    return this->m_type.baseType()->numElements(this->value());
+}
+
+template <typename T>
+std::vector<std::string> ExternalValue<T>::keys() const
+{
+    return this->m_type.baseType()->keys(this->value());
+}
+
+template <typename T>
 T ExternalValue<T>::value() const
 {
     return m_getter();
@@ -228,13 +240,7 @@ T * ExternalValue<T>::ptr()
 }
 
 template <typename T>
-size_t ExternalValue<T>::numElements() const
-{
-    return this->m_type.baseType()->numElements(this->value());
-}
-
-template <typename T>
-typename ExternalValue<T>::ElementType ExternalValue<T>::getElement(size_t i) const
+typename ExternalValue<T>::ElementType ExternalValue<T>::elementValue(size_t i) const
 {
     if (m_hasElementFuncs)
     {
@@ -247,7 +253,7 @@ typename ExternalValue<T>::ElementType ExternalValue<T>::getElement(size_t i) co
 }
 
 template <typename T>
-void ExternalValue<T>::setElement(size_t i, ElementType value)
+void ExternalValue<T>::setElementValue(size_t i, ElementType value)
 {
     if (m_hasElementFuncs)
     {
@@ -270,19 +276,13 @@ void ExternalValue<T>::push(ElementType value)
 }
 
 template <typename T>
-std::vector<std::string> ExternalValue<T>::keys() const
-{
-    return this->m_type.baseType()->keys(this->value());
-}
-
-template <typename T>
-typename ExternalValue<T>::ElementType ExternalValue<T>::getElement(const std::string & key) const
+typename ExternalValue<T>::ElementType ExternalValue<T>::elementValue(const std::string & key) const
 {
     return this->m_type.baseType()->getElement(this->value(), key);
 }
 
 template <typename T>
-void ExternalValue<T>::setElement(const std::string & key, ElementType value)
+void ExternalValue<T>::setElementValue(const std::string & key, ElementType value)
 {
     T tmp = this->value();
 
