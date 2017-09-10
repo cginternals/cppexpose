@@ -166,6 +166,16 @@ const Type & Variant::type() const
     else         return nullType;
 }
 
+const AbstractBaseType * Variant::baseType() const
+{
+    return m_value->baseType();
+}
+
+AbstractBaseType * Variant::baseType()
+{
+    return m_value->baseType();
+}
+
 Type & Variant::elementType()
 {
     static Type nullType;

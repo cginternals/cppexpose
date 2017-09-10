@@ -229,6 +229,8 @@ public:
     // Virtual Typed interface
     virtual const Type & type() const override;
     virtual Type & type() override;
+    virtual const AbstractBaseType * baseType() const override;
+    virtual AbstractBaseType * baseType() override;
     virtual const Type & elementType() const override;
     virtual Type & elementType() override;
     virtual std::string typeName() const override;

@@ -33,6 +33,18 @@ Type & ValueContainer<T>::type()
 }
 
 template <typename T>
+const AbstractBaseType * ValueContainer<T>::baseType() const
+{
+    return m_type.baseType();
+}
+
+template <typename T>
+AbstractBaseType * ValueContainer<T>::baseType()
+{
+    return m_type.baseType();
+}
+
+template <typename T>
 const Type & ValueContainer<T>::elementType() const
 {
     return m_type.elementType();

@@ -21,18 +21,6 @@ ConcreteType<T>::~ConcreteType()
 }
 
 template <typename T>
-const BaseType<T> * ConcreteType<T>::baseType() const
-{
-    return static_cast<BaseType<T> *>(m_type.get());
-}
-
-template <typename T>
-BaseType<T> * ConcreteType<T>::baseType()
-{
-    return static_cast<BaseType<T> *>(m_type.get());
-}
-
-template <typename T>
 const std::map<std::string, T> & ConcreteType<T>::namedValues() const
 {
     return static_cast<BaseType<T> *>(m_type.get())->namedValues();

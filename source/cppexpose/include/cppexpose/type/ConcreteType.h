@@ -39,8 +39,6 @@ public:
     ~ConcreteType();
 
     // Access functions to the concrete type
-    const BaseType<T> * baseType() const;
-    BaseType<T> * baseType();
     const std::map<std::string, T> & namedValues() const;
     void setNamedValues(const std::map<std::string, T> & namedValues);
     const T & defaultValue() const;

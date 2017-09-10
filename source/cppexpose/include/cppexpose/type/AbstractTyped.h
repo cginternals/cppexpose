@@ -70,6 +70,24 @@ public:
 
     /**
     *  @brief
+    *    Get base type
+    *
+    *  @return
+    *    Type object
+    */
+    virtual const AbstractBaseType * baseType() const = 0;
+
+    /**
+    *  @brief
+    *    Get base type
+    *
+    *  @return
+    *    Type object
+    */
+    virtual AbstractBaseType * baseType() = 0;
+
+    /**
+    *  @brief
     *    Get type of elements
     *
     *  @return

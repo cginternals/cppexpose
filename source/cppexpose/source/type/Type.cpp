@@ -46,6 +46,16 @@ Type & Type::type()
     return *this;
 }
 
+const AbstractBaseType * Type::baseType() const
+{
+    return m_type.get();
+}
+
+AbstractBaseType * Type::baseType()
+{
+    return m_type.get();
+}
+
 const Type & Type::elementType() const
 {
     // Check if type has an element type

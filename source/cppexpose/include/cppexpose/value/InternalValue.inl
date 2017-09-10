@@ -38,13 +38,13 @@ std::unique_ptr<AbstractValueContainer> InternalValue<T>::createCopy() const
 template <typename T>
 std::string InternalValue<T>::toString() const
 {
-    return this->m_type.baseType()->toString(m_value);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toString(m_value);
 }
 
 template <typename T>
 bool InternalValue<T>::fromString(const std::string & value)
 {
-    if (!this->m_type.baseType()->fromString(m_value, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromString(m_value, value)) {
         return false;
     }
 
@@ -55,13 +55,13 @@ bool InternalValue<T>::fromString(const std::string & value)
 template <typename T>
 bool InternalValue<T>::toBool() const
 {
-    return this->m_type.baseType()->toBool(m_value);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toBool(m_value);
 }
 
 template <typename T>
 bool InternalValue<T>::fromBool(bool value)
 {
-    if (!this->m_type.baseType()->fromBool(m_value, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromBool(m_value, value)) {
         return false;
     }
 
@@ -72,13 +72,13 @@ bool InternalValue<T>::fromBool(bool value)
 template <typename T>
 long long InternalValue<T>::toLongLong() const
 {
-    return this->m_type.baseType()->toLongLong(m_value);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toLongLong(m_value);
 }
 
 template <typename T>
 bool InternalValue<T>::fromLongLong(long long value)
 {
-    if (!this->m_type.baseType()->fromLongLong(m_value, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromLongLong(m_value, value)) {
         return false;
     }
 
@@ -89,13 +89,13 @@ bool InternalValue<T>::fromLongLong(long long value)
 template <typename T>
 unsigned long long InternalValue<T>::toULongLong() const
 {
-    return this->m_type.baseType()->toULongLong(m_value);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toULongLong(m_value);
 }
 
 template <typename T>
 bool InternalValue<T>::fromULongLong(unsigned long long value)
 {
-    if (!this->m_type.baseType()->fromULongLong(m_value, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromULongLong(m_value, value)) {
         return false;
     }
 
@@ -106,13 +106,13 @@ bool InternalValue<T>::fromULongLong(unsigned long long value)
 template <typename T>
 double InternalValue<T>::toDouble() const
 {
-    return this->m_type.baseType()->toDouble(m_value);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toDouble(m_value);
 }
 
 template <typename T>
 bool InternalValue<T>::fromDouble(double value)
 {
-    if (!this->m_type.baseType()->fromDouble(m_value, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromDouble(m_value, value)) {
         return false;
     }
 
@@ -123,13 +123,13 @@ bool InternalValue<T>::fromDouble(double value)
 template <typename T>
 size_t InternalValue<T>::numElements() const
 {
-    return this->m_type.baseType()->numElements(m_value);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->numElements(m_value);
 }
 
 template <typename T>
 std::vector<std::string> InternalValue<T>::keys() const
 {
-    return this->m_type.baseType()->keys(m_value);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->keys(m_value);
 }
 
 template <typename T>
@@ -160,33 +160,33 @@ T * InternalValue<T>::ptr()
 template <typename T>
 typename InternalValue<T>::ElementType InternalValue<T>::elementValue(size_t i) const
 {
-    return this->m_type.baseType()->getElement(m_value, i);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->getElement(m_value, i);
 }
 
 template <typename T>
 void InternalValue<T>::setElementValue(size_t i, ElementType value)
 {
-    this->m_type.baseType()->setElement(m_value, i, value);
+    static_cast<BaseType<T> *>(this->m_type.baseType())->setElement(m_value, i, value);
     this->valueChanged(m_value);
 }
 
 template <typename T>
 void InternalValue<T>::push(ElementType value)
 {
-    this->m_type.baseType()->push(m_value, value);
+    static_cast<BaseType<T> *>(this->m_type.baseType())->push(m_value, value);
     this->valueChanged(m_value);
 }
 
 template <typename T>
 typename InternalValue<T>::ElementType InternalValue<T>::elementValue(const std::string & key) const
 {
-    return this->m_type.baseType()->getElement(m_value, key);
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->getElement(m_value, key);
 }
 
 template <typename T>
 void InternalValue<T>::setElementValue(const std::string & key, ElementType value)
 {
-    this->m_type.baseType()->setElement(m_value, key, value);
+    static_cast<BaseType<T> *>(this->m_type.baseType())->setElement(m_value, key, value);
     this->valueChanged(m_value);
 }
 

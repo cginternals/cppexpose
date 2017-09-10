@@ -100,7 +100,7 @@ std::unique_ptr<AbstractValueContainer> ExternalValue<T>::createCopy() const
 template <typename T>
 std::string ExternalValue<T>::toString() const
 {
-    return this->m_type.baseType()->toString(this->value());
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toString(this->value());
 }
 
 template <typename T>
@@ -108,7 +108,7 @@ bool ExternalValue<T>::fromString(const std::string & value)
 {
     T tmp;
 
-    if (!this->m_type.baseType()->fromString(tmp, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromString(tmp, value)) {
         return false;
     }
 
@@ -119,7 +119,7 @@ bool ExternalValue<T>::fromString(const std::string & value)
 template <typename T>
 bool ExternalValue<T>::toBool() const
 {
-    return this->m_type.baseType()->toBool(this->value());
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toBool(this->value());
 }
 
 template <typename T>
@@ -127,7 +127,7 @@ bool ExternalValue<T>::fromBool(bool value)
 {
     T tmp;
 
-    if (!this->m_type.baseType()->fromBool(tmp, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromBool(tmp, value)) {
         return false;
     }
 
@@ -138,7 +138,7 @@ bool ExternalValue<T>::fromBool(bool value)
 template <typename T>
 long long ExternalValue<T>::toLongLong() const
 {
-    return this->m_type.baseType()->toLongLong(this->value());
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toLongLong(this->value());
 }
 
 template <typename T>
@@ -146,7 +146,7 @@ bool ExternalValue<T>::fromLongLong(long long value)
 {
     T tmp;
 
-    if (!this->m_type.baseType()->fromLongLong(tmp, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromLongLong(tmp, value)) {
         return false;
     }
 
@@ -157,7 +157,7 @@ bool ExternalValue<T>::fromLongLong(long long value)
 template <typename T>
 unsigned long long ExternalValue<T>::toULongLong() const
 {
-    return this->m_type.baseType()->toULongLong(this->value());
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toULongLong(this->value());
 }
 
 template <typename T>
@@ -165,7 +165,7 @@ bool ExternalValue<T>::fromULongLong(unsigned long long value)
 {
     T tmp;
 
-    if (!this->m_type.baseType()->fromULongLong(tmp, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromULongLong(tmp, value)) {
         return false;
     }
 
@@ -176,7 +176,7 @@ bool ExternalValue<T>::fromULongLong(unsigned long long value)
 template <typename T>
 double ExternalValue<T>::toDouble() const
 {
-    return this->m_type.baseType()->toDouble(this->value());
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->toDouble(this->value());
 }
 
 template <typename T>
@@ -184,7 +184,7 @@ bool ExternalValue<T>::fromDouble(double value)
 {
     T tmp;
 
-    if (!this->m_type.baseType()->fromDouble(tmp, value)) {
+    if (!static_cast<BaseType<T> *>(this->m_type.baseType())->fromDouble(tmp, value)) {
         return false;
     }
 
@@ -195,13 +195,13 @@ bool ExternalValue<T>::fromDouble(double value)
 template <typename T>
 size_t ExternalValue<T>::numElements() const
 {
-    return this->m_type.baseType()->numElements(this->value());
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->numElements(this->value());
 }
 
 template <typename T>
 std::vector<std::string> ExternalValue<T>::keys() const
 {
-    return this->m_type.baseType()->keys(this->value());
+    return static_cast<const BaseType<T> *>(this->m_type.baseType())->keys(this->value());
 }
 
 template <typename T>
@@ -238,7 +238,7 @@ typename ExternalValue<T>::ElementType ExternalValue<T>::elementValue(size_t i) 
     }
     else
     {
-        return this->m_type.baseType()->getElement(this->value(), i);
+        return static_cast<const BaseType<T> *>(this->m_type.baseType())->getElement(this->value(), i);
     }
 }
 
@@ -252,7 +252,7 @@ void ExternalValue<T>::setElementValue(size_t i, ElementType value)
     else
     {
         T tmp = this->value();
-        this->m_type.baseType()->setElement(tmp, i, value);
+        static_cast<BaseType<T> *>(this->m_type.baseType())->setElement(tmp, i, value);
         setValue(tmp);
     }
 }
@@ -261,7 +261,7 @@ template <typename T>
 void ExternalValue<T>::push(ElementType value)
 {
     T tmp = this->value();
-    this->m_type.baseType()->push(tmp, value);
+    static_cast<BaseType<T> *>(this->m_type.baseType())->push(tmp, value);
     setValue(tmp);
 }
 
@@ -274,7 +274,7 @@ typename ExternalValue<T>::ElementType ExternalValue<T>::elementValue(const std:
     }
     else
     {
-        return this->m_type.baseType()->getElement(this->value(), key);
+        return static_cast<const BaseType<T> *>(this->m_type.baseType())->getElement(this->value(), key);
     }
 }
 
@@ -288,7 +288,7 @@ void ExternalValue<T>::setElementValue(const std::string & key, ElementType valu
     else
     {
         T tmp = this->value();
-        this->m_type.baseType()->setElement(tmp, key, value);
+        static_cast<BaseType<T> *>(this->m_type.baseType())->setElement(tmp, key, value);
         setValue(tmp);
     }
 }
