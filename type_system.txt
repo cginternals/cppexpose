@@ -1,7 +1,6 @@
 
 TODO
 ====
-- operator == for Type
 - operator == for Variant
 - Implement function to set named values from Type (using template function and hasType())
 

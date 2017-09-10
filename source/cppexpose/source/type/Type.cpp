@@ -36,6 +36,16 @@ Type & Type::operator=(const Type & type)
     return *this;
 }
 
+bool Type::operator==(const Type & type) const
+{
+    return *type.baseType() == *m_type.get();
+}
+
+bool Type::operator!=(const Type & type) const
+{
+    return *type.baseType() != *m_type.get();
+}
+
 const Type & Type::type() const
 {
     return *this;

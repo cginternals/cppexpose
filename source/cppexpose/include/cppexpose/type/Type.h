@@ -67,6 +67,36 @@ public:
     *    Type object
     */
     Type & operator=(const Type & type);
+
+    /**
+    *  @brief
+    *    Compare two types
+    *
+    *  @param[in] type
+    *    Type to compare with
+    *
+    *  @return
+    *    'true' if types are equal, else 'false'
+    *
+    *  @see
+    *    AbstractBaseType::operator==()
+    */
+    bool operator==(const Type & type) const;
+
+    /**
+    *  @brief
+    *    Compare two types
+    *
+    *  @param[in] type
+    *    Type to compare with
+    *
+    *  @return
+    *    'true' if types are different, else 'false'
+    *
+    *  @see
+    *    AbstractBaseType::operator==()
+    */
+    bool operator!=(const Type & type) const;
     //@}
 
     // Virtual AbstractTyped interface

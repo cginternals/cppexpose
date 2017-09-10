@@ -44,6 +44,35 @@ public:
 
     /**
     *  @brief
+    *    Compare two types
+    *
+    *  @param[in] type
+    *    Type to compare with
+    *
+    *  @return
+    *    'true' if types are equal, else 'false'
+    *
+    *  @remarks
+    *    Type comparison is performed by comparing the type names. This includes
+    *    base type and container properties of a type. Other modifications, such
+    *    as value range and named values are not considered.
+    */
+    bool operator==(const AbstractBaseType & type) const;
+
+    /**
+    *  @brief
+    *    Compare two types
+    *
+    *  @param[in] type
+    *    Type to compare with
+    *
+    *  @return
+    *    'true' if types are different, else 'false'
+    */
+    bool operator!=(const AbstractBaseType & type) const;
+
+    /**
+    *  @brief
     *    Create a copy of the type
     *
     *  @return

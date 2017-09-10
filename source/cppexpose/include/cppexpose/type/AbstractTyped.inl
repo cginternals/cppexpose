@@ -9,7 +9,7 @@ namespace cppexpose
 template <typename T>
 bool AbstractTyped::hasType() const
 {
-    return this->typeName() == BaseType<T>().typeName();
+    return *this->baseType() == BaseType<T>();
 }
 
 

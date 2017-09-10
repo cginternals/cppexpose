@@ -167,6 +167,12 @@ int main(int, char * [])
     ConcreteType<Test> testType;
     ConcreteType<Weather> weatherType;
 
+    if (boolType == weatherType) {
+        std::cout << "boolean is weather!! Wait, what?" << std::endl;
+    } else {
+        std::cout << "everything is fine" << std::endl;
+    }
+
     std::cout << "int: "           << intType.minimumValue()    << " .. " << intType.maximumValue()    << std::endl;
     std::cout << "unsigned int: "  << uintType.minimumValue()   << " .. " << uintType.maximumValue()   << std::endl;
     std::cout << "long: "          << longType.minimumValue()   << " .. " << longType.maximumValue()   << std::endl;
