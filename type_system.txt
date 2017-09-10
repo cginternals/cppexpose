@@ -1,8 +1,8 @@
 
 TODO
 ====
-- operator == for Variant
 - Property classes
+- JSON classes
 
 
 AbstractBaseType

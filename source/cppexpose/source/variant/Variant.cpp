@@ -137,10 +137,14 @@ Variant & Variant::operator=(const Variant & variant)
     return *this;
 }
 
-bool Variant::operator==(const Variant &) const
+bool Variant::operator==(const Variant & variant) const
 {
-    // [TODO]
-    return false;
+    return m_value->compareTypeAndValue(*variant.m_value.get());
+}
+
+bool Variant::operator!=(const Variant & variant) const
+{
+    return !m_value->compareTypeAndValue(*variant.m_value.get());
 }
 
 /*

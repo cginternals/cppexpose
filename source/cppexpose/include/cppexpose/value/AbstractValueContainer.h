@@ -269,6 +269,8 @@ public:
     *    Only works if the type is a map (see isMap()).
     */
     virtual void setElement(const std::string & key, const Variant & value) = 0;
+
+    virtual bool compareTypeAndValue(const AbstractValueContainer & value) const = 0;
 };
 
 

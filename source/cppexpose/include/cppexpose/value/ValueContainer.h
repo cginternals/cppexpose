@@ -66,6 +66,7 @@ public:
     virtual void pushElement(const Variant & value) override;
     virtual Variant element(const std::string & key) const override;
     virtual void setElement(const std::string & key, const Variant & value) override;
+    virtual bool compareTypeAndValue(const AbstractValueContainer & value) const override;
 
     /**
     *  @brief

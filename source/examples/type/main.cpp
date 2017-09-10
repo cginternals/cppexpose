@@ -227,6 +227,14 @@ int main(int, char * [])
     extValue3.setElementValue(2, 102);
     test.print();
 
+    Variant v1 = 100;
+    Variant v2 = 101 - 1;
+    Variant v3 = "100";
+
+    if (v1 == v2) std::cout << "v1 == v2" << std::endl;
+    if (v1 == v3) std::cout << "v1 == v3" << std::endl;
+    if (v2 == v3) std::cout << "v2 == v3" << std::endl;
+
     // Exit
     return 0;
 }

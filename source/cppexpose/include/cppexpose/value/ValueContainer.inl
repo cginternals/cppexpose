@@ -147,6 +147,17 @@ void ValueContainer<T>::setElement(size_t i, const Variant & value)
 }
 
 template <typename T>
+bool ValueContainer<T>::compareTypeAndValue(const AbstractValueContainer & value) const
+{
+    if (this->type() == value.type())
+    {
+        return this->value() == value.value<T>();
+    }
+
+    return false;
+}
+
+template <typename T>
 void ValueContainer<T>::pushElement(const Variant & value)
 {
     this->push(value.value<ElementType>());
