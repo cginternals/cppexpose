@@ -20,8 +20,10 @@ struct CPPEXPOSE_TEMPLATE_API SetterFunctions
 {
     typedef T (Obj::*getter) () const;
     typedef void (Obj::*setter) (const T &);
-    typedef ET (Obj::*elementGetter) (size_t) const;
-    typedef void (Obj::*elementSetter) (size_t, const ET &);
+    typedef ET (Obj::*arrayGetter) (size_t) const;
+    typedef void (Obj::*arraySetter) (size_t, const ET &);
+    typedef ET (Obj::*mapGetter) (const std::string &) const;
+    typedef void (Obj::*mapSetter) (const std::string &, const ET &);
 };
 
 
@@ -45,36 +47,22 @@ public:
     *    Function to get the value
     *  @param[in] setter
     *    Function to set the value
-    *
-    *  @remarks
-    *    This creates a typed value that is accessed via getter
-    *    and setter methods, which can be provided by global
-    *    functions, member functions, or lambda functions.
-    *
-    *    Examples:
-    *      ExternalValue<int> value(&staticGetter, &staticSetter);
-    *      ExternalValue<int> value(myValue, &MyValue::value, &MyValue::setValue);
-    */
-    ExternalValue(std::function<T ()> getter, std::function<void(const T &)> setter);
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] getter
-    *    Function to get the value
-    *  @param[in] setter
-    *    Function to set the value
-    *  @param[in] elementGetter
-    *    Function to get the value of an element
-    *  @param[in] elementSetter
-    *    Function to set the value of an element
+    *  @param[in] arrayGetter
+    *    Function to get the value of an array element
+    *  @param[in] arraySetter
+    *    Function to set the value of an array element
+    *  @param[in] mapGetter
+    *    Function to get the value of a map element
+    *  @param[in] mapSetter
+    *    Function to set the value of a map element
     */
     ExternalValue(
         std::function<T ()> getter,
         std::function<void(const T &)> setter,
-        std::function<ElementType (size_t)> elementGetter,
-        std::function<void(size_t, const ElementType &)> elementSetter
+        std::function<ElementType (size_t)> arrayGetter = nullptr,
+        std::function<void(size_t, const ElementType &)> arraySetter = nullptr,
+        std::function<ElementType (const std::string &)> mapGetter = nullptr,
+        std::function<void(const std::string &, const ElementType &)> mapSetter = nullptr
     );
 
     /**
@@ -87,33 +75,23 @@ public:
     *    Member function to get the value
     *  @param[in] setter
     *    Member function to set the value
-    */
-    template <typename Obj>
-    ExternalValue(Obj * obj,
-        typename SetterFunctions<T, ElementType, Obj>::getter getter,
-        typename SetterFunctions<T, ElementType, Obj>::setter setter);
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] obj
-    *    Object pointer
-    *  @param[in] getter
-    *    Member function to get the value
-    *  @param[in] setter
-    *    Member function to set the value
-    *  @param[in] elementGetter
-    *    Function to get the value of an element
-    *  @param[in] elementSetter
-    *    Function to set the value of an element
+    *  @param[in] arrayGetter
+    *    Function to get the value of an array element
+    *  @param[in] arraySetter
+    *    Function to set the value of an array element
+    *  @param[in] mapGetter
+    *    Function to get the value of a map element
+    *  @param[in] mapSetter
+    *    Function to set the value of a map element
     */
     template <typename Obj>
     ExternalValue(Obj * obj,
         typename SetterFunctions<T, ElementType, Obj>::getter getter,
         typename SetterFunctions<T, ElementType, Obj>::setter setter,
-        typename SetterFunctions<T, ElementType, Obj>::elementGetter elementGetter,
-        typename SetterFunctions<T, ElementType, Obj>::elementSetter elementSetter);
+        typename SetterFunctions<T, ElementType, Obj>::arrayGetter arrayGetter = {},
+        typename SetterFunctions<T, ElementType, Obj>::arraySetter arraySetter = {},
+        typename SetterFunctions<T, ElementType, Obj>::mapGetter mapGetter = {},
+        typename SetterFunctions<T, ElementType, Obj>::mapSetter mapSetter = {});
 
     /**
     *  @brief
@@ -149,11 +127,12 @@ public:
 
 
 protected:
-    std::function<T ()>                              m_getter;          ///< Function to get the value
-    std::function<void(const T &)>                   m_setter;          ///< Function to set the value
-    std::function<ElementType (size_t)>              m_elementGetter;   ///< Function to get the value of an element
-    std::function<void(size_t, const ElementType &)> m_elementSetter;   ///< Function to set the value of an element
-    bool                                             m_hasElementFuncs; ///< Are element setters and getters available?
+    std::function<T ()>                                           m_getter;      ///< Function to get the value
+    std::function<void(const T &)>                                m_setter;      ///< Function to set the value
+    std::function<ElementType (size_t)>                           m_arrayGetter; ///< Function to get the value of an array element
+    std::function<void(size_t, const ElementType &)>              m_arraySetter; ///< Function to set the value of an array element
+    std::function<ElementType (const std::string &)>              m_mapGetter;   ///< Function to get the value of a map element
+    std::function<void(const std::string &, const ElementType &)> m_mapSetter;   ///< Function to set the value of a map element
 };
 
 

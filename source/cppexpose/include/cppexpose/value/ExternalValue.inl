@@ -14,47 +14,18 @@ namespace cppexpose
 template <typename T>
 ExternalValue<T>::ExternalValue(
     std::function<T ()> getter
-  , std::function<void(const T &)> setter)
-: m_getter(getter)
-, m_setter(setter)
-, m_hasElementFuncs(false)
-{
-}
-
-template <typename T>
-ExternalValue<T>::ExternalValue(
-    std::function<T ()> getter
   , std::function<void(const T &)> setter
-  , std::function<ElementType (size_t)> elementGetter
-  , std::function<void(size_t, const ElementType &)> elementSetter)
+  , std::function<ElementType (size_t)> arrayGetter
+  , std::function<void(size_t, const ElementType &)> arraySetter
+  , std::function<ElementType (const std::string &)> mapGetter
+  , std::function<void(const std::string &, const ElementType &)> mapSetter)
 : m_getter(getter)
 , m_setter(setter)
-, m_elementGetter(elementGetter)
-, m_elementSetter(elementSetter)
-, m_hasElementFuncs(true)
+, m_arrayGetter(arrayGetter)
+, m_arraySetter(arraySetter)
+, m_mapGetter(mapGetter)
+, m_mapSetter(mapSetter)
 {
-}
-
-template <typename T>
-template <typename Obj>
-ExternalValue<T>::ExternalValue(
-    Obj * obj
-  , typename SetterFunctions<T, ElementType, Obj>::getter g
-  , typename SetterFunctions<T, ElementType, Obj>::setter s)
-: m_hasElementFuncs(false)
-{
-    typename SetterFunctions<T, ElementType, Obj>::getter getter = g;
-    typename SetterFunctions<T, ElementType, Obj>::setter setter = s;
-
-    m_getter = [obj, getter] () -> T
-    {
-        return (obj->*getter)();
-    };
-
-    m_setter = [obj, setter] (const T & value)
-    {
-        (obj->*setter)(value);
-    };
 }
 
 template <typename T>
@@ -63,14 +34,17 @@ ExternalValue<T>::ExternalValue(
     Obj * obj,
     typename SetterFunctions<T, ElementType, Obj>::getter g
   , typename SetterFunctions<T, ElementType, Obj>::setter s
-  , typename SetterFunctions<T, ElementType, Obj>::elementGetter eg
-  , typename SetterFunctions<T, ElementType, Obj>::elementSetter es)
-: m_hasElementFuncs(true)
+  , typename SetterFunctions<T, ElementType, Obj>::arrayGetter ag
+  , typename SetterFunctions<T, ElementType, Obj>::arraySetter as
+  , typename SetterFunctions<T, ElementType, Obj>::mapGetter mg
+  , typename SetterFunctions<T, ElementType, Obj>::mapSetter ms)
 {
     typename SetterFunctions<T, ElementType, Obj>::getter getter = g;
     typename SetterFunctions<T, ElementType, Obj>::setter setter = s;
-    typename SetterFunctions<T, ElementType, Obj>::elementGetter elementGetter = eg;
-    typename SetterFunctions<T, ElementType, Obj>::elementSetter elementSetter = es;
+    typename SetterFunctions<T, ElementType, Obj>::arrayGetter arrayGetter = ag;
+    typename SetterFunctions<T, ElementType, Obj>::arraySetter arraySetter = as;
+    typename SetterFunctions<T, ElementType, Obj>::mapGetter mapGetter = mg;
+    typename SetterFunctions<T, ElementType, Obj>::mapSetter mapSetter = ms;
 
     m_getter = [obj, getter] () -> T
     {
@@ -82,15 +56,31 @@ ExternalValue<T>::ExternalValue(
         (obj->*setter)(value);
     };
 
-    m_elementGetter = [obj, elementGetter] (size_t i) -> ElementType
+    if (arrayGetter && arraySetter)
     {
-        return (obj->*elementGetter)(i);
-    };
+        m_arrayGetter = [obj, arrayGetter] (size_t i) -> ElementType
+        {
+            return (obj->*arrayGetter)(i);
+        };
 
-    m_elementSetter = [obj, elementSetter] (size_t i, const ElementType & value)
+        m_arraySetter = [obj, arraySetter] (size_t i, const ElementType & value)
+        {
+            (obj->*arraySetter)(i, value);
+        };
+    }
+
+    if (mapGetter && mapSetter)
     {
-        (obj->*elementSetter)(i, value);
-    };
+        m_mapGetter = [obj, mapGetter] (const std::string & key) -> ElementType
+        {
+            return (obj->*mapGetter)(key);
+        };
+
+        m_mapSetter = [obj, mapSetter] (const std::string & key, const ElementType & value)
+        {
+            (obj->*mapSetter)(key, value);
+        };
+    }
 }
 
 template <typename T>
@@ -242,9 +232,9 @@ T * ExternalValue<T>::ptr()
 template <typename T>
 typename ExternalValue<T>::ElementType ExternalValue<T>::elementValue(size_t i) const
 {
-    if (m_hasElementFuncs)
+    if (m_arrayGetter)
     {
-        return m_elementGetter(i);
+        return m_arrayGetter(i);
     }
     else
     {
@@ -255,9 +245,9 @@ typename ExternalValue<T>::ElementType ExternalValue<T>::elementValue(size_t i) 
 template <typename T>
 void ExternalValue<T>::setElementValue(size_t i, ElementType value)
 {
-    if (m_hasElementFuncs)
+    if (m_arraySetter)
     {
-        m_elementSetter(i, value);
+        m_arraySetter(i, value);
     }
     else
     {
@@ -278,16 +268,29 @@ void ExternalValue<T>::push(ElementType value)
 template <typename T>
 typename ExternalValue<T>::ElementType ExternalValue<T>::elementValue(const std::string & key) const
 {
-    return this->m_type.baseType()->getElement(this->value(), key);
+    if (m_mapGetter)
+    {
+        return m_mapGetter(key);
+    }
+    else
+    {
+        return this->m_type.baseType()->getElement(this->value(), key);
+    }
 }
 
 template <typename T>
 void ExternalValue<T>::setElementValue(const std::string & key, ElementType value)
 {
-    T tmp = this->value();
-
-    this->m_type.baseType()->setElement(tmp, key, value);
-    setValue(tmp);
+    if (m_mapSetter)
+    {
+        m_mapSetter(key, value);
+    }
+    else
+    {
+        T tmp = this->value();
+        this->m_type.baseType()->setElement(tmp, key, value);
+        setValue(tmp);
+    }
 }
 
 
