@@ -23,7 +23,13 @@ BaseType<T>::~BaseType()
 template <typename T>
 std::shared_ptr<AbstractBaseType> BaseType<T>::createCopy() const
 {
-    return std::shared_ptr<AbstractBaseType>(new BaseType<T>);
+    auto * newType = new BaseType<T>;
+
+    newType->m_namedValues = this->m_namedValues;
+    newType->setMinimumValue(this->minimumValue());
+    newType->setMaximumValue(this->maximumValue());
+
+    return std::shared_ptr<AbstractBaseType>(newType);
 }
 
 template <typename T>
