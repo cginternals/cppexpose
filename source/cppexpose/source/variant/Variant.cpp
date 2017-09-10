@@ -137,6 +137,12 @@ Variant & Variant::operator=(const Variant & variant)
     return *this;
 }
 
+bool Variant::operator==(const Variant &) const
+{
+    // [TODO]
+    return false;
+}
+
 /*
 std::string Variant::toJSON(JSON::OutputMode outputMode) const
 {

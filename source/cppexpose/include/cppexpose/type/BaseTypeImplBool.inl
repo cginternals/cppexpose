@@ -12,6 +12,8 @@ namespace cppexpose
 template <typename T>
 BaseTypeImplBool<T>::BaseTypeImplBool()
 {
+    this->m_namedValues["true"]  = true;
+    this->m_namedValues["false"] = false;
 }
 
 template <typename T>

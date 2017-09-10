@@ -56,6 +56,38 @@ bool BaseType<T>::isConst() const
     return false;
 }
 
+template <typename T>
+std::string BaseType<T>::toString(const T & var) const
+{
+    if (!this->m_namedValues.empty())
+    {
+        for (auto & it : this->m_namedValues)
+        {
+            if (var == it.second) {
+                return it.first;
+            }
+        }
+    }
+
+    return GetType<T>::Type::toString(var);
+}
+
+template <typename T>
+bool BaseType<T>::fromString(T & var, const std::string & value) const
+{
+    if (!this->m_namedValues.empty())
+    {
+        auto it = this->m_namedValues.find(value);
+        if (it != this->m_namedValues.end())
+        {
+            var = it->second;
+            return true;
+        }
+    }
+
+    return GetType<T>::Type::fromString(var, value);
+}
+
 
 // BaseType<const T>
 template <typename T>

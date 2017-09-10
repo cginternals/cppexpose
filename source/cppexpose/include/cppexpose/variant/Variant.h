@@ -158,6 +158,18 @@ public:
 
     /**
     *  @brief
+    *    Comparison operator
+    *
+    *  @param[in] variant
+    *    Variant
+    *
+    *  @return
+    *    'true' if variants are equal in type and value, else 'false'
+    */
+    bool operator==(const Variant & variant) const;
+
+    /**
+    *  @brief
     *    Check if variant type can be converted
     *
     *  @return

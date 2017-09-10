@@ -26,6 +26,11 @@ public:
     {
     }
 
+    bool operator==(const Test & test) const
+    {
+        return test.m_number == m_number;
+    }
+
     int number() const
     {
         return m_number;
@@ -46,6 +51,27 @@ enum Weather
     Cloudy,
     Sunny
 };
+
+namespace cppexpose
+{
+
+template <>
+class EnumValues<Weather>
+{
+public:
+    static std::map<std::string, Weather> namedValues()
+    {
+        static std::map<std::string, Weather> values = {
+            { "Rainy", Rainy },
+            { "Cloudy", Cloudy },
+            { "Sunny", Sunny }
+        };
+
+        return values;
+    }
+};
+
+}
 
 int intValue;
 
@@ -123,12 +149,6 @@ int main(int, char * [])
     std::cout << "double: "        << doubleType.minimumValue() << " .. " << doubleType.maximumValue() << std::endl;
     std::cout << std::endl;
 
-    weatherType.setNamedValues({
-        { "Rainy", Rainy },
-        { "Cloudy", Cloudy },
-        { "Sunny", Sunny }
-    });
-
     printTypeInfo("bool",               boolType);
     printTypeInfo("int",                intType);
     printTypeInfo("uint",               uintType);
@@ -148,6 +168,11 @@ int main(int, char * [])
     intValue.setValue(23);
     printValue("int", intValue);
     printType("int", intValue);
+
+    InternalValue<bool> boolValue;
+    boolValue.setValue(true);
+    printValue("bool", boolValue);
+    printType("bool", boolValue);
 
     InternalValue<Weather> weatherValue;
     weatherValue.fromString("Sunny");

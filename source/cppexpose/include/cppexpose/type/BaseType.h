@@ -41,8 +41,12 @@ public:
     virtual Variant maximum() const override;
     virtual void setMaximum(const Variant & value) override;
 
-    // Virtual Typed interface
+    // Virtual AbstractTyped interface
     virtual bool isConst() const override;
+
+    // Virtual BaseTypeImpl<T> interface
+    virtual std::string toString(const T & var) const override;
+    virtual bool fromString(T & var, const std::string & value) const override;
 };
 
 
@@ -73,7 +77,7 @@ public:
     virtual Variant maximum() const override;
     virtual void setMaximum(const Variant & value) override;
 
-    // Virtual Typed interface
+    // Virtual AbstractTyped interface
     virtual bool isConst() const override;
 };
 
