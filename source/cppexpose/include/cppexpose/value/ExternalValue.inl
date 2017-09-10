@@ -17,18 +17,34 @@ ExternalValue<T>::ExternalValue(
   , std::function<void(const T &)> setter)
 : m_getter(getter)
 , m_setter(setter)
+, m_hasElementFuncs(false)
+{
+}
+
+template <typename T>
+ExternalValue<T>::ExternalValue(
+    std::function<T ()> getter
+  , std::function<void(const T &)> setter
+  , std::function<ElementType (size_t)> elementGetter
+  , std::function<void(size_t, const ElementType &)> elementSetter)
+: m_getter(getter)
+, m_setter(setter)
+, m_elementGetter(elementGetter)
+, m_elementSetter(elementSetter)
+, m_hasElementFuncs(true)
 {
 }
 
 template <typename T>
 template <typename Obj>
 ExternalValue<T>::ExternalValue(
-    Obj * obj,
-    typename SetterFunctions<T, Obj>::getter g,
-    typename SetterFunctions<T, Obj>::setter s)
+    Obj * obj
+  , typename SetterFunctions<T, ElementType, Obj>::getter g
+  , typename SetterFunctions<T, ElementType, Obj>::setter s)
+: m_hasElementFuncs(false)
 {
-    typename SetterFunctions<T, Obj>::getter getter = g;
-    typename SetterFunctions<T, Obj>::setter setter = s;
+    typename SetterFunctions<T, ElementType, Obj>::getter getter = g;
+    typename SetterFunctions<T, ElementType, Obj>::setter setter = s;
 
     m_getter = [obj, getter] () -> T
     {
@@ -38,6 +54,42 @@ ExternalValue<T>::ExternalValue(
     m_setter = [obj, setter] (const T & value)
     {
         (obj->*setter)(value);
+    };
+}
+
+template <typename T>
+template <typename Obj>
+ExternalValue<T>::ExternalValue(
+    Obj * obj,
+    typename SetterFunctions<T, ElementType, Obj>::getter g
+  , typename SetterFunctions<T, ElementType, Obj>::setter s
+  , typename SetterFunctions<T, ElementType, Obj>::elementGetter eg
+  , typename SetterFunctions<T, ElementType, Obj>::elementSetter es)
+: m_hasElementFuncs(true)
+{
+    typename SetterFunctions<T, ElementType, Obj>::getter getter = g;
+    typename SetterFunctions<T, ElementType, Obj>::setter setter = s;
+    typename SetterFunctions<T, ElementType, Obj>::elementGetter elementGetter = eg;
+    typename SetterFunctions<T, ElementType, Obj>::elementSetter elementSetter = es;
+
+    m_getter = [obj, getter] () -> T
+    {
+        return (obj->*getter)();
+    };
+
+    m_setter = [obj, setter] (const T & value)
+    {
+        (obj->*setter)(value);
+    };
+
+    m_elementGetter = [obj, elementGetter] (size_t i) -> ElementType
+    {
+        return (obj->*elementGetter)(i);
+    };
+
+    m_elementSetter = [obj, elementSetter] (size_t i, const ElementType & value)
+    {
+        (obj->*elementSetter)(i, value);
     };
 }
 
@@ -184,23 +236,35 @@ size_t ExternalValue<T>::numElements() const
 template <typename T>
 typename ExternalValue<T>::ElementType ExternalValue<T>::getElement(size_t i) const
 {
-    return this->m_type.baseType()->getElement(this->value(), i);
+    if (m_hasElementFuncs)
+    {
+        return m_elementGetter(i);
+    }
+    else
+    {
+        return this->m_type.baseType()->getElement(this->value(), i);
+    }
 }
 
 template <typename T>
 void ExternalValue<T>::setElement(size_t i, ElementType value)
 {
-    T tmp = this->value();
-
-    this->m_type.baseType()->setElement(tmp, i, value);
-    setValue(tmp);
+    if (m_hasElementFuncs)
+    {
+        m_elementSetter(i, value);
+    }
+    else
+    {
+        T tmp = this->value();
+        this->m_type.baseType()->setElement(tmp, i, value);
+        setValue(tmp);
+    }
 }
 
 template <typename T>
 void ExternalValue<T>::push(ElementType value)
 {
     T tmp = this->value();
-
     this->m_type.baseType()->push(tmp, value);
     setValue(tmp);
 }

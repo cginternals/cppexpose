@@ -4,7 +4,6 @@ TODO
 - Implement function to set named values from Type (using template function and hasType())
 - BaseType<T>::createCopy() does not copy contraints and named values
 - Implement untyped array and map functions
-- ExternalValue: Add constructor that takes additional element setter and getter functions
 - operator == for Variant
 - operator == for Type
 

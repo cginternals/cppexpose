@@ -15,11 +15,13 @@ namespace cppexpose
 *  @brief
 *    Helper template to deduce the types for getter and setter functions
 */
-template<typename T, typename Obj>
+template<typename T, typename ET, typename Obj>
 struct CPPEXPOSE_TEMPLATE_API SetterFunctions
 {
     typedef T (Obj::*getter) () const;
     typedef void (Obj::*setter) (const T &);
+    typedef ET (Obj::*elementGetter) (size_t) const;
+    typedef void (Obj::*elementSetter) (size_t, const ET &);
 };
 
 
@@ -59,6 +61,26 @@ public:
     *  @brief
     *    Constructor
     *
+    *  @param[in] getter
+    *    Function to get the value
+    *  @param[in] setter
+    *    Function to set the value
+    *  @param[in] elementGetter
+    *    Function to get the value of an element
+    *  @param[in] elementSetter
+    *    Function to set the value of an element
+    */
+    ExternalValue(
+        std::function<T ()> getter,
+        std::function<void(const T &)> setter,
+        std::function<ElementType (size_t)> elementGetter,
+        std::function<void(size_t, const ElementType &)> elementSetter
+    );
+
+    /**
+    *  @brief
+    *    Constructor
+    *
     *  @param[in] obj
     *    Object pointer
     *  @param[in] getter
@@ -68,8 +90,30 @@ public:
     */
     template <typename Obj>
     ExternalValue(Obj * obj,
-        typename SetterFunctions<T, Obj>::getter getter,
-        typename SetterFunctions<T, Obj>::setter setter);
+        typename SetterFunctions<T, ElementType, Obj>::getter getter,
+        typename SetterFunctions<T, ElementType, Obj>::setter setter);
+
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] obj
+    *    Object pointer
+    *  @param[in] getter
+    *    Member function to get the value
+    *  @param[in] setter
+    *    Member function to set the value
+    *  @param[in] elementGetter
+    *    Function to get the value of an element
+    *  @param[in] elementSetter
+    *    Function to set the value of an element
+    */
+    template <typename Obj>
+    ExternalValue(Obj * obj,
+        typename SetterFunctions<T, ElementType, Obj>::getter getter,
+        typename SetterFunctions<T, ElementType, Obj>::setter setter,
+        typename SetterFunctions<T, ElementType, Obj>::elementGetter elementGetter,
+        typename SetterFunctions<T, ElementType, Obj>::elementSetter elementSetter);
 
     /**
     *  @brief
@@ -105,8 +149,11 @@ public:
 
 
 protected:
-    std::function<T ()>            m_getter; ///< Function to get the value
-    std::function<void(const T &)> m_setter; ///< Function to set the value
+    std::function<T ()>                              m_getter;          ///< Function to get the value
+    std::function<void(const T &)>                   m_setter;          ///< Function to set the value
+    std::function<ElementType (size_t)>              m_elementGetter;   ///< Function to get the value of an element
+    std::function<void(size_t, const ElementType &)> m_elementSetter;   ///< Function to set the value of an element
+    bool                                             m_hasElementFuncs; ///< Are element setters and getters available?
 };
 
 

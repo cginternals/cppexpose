@@ -36,13 +36,39 @@ public:
         return m_number;
     }
 
-    void setNumber(int number)
+    void setNumber(const int & number)
     {
         m_number = number;
     }
 
+    std::array<int, 3> array() const
+    {
+        return m_array;
+    }
+
+    void setArray(const std::array<int, 3> & array)
+    {
+        m_array = array;
+    }
+
+    int arrayElement(size_t i) const
+    {
+        return m_array[i];
+    }
+
+    void setArrayElement(size_t i, const int & value)
+    {
+        m_array[i] = value;
+    }
+
+    void print()
+    {
+        std::cout << "array = [" << m_array[0] << ", " << m_array[1] << ", " << m_array[2] << "]" << std::endl;
+    }
+
 protected:
     int m_number;
+    std::array<int, 3> m_array;
 };
 
 enum Weather
@@ -180,7 +206,20 @@ int main(int, char * [])
     printType("weather", weatherValue);
 
     // Managed values
-    ExternalValue<int> value(getInt, setInt);
+    Test test;
+    ExternalValue<int> extValue1(getInt, setInt);
+    ExternalValue<int> extValue2(&test, &Test::number, &Test::setNumber);
+    ExternalValue<std::array<int, 3>> extValue3(&test, &Test::array, &Test::setArray, &Test::arrayElement, &Test::setArrayElement);
+
+    test.print();
+    extValue3.setValue(std::array<int, 3>({{0, 0, 0}}));
+    test.print();
+    extValue3.setElement(0, 100);
+    test.print();
+    extValue3.setElement(1, 101);
+    test.print();
+    extValue3.setElement(2, 102);
+    test.print();
 
     // Exit
     return 0;
