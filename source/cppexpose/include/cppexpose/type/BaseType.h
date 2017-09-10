@@ -51,7 +51,7 @@ public:
 
 
 template <typename T>
-class CPPEXPOSE_TEMPLATE_API BaseType<const T> : public GetType<T>::Type
+class CPPEXPOSE_TEMPLATE_API BaseType<const T> : BaseType<T>
 {
 public:
     typedef typename GetType<T>::Type::ElementType ElementType;
@@ -72,10 +72,6 @@ public:
 
     // Virtual AbstractBaseType interface
     virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
-    virtual Variant minimum() const override;
-    virtual void setMinimum(const Variant & value) override;
-    virtual Variant maximum() const override;
-    virtual void setMaximum(const Variant & value) override;
 
     // Virtual AbstractTyped interface
     virtual bool isConst() const override;

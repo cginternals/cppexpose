@@ -107,30 +107,6 @@ std::shared_ptr<AbstractBaseType> BaseType<const T>::createCopy() const
 }
 
 template <typename T>
-Variant BaseType<const T>::minimum() const
-{
-    return Variant(this->minimumValue());
-}
-
-template <typename T>
-void BaseType<const T>::setMinimum(const Variant & value)
-{
-    this->setMinimumValue(value.value<T>());
-}
-
-template <typename T>
-Variant BaseType<const T>::maximum() const
-{
-    return Variant(this->maximumValue());
-}
-
-template <typename T>
-void BaseType<const T>::setMaximum(const Variant & value)
-{
-    this->setMaximumValue(value.value<T>());
-}
-
-template <typename T>
 bool BaseType<const T>::isConst() const
 {
     return true;
