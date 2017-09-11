@@ -135,6 +135,17 @@ bool ValueContainer<T>::isString() const
 }
 
 template <typename T>
+bool ValueContainer<T>::compareTypeAndValue(const AbstractValueContainer & value) const
+{
+    if (this->type() == value.type())
+    {
+        return this->value() == value.value<T>();
+    }
+
+    return false;
+}
+
+template <typename T>
 Variant ValueContainer<T>::element(size_t i) const
 {
     return Variant::fromValue<ElementType>(this->elementValue(i));
@@ -144,17 +155,6 @@ template <typename T>
 void ValueContainer<T>::setElement(size_t i, const Variant & value)
 {
     this->setElementValue(i, value.value<ElementType>());
-}
-
-template <typename T>
-bool ValueContainer<T>::compareTypeAndValue(const AbstractValueContainer & value) const
-{
-    if (this->type() == value.type())
-    {
-        return this->value() == value.value<T>();
-    }
-
-    return false;
 }
 
 template <typename T>

@@ -9,6 +9,7 @@
 #include <cppexpose/value/InternalValue.h>
 #include <cppexpose/value/ExternalValue.h>
 #include <cppexpose/variant/Variant.h>
+#include <cppexpose/reflection/Property.h>
 
 
 using namespace cppexpose;
@@ -234,6 +235,8 @@ int main(int, char * [])
     if (v1 == v2) std::cout << "v1 == v2" << std::endl;
     if (v1 == v3) std::cout << "v1 == v3" << std::endl;
     if (v2 == v3) std::cout << "v2 == v3" << std::endl;
+
+    Property<int> intProperty("int");
 
     // Exit
     return 0;

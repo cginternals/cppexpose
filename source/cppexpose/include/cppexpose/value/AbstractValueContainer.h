@@ -72,6 +72,22 @@ public:
 
     /**
     *  @brief
+    *    Check if two value containers have equal data type and value
+    *
+    *  @param[in] value
+    *    Value container
+    *
+    *  @return
+    *    'true' if both containers have the same data type and value, else 'false'
+    *
+    *  @remarks
+    *    This function does only consider the data type and value, not the type of
+    *    the container.
+    */
+    virtual bool compareTypeAndValue(const AbstractValueContainer & value) const = 0;
+
+    /**
+    *  @brief
     *    Convert value into string
     *
     *  @return
@@ -269,8 +285,6 @@ public:
     *    Only works if the type is a map (see isMap()).
     */
     virtual void setElement(const std::string & key, const Variant & value) = 0;
-
-    virtual bool compareTypeAndValue(const AbstractValueContainer & value) const = 0;
 };
 
 

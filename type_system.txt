@@ -1,8 +1,12 @@
 
 TODO
 ====
-- Property classes
+- Property with setter and getter
+- fromVariant/toVariant on values
+- Object
 - JSON classes
+- Function-Type
+- Pointer-Type
 
 
 AbstractBaseType

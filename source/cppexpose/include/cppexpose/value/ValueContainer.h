@@ -61,12 +61,12 @@ public:
     virtual bool isString() const override;
 
     // Virtual AbstractValueContainer interface
+    virtual bool compareTypeAndValue(const AbstractValueContainer & value) const override;
     virtual Variant element(size_t i) const override;
     virtual void setElement(size_t i, const Variant & value) override;
     virtual void pushElement(const Variant & value) override;
     virtual Variant element(const std::string & key) const override;
     virtual void setElement(const std::string & key, const Variant & value) override;
-    virtual bool compareTypeAndValue(const AbstractValueContainer & value) const override;
 
     /**
     *  @brief
