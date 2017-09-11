@@ -16,7 +16,7 @@ namespace cppexpose
 
 
 template <typename T>
-DynamicProperty<T> * Object::createDynamicProperty(const std::string & name, const T & value)
+Property<T> * Object::createDynamicProperty(const std::string & name, const T & value)
 {
     // Reject properties that have no name or whose name already exists
     if (name == "" || this->propertyExists(name))
@@ -25,7 +25,7 @@ DynamicProperty<T> * Object::createDynamicProperty(const std::string & name, con
     }
 
     // Create property and add it to the object
-    auto property = cppassist::make_unique<DynamicProperty<T>>(name, nullptr, value);
+    auto property = cppassist::make_unique<Property<T>>(name, nullptr, value);
     auto propertyPtr = property.get();
     this->addProperty(std::move(property));
 

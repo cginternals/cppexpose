@@ -133,10 +133,8 @@ set(headers
     ${include_path}/reflection/AbstractProperty.h
 #    ${include_path}/reflection/Object.h
 #    ${include_path}/reflection/Object.inl
-#    ${include_path}/reflection/Property.h
-#    ${include_path}/reflection/Property.inl
-#    ${include_path}/reflection/DynamicProperty.h
-#    ${include_path}/reflection/DynamicProperty.inl
+    ${include_path}/reflection/Property.h
+    ${include_path}/reflection/Property.inl
     ${include_path}/reflection/Method.h
 
 #    ${include_path}/scripting/ScriptContext.h
@@ -183,7 +181,7 @@ set(sources
     ${source_path}/variant/Variant.cpp
 
     ${source_path}/reflection/AbstractProperty.cpp
-#    ${source_path}/reflection/Object.cpp
+    ${source_path}/reflection/Object.cpp
 #    ${source_path}/reflection/Method.cpp
 
 #    ${source_path}/scripting/duktape-1.4.0/duktape.c

@@ -1,7 +1,7 @@
 
 #include <cppexpose/reflection/AbstractProperty.h>
 
-//#include <cppexpose/reflection/Object.h>
+#include <cppexpose/reflection/Object.h>
 
 
 namespace cppexpose
@@ -14,8 +14,7 @@ AbstractProperty::AbstractProperty(const std::string & name, Object * parent)
 {
     if (parent)
     {
-        // [TODO]
-        // parent->addProperty(this);
+        parent->addProperty(this);
     }
 }
 
@@ -25,8 +24,7 @@ AbstractProperty::~AbstractProperty()
 
     if (m_parent)
     {
-        // [TODO]
-        // m_parent->removeProperty(this);
+        m_parent->removeProperty(this);
     }
 }
 

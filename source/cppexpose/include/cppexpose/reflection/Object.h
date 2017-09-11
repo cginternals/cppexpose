@@ -7,8 +7,7 @@
 #include <algorithm>
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/typed/AbstractTyped.h>
-#include <cppexpose/reflection/DynamicProperty.h>
+#include <cppexpose/reflection/Property.h>
 #include <cppexpose/reflection/Method.h>
 
 
@@ -43,17 +42,20 @@ public:
     /**
     *  @brief
     *    Constructor
-    */
-    Object();
-
-    /**
-    *  @brief
-    *    Constructor
     *
     *  @param[in] name
-    *    Name
+    *    Object name (must NOT be empty!)
+    *  @param[in] parent
+    *    Parent object (can be null)
+    *
+    *  @remarks
+    *    If parent is valid, the object is automatically added to the
+    *    parent object. The ownership is not transferred, so the object
+    *    has to be deleted by the caller. To transfer the ownership to the
+    *    parent, call this constructor with parent(nullptr) and pass
+    *    a unique_ptr to addProperty() on the parent object.
     */
-    Object(const std::string & name);
+    Object(const std::string & name = "", Object * parent = nullptr);
 
     /**
     *  @brief
@@ -102,8 +104,8 @@ public:
     *    Clear properties
     *
     *    Removes all properties from the object.
-    *    Properties which have been added with PropertyOwnership::Parent
-    *    are deleted.
+    *    Properties which have been added with a transfer of
+    *    ownership are deleted.
     */
     void clear();
 
@@ -127,21 +129,6 @@ public:
     *    'true' if property exists, else 'false'
     */
     bool propertyExists(const std::string & name) const;
-    //@}
-
-    //@{
-    /**
-    *  @brief
-    *    Get property by index
-    *
-    *  @param[in] index
-    *    Index of the property
-    *
-    *  @return
-    *    Pointer to the property, or nullptr on error
-    */
-    AbstractProperty * property(size_t index);
-    const AbstractProperty * property(size_t index) const;
     //@}
 
     //@{
@@ -171,8 +158,6 @@ public:
     *    'true' if the property has been added to the object, else 'false'
     *
     *  @remarks
-    *    Adds the given property to the object.
-    *
     *    The name of the property must be valid and unique to the object,
     *    also the property must not belong to any other object already.
     *    Otherwise, the property will not be added to the object.
@@ -190,11 +175,8 @@ public:
     *    'true' if the property has been added to the object, else 'false'
     *
     *  @remarks
-    *    Adds the given property to the object.
-    *
-    *    The name of the property must be valid and unique to the object,
-    *    also the property must not belong to any other object already.
-    *    Otherwise, the property will not be added to the object.
+    *    Adds the given property to the object and takes ownership
+    *    over the property.
     */
     bool addProperty(std::unique_ptr<AbstractProperty> && property);
 
@@ -213,7 +195,6 @@ public:
     *
     *  @remarks
     *    Creates a property of the given type with the given arguments and adds it to the object.
-    *
     *    The name of the property must be valid and unique to the object,
     *    also the property must not belong to any other object already.
     *    Otherwise, the property will not be added to the object.
@@ -234,7 +215,6 @@ public:
     *  @remarks
     *    If the specified property does not belong to the object,
     *    this function will do nothing and return 'false'.
-    *
     *    If the object has ownership of the property, it will be deleted.
     */
     bool removeProperty(AbstractProperty * property);
@@ -258,7 +238,7 @@ public:
     *    over the property.
     */
     template <typename T>
-    DynamicProperty<T> * createDynamicProperty(const std::string & name, const T & value = T());
+    Property<T> * createDynamicProperty(const std::string & name, const T & value = T());
     //@}
 
     /**
@@ -312,37 +292,6 @@ public:
 
     // Virtual AbstractProperty interface
     virtual bool isObject() const override;
-
-    // Virtual AbstractTyped interface
-    virtual std::unique_ptr<AbstractTyped> clone() const override;
-    virtual const std::type_info & type() const override;
-    virtual std::string typeName() const override;
-    virtual bool isReadOnly() const override;
-    virtual bool isComposite() const override;
-    virtual size_t numSubValues() const override;
-    virtual AbstractTyped * subValue(size_t i) override;
-    virtual bool isEnum() const override;
-    virtual bool isArray() const override;
-    virtual bool isVariant() const override;
-    virtual bool isString() const override;
-    virtual bool isBool() const override;
-    virtual bool isNumber() const override;
-    virtual bool isIntegral() const override;
-    virtual bool isSignedIntegral() const override;
-    virtual bool isUnsignedIntegral() const override;
-    virtual bool isFloatingPoint() const override;
-    virtual Variant toVariant() const override;
-    virtual bool fromVariant(const Variant & value) override;
-    virtual std::string toString() const override;
-    virtual bool fromString(const std::string & value) override;
-    virtual bool toBool() const override;
-    virtual bool fromBool(bool value) override;
-    virtual long long toLongLong() const override;
-    virtual bool fromLongLong(long long value) override;
-    virtual unsigned long long toULongLong() const override;
-    virtual bool fromULongLong(unsigned long long value) override;
-    virtual double toDouble() const override;
-    virtual bool fromDouble(double value) override;
 
     /**
     *  @brief

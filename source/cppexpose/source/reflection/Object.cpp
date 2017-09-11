@@ -23,15 +23,9 @@ namespace cppexpose
 {
 
 
-Object::Object()
-: Object("")
+Object::Object(const std::string & name, Object * parent)
+: AbstractProperty(name != "" ? name : "Object", parent)
 {
-}
-
-Object::Object(const std::string & name)
-: m_className("Object")
-{
-    initProperty(name, nullptr);
 }
 
 Object::~Object()
@@ -69,24 +63,6 @@ bool Object::propertyExists(const std::string & name) const
     return m_propertiesMap.find(name) != m_propertiesMap.end();
 }
 
-AbstractProperty * Object::property(size_t index)
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
-const AbstractProperty * Object::property(size_t index) const
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
 AbstractProperty * Object::property(const std::string & path)
 {
     std::vector<std::string> splittedPath = cppassist::string::split(path, g_separator);
@@ -101,7 +77,7 @@ const AbstractProperty * Object::property(const std::string & path) const
 
 bool Object::addProperty(AbstractProperty * property)
 {
-    // Reject properties that have no name, or whose name already exists,
+    // Reject properties that have no name, whose name already exists,
     // or that already have a parent object.
     if (!property || this->propertyExists(property->name()) || property->parent() != nullptr)
     {
@@ -129,12 +105,16 @@ bool Object::addProperty(AbstractProperty * property)
 
 bool Object::addProperty(std::unique_ptr<AbstractProperty> && property)
 {
+    // Add property to object
     const auto success = addProperty(property.get());
+
+    // If property has been added to the object, take ownership over it
     if (success)
     {
         m_managedProperties.push_back(std::move(property));
     }
 
+    // Return status
     return success;
 }
 
@@ -171,7 +151,11 @@ bool Object::removeProperty(AbstractProperty * property)
     afterRemove(index, property);
 
     // Remove from managed list (deletes the property)
-    auto it2 = std::find_if(m_managedProperties.begin(), m_managedProperties.end(), [property](const std::unique_ptr<AbstractProperty> & managedProperty) { return managedProperty.get() == property; });
+    auto it2 = std::find_if(m_managedProperties.begin(), m_managedProperties.end(),
+        [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
+        {
+            return managedProperty.get() == property;
+        } );
     if (it2 != m_managedProperties.end())
     {
         m_managedProperties.erase(it2);
@@ -191,96 +175,8 @@ bool Object::isObject() const
     return true;
 }
 
-std::unique_ptr<AbstractTyped> Object::clone() const
-{
-    // [TODO]
-    return cppassist::make_unique<Object>(name());
-}
-
-const std::type_info & Object::type() const
-{
-    return typeid(Object);
-}
-
-std::string Object::typeName() const
-{
-    return "Object";
-}
-
-bool Object::isReadOnly() const
-{
-    return false;
-}
-
-bool Object::isComposite() const
-{
-    return true;
-}
-
-size_t Object::numSubValues() const
-{
-    return m_properties.size();
-}
-
-AbstractTyped * Object::subValue(size_t index)
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
-bool Object::isEnum() const
-{
-    return false;
-}
-
-bool Object::isArray() const
-{
-    return false;
-}
-
-bool Object::isVariant() const
-{
-    return false;
-}
-
-bool Object::isString() const
-{
-    return false;
-}
-
-bool Object::isBool() const
-{
-    return false;
-}
-
-bool Object::isNumber() const
-{
-    return false;
-}
-
-bool Object::isIntegral() const
-{
-    return false;
-}
-
-bool Object::isSignedIntegral() const
-{
-    return false;
-}
-
-bool Object::isUnsignedIntegral() const
-{
-    return false;
-}
-
-bool Object::isFloatingPoint() const
-{
-    return false;
-}
-
+// [TODO]
+/*
 Variant Object::toVariant() const
 {
     // Create variant map from all properties in the object
@@ -321,64 +217,7 @@ bool Object::fromVariant(const Variant & value)
     // Done
     return true;
 }
-
-std::string Object::toString() const
-{
-    // Convert object into JSON
-    return JSON::stringify(this->toVariant());
-}
-
-bool Object::fromString(const std::string & str)
-{
-    // Convert from JSON
-    Variant values;
-    if (JSON::parse(values, str)) {
-        return fromVariant(values);
-    }
-
-    // Error
-    return false;
-}
-
-bool Object::toBool() const
-{
-    return false;
-}
-
-bool Object::fromBool(bool)
-{
-    return false;
-}
-
-long long Object::toLongLong() const
-{
-    return 0ll;
-}
-
-bool Object::fromLongLong(long long)
-{
-    return false;
-}
-
-unsigned long long Object::toULongLong() const
-{
-    return 0ull;
-}
-
-bool Object::fromULongLong(unsigned long long)
-{
-    return false;
-}
-
-double Object::toDouble() const
-{
-    return 0.0;
-}
-
-bool Object::fromDouble(double)
-{
-    return false;
-}
+*/
 
 std::string Object::relativePathTo(const Object * const other) const
 {
