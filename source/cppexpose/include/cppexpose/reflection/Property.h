@@ -63,6 +63,24 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] name
+    *    Property name (must NOT be empty!)
+    *  @param[in] parent
+    *    Parent object (can be null)
+    *  @param[in] arguments
+    *    Arguments to initialize the propery
+    *
+    *  @remarks
+    *    Use this constructor to create a property with getter and setter methods, e.g.:
+    *      Property<int> m_number("number", this, this, &MyClass::number, &MyClass::setNumber);
+    */
+    template <typename ... Arguments>
+    Property(const std::string & name, Object * parent, Arguments && ... arguments);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~Property();

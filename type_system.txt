@@ -1,7 +1,6 @@
 
 TODO
 ====
-- Property with setter and getter
 - fromVariant/toVariant on values
 - Object
 - JSON classes

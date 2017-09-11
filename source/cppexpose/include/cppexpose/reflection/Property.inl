@@ -33,6 +33,14 @@ Property<T>::Property(const std::string & name, Object * parent, const T & value
 }
 
 template <typename T>
+template <typename ... Arguments>
+Property<T>::Property(const std::string & name, Object * parent, Arguments && ... arguments)
+: AbstractProperty(name, parent)
+, m_value(new ExternalValue<T>(arguments...))
+{
+}
+
+template <typename T>
 Property<T>::~Property()
 {
 }

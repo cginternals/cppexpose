@@ -236,7 +236,12 @@ int main(int, char * [])
     if (v1 == v3) std::cout << "v1 == v3" << std::endl;
     if (v2 == v3) std::cout << "v2 == v3" << std::endl;
 
-    Property<int> intProperty("int");
+    Property<int> intProperty("number", nullptr, &test, &Test::number, &Test::setNumber);
+    std::cout << "test.number = " << test.number() << " (" << intProperty.value() << ")" << std::endl;
+    intProperty.setValue(999);
+    std::cout << "test.number = " << test.number() << " (" << intProperty.value() << ")" << std::endl;
+    test.setNumber(1);
+    std::cout << "test.number = " << test.number() << " (" << intProperty.value() << ")" << std::endl;
 
     // Exit
     return 0;
