@@ -2,7 +2,6 @@
 TODO
 ====
 - fromVariant/toVariant on values
-- Object
 - JSON classes
 - Function-Type
 - Pointer-Type

@@ -195,12 +195,13 @@ public:
     *
     *  @remarks
     *    Creates a property of the given type with the given arguments and adds it to the object.
+    *    The object takes ownership over the new property.
     *    The name of the property must be valid and unique to the object,
-    *    also the property must not belong to any other object already.
-    *    Otherwise, the property will not be added to the object.
+    *    also the property must not belong to any other object already,
+    *    otherwise, the property will not be added to the object.
     */
     template <typename Type, typename ... Arguments>
-    bool addProperty(const std::string & name, Arguments && ... arguments);
+    bool createProperty(const std::string & name, Arguments && ... arguments);
 
     /**
     *  @brief
@@ -218,28 +219,6 @@ public:
     *    If the object has ownership of the property, it will be deleted.
     */
     bool removeProperty(AbstractProperty * property);
-
-    //@{
-    /**
-    *  @brief
-    *    Create dynamic property
-    *
-    *  @param[in] name
-    *    Property name
-    *  @param[in] value
-    *    Default value
-    *
-    *  @return
-    *    Pointer to the new property, or nullptr on error
-    *
-    *  @remarks
-    *    This function creates a new dynamic property of the specified
-    *    typed and adds it to the object. It also takes ownership
-    *    over the property.
-    */
-    template <typename T>
-    Property<T> * createDynamicProperty(const std::string & name, const T & value = T());
-    //@}
 
     /**
     *  @brief
@@ -289,10 +268,12 @@ public:
     */
     template <class T, typename RET, typename... Arguments>
     void addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...) const);
+    //@}
 
     // Virtual AbstractProperty interface
     virtual bool isObject() const override;
 
+    //@{
     /**
     *  @brief
     *    Get the relative path to another object
@@ -309,6 +290,7 @@ public:
     *    If this == other, the returned string is "."
     */
     std::string relativePathTo(const Object * const other) const;
+    //@}
 
 
 protected:
