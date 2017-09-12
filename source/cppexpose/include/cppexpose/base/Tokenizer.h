@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/reflection/Variant.h>
 
 
 namespace cppexpose

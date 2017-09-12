@@ -2,20 +2,21 @@
 #pragma once
 
 
-#include <cppexpose/type/AbstractBaseType.h>
-#include <cppexpose/type/AbstractTyped.h>
-#include <cppexpose/type/BaseType.h>
-#include <cppexpose/type/Type.h>
-#include <cppexpose/type/ConcreteType.h>
-#include <cppexpose/type/Converter.h>
-#include <cppexpose/type/EnumValues.h>
-#include <cppexpose/value/AbstractValueContainer.h>
-#include <cppexpose/value/ExternalValue.h>
-#include <cppexpose/value/InternalValue.h>
-#include <cppexpose/value/ValueContainer.h>
-#include <cppexpose/variant/Variant.h>
-#include <cppexpose/reflection/Property.h>
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/type/AbstractBaseType.hh>
+#include <cppexpose/type/AbstractTyped.hh>
+#include <cppexpose/type/GetType.hh>
+#include <cppexpose/type/BaseType.hh>
+#include <cppexpose/type/Type.hh>
+#include <cppexpose/type/ConcreteType.hh>
+#include <cppexpose/type/Converter.hh>
+#include <cppexpose/type/EnumValues.hh>
+#include <cppexpose/value/AbstractValueContainer.hh>
+#include <cppexpose/value/ExternalValue.hh>
+#include <cppexpose/value/InternalValue.hh>
+#include <cppexpose/value/ValueContainer.hh>
+#include <cppexpose/reflection/Variant.hh>
+#include <cppexpose/reflection/Property.hh>
+#include <cppexpose/reflection/Object.hh>
 
 #include <cppexpose/type/AbstractTyped.inl>
 #include <cppexpose/type/BaseType.inl>
@@ -39,6 +40,6 @@
 #include <cppexpose/value/ExternalValue.inl>
 #include <cppexpose/value/InternalValue.inl>
 #include <cppexpose/value/ValueContainer.inl>
-#include <cppexpose/variant/Variant.inl>
+#include <cppexpose/reflection/Variant.inl>
 #include <cppexpose/reflection/Property.inl>
 #include <cppexpose/reflection/Object.inl>

@@ -6,7 +6,7 @@
 #include <type_traits>
 #include <functional>
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/reflection/Variant.h>
 
 
 namespace cppexpose

@@ -70,53 +70,79 @@ set(headers
     ${include_path}/signal/Signal.inl
 
     ${include_path}/type/AbstractBaseType.h
+    ${include_path}/type/AbstractBaseType.hh
     ${include_path}/type/AbstractTyped.h
+    ${include_path}/type/AbstractTyped.hh
     ${include_path}/type/AbstractTyped.inl
     ${include_path}/type/BaseType.h
+    ${include_path}/type/BaseType.hh
     ${include_path}/type/BaseType.inl
     ${include_path}/type/BaseTypeImpl.h
+    ${include_path}/type/BaseTypeImpl.hh
     ${include_path}/type/BaseTypeImpl.inl
     ${include_path}/type/BaseTypeImplArray.h
+    ${include_path}/type/BaseTypeImplArray.hh
     ${include_path}/type/BaseTypeImplArray.inl
     ${include_path}/type/BaseTypeImplMap.h
+    ${include_path}/type/BaseTypeImplMap.hh
     ${include_path}/type/BaseTypeImplMap.inl
     ${include_path}/type/BaseTypeImplBool.h
+    ${include_path}/type/BaseTypeImplBool.hh
     ${include_path}/type/BaseTypeImplBool.inl
     ${include_path}/type/BaseTypeImplEnum.h
+    ${include_path}/type/BaseTypeImplEnum.hh
     ${include_path}/type/BaseTypeImplEnum.inl
     ${include_path}/type/BaseTypeImplFloatingPoint.h
+    ${include_path}/type/BaseTypeImplFloatingPoint.hh
     ${include_path}/type/BaseTypeImplFloatingPoint.inl
     ${include_path}/type/BaseTypeImplGeneric.h
+    ${include_path}/type/BaseTypeImplGeneric.hh
     ${include_path}/type/BaseTypeImplGeneric.inl
     ${include_path}/type/BaseTypeImplNumber.h
+    ${include_path}/type/BaseTypeImplNumber.hh
     ${include_path}/type/BaseTypeImplNumber.inl
     ${include_path}/type/BaseTypeImplSignedIntegral.h
+    ${include_path}/type/BaseTypeImplSignedIntegral.hh
     ${include_path}/type/BaseTypeImplSignedIntegral.inl
     ${include_path}/type/BaseTypeImplString.h
+    ${include_path}/type/BaseTypeImplString.hh
     ${include_path}/type/BaseTypeImplString.inl
     ${include_path}/type/BaseTypeImplUnsignedIntegral.h
+    ${include_path}/type/BaseTypeImplUnsignedIntegral.hh
     ${include_path}/type/BaseTypeImplUnsignedIntegral.inl
     ${include_path}/type/BaseTypeImplVector.h
+    ${include_path}/type/BaseTypeImplVector.hh
     ${include_path}/type/BaseTypeImplVector.inl
     ${include_path}/type/Converter.h
+    ${include_path}/type/Converter.hh
     ${include_path}/type/Converter.inl
     ${include_path}/type/ConcreteType.h
+    ${include_path}/type/ConcreteType.hh
     ${include_path}/type/ConcreteType.inl
     ${include_path}/type/EnumValues.h
+    ${include_path}/type/EnumValues.hh
     ${include_path}/type/EnumValues.inl
     ${include_path}/type/GetType.h
+    ${include_path}/type/GetType.hh
     ${include_path}/type/MetaType.h
+    ${include_path}/type/MetaType.hh
     ${include_path}/type/NullType.h
+    ${include_path}/type/NullType.hh
     ${include_path}/type/Type.h
+    ${include_path}/type/Type.hh
     ${include_path}/type/type_system.h
 
     ${include_path}/value/AbstractValueContainer.h
+    ${include_path}/value/AbstractValueContainer.hh
     ${include_path}/value/AbstractValueContainer.inl
     ${include_path}/value/ValueContainer.h
+    ${include_path}/value/ValueContainer.hh
     ${include_path}/value/ValueContainer.inl
     ${include_path}/value/ExternalValue.h
+    ${include_path}/value/ExternalValue.hh
     ${include_path}/value/ExternalValue.inl
     ${include_path}/value/InternalValue.h
+    ${include_path}/value/InternalValue.hh
     ${include_path}/value/InternalValue.inl
 
     ${include_path}/function/Function.h
@@ -128,15 +154,18 @@ set(headers
     ${include_path}/function/ConstMemberFunction.h
     ${include_path}/function/ConstMemberFunction.inl
 
-    ${include_path}/variant/Variant.h
-    ${include_path}/variant/Variant.inl
-
     ${include_path}/reflection/AbstractProperty.h
+    ${include_path}/reflection/AbstractProperty.hh
     ${include_path}/reflection/Object.h
+    ${include_path}/reflection/Object.hh
     ${include_path}/reflection/Object.inl
     ${include_path}/reflection/Property.h
+    ${include_path}/reflection/Property.hh
     ${include_path}/reflection/Property.inl
     ${include_path}/reflection/Method.h
+    ${include_path}/reflection/Variant.h
+    ${include_path}/reflection/Variant.hh
+    ${include_path}/reflection/Variant.inl
 
 #    ${include_path}/scripting/ScriptContext.h
 #    ${include_path}/scripting/AbstractScriptBackend.h
@@ -179,11 +208,10 @@ set(sources
 #    ${source_path}/function/Function.cpp
 #    ${source_path}/function/AbstractFunction.cpp
 
-    ${source_path}/variant/Variant.cpp
-
     ${source_path}/reflection/AbstractProperty.cpp
     ${source_path}/reflection/Object.cpp
 #    ${source_path}/reflection/Method.cpp
+    ${source_path}/reflection/Variant.cpp
 
 #    ${source_path}/scripting/duktape-1.4.0/duktape.c
 #    ${source_path}/scripting/duktape-1.4.0/duktape.h
