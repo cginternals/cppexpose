@@ -17,7 +17,7 @@ template <typename T, typename ET>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplVector : public BaseTypeImplContainer<T, ET>
 {
 public:
-    typedef ET ElementType;
+    using ElementType = ET;
 
 
 public:

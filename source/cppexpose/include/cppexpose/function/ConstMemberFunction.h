@@ -23,7 +23,7 @@ public:
     *  @brief
     *    Typed function pointer for a member function of class T
     */
-    typedef RET (T::*Func) (Arguments...) const;
+    using Func = RET (T::*) (Arguments...) const;
 
 
 public:

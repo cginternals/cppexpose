@@ -17,7 +17,7 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplSignedIntegral : public BaseTypeImplNumber<T>
 {
 public:
-    typedef T ElementType;
+    using ElementType = T;
 
 
 public:

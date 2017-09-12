@@ -154,7 +154,7 @@ template<int N, size_t... I>
 struct CPPEXPOSE_TEMPLATE_API GenSeq : GenSeq<N-1, N-1, I...> {};
 
 template<size_t... I>
-struct CPPEXPOSE_TEMPLATE_API GenSeq<0, I...> { typedef Seq<I...> Type; };
+struct CPPEXPOSE_TEMPLATE_API GenSeq<0, I...> { using Type = Seq<I...>; };
 
 /**
 *  @brief
@@ -164,7 +164,7 @@ template<size_t N, typename T, typename... Arguments>
 struct CPPEXPOSE_TEMPLATE_API PickType : PickType<N-1, Arguments...> {};
 
 template<typename T, typename... Arguments>
-struct CPPEXPOSE_TEMPLATE_API PickType<0, T, Arguments...> { typedef T Type; };
+struct CPPEXPOSE_TEMPLATE_API PickType<0, T, Arguments...> { using Type = T; };
 
 /**
 *  @brief
@@ -173,8 +173,8 @@ struct CPPEXPOSE_TEMPLATE_API PickType<0, T, Arguments...> { typedef T Type; };
 template<size_t I, typename... Arguments>
 struct CPPEXPOSE_TEMPLATE_API ArgValueGen
 {
-    typedef typename PickType<I, Arguments...>::Type T;
-    typedef ArgValue<T, I>                           Type;
+    using T    = typename PickType<I, Arguments...>::Type;
+    using Type = ArgValue<T, I>;
 };
 
 /**
@@ -185,7 +185,7 @@ template <typename RET, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API CallFunction
 {
 public:
-    typedef std::function<RET (Arguments...)> FuncPtr;
+    using FuncPtr = std::function<RET (Arguments...)>;
 
     static Variant call(FuncPtr func, Arguments... args) {
         return Variant( func(args...) );
@@ -200,7 +200,7 @@ template <typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API CallFunction<void, Arguments...>
 {
 public:
-    typedef std::function<void (Arguments...)> FuncPtr;
+    using FuncPtr = std::function<void (Arguments...)>;
 
     static Variant call(FuncPtr func, Arguments... args) {
         func(args...);
@@ -216,7 +216,7 @@ template <typename T, typename RET, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API CallMethod
 {
 public:
-    typedef RET (T::*MethodPtr) (Arguments...);
+    using MethodPtr = RET (T::*) (Arguments...);
 
     static Variant call(T * obj, MethodPtr method, Arguments... args) {
         return Variant((obj->*method)(args...));
@@ -231,7 +231,7 @@ template <typename T, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API CallMethod<T, void, Arguments...>
 {
 public:
-    typedef void (T::*MethodPtr) (Arguments...);
+    using MethodPtr = void (T::*) (Arguments...);
 
     static Variant call(T * obj, MethodPtr method, Arguments... args) {
         (obj->*method)(args...);
@@ -247,7 +247,7 @@ template <typename T, typename RET, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API CallConstMethod
 {
 public:
-    typedef RET (T::*MethodPtr) (Arguments...) const;
+    using MethodPtr = RET (T::*) (Arguments...) const;
 
     static Variant call(const T * obj, MethodPtr method, Arguments... args) {
         return Variant((obj->*method)(args...));
@@ -262,7 +262,7 @@ template <typename T, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API CallConstMethod<T, void, Arguments...>
 {
 public:
-    typedef void (T::*MethodPtr) (Arguments...) const;
+    using MethodPtr = void (T::*) (Arguments...) const;
 
     static Variant call(const T * obj, MethodPtr method, Arguments... args) {
         (obj->*method)(args...);

@@ -17,7 +17,7 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API InternalValue : public ValueContainer<T>
 {
 public:
-    typedef typename ValueContainer<T>::ElementType ElementType;
+    using ElementType = typename ValueContainer<T>::ElementType;
 
 
 public:

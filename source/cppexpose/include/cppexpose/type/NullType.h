@@ -16,8 +16,8 @@ namespace cppexpose
 class CPPEXPOSE_API NullType : public AbstractBaseType
 {
 public:
-    typedef void BaseType;
-    typedef void ElementType;
+    using BaseType    = void;
+    using ElementType = void;
 
 
 public:

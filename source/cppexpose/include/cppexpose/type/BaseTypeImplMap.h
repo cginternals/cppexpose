@@ -19,7 +19,7 @@ template <typename T, typename ET>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplMap : public BaseTypeImplContainer<T, ET>
 {
 public:
-    typedef ET ElementType;
+    using ElementType = ET;
 
 
 public:
