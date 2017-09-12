@@ -274,5 +274,50 @@ bool Variant::isType() const
     else         return false;
 }
 
+size_t Variant::numElements() const
+{
+    if (m_value) return m_value->numElements();
+    else         return 0;
+}
+
+Variant Variant::element(size_t i) const
+{
+    if (m_value) return m_value->element(i);
+    else         return Variant();
+}
+
+void Variant::setElement(size_t i, const Variant & value)
+{
+    if (m_value) {
+        m_value->setElement(i, value);
+    }
+}
+
+void Variant::pushElement(const Variant & value)
+{
+    if (m_value) {
+        m_value->pushElement(value);
+    }
+}
+
+std::vector<std::string> Variant::keys() const
+{
+    if (m_value) return m_value->keys();
+    else         return std::vector<std::string>();
+}
+
+Variant Variant::element(const std::string & key) const
+{
+    if (m_value) return m_value->element(key);
+    else         return Variant();
+}
+
+void Variant::setElement(const std::string & key, const Variant & value)
+{
+    if (m_value) {
+        m_value->setElement(key, value);
+    }
+}
+
 
 } // namespace cppexpose

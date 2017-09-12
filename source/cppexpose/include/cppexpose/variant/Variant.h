@@ -259,6 +259,101 @@ public:
     virtual bool isString() const override;
     virtual bool isType() const override;
 
+    /**
+    *  @brief
+    *    Get number of elements of an array
+    *
+    *  @return
+    *    Number of elements, 1 if not an array
+    *
+    *  @remarks
+    *    Only works if the type is an array (see isArray()).
+    */
+    size_t numElements() const;
+
+    /**
+    *  @brief
+    *    Get element of an array as variant
+    *
+    *  @param[in] i
+    *    Index of element
+    *
+    *  @return
+    *    Value of element, default value if index is invalid
+    *
+    *  @remarks
+    *    Only works if the type is an array (see isArray()).
+    */
+    Variant element(size_t i) const;
+
+    /**
+    *  @brief
+    *    Set element of an array as variant
+    *
+    *  @param[in] i
+    *    Index of element
+    *  @param[in] value
+    *    Value of element
+    *
+    *  @remarks
+    *    Only works if the type is an array (see isArray()).
+    */
+    void setElement(size_t i, const Variant & value);
+
+    /**
+    *  @brief
+    *    Add element as variant to an array
+    *
+    *  @param[in] value
+    *    Value of element
+    *
+    *  @remarks
+    *    Only works if the type is a dynamic array (see isDynamicArray()).
+    *    The default implementation of this function does nothing (NOP).
+    */
+    void pushElement(const Variant & value);
+
+    /**
+    *  @brief
+    *    Get list of keys of a map
+    *
+    *  @return
+    *    List of keys, empty list if not a map
+    *
+    *  @remarks
+    *    Only works if the type is a map (see isMap()).
+    */
+    std::vector<std::string> keys() const;
+
+    /**
+    *  @brief
+    *    Get element of a map as variant
+    *
+    *  @param[in] key
+    *    Key
+    *
+    *  @return
+    *    Value of element, default value if key is invalid
+    *
+    *  @remarks
+    *    Only works if the type is a map (see isMap()).
+    */
+    Variant element(const std::string & key) const;
+
+    /**
+    *  @brief
+    *    Set element of a map as variant
+    *
+    *  @param[in] key
+    *    Key
+    *  @param[in] value
+    *    Value of element
+    *
+    *  @remarks
+    *    Only works if the type is a map (see isMap()).
+    */
+    void setElement(const std::string & key, const Variant & value);
+
 
 protected:
     std::unique_ptr<AbstractValueContainer> m_value; ///< Stored value (can be null)
