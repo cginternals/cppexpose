@@ -22,9 +22,11 @@ BaseTypeImplBool<T>::~BaseTypeImplBool()
 }
 
 template <typename T>
-std::string BaseTypeImplBool<T>::typeName() const
+const std::string & BaseTypeImplBool<T>::typeName() const
 {
-    return "bool";
+    static const auto name = std::string("bool");
+
+    return name;
 }
 
 template <typename T>

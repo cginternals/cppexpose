@@ -37,7 +37,7 @@ public:
     virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
     virtual bool hasElementType() const override;
     virtual std::shared_ptr<AbstractBaseType> elementType() override;
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isConst() const override;

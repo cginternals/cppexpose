@@ -39,12 +39,12 @@ ExternalValue<T>::ExternalValue(
   , typename SetterFunctions<T, ElementType, Obj>::mapGetter mg
   , typename SetterFunctions<T, ElementType, Obj>::mapSetter ms)
 {
-    typename SetterFunctions<T, ElementType, Obj>::getter getter = g;
-    typename SetterFunctions<T, ElementType, Obj>::setter setter = s;
-    typename SetterFunctions<T, ElementType, Obj>::arrayGetter arrayGetter = ag;
-    typename SetterFunctions<T, ElementType, Obj>::arraySetter arraySetter = as;
-    typename SetterFunctions<T, ElementType, Obj>::mapGetter mapGetter = mg;
-    typename SetterFunctions<T, ElementType, Obj>::mapSetter mapSetter = ms;
+    const auto getter = g;
+    const auto setter = s;
+    const auto arrayGetter = ag;
+    const auto arraySetter = as;
+    const auto mapGetter = mg;
+    const auto mapSetter = ms;
 
     m_getter = [obj, getter] () -> T
     {
@@ -94,7 +94,7 @@ std::unique_ptr<AbstractValueContainer> ExternalValue<T>::createCopy() const
     auto value = cppassist::make_unique<InternalValue<T>>();
     value->setValue(this->value());
 
-    return std::move(value);
+    return value;
 }
 
 template <typename T>

@@ -28,7 +28,7 @@ ValueType AbstractValueContainer::value() const
     }
 
     // Return default value
-    BaseType<ValueType> type;
+    static BaseType<ValueType> type;
     return type.defaultValue();
 }
 

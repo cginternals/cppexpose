@@ -36,7 +36,7 @@ public:
     virtual ~BaseTypeImplMap();
 
     // Virtual AbstractBaseType interface
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isArray() const override;

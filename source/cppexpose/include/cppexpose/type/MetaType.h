@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    The type of all types
 *
-*  @remarkss
+*  @remarks
 *    The type of Type is the MetaType.
 */
 class CPPEXPOSE_API MetaType : public AbstractBaseType
@@ -35,7 +35,7 @@ public:
     virtual std::shared_ptr<AbstractBaseType> createCopy() const override;
     virtual bool hasElementType() const override;
     virtual std::shared_ptr<AbstractBaseType> elementType() override;
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isConst() const override;

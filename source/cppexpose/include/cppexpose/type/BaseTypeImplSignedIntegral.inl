@@ -2,10 +2,6 @@
 #pragma once
 
 
-#include <typeinfo>
-#include <sstream>
-
-
 namespace cppexpose
 {
 
@@ -21,12 +17,11 @@ BaseTypeImplSignedIntegral<T>::~BaseTypeImplSignedIntegral()
 }
 
 template <typename T>
-std::string BaseTypeImplSignedIntegral<T>::typeName() const
+const std::string & BaseTypeImplSignedIntegral<T>::typeName() const
 {
-    std::stringstream s;
-    s << "int";
-    s << sizeof(T) * 8;
-    return s.str();
+    static const auto name = std::string("int") + std::to_string(sizeof(T) * 8);
+
+    return name;
 }
 
 template <typename T>

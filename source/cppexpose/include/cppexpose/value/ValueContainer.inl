@@ -57,7 +57,7 @@ Type & ValueContainer<T>::elementType()
 }
 
 template <typename T>
-std::string ValueContainer<T>::typeName() const
+const std::string & ValueContainer<T>::typeName() const
 {
     return m_type.typeName();
 }

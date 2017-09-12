@@ -254,6 +254,7 @@ public:
     *
     *  @remarks
     *    Only works if the type is a map (see isMap()).
+    *    This member function recreates the vector with every call.
     */
     virtual std::vector<std::string> keys() const = 0;
 

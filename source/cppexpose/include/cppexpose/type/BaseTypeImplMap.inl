@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <typeinfo>
-
 #include <cppassist/string/manipulation.h>
 
 
@@ -26,13 +24,12 @@ BaseTypeImplMap<T, ET>::~BaseTypeImplMap()
 }
 
 template <typename T, typename ET>
-std::string BaseTypeImplMap<T, ET>::typeName() const
+const std::string & BaseTypeImplMap<T, ET>::typeName() const
 {
-    BaseType<ET> subType;
+    static BaseType<ET> subType;
+    static const auto name = std::string("map<string, ") + subType.typeName() + ">";
 
-    std::stringstream s;
-    s << "map<string, " << subType.typeName() << ">";
-    return s.str();
+    return name;
 }
 
 template <typename T, typename ET>

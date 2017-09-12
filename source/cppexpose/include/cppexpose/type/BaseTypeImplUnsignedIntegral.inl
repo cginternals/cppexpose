@@ -2,9 +2,6 @@
 #pragma once
 
 
-#include <typeinfo>
-
-
 namespace cppexpose
 {
 
@@ -20,12 +17,11 @@ BaseTypeImplUnsignedIntegral<T>::~BaseTypeImplUnsignedIntegral()
 }
 
 template <typename T>
-std::string BaseTypeImplUnsignedIntegral<T>::typeName() const
+const std::string & BaseTypeImplUnsignedIntegral<T>::typeName() const
 {
-    std::stringstream s;
-    s << "uint";
-    s << sizeof(T) * 8;
-    return s.str();
+    static const auto name = std::string("uint") + std::to_string(sizeof(T) * 8);
+
+    return name;
 }
 
 template <typename T>

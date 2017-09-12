@@ -34,7 +34,7 @@ public:
     virtual ~BaseTypeImplSignedIntegral();
 
     // Virtual AbstractBaseType interface
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isIntegral() const override;
     virtual bool isUnsigned() const override;
     virtual bool isFloatingPoint() const override;

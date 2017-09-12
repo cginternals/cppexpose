@@ -34,9 +34,11 @@ std::shared_ptr<AbstractBaseType> MetaType::elementType()
     return nullptr;
 }
 
-std::string MetaType::typeName() const
+const std::string & MetaType::typeName() const
 {
-    return "type";
+    static const auto name = std::string("type");
+
+    return name;
 }
 
 bool MetaType::isNull() const

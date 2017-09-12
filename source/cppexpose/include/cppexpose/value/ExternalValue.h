@@ -18,12 +18,12 @@ namespace cppexpose
 template<typename T, typename ET, typename Obj>
 struct CPPEXPOSE_TEMPLATE_API SetterFunctions
 {
-    typedef T (Obj::*getter) () const;
-    typedef void (Obj::*setter) (const T &);
-    typedef ET (Obj::*arrayGetter) (size_t) const;
-    typedef void (Obj::*arraySetter) (size_t, const ET &);
-    typedef ET (Obj::*mapGetter) (const std::string &) const;
-    typedef void (Obj::*mapSetter) (const std::string &, const ET &);
+    using getter = T (Obj::*) () const;
+    using setter= void (Obj::*) (const T &);
+    using arrayGetter = ET (Obj::*) (size_t) const;
+    using arraySetter = void (Obj::*) (size_t, const ET &);
+    using mapGetter = ET (Obj::*) (const std::string &) const;
+    using mapSetter = void (Obj::*) (const std::string &, const ET &);
 };
 
 
@@ -35,7 +35,7 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API ExternalValue : public ValueContainer<T>
 {
 public:
-    typedef typename ValueContainer<T>::ElementType ElementType;
+    using ElementType = typename ValueContainer<T>::ElementType;
 
 
 public:
@@ -88,10 +88,10 @@ public:
     ExternalValue(Obj * obj,
         typename SetterFunctions<T, ElementType, Obj>::getter getter,
         typename SetterFunctions<T, ElementType, Obj>::setter setter,
-        typename SetterFunctions<T, ElementType, Obj>::arrayGetter arrayGetter = {},
-        typename SetterFunctions<T, ElementType, Obj>::arraySetter arraySetter = {},
-        typename SetterFunctions<T, ElementType, Obj>::mapGetter mapGetter = {},
-        typename SetterFunctions<T, ElementType, Obj>::mapSetter mapSetter = {});
+        typename SetterFunctions<T, ElementType, Obj>::arrayGetter arrayGetter = nullptr,
+        typename SetterFunctions<T, ElementType, Obj>::arraySetter arraySetter = nullptr,
+        typename SetterFunctions<T, ElementType, Obj>::mapGetter mapGetter = nullptr,
+        typename SetterFunctions<T, ElementType, Obj>::mapSetter mapSetter = nullptr);
 
     /**
     *  @brief

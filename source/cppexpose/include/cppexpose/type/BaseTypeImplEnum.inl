@@ -26,13 +26,12 @@ BaseTypeImplEnum<T>::~BaseTypeImplEnum()
 }
 
 template <typename T>
-std::string BaseTypeImplEnum<T>::typeName() const
+const std::string & BaseTypeImplEnum<T>::typeName() const
 {
-    BaseType<typename std::underlying_type<T>::type> underlyingType;
+    static BaseType<typename std::underlying_type<T>::type> underlyingType;
+    static const auto name = std::string("enum<") + underlyingType.typeName() + ">";
 
-    std::stringstream s;
-    s << "enum<" << underlyingType.typeName() << ">";
-    return s.str();
+    return name;
 }
 
 template <typename T>

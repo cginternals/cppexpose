@@ -98,7 +98,7 @@ public:
     virtual AbstractBaseType * baseType() override;
     virtual const Type & elementType() const override;
     virtual Type & elementType() override;
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isConst() const override;

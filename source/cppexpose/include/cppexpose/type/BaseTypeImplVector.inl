@@ -26,13 +26,12 @@ BaseTypeImplVector<T, ET>::~BaseTypeImplVector()
 }
 
 template <typename T, typename ET>
-std::string BaseTypeImplVector<T, ET>::typeName() const
+const std::string & BaseTypeImplVector<T, ET>::typeName() const
 {
-    BaseType<ET> subType;
+    static BaseType<ET> subType;
+    static const auto name = std::string("vector<") + subType.typeName() + ">";
 
-    std::stringstream s;
-    s << "vector<" << subType.typeName() << ">";
-    return s.str();
+    return name;
 }
 
 template <typename T, typename ET>

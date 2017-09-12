@@ -20,11 +20,14 @@ BaseTypeImplFloatingPoint<T>::~BaseTypeImplFloatingPoint()
 }
 
 template <typename T>
-std::string BaseTypeImplFloatingPoint<T>::typeName() const
+const std::string & BaseTypeImplFloatingPoint<T>::typeName() const
 {
-         if (sizeof(T)  > sizeof(float)) return "double";
-    else if (sizeof(T) == sizeof(float)) return "float";
-    else                                 return "half";
+    static const auto name = sizeof(T) >= sizeof(long double) ? std::string("ldouble") :
+                             sizeof(T) >= sizeof(double)      ? std::string("double") :
+                             sizeof(T) >= sizeof(float)       ? std::string("float") :
+                                                                std::string("half");
+
+    return name;
 }
 
 template <typename T>
