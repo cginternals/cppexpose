@@ -19,7 +19,7 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API ValueContainer : public AbstractValueContainer
 {
 public:
-    typedef typename BaseType<T>::ElementType ElementType;
+    using ElementType = typename BaseType<T>::ElementType;
 
 
 public:
@@ -46,7 +46,7 @@ public:
     virtual AbstractBaseType * baseType() override;
     virtual const Type & elementType() const override;
     virtual Type & elementType() override;
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isConst() const override;

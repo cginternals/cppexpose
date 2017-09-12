@@ -92,7 +92,7 @@ Type & Type::elementType()
     return *this;
 }
 
-std::string Type::typeName() const
+const std::string & Type::typeName() const
 {
     return m_type->typeName();
 }
@@ -174,6 +174,8 @@ Variant Type::minimum() const
 
 void Type::setMinimum(const Variant & value)
 {
+    makeUnique();
+
     m_type->setMinimum(value);
 }
 
@@ -184,16 +186,22 @@ Variant Type::maximum() const
 
 void Type::setMaximum(const Variant & value)
 {
+    makeUnique();
+
     m_type->setMaximum(value);
 }
 
 void Type::makeUnique()
 {
-    if (m_type.use_count() > 1)
+    // Return if type is already exclusively used
+    if (m_type.use_count() == 1)
     {
-        m_type = m_type->createCopy();
-        m_elementType.reset();
+        return;
     }
+
+    // Create copy otherwise
+    m_type = m_type->createCopy();
+    m_elementType.reset();
 }
 
 bool Type::ensureElementType() const
@@ -201,22 +209,21 @@ bool Type::ensureElementType() const
     // Check if the element type has already been created
     if (!m_elementType)
     {
-        // No. Try to create it.
-        std::shared_ptr<AbstractBaseType> elementType = m_type->elementType();
+        return true;
+    }
 
-        // Check if type has an element type
-        if (elementType)
-        {
-            // Create wrapper for element type
-            m_elementType.reset(new Type(elementType));
-            return true;
-        }
+    // No. Try to create it.
+    std::shared_ptr<AbstractBaseType> elementType = m_type->elementType();
 
+    // Check if type has an element type
+    if (!elementType)
+    {
         // No element type defined
         return false;
     }
 
-    // Element type already existent
+    // Create wrapper for element type
+    m_elementType.reset(new Type(elementType));
     return true;
 }
 

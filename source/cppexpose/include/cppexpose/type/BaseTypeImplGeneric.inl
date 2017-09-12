@@ -20,10 +20,12 @@ BaseTypeImplGeneric<T>::~BaseTypeImplGeneric()
 }
 
 template <typename T>
-std::string BaseTypeImplGeneric<T>::typeName() const
+const std::string & BaseTypeImplGeneric<T>::typeName() const
 {
     // Unknown type
-    return "unknown";
+    static const auto name = std::string("unknown");
+
+    return name;
 }
 
 template <typename T>

@@ -32,9 +32,11 @@ std::shared_ptr<AbstractBaseType> NullType::elementType()
     return nullptr;
 }
 
-std::string NullType::typeName() const
+const std::string & NullType::typeName() const
 {
-    return "undefined";
+    static const auto name = std::string("undefined");
+
+    return name;
 }
 
 bool NullType::isNull() const

@@ -29,6 +29,8 @@ const std::map<std::string, T> & ConcreteType<T>::namedValues() const
 template <typename T>
 void ConcreteType<T>::setNamedValues(const std::map<std::string, T> & namedValues)
 {
+    makeUnique();
+
     static_cast<BaseType<T> *>(m_type.get())->setNamedValues(namedValues);
 }
 
@@ -47,6 +49,8 @@ const T & ConcreteType<T>::minimumValue() const
 template <typename T>
 void ConcreteType<T>::setMinimumValue(const T & value)
 {
+    makeUnique();
+
     static_cast<BaseType<T> *>(m_type.get())->setMinimumValue(value);
 }
 
@@ -59,6 +63,8 @@ const T & ConcreteType<T>::maximumValue() const
 template <typename T>
 void ConcreteType<T>::setMaximumValue(const T & value)
 {
+    makeUnique();
+
     static_cast<BaseType<T> *>(m_type.get())->setMaximumValue(value);
 }
 

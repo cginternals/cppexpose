@@ -17,7 +17,7 @@ template <typename T, typename ET, size_t SIZE>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplArray : public BaseTypeImplContainer<T, ET>
 {
 public:
-    typedef ET ElementType;
+    using ElementType = ET;
 
 
 public:
@@ -34,7 +34,7 @@ public:
     virtual ~BaseTypeImplArray();
 
     // Virtual AbstractBaseType interface
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isArray() const override;

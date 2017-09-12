@@ -196,10 +196,12 @@ const Type & Variant::elementType() const
     else         return nullType;
 }
 
-std::string Variant::typeName() const
+const std::string & Variant::typeName() const
 {
+    static const auto undefinedName = std::string("undefined");
+
     if (m_value) return m_value->typeName();
-    else         return "undefined";
+    else         return undefinedName;
 }
 
 bool Variant::isNull() const

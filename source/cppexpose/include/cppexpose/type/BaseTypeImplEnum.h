@@ -17,8 +17,8 @@ template <typename T>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplEnum : public BaseTypeImpl<T, T>
 {
 public:
-    typedef T                                      ElementType;
-    typedef typename std::underlying_type<T>::type UnderlyingType;
+    using ElementType    = T;
+    using UnderlyingType = typename std::underlying_type<T>::type;
 
 
 public:
@@ -35,7 +35,7 @@ public:
     virtual ~BaseTypeImplEnum();
 
     // Virtual AbstractBaseType interface
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isArray() const override;

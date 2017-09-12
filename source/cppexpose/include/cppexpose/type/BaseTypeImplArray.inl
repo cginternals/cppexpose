@@ -27,13 +27,12 @@ BaseTypeImplArray<T, ET, SIZE>::~BaseTypeImplArray()
 }
 
 template <typename T, typename ET, size_t SIZE>
-std::string BaseTypeImplArray<T, ET, SIZE>::typeName() const
+const std::string & BaseTypeImplArray<T, ET, SIZE>::typeName() const
 {
-    BaseType<ET> subType;
+    static BaseType<ET> subType;
+    static const auto name = std::string("array<") + subType.typeName() + ", " + std::to_string(SIZE) + ">";
 
-    std::stringstream s;
-    s << "array<" << subType.typeName() << ", " << SIZE << ">";
-    return s.str();
+    return name;
 }
 
 template <typename T, typename ET, size_t SIZE>

@@ -19,7 +19,7 @@ template <typename T, typename ET>
 class CPPEXPOSE_TEMPLATE_API BaseTypeImplMap : public BaseTypeImplContainer<T, ET>
 {
 public:
-    typedef ET ElementType;
+    using ElementType = ET;
 
 
 public:
@@ -36,7 +36,7 @@ public:
     virtual ~BaseTypeImplMap();
 
     // Virtual AbstractBaseType interface
-    virtual std::string typeName() const override;
+    virtual const std::string & typeName() const override;
     virtual bool isNull() const override;
     virtual bool isType() const override;
     virtual bool isArray() const override;

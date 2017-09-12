@@ -106,7 +106,7 @@ Type & Property<T>::elementType()
 }
 
 template <typename T>
-std::string Property<T>::typeName() const
+const std::string & Property<T>::typeName() const
 {
     return m_value->typeName();
 }

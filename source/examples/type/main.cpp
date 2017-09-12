@@ -167,6 +167,7 @@ int main(int, char * [])
     ConcreteType<std::map<std::string, float>> mapType;
     ConcreteType<Test> testType;
     ConcreteType<Weather> weatherType;
+    auto sadWeatherType = weatherType;
 
     if (boolType == weatherType) {
         std::cout << "boolean is weather!! Wait, what?" << std::endl;
@@ -195,6 +196,22 @@ int main(int, char * [])
     printTypeInfo("map<string, float>", mapType);
     printTypeInfo("test",               testType);
     printTypeInfo("weather",            weatherType);
+
+    // Type restrictions
+    if (weatherType.baseType() == sadWeatherType.baseType()) {
+        std::cout << "Both weather types share base type" << std::endl;
+    } else {
+        std::cout << "Both weather types doesn't share base type; this should not happen" << std::endl;
+    }
+    sadWeatherType.setNamedValues({
+        { "Rainy", Rainy },
+        { "Cloudy", Cloudy }
+    });
+    if (weatherType.baseType() != sadWeatherType.baseType()) {
+        std::cout << "Both weather types have a different base type" << std::endl;
+    } else {
+        std::cout << "Both weather types share base type; this should not happen" << std::endl;
+    }
 
     // Values
     InternalValue<int> intValue;

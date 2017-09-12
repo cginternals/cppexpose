@@ -20,9 +20,11 @@ BaseTypeImplString<T>::~BaseTypeImplString()
 }
 
 template <typename T>
-std::string BaseTypeImplString<T>::typeName() const
+const std::string & BaseTypeImplString<T>::typeName() const
 {
-    return "string";
+    static const auto name = std::string("string");
+
+    return name;
 }
 
 template <typename T>
