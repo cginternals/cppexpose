@@ -34,6 +34,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/EnumValues.inl>

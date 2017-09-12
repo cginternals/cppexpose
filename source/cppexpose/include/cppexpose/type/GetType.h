@@ -9,6 +9,7 @@
 
 #include <cppexpose/base/template_helpers.h>
 #include <cppexpose/type/NullType.h>
+#include <cppexpose/type/MetaType.h>
 #include <cppexpose/type/BaseTypeImplGeneric.h>
 #include <cppexpose/type/BaseTypeImplBool.h>
 #include <cppexpose/type/BaseTypeImplSignedIntegral.h>

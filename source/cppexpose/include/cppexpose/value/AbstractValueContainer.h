@@ -290,6 +290,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/value/AbstractValueContainer.inl>

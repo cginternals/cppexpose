@@ -361,6 +361,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/variant/Variant.inl>

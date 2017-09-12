@@ -194,6 +194,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/value/ValueContainer.inl>

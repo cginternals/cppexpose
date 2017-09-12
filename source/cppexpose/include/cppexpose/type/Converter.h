@@ -199,6 +199,3 @@ struct CPPEXPOSE_API Converter<std::string>
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/Converter.inl>

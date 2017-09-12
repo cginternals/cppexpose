@@ -1,5 +1,5 @@
 
-#include <cppexpose/reflection/AbstractProperty.h>
+#include <cppexpose/type/type_system.h>
 
 #include <cppexpose/reflection/Object.h>
 

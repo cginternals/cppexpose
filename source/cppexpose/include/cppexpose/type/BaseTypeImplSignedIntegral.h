@@ -45,6 +45,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseTypeImplSignedIntegral.inl>

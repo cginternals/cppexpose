@@ -1,10 +1,9 @@
 
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/type/type_system.h>
 
 #include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/json/JSON.h>
-#include <cppexpose/value/InternalValue.h>
 
 
 namespace cppexpose

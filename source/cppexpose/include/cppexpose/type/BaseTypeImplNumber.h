@@ -70,6 +70,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseTypeImplNumber.inl>

@@ -232,6 +232,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/AbstractTyped.inl>

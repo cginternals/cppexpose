@@ -72,6 +72,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseTypeImplMap.inl>

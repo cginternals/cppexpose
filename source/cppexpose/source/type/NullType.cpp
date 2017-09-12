@@ -1,8 +1,7 @@
 
-#include <cppassist/memory/make_unique.h>
+#include <cppexpose/type/type_system.h>
 
-#include <cppexpose/type/NullType.h>
-#include <cppexpose/variant/Variant.h>
+#include <cppassist/memory/make_unique.h>
 
 
 namespace cppexpose

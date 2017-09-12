@@ -137,6 +137,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/value/ExternalValue.inl>

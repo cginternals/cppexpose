@@ -70,6 +70,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseTypeImplString.inl>

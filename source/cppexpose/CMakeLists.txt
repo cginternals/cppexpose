@@ -100,14 +100,15 @@ set(headers
     ${include_path}/type/BaseTypeImplVector.inl
     ${include_path}/type/Converter.h
     ${include_path}/type/Converter.inl
+    ${include_path}/type/ConcreteType.h
+    ${include_path}/type/ConcreteType.inl
     ${include_path}/type/EnumValues.h
     ${include_path}/type/EnumValues.inl
     ${include_path}/type/GetType.h
     ${include_path}/type/MetaType.h
     ${include_path}/type/NullType.h
     ${include_path}/type/Type.h
-    ${include_path}/type/ConcreteType.h
-    ${include_path}/type/ConcreteType.inl
+    ${include_path}/type/type_system.h
 
     ${include_path}/value/AbstractValueContainer.h
     ${include_path}/value/AbstractValueContainer.inl

@@ -368,6 +368,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseTypeImpl.inl>

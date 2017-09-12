@@ -50,6 +50,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/ConcreteType.inl>

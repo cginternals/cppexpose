@@ -143,6 +143,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/reflection/Property.inl>

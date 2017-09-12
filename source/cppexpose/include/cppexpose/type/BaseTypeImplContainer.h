@@ -42,6 +42,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseTypeImplContainer.inl>

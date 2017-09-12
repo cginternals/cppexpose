@@ -75,6 +75,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/value/InternalValue.inl>

@@ -4,12 +4,7 @@
 #include <map>
 #include <iostream>
 
-#include <cppexpose/type/Type.h>
-#include <cppexpose/type/ConcreteType.h>
-#include <cppexpose/value/InternalValue.h>
-#include <cppexpose/value/ExternalValue.h>
-#include <cppexpose/variant/Variant.h>
-#include <cppexpose/reflection/Property.h>
+#include <cppexpose/type/type_system.h>
 
 
 using namespace cppexpose;

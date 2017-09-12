@@ -79,6 +79,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseType.inl>

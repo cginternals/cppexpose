@@ -1,10 +1,7 @@
 
-#include <cppexpose/type/MetaType.h>
-
-#include <typeinfo>
+#include <cppexpose/type/type_system.h>
 
 #include <cppassist/memory/make_unique.h>
-#include <cppexpose/variant/Variant.h>
 
 
 namespace cppexpose

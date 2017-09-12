@@ -1,8 +1,5 @@
 
-#include <cppexpose/type/Type.h>
-
-#include <cppexpose/type/NullType.h>
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/type/type_system.h>
 
 
 namespace cppexpose

@@ -1,5 +1,5 @@
 
-#include <cppexpose/type/AbstractBaseType.h>
+#include <cppexpose/type/type_system.h>
 
 
 namespace cppexpose

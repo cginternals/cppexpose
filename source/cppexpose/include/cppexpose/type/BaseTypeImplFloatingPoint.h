@@ -45,6 +45,3 @@ public:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/type/BaseTypeImplFloatingPoint.inl>
