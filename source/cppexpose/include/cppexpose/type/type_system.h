@@ -15,6 +15,7 @@
 #include <cppexpose/value/ValueContainer.h>
 #include <cppexpose/variant/Variant.h>
 #include <cppexpose/reflection/Property.h>
+#include <cppexpose/reflection/Object.h>
 
 #include <cppexpose/type/AbstractTyped.inl>
 #include <cppexpose/type/BaseType.inl>
@@ -40,3 +41,4 @@
 #include <cppexpose/value/ValueContainer.inl>
 #include <cppexpose/variant/Variant.inl>
 #include <cppexpose/reflection/Property.inl>
+#include <cppexpose/reflection/Object.inl>

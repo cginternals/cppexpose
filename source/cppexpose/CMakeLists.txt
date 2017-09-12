@@ -132,8 +132,8 @@ set(headers
     ${include_path}/variant/Variant.inl
 
     ${include_path}/reflection/AbstractProperty.h
-#    ${include_path}/reflection/Object.h
-#    ${include_path}/reflection/Object.inl
+    ${include_path}/reflection/Object.h
+    ${include_path}/reflection/Object.inl
     ${include_path}/reflection/Property.h
     ${include_path}/reflection/Property.inl
     ${include_path}/reflection/Method.h
@@ -159,9 +159,9 @@ set(headers
 set(sources
     ${source_path}/cppexpose.cpp
 
-#    ${source_path}/base/Tokenizer.cpp
+    ${source_path}/base/Tokenizer.cpp
 
-#    ${source_path}/json/JSON.cpp
+    ${source_path}/json/JSON.cpp
 
     ${source_path}/signal/AbstractSignal.cpp
     ${source_path}/signal/Connection.cpp

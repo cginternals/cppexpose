@@ -7,7 +7,7 @@
 #include <cppassist/logging/logging.h>
 
 #include <cppexpose/base/Tokenizer.h>
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/type/type_system.h>
 
 
 using namespace cppassist;
@@ -59,11 +59,14 @@ std::string escapeString(const std::string & in)
 
 std::string jsonStringify(const Variant & root, bool beautify, const std::string & indent)
 {
-    // Variant is an object
-    if (root.isVariantMap())
+    // Variant is a string-map
+    if (root.isMap())
     {
+        // Get keys
+        std::vector<std::string> keys = root.keys();
+
         // Quick output: {} if empty
-        if (root.asMap()->empty()) return "{}";
+        if (keys.empty()) return "{}";
 
         // Begin output
         std::string json = "{"; // [TODO] maybe a stringstream can be more performant
@@ -73,7 +76,7 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
         // Add all variables
         bool first = true;
-        for (auto it : *root.asMap())
+        for (auto name : keys)
         {
             // Add separator (",")
             if (!first)
@@ -81,13 +84,12 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
             else
                 first = false;
 
-            // Get variable
-            const std::string & name       = it.first;
-            const cppexpose::Variant & var = it.second;
-
             // Get value
+            const cppexpose::Variant var = root.element(name);
+
+            // Create JSON
             std::string value;
-            if (var.isVariantMap() || var.isVariantArray())
+            if (var.isArray() || var.isMap())
             {
                 value = jsonStringify(var, beautify, indent + "    ");
             }
@@ -116,10 +118,10 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
     }
 
     // Variant is an array
-    else if (root.isVariantArray())
+    else if (root.isArray())
     {
-        // Quick output: [] if empty
-        if (root.asArray()->empty())
+        // Quick output: [] if empt
+        if (root.numElements() == 0)
             return "[]";
 
         // Begin output
@@ -128,17 +130,20 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
         // Add all elements
         bool first = true;
-        for (const cppexpose::Variant & var : *root.asArray())
+        for (size_t i=0; i<root.numElements(); i++)
         {
+            // Get value
+            Variant var = root.element(i);
+
             // Add separator (",")
             if (!first)
                 json += beautify ? ",\n" : ",";
             else
                 first = false;
 
-            // Get value
+            // Create JSON
             std::string value;
-            if (var.isVariantMap() || var.isVariantArray())
+            if (var.isArray() || var.isMap())
             {
                 value = jsonStringify(var, beautify, indent + "    ");
             }
@@ -169,7 +174,7 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
     // Primitive data types
     else if (root.canConvert<std::string>())
     {
-        return root.toString();
+        return root.value<std::string>();
     }
 
     // Invalid type for JSON output
@@ -249,15 +254,15 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
     // Read array values
     while (true)
     {
-        // Add new value to array
-        root.asArray()->push_back(Variant());
-        Variant & value = (*root.asArray())[root.asArray()->size() - 1];
-
         // Read value
+        Variant value;
         if (!readValue(value, token, tokenizer))
         {
             return false;
         }
+
+        // Add new value to array
+        root.pushElement(value);
 
         // Read next token
         token = tokenizer.parseToken();
@@ -319,7 +324,7 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
             return false;
         }
 
-        std::string name = token.value.toString();
+        std::string name = token.value.value<std::string>();
 
         // Read next token
         token = tokenizer.parseToken();
@@ -339,15 +344,15 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
         // Read next token
         token = tokenizer.parseToken();
 
-        // Add new value to object
-        (*root.asMap())[name] = Variant();
-        Variant & value = (*root.asMap())[name];
-
         // Read value
+        Variant value;
         if (!readValue(value, token, tokenizer))
         {
             return false;
         }
+
+        // Add new value to object
+        root.setElement(name, value);
 
         // Read next token
         token = tokenizer.parseToken();

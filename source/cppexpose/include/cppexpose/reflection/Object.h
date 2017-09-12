@@ -307,6 +307,3 @@ protected:
 
 
 } // namespace cppexpose
-
-
-#include <cppexpose/reflection/Object.inl>
