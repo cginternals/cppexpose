@@ -207,7 +207,7 @@ void Type::makeUnique()
 bool Type::ensureElementType() const
 {
     // Check if the element type has already been created
-    if (!m_elementType)
+    if (m_elementType)
     {
         return true;
     }
