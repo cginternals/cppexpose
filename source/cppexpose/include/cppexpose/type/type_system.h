@@ -10,11 +10,13 @@
 #include <cppexpose/type/ConcreteType.hh>
 #include <cppexpose/type/Converter.hh>
 #include <cppexpose/type/EnumValues.hh>
+#include <cppexpose/type/ObjectType.hh>
 #include <cppexpose/value/AbstractValueContainer.hh>
 #include <cppexpose/value/ExternalValue.hh>
 #include <cppexpose/value/InternalValue.hh>
 #include <cppexpose/value/ValueContainer.hh>
 #include <cppexpose/reflection/Variant.hh>
+#include <cppexpose/reflection/variant_helpers.hh>
 #include <cppexpose/reflection/Property.hh>
 #include <cppexpose/reflection/Object.hh>
 
@@ -41,5 +43,6 @@
 #include <cppexpose/value/InternalValue.inl>
 #include <cppexpose/value/ValueContainer.inl>
 #include <cppexpose/reflection/Variant.inl>
+#include <cppexpose/reflection/variant_helpers.inl>
 #include <cppexpose/reflection/Property.inl>
 #include <cppexpose/reflection/Object.inl>

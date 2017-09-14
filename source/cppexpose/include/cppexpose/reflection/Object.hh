@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/reflection/Property.h>
+#include <cppexpose/reflection/Property.hh>
 #include <cppexpose/reflection/Method.h>
 
 
@@ -269,6 +269,48 @@ public:
     template <class T, typename RET, typename... Arguments>
     void addFunction(const std::string & name, T * obj, RET (T::*fn)(Arguments...) const);
     //@}
+
+    // Virtual Typed interface
+    virtual const Type & type() const override;
+    virtual Type & type() override;
+    virtual const AbstractBaseType * baseType() const override;
+    virtual AbstractBaseType * baseType() override;
+    virtual const Type & elementType() const override;
+    virtual Type & elementType() override;
+    virtual const std::string & typeName() const override;
+    virtual bool isNull() const override;
+    virtual bool isType() const override;
+    virtual bool isConst() const override;
+    virtual bool isArray() const override;
+    virtual bool isDynamicArray() const override;
+    virtual bool isMap() const override;
+    virtual bool isBoolean() const override;
+    virtual bool isNumber() const override;
+    virtual bool isIntegral() const override;
+    virtual bool isUnsigned() const override;
+    virtual bool isFloatingPoint() const override;
+    virtual bool isString() const override;
+
+    // Virtual AbstractValueContainer interface
+    virtual std::unique_ptr<AbstractValueContainer> createCopy() const override;
+    virtual bool compareTypeAndValue(const AbstractValueContainer & value) const override;
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & value) override;
+    virtual bool toBool() const override;
+    virtual bool fromBool(bool value) override;
+    virtual long long toLongLong() const override;
+    virtual bool fromLongLong(long long value) override;
+    virtual unsigned long long toULongLong() const override;
+    virtual bool fromULongLong(unsigned long long value) override;
+    virtual double toDouble() const override;
+    virtual bool fromDouble(double value) override;
+    virtual size_t numElements() const override;
+    virtual Variant element(size_t i) const override;
+    virtual void setElement(size_t i, const Variant & value) override;
+    virtual void pushElement(const Variant & value) override;
+    virtual std::vector<std::string> keys() const override;
+    virtual Variant element(const std::string & key) const override;
+    virtual void setElement(const std::string & key, const Variant & value) override;
 
     // Virtual AbstractProperty interface
     virtual bool isObject() const override;

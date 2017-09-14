@@ -8,6 +8,7 @@
 
 #include <cppassist/string/manipulation.h>
 
+#include <cppexpose/type/ObjectType.h>
 #include <cppexpose/json/JSON.h>
 
 
@@ -180,7 +181,7 @@ bool Object::isObject() const
 Variant Object::toVariant() const
 {
     // Create variant map from all properties in the object
-    Variant map = Variant::map();
+    Variant map = Object::map();
     for (const auto & it : m_propertiesMap) {
         // Get name and property
         const std::string & name = it.first;
@@ -337,6 +338,205 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
     }
 
     return nullptr;
+}
+
+Type & Object::type()
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const Type & Object::type() const
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const AbstractBaseType * Object::baseType() const
+{
+    return nullptr;
+}
+
+AbstractBaseType * Object::baseType()
+{
+    return nullptr;
+}
+
+Type & Object::elementType()
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const Type & Object::elementType() const
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const std::string & Object::typeName() const
+{
+    return type().typeName();
+}
+
+bool Object::isNull() const
+{
+    return type().isNull();
+}
+
+bool Object::isConst() const
+{
+    return type().isConst();
+}
+
+bool Object::isArray() const
+{
+    return type().isArray();
+}
+
+bool Object::isDynamicArray() const
+{
+    return type().isDynamicArray();
+}
+
+bool Object::isMap() const
+{
+    return type().isMap();
+}
+
+bool Object::isBoolean() const
+{
+    return type().isBoolean();
+}
+
+bool Object::isNumber() const
+{
+    return type().isNumber();
+}
+
+bool Object::isIntegral() const
+{
+    return type().isIntegral();
+}
+
+bool Object::isUnsigned() const
+{
+    return type().isUnsigned();
+}
+
+bool Object::isFloatingPoint() const
+{
+    return type().isFloatingPoint();
+}
+
+bool Object::isString() const
+{
+    return type().isString();
+}
+
+bool Object::isType() const
+{
+    return type().isType();
+}
+
+std::unique_ptr<AbstractValueContainer> Object::createCopy() const
+{
+    // TODO: not implemented
+    return nullptr;
+}
+
+bool Object::compareTypeAndValue(const AbstractValueContainer & value) const
+{
+    // TOOD: maybe wrong implementation
+    return this == &value;
+}
+
+std::string Object::toString() const
+{
+    // TODO: not implemented (convert to JSON?)
+    return "";
+}
+
+bool Object::fromString(const std::string & value)
+{
+    // TODO: not implemented (convert from JSON?)
+    return false;
+}
+
+bool Object::toBool() const
+{
+    return false;
+}
+
+bool Object::fromBool(bool value)
+{
+    return false;
+}
+
+long long Object::toLongLong() const
+{
+    return 0;
+}
+
+bool Object::fromLongLong(long long value)
+{
+    return false;
+}
+
+unsigned long long Object::toULongLong() const
+{
+    return 0;
+}
+
+bool Object::fromULongLong(unsigned long long value)
+{
+    return false;
+}
+
+double Object::toDouble() const
+{
+    return 0.0;
+}
+
+bool Object::fromDouble(double value)
+{
+    return false;
+}
+
+size_t Object::numElements() const
+{
+    return 0;
+}
+
+Variant Object::element(size_t i) const
+{
+    return Variant();
+}
+
+void Object::setElement(size_t i, const Variant & value)
+{
+}
+
+void Object::pushElement(const Variant & value)
+{
+}
+
+std::vector<std::string> Object::keys() const
+{
+    return std::vector<std::string>();
+}
+
+Variant Object::element(const std::string & key) const
+{
+    return Variant();
+}
+
+void Object::setElement(const std::string & key, const Variant & value)
+{
 }
 
 

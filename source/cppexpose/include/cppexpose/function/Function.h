@@ -86,6 +86,29 @@ public:
     */
     Variant call(const std::vector<Variant> & args);
 
+    /**
+    *  @brief
+    *    Equality operator
+    *
+    *  @param[in] other
+    *    The other function to compare to
+    *
+    *  @return
+    *    True, if both functions are equal, otherwise false
+    */
+    bool operator==(const Function & other) const;
+
+    /**
+    *  @brief
+    *    Inequality operator
+    *
+    *  @param[in] other
+    *    The other function to compare to
+    *
+    *  @return
+    *    True, if both functions are different, otherwise false
+    */
+    bool operator!=(const Function & other) const;
 
 protected:
     std::unique_ptr<AbstractFunction> m_func; ///< Function implementation

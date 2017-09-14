@@ -128,6 +128,8 @@ set(headers
     ${include_path}/type/MetaType.hh
     ${include_path}/type/NullType.h
     ${include_path}/type/NullType.hh
+    ${include_path}/type/ObjectType.h
+    ${include_path}/type/ObjectType.hh
     ${include_path}/type/Type.h
     ${include_path}/type/Type.hh
     ${include_path}/type/type_system.h
@@ -166,6 +168,9 @@ set(headers
     ${include_path}/reflection/Variant.h
     ${include_path}/reflection/Variant.hh
     ${include_path}/reflection/Variant.inl
+    ${include_path}/reflection/variant_helpers.h
+    ${include_path}/reflection/variant_helpers.hh
+    ${include_path}/reflection/variant_helpers.inl
 
 #    ${include_path}/scripting/ScriptContext.h
 #    ${include_path}/scripting/AbstractScriptBackend.h
@@ -201,6 +206,7 @@ set(sources
     ${source_path}/type/Converter.cpp
     ${source_path}/type/MetaType.cpp
     ${source_path}/type/NullType.cpp
+    ${source_path}/type/ObjectType.cpp
     ${source_path}/type/Type.cpp
 
     ${source_path}/value/AbstractValueContainer.cpp

@@ -1,6 +1,8 @@
 
 #include <cppexpose/type/type_system.h>
 
+#include <cassert>
+
 #include <cppexpose/reflection/Object.h>
 
 
@@ -45,6 +47,8 @@ void AbstractProperty::setParent(Object * parent)
 
 void AbstractProperty::setName(const std::string & name)
 {
+    assert(m_parent == nullptr);
+
     m_name = name;
 }
 

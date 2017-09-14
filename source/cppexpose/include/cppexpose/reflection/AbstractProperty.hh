@@ -80,21 +80,6 @@ public:
     */
     virtual bool isObject() const = 0;
 
-
-protected:
-    /**
-    *  @brief
-    *    Set parent object
-    *
-    *  @param[in] parent
-    *    Parent object (can be null)
-    *
-    *  @remarks
-    *    This function should only be called by Object
-    *    when adding or removing properties.
-    */
-    void setParent(Object * parent);
-
     /**
     *  @brief
     *    Set name
@@ -109,6 +94,21 @@ protected:
     *    cause a name conflict when it is added to the container.
     */
     void setName(const std::string & name);
+
+
+protected:
+    /**
+    *  @brief
+    *    Set parent object
+    *
+    *  @param[in] parent
+    *    Parent object (can be null)
+    *
+    *  @remarks
+    *    This function should only be called by Object
+    *    when adding or removing properties.
+    */
+    void setParent(Object * parent);
 
 
 protected:
