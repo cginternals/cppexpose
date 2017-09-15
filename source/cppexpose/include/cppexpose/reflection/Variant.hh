@@ -378,6 +378,18 @@ public:
     */
     void setElement(const std::string & key, const Variant & value);
 
+    /**
+    *  @brief
+    *    Get string representation of this
+    *
+    *  @return
+    *    A string representation of this
+    *
+    *  @remarks
+    *    This is a shortcut version of Variant::value<std::string>()
+    */
+    std::string toString() const;
+
 
 protected:
     std::unique_ptr<AbstractValueContainer> m_value; ///< Stored value (can be null)

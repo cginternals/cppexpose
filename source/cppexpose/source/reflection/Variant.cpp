@@ -320,5 +320,10 @@ void Variant::setElement(const std::string & key, const Variant & value)
     }
 }
 
+std::string Variant::toString() const
+{
+    return value<std::string>();
+}
+
 
 } // namespace cppexpose
