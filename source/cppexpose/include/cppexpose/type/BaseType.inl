@@ -4,6 +4,8 @@
 
 #include <cppassist/memory/make_unique.h>
 
+#include <cppexpose/reflection/Variant.hh>
+
 
 namespace cppexpose
 {

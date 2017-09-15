@@ -49,16 +49,6 @@ struct CPPEXPOSE_TEMPLATE_API PickType : PickType<N-1, Arguments...> {};
 template<typename T, typename... Arguments>
 struct CPPEXPOSE_TEMPLATE_API PickType<0, T, Arguments...> { using Type = T; };
 
-/**
-*  @brief
-*    Generate ArgValue class for types and index (e.g., ArgValueGen<2, float, int, double>::Type = ArgValue<int, 2>
-*/
-template<size_t I, typename... Arguments>
-struct CPPEXPOSE_TEMPLATE_API ArgValueGen
-{
-    using T    = typename PickType<I, Arguments...>::Type;
-    using Type = ArgValue<T, I>;
-};
 
 
 } // namespace helper

@@ -172,8 +172,8 @@ set(headers
     ${include_path}/reflection/variant_helpers.hh
     ${include_path}/reflection/variant_helpers.inl
 
-#    ${include_path}/scripting/ScriptContext.h
-#    ${include_path}/scripting/AbstractScriptBackend.h
+    ${include_path}/scripting/ScriptContext.h
+    ${include_path}/scripting/AbstractScriptBackend.h
 #    ${include_path}/scripting/example/TreeNode.h
 
     ${include_path}/plugin/ComponentManager.h
@@ -187,7 +187,7 @@ set(headers
     ${include_path}/plugin/Component.h
     ${include_path}/plugin/Component.inl
     ${include_path}/plugin/PluginLibrary.h
-    ${include_path}/plugin/Example.h
+#    ${include_path}/plugin/Example.h
 )
 
 set(sources
@@ -211,26 +211,26 @@ set(sources
 
     ${source_path}/value/AbstractValueContainer.cpp
 
-#    ${source_path}/function/Function.cpp
-#    ${source_path}/function/AbstractFunction.cpp
+    ${source_path}/function/Function.cpp
+    ${source_path}/function/AbstractFunction.cpp
 
     ${source_path}/reflection/AbstractProperty.cpp
     ${source_path}/reflection/Object.cpp
-#    ${source_path}/reflection/Method.cpp
+    ${source_path}/reflection/Method.cpp
     ${source_path}/reflection/Variant.cpp
 
-#    ${source_path}/scripting/duktape-1.4.0/duktape.c
-#    ${source_path}/scripting/duktape-1.4.0/duktape.h
-#    ${source_path}/scripting/duktape-1.4.0/duk_config.h
+    ${source_path}/scripting/duktape-1.4.0/duktape.c
+    ${source_path}/scripting/duktape-1.4.0/duktape.h
+    ${source_path}/scripting/duktape-1.4.0/duk_config.h
 #    ${source_path}/scripting/example/TreeNode.cpp
-#    ${source_path}/scripting/ScriptContext.cpp
-#    ${source_path}/scripting/AbstractScriptBackend.cpp
-#    ${source_path}/scripting/DuktapeScriptBackend.cpp
-#    ${source_path}/scripting/DuktapeScriptBackend.h
-#    ${source_path}/scripting/DuktapeScriptFunction.cpp
-#    ${source_path}/scripting/DuktapeScriptFunction.h
-#    ${source_path}/scripting/DuktapeObjectWrapper.cpp
-#    ${source_path}/scripting/DuktapeObjectWrapper.h
+    ${source_path}/scripting/ScriptContext.cpp
+    ${source_path}/scripting/AbstractScriptBackend.cpp
+    ${source_path}/scripting/DuktapeScriptBackend.cpp
+    ${source_path}/scripting/DuktapeScriptBackend.h
+    ${source_path}/scripting/DuktapeScriptFunction.cpp
+    ${source_path}/scripting/DuktapeScriptFunction.h
+    ${source_path}/scripting/DuktapeObjectWrapper.cpp
+    ${source_path}/scripting/DuktapeObjectWrapper.h
 
     ${source_path}/plugin/ComponentManager.cpp
     ${source_path}/plugin/ComponentRegistry.cpp

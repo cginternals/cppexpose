@@ -8,7 +8,7 @@
 #include <string>
 
 #include <cppexpose/json/JSON.h>
-#include <cppexpose/type/AbstractTyped.h>
+#include <cppexpose/type/AbstractTyped.hh>
 
 
 namespace cppexpose
