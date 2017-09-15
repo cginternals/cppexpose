@@ -261,6 +261,30 @@ public:
 
     /**
     *  @brief
+    *    Return variant representation
+    *
+    *  @return
+    *    A variant with the contents of this
+    *
+    *  @remarks
+    *    This is an interface to comply with AbstractValueContainer
+    */
+    Variant toVariant() const;
+
+    /**
+    *  @brief
+    *    Initialize from variant representation
+    *
+    *  @param[in] variant
+    *    A variant with the new contents of this
+    *
+    *  @remarks
+    *    This is an interface to comply with AbstractValueContainer
+    */
+    bool fromVariant(const Variant & variant);
+
+    /**
+    *  @brief
     *    Get number of elements of an array
     *
     *  @return

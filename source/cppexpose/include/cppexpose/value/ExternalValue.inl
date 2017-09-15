@@ -193,6 +193,25 @@ bool ExternalValue<T>::fromDouble(double value)
 }
 
 template <typename T>
+Variant ExternalValue<T>::toVariant() const
+{
+    return Variant::fromValue(this->value());
+}
+
+template <typename T>
+bool ExternalValue<T>::fromVariant(const Variant & variant)
+{
+    if (!variant.canConvert<T>())
+    {
+        this->setValue(T());
+        return false;
+    }
+
+    this->setValue(variant.value<T>());
+    return true;
+}
+
+template <typename T>
 size_t ExternalValue<T>::numElements() const
 {
     return static_cast<const BaseType<T> *>(this->m_type.baseType())->numElements(this->value());

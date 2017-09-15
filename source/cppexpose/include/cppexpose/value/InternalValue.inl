@@ -121,6 +121,25 @@ bool InternalValue<T>::fromDouble(double value)
 }
 
 template <typename T>
+Variant InternalValue<T>::toVariant() const
+{
+    return Variant::fromValue(m_value);
+}
+
+template <typename T>
+bool InternalValue<T>::fromVariant(const Variant & variant)
+{
+    if (!variant.canConvert<T>())
+    {
+        m_value = T();
+        return false;
+    }
+
+    m_value = variant.value<T>();
+    return true;
+}
+
+template <typename T>
 size_t InternalValue<T>::numElements() const
 {
     return static_cast<const BaseType<T> *>(this->m_type.baseType())->numElements(m_value);

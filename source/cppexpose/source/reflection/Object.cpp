@@ -176,19 +176,19 @@ bool Object::isObject() const
     return true;
 }
 
-// [TODO]
-/*
 Variant Object::toVariant() const
 {
     // Create variant map from all properties in the object
-    Variant map = Object::map();
-    for (const auto & it : m_propertiesMap) {
+    Variant map = Variant::map();
+
+    for (const auto & it : m_propertiesMap)
+    {
         // Get name and property
         const std::string & name = it.first;
         AbstractProperty *  prop = it.second;
 
         // Add to variant map
-        (*map.asMap())[name] = prop->toVariant();
+        map.setElement(name, prop->toVariant());
     }
 
     // Return variant representation
@@ -198,19 +198,21 @@ Variant Object::toVariant() const
 bool Object::fromVariant(const Variant & value)
 {
     // Check if variant is a map
-    if (!value.isVariantMap()) {
+    if (!value.isMap())
+    {
         return false;
     }
 
     // Get all values from variant map
-    for (const auto & it : *value.asMap()) {
+    for (const auto & name : value.keys())
+    {
         // Get name and value
-        const std::string & name = it.first;
-        const Variant &     var  = it.second;
+        const Variant & var = value.element(name);
 
         // If this names an existing property, set its value
         AbstractProperty * prop = this->property(name);
-        if (prop) {
+        if (prop)
+        {
             prop->fromVariant(var);
         }
     }
@@ -218,7 +220,6 @@ bool Object::fromVariant(const Variant & value)
     // Done
     return true;
 }
-*/
 
 std::string Object::relativePathTo(const Object * const other) const
 {

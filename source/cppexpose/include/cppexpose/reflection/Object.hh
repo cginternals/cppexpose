@@ -304,6 +304,8 @@ public:
     virtual bool fromULongLong(unsigned long long value) override;
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
+    virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & variant) override;
     virtual size_t numElements() const override;
     virtual Variant element(size_t i) const override;
     virtual void setElement(size_t i, const Variant & value) override;

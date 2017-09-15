@@ -193,6 +193,24 @@ public:
 
     /**
     *  @brief
+    *    Return variant representation
+    *
+    *  @return
+    *    A variant with the contents of this
+    */
+    virtual Variant toVariant() const = 0;
+
+    /**
+    *  @brief
+    *    Initialize from variant representation
+    *
+    *  @param[in] variant
+    *    A variant with the new contents of this
+    */
+    virtual bool fromVariant(const Variant & variant) = 0;
+
+    /**
+    *  @brief
     *    Get number of elements of an array
     *
     *  @return

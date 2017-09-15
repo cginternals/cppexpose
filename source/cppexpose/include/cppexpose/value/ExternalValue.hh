@@ -111,6 +111,8 @@ public:
     virtual bool fromULongLong(unsigned long long value) override;
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
+    virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & variant) override;
     virtual size_t numElements() const override;
     virtual std::vector<std::string> keys() const override;
 

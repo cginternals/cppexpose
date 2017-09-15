@@ -256,6 +256,18 @@ bool Property<T>::fromDouble(double value)
 }
 
 template <typename T>
+Variant Property<T>::toVariant() const
+{
+    return m_value->toVariant();
+}
+
+template <typename T>
+bool Property<T>::fromVariant(const Variant & variant)
+{
+    return m_value->fromVariant(variant);
+}
+
+template <typename T>
 size_t Property<T>::numElements() const
 {
     return m_value->numElements();
