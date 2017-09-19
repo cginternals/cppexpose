@@ -259,31 +259,31 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
 
 void DuktapeScriptBackend::pushToDukStack(const Variant & value)
 {
-    if (value.isBool()) {
-        duk_push_boolean(m_context, value.toBool());
+    if (value.isBoolean()) {
+        duk_push_boolean(m_context, value.value<bool>());
     }
 
-    else if (value.isUnsignedIntegral()) {
-        duk_push_number(m_context, value.toULongLong());
+    else if (value.isUnsigned()) {
+        duk_push_number(m_context, value.value<unsigned int>());
     }
 
-    else if (value.isSignedIntegral() || value.isIntegral()) {
-        duk_push_number(m_context, value.toLongLong());
+    else if (value.isIntegral()) {
+        duk_push_number(m_context, value.value<int>());
     }
 
     else if (value.isFloatingPoint()) {
-        duk_push_number(m_context, value.toDouble());
+        duk_push_number(m_context, value.value<double>());
     }
 
     else if (value.isString()) {
-        duk_push_string(m_context, value.toString().c_str());
+        duk_push_string(m_context, value.value<std::string>().c_str());
     }
 
     else if (value.hasType<char*>()) {
         duk_push_string(m_context, value.value<char*>());
     }
 
-    else if (value.isVariantArray())
+    else if (value.isArray())
     {
         VariantArray variantArray = value.value<VariantArray>();
         duk_idx_t arr_idx = duk_push_array(m_context);
@@ -294,7 +294,7 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
         }
     }
 
-    else if (value.isVariantMap())
+    else if (value.isMap())
     {
         VariantMap variantMap = value.value<VariantMap>();
         duk_push_object(m_context);
@@ -315,7 +315,7 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
 
     else
     {
-        warning() << "Unknown variant type found: " << value.type().name();
+        warning() << "Unknown variant type found: " << value.typeName();
         duk_push_undefined(m_context);
     }
 }

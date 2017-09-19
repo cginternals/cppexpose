@@ -1,6 +1,8 @@
 
 #include "DuktapeObjectWrapper.h"
 
+#include <cassert>
+
 #include <cppassist/logging/logging.h>
 
 #include <cppexpose/reflection/Object.h>
@@ -60,11 +62,10 @@ void DuktapeObjectWrapper::wrapObject()
     duk_put_prop_string(m_context, -2, s_duktapeObjectPointerKey);
 
     // Register object properties
-    for (unsigned int i=0; i<m_obj->numSubValues(); i++)
+    for (const auto & pair : m_obj->properties())
     {
-        // Get property
-        AbstractProperty * prop = m_obj->property(i);
-        std::string propName = prop->name();
+        AbstractProperty * prop = pair.second;
+        const std::string & propName = pair.first;
 
         // Register property (ignore sub-objects, they are added later)
         if (!prop->isObject())
@@ -109,11 +110,10 @@ void DuktapeObjectWrapper::wrapObject()
     }
 
     // Register sub-objects
-    for (unsigned int i=0; i<m_obj->numSubValues(); i++)
+    for (const auto & pair : m_obj->properties())
     {
-        // Get property
-        AbstractProperty * prop = m_obj->property(i);
-        std::string name = prop->name();
+        AbstractProperty * prop = pair.second;
+        //const std::string & propName = pair.first;
 
         // Check if it is an object
         if (prop->isObject())

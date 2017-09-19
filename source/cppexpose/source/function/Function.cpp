@@ -46,5 +46,15 @@ Variant Function::call(const std::vector<Variant> & args)
     return Variant();
 }
 
+bool Function::operator==(const Function & other) const
+{
+    return this == &other;
+}
+
+bool Function::operator!=(const Function & other) const
+{
+    return this != &other;
+}
+
 
 } // namespace cppexpose

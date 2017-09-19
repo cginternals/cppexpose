@@ -1,5 +1,5 @@
 
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/type/type_system.h>
 
 #include <cassert>
 #include <typeinfo>
@@ -8,6 +8,7 @@
 
 #include <cppassist/string/manipulation.h>
 
+#include <cppexpose/type/ObjectType.h>
 #include <cppexpose/json/JSON.h>
 
 
@@ -23,15 +24,9 @@ namespace cppexpose
 {
 
 
-Object::Object()
-: Object("")
+Object::Object(const std::string & name, Object * parent)
+: AbstractProperty(name != "" ? name : "Object", parent)
 {
-}
-
-Object::Object(const std::string & name)
-: m_className("Object")
-{
-    initProperty(name, nullptr);
 }
 
 Object::~Object()
@@ -69,24 +64,6 @@ bool Object::propertyExists(const std::string & name) const
     return m_propertiesMap.find(name) != m_propertiesMap.end();
 }
 
-AbstractProperty * Object::property(size_t index)
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
-const AbstractProperty * Object::property(size_t index) const
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
 AbstractProperty * Object::property(const std::string & path)
 {
     std::vector<std::string> splittedPath = cppassist::string::split(path, g_separator);
@@ -101,7 +78,7 @@ const AbstractProperty * Object::property(const std::string & path) const
 
 bool Object::addProperty(AbstractProperty * property)
 {
-    // Reject properties that have no name, or whose name already exists,
+    // Reject properties that have no name, whose name already exists,
     // or that already have a parent object.
     if (!property || this->propertyExists(property->name()) || property->parent() != nullptr)
     {
@@ -129,12 +106,16 @@ bool Object::addProperty(AbstractProperty * property)
 
 bool Object::addProperty(std::unique_ptr<AbstractProperty> && property)
 {
+    // Add property to object
     const auto success = addProperty(property.get());
+
+    // If property has been added to the object, take ownership over it
     if (success)
     {
         m_managedProperties.push_back(std::move(property));
     }
 
+    // Return status
     return success;
 }
 
@@ -171,7 +152,11 @@ bool Object::removeProperty(AbstractProperty * property)
     afterRemove(index, property);
 
     // Remove from managed list (deletes the property)
-    auto it2 = std::find_if(m_managedProperties.begin(), m_managedProperties.end(), [property](const std::unique_ptr<AbstractProperty> & managedProperty) { return managedProperty.get() == property; });
+    auto it2 = std::find_if(m_managedProperties.begin(), m_managedProperties.end(),
+        [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
+        {
+            return managedProperty.get() == property;
+        } );
     if (it2 != m_managedProperties.end())
     {
         m_managedProperties.erase(it2);
@@ -191,107 +176,19 @@ bool Object::isObject() const
     return true;
 }
 
-std::unique_ptr<AbstractTyped> Object::clone() const
-{
-    // [TODO]
-    return cppassist::make_unique<Object>(name());
-}
-
-const std::type_info & Object::type() const
-{
-    return typeid(Object);
-}
-
-std::string Object::typeName() const
-{
-    return "Object";
-}
-
-bool Object::isReadOnly() const
-{
-    return false;
-}
-
-bool Object::isComposite() const
-{
-    return true;
-}
-
-size_t Object::numSubValues() const
-{
-    return m_properties.size();
-}
-
-AbstractTyped * Object::subValue(size_t index)
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
-bool Object::isEnum() const
-{
-    return false;
-}
-
-bool Object::isArray() const
-{
-    return false;
-}
-
-bool Object::isVariant() const
-{
-    return false;
-}
-
-bool Object::isString() const
-{
-    return false;
-}
-
-bool Object::isBool() const
-{
-    return false;
-}
-
-bool Object::isNumber() const
-{
-    return false;
-}
-
-bool Object::isIntegral() const
-{
-    return false;
-}
-
-bool Object::isSignedIntegral() const
-{
-    return false;
-}
-
-bool Object::isUnsignedIntegral() const
-{
-    return false;
-}
-
-bool Object::isFloatingPoint() const
-{
-    return false;
-}
-
 Variant Object::toVariant() const
 {
     // Create variant map from all properties in the object
     Variant map = Variant::map();
-    for (const auto & it : m_propertiesMap) {
+
+    for (const auto & it : m_propertiesMap)
+    {
         // Get name and property
         const std::string & name = it.first;
         AbstractProperty *  prop = it.second;
 
         // Add to variant map
-        (*map.asMap())[name] = prop->toVariant();
+        map.setElement(name, prop->toVariant());
     }
 
     // Return variant representation
@@ -301,83 +198,27 @@ Variant Object::toVariant() const
 bool Object::fromVariant(const Variant & value)
 {
     // Check if variant is a map
-    if (!value.isVariantMap()) {
+    if (!value.isMap())
+    {
         return false;
     }
 
     // Get all values from variant map
-    for (const auto & it : *value.asMap()) {
+    for (const auto & name : value.keys())
+    {
         // Get name and value
-        const std::string & name = it.first;
-        const Variant &     var  = it.second;
+        const Variant & var = value.element(name);
 
         // If this names an existing property, set its value
         AbstractProperty * prop = this->property(name);
-        if (prop) {
+        if (prop)
+        {
             prop->fromVariant(var);
         }
     }
 
     // Done
     return true;
-}
-
-std::string Object::toString() const
-{
-    // Convert object into JSON
-    return JSON::stringify(this->toVariant());
-}
-
-bool Object::fromString(const std::string & str)
-{
-    // Convert from JSON
-    Variant values;
-    if (JSON::parse(values, str)) {
-        return fromVariant(values);
-    }
-
-    // Error
-    return false;
-}
-
-bool Object::toBool() const
-{
-    return false;
-}
-
-bool Object::fromBool(bool)
-{
-    return false;
-}
-
-long long Object::toLongLong() const
-{
-    return 0ll;
-}
-
-bool Object::fromLongLong(long long)
-{
-    return false;
-}
-
-unsigned long long Object::toULongLong() const
-{
-    return 0ull;
-}
-
-bool Object::fromULongLong(unsigned long long)
-{
-    return false;
-}
-
-double Object::toDouble() const
-{
-    return 0.0;
-}
-
-bool Object::fromDouble(double)
-{
-    return false;
 }
 
 std::string Object::relativePathTo(const Object * const other) const
@@ -498,6 +339,205 @@ const AbstractProperty * Object::findProperty(const std::vector<std::string> & p
     }
 
     return nullptr;
+}
+
+Type & Object::type()
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const Type & Object::type() const
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const AbstractBaseType * Object::baseType() const
+{
+    return nullptr;
+}
+
+AbstractBaseType * Object::baseType()
+{
+    return nullptr;
+}
+
+Type & Object::elementType()
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const Type & Object::elementType() const
+{
+    static Type type(std::make_shared<ObjectType>());
+
+    return type;
+}
+
+const std::string & Object::typeName() const
+{
+    return type().typeName();
+}
+
+bool Object::isNull() const
+{
+    return type().isNull();
+}
+
+bool Object::isConst() const
+{
+    return type().isConst();
+}
+
+bool Object::isArray() const
+{
+    return type().isArray();
+}
+
+bool Object::isDynamicArray() const
+{
+    return type().isDynamicArray();
+}
+
+bool Object::isMap() const
+{
+    return type().isMap();
+}
+
+bool Object::isBoolean() const
+{
+    return type().isBoolean();
+}
+
+bool Object::isNumber() const
+{
+    return type().isNumber();
+}
+
+bool Object::isIntegral() const
+{
+    return type().isIntegral();
+}
+
+bool Object::isUnsigned() const
+{
+    return type().isUnsigned();
+}
+
+bool Object::isFloatingPoint() const
+{
+    return type().isFloatingPoint();
+}
+
+bool Object::isString() const
+{
+    return type().isString();
+}
+
+bool Object::isType() const
+{
+    return type().isType();
+}
+
+std::unique_ptr<AbstractValueContainer> Object::createCopy() const
+{
+    // TODO: not implemented
+    return nullptr;
+}
+
+bool Object::compareTypeAndValue(const AbstractValueContainer & value) const
+{
+    // TOOD: maybe wrong implementation
+    return this == &value;
+}
+
+std::string Object::toString() const
+{
+    // TODO: not implemented (convert to JSON?)
+    return "";
+}
+
+bool Object::fromString(const std::string & value)
+{
+    // TODO: not implemented (convert from JSON?)
+    return false;
+}
+
+bool Object::toBool() const
+{
+    return false;
+}
+
+bool Object::fromBool(bool value)
+{
+    return false;
+}
+
+long long Object::toLongLong() const
+{
+    return 0;
+}
+
+bool Object::fromLongLong(long long value)
+{
+    return false;
+}
+
+unsigned long long Object::toULongLong() const
+{
+    return 0;
+}
+
+bool Object::fromULongLong(unsigned long long value)
+{
+    return false;
+}
+
+double Object::toDouble() const
+{
+    return 0.0;
+}
+
+bool Object::fromDouble(double value)
+{
+    return false;
+}
+
+size_t Object::numElements() const
+{
+    return 0;
+}
+
+Variant Object::element(size_t i) const
+{
+    return Variant();
+}
+
+void Object::setElement(size_t i, const Variant & value)
+{
+}
+
+void Object::pushElement(const Variant & value)
+{
+}
+
+std::vector<std::string> Object::keys() const
+{
+    return std::vector<std::string>();
+}
+
+Variant Object::element(const std::string & key) const
+{
+    return Variant();
+}
+
+void Object::setElement(const std::string & key, const Variant & value)
+{
 }
 
 

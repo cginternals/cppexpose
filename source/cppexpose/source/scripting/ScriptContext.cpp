@@ -3,7 +3,7 @@
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
 #include <cppexpose/reflection/Object.h>
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/reflection/Variant.h>
 
 #include "DuktapeScriptBackend.h"
 

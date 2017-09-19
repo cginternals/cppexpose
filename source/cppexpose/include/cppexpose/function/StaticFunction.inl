@@ -1,6 +1,11 @@
 
 #pragma once
-#include <cppassist/memory/make_unique.inl>
+
+
+#include <cppassist/memory/make_unique.h>
+
+#include <cppexpose/reflection/Variant.hh>
+#include <cppexpose/reflection/variant_helpers.hh>
 
 
 namespace cppexpose

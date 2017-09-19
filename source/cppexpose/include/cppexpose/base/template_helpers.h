@@ -32,6 +32,21 @@ struct CPPEXPOSE_TEMPLATE_API all<false, MoreConditions...> : public std::false_
 template <>
 struct CPPEXPOSE_TEMPLATE_API all<true> : public std::true_type {};
 
+template <bool Condition, bool... MoreConditions>
+struct CPPEXPOSE_TEMPLATE_API any : public std::false_type {};
+
+template <bool... MoreConditions>
+struct CPPEXPOSE_TEMPLATE_API any<true, MoreConditions...> : public std::true_type {};
+
+template <bool... MoreConditions>
+struct CPPEXPOSE_TEMPLATE_API any<false, MoreConditions...> : public any<MoreConditions...> {};
+
+template <>
+struct CPPEXPOSE_TEMPLATE_API any<false> : public std::false_type {};
+
+template <>
+struct CPPEXPOSE_TEMPLATE_API any<true> : public std::true_type {};
+
 template <bool Condition>
 struct CPPEXPOSE_TEMPLATE_API neg : public std::true_type {};
 
@@ -60,7 +75,7 @@ struct CPPEXPOSE_TEMPLATE_API value_accessor : public std::enable_if<Condition::
 *  @see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
 */
 template <typename Condition, typename Type = void>
-using EnableIf = typename value_accessor<Condition, Type>::type; 
+using EnableIf = typename value_accessor<Condition, Type>::type;
 
 template <typename Condition>
 struct CPPEXPOSE_TEMPLATE_API Neg : public neg<Condition::value> {};
@@ -68,8 +83,14 @@ struct CPPEXPOSE_TEMPLATE_API Neg : public neg<Condition::value> {};
 template <bool... Conditions>
 struct CPPEXPOSE_TEMPLATE_API And : public all<Conditions...> {};
 
+template <bool... Conditions>
+struct CPPEXPOSE_TEMPLATE_API Or : public any<Conditions...> {};
+
 template <typename Type>
-struct CPPEXPOSE_TEMPLATE_API isArray : public is_array<Type> {};
+struct CPPEXPOSE_TEMPLATE_API isArray : public Or<is_array<Type>::value, std::is_array<Type>::value> {};
+
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API isArray2 : public Or<std::is_array<Type>::value> {};
 
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isBoolArray : public is_special_array<bool, Type> {};
@@ -86,18 +107,18 @@ struct CPPEXPOSE_TEMPLATE_API isIntegral : public And<std::is_integral<Type>::va
 
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isUnsignedIntegral : public And<std::is_integral<Type>::value,
-                                       std::is_unsigned<Type>::value, 
+                                       std::is_unsigned<Type>::value,
                                        Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isSignedIntegral : public And<std::is_integral<Type>::value,
-                                     std::is_signed<Type>::value, 
+                                     std::is_signed<Type>::value,
                                      Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isFloatingPoint : public And<std::is_floating_point<Type>::value,
                                     Neg<std::is_same<Type, long double>>::value> {};
-                                    
+
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isPlain : public And<Neg<std::is_reference<Type>>::value,
                             Neg<std::is_const<Type>>::value,

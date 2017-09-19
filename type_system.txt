@@ -1,0 +1,39 @@
+
+TODO
+====
+- fromVariant/toVariant on values
+- JSON classes
+- Function-Type
+- Pointer-Type
+
+
+AbstractBaseType
+|-- MetaType
+|-- NullType
+|-- BaseTypeImpl<T, ET>
+    |-- BaseTypeImplGeneric<T>
+    |-- BaseTypeImplBool<T>
+    |-- BaseTypeImplNumber<T>
+        |-- BaseTypeImplSignedIntegral<T>
+        |-- BaseTypeImplUnsignedIntegral<T>
+        |-- BaseTypeImplFloatingPoint<T>
+    |-- BaseTypeImplString<T>
+    |-- BaseTypeImplEnum<T>
+    |-- BaseTypeImplContainer<T, ET>
+        |-- BaseTypeImplArray<T>
+        |-- BaseTypeImplVector<T>
+        |-- BaseTypeImplMap<T>
+...
+  |-- BaseType<T>
+
+AbstractTyped
+|-- Type
+    |-- ConcreteType<T>
+|-- Variant
+|-- AbstractValueContainer
+    |-- ValueContainer<T>
+        |-- InternalValue<T>
+        |-- ExternalValue<T>
+    |-- AbstractProperty
+        |-- Property<T>
+        |-- Slot<T>

@@ -1,0 +1,44 @@
+cppexpose Typen-System
+
+Im cppexpose Typen-System sollen folgende Grundkonzepte existieren:
+
+- Werte: atomare, vergleichbare Elemente aus einem Wertebereich
+- Wert-Container: Wrapper, welche einen Wert und dessen Typ haben
+- Fremdwert-Container: Wert-Container, welcher abstrahiert den Zugriff auf einen fremdverwalteten Wert bietet
+- Typen: Definition eines Wertebereich
+- MetaTyp: Der Typ eines jeden Typs
+-
+
+- Variant: Ein Werte-Container mit undefiniertem Typ und einem Wert
+- Property: Sicht auf einen extern verwalteten Werte-Container
+- Slot: Wert-Container mit Fähigkeiten zur Update-Verwaltung von Werten
+
+Und folgende Eigenschaften gelten:
+
+- Werte *sind* implizit durch POD Datentypen aus C++ dargestellt
+- Werte *haben* einen Typ, welcher implizit modelliert wird (wer mit Werten arbeitet, kennt ihren Typ, ansonsten muss er mit Wert-Containern arbeiten)
+- Notwendige Operationen auf Werten sind Gleichheit und Unterschiedlichkeit
+
+- Wert-Container *haben* einen Typ
+- Wert-Container *haben* einen Wert, der sich *ändern* kann
+- Wert-Container *sind* keine Werte oder Typen
+
+- Wert-Container können Zugriff auf Subelemente eines Werts geben (z.B. Array, Vector und Map Werte)
+
+- Fremdwert-Container *sind* Wert-Container
+
+- Typen *sind* Werte
+- Typen *haben* Eigenschaften, welche ihren Wertebereich beschreiben (Minimum, Maximum, Werteliste, ...)
+- Typen *haben* Annotationen, falls der Wertebereich unstrukturiert beschrieben werden muss (ist ein Variant)
+- Der Typ eines jeden Typs ist der Meta-Typ
+- Der Typ von einem Meta-Typ ist der Meta-Typ
+- Wenn Wert-Container einen Typ als Wert halten sollen, müssen sie den Typ eines Typs *haben* (z.B. Meta-Typ)
+
+- Der Meta-Typ ist der Typ mit dem Wertebereich aller Typen (inklusive sich selbst?)
+
+- Variants *sind* Werte, aber keine Werte-Container oder Typen
+- Variants *haben* einen aktuellen Werte-Typ und einen aktuellen Wert (kann evtl. durch Werte-Container abgedeckt sein)
+- Variants *haben* den Typ Variant-Typ
+
+Evtl. zu bedenken:
+- Man kann Typen erstellen, welche als Wertebereich Typen haben (quasi Submengen von Meta-Typ)

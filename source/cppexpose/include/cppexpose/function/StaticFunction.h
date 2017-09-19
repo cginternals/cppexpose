@@ -23,7 +23,7 @@ public:
     *  @brief
     *    Typed function pointer for a static function
     */
-    typedef RET (*Func) (Arguments...);
+    using Func = RET (*) (Arguments...);
 
 
 public:

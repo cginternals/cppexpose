@@ -28,7 +28,7 @@ public:
     *  @brief
     *    Identifier type for signals
     */
-    typedef unsigned int Id;
+    using Id = unsigned int;
 
 
 public:
