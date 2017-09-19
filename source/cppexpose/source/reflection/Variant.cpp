@@ -171,12 +171,18 @@ const Type & Variant::type() const
 
 const AbstractBaseType * Variant::baseType() const
 {
-    return m_value->baseType();
+    static Type nullType;
+
+    if (m_value) return m_value->baseType();
+    else         return nullType.baseType();
 }
 
 AbstractBaseType * Variant::baseType()
 {
-    return m_value->baseType();
+    static Type nullType;
+
+    if (m_value) return m_value->baseType();
+    else         return nullType.baseType();
 }
 
 Type & Variant::elementType()

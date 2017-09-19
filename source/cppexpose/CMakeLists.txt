@@ -101,6 +101,9 @@ set(headers
     ${include_path}/type/BaseTypeImplNumber.h
     ${include_path}/type/BaseTypeImplNumber.hh
     ${include_path}/type/BaseTypeImplNumber.inl
+    ${include_path}/type/BaseTypeImplPointer.h
+    ${include_path}/type/BaseTypeImplPointer.hh
+    ${include_path}/type/BaseTypeImplPointer.inl
     ${include_path}/type/BaseTypeImplSignedIntegral.h
     ${include_path}/type/BaseTypeImplSignedIntegral.hh
     ${include_path}/type/BaseTypeImplSignedIntegral.inl

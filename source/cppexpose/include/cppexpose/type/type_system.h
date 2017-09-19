@@ -42,6 +42,7 @@
 #include <cppexpose/type/BaseTypeImplUnsignedIntegral.inl>
 #include <cppexpose/type/BaseTypeImplString.inl>
 #include <cppexpose/type/BaseTypeImplVector.inl>
+#include <cppexpose/type/BaseTypeImplPointer.inl>
 #include <cppexpose/type/ConcreteType.inl>
 #include <cppexpose/type/Converter.inl>
 #include <cppexpose/type/EnumValues.inl>

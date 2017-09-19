@@ -20,6 +20,7 @@
 #include <cppexpose/type/BaseTypeImplArray.hh>
 #include <cppexpose/type/BaseTypeImplVector.hh>
 #include <cppexpose/type/BaseTypeImplMap.hh>
+#include <cppexpose/type/BaseTypeImplPointer.hh>
 
 
 namespace cppexpose
@@ -147,6 +148,26 @@ template <typename T>
 struct CPPEXPOSE_TEMPLATE_API GetType<std::map<std::string, T>>
 {
     using Type = BaseTypeImplMap<std::map<std::string, T>, T>;
+};
+
+/**
+*  @brief
+*    Type selector for void pointer
+*/
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetType<void *>
+{
+    using Type = BaseTypeImplGeneric<void *>;
+};
+
+/**
+*  @brief
+*    Type selector for plain pointer types (int*, Object*, ...)
+*/
+template <typename T>
+struct CPPEXPOSE_TEMPLATE_API GetType<T *>
+{
+    using Type = BaseTypeImplPointer<T *, T *>;
 };
 
 
