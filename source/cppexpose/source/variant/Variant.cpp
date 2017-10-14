@@ -130,6 +130,16 @@ Variant::Variant(const VariantMap & map)
 {
 }
 
+Variant::Variant(const Object * obj)
+: m_value(cppassist::make_unique<DirectValue<const Object *>>(obj))
+{
+}
+
+Variant::Variant(Object * obj)
+: m_value(cppassist::make_unique<DirectValue<Object *>>(obj))
+{
+}
+
 Variant::~Variant()
 {
 }

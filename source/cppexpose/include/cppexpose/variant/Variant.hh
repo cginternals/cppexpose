@@ -16,6 +16,7 @@ namespace cppexpose
 
 class AbstractTyped;
 class Variant;
+class Object;
 
 template <typename T, typename BASE>
 class Typed;
@@ -153,6 +154,8 @@ public:
     Variant(const std::vector<std::string> & value);
     Variant(const VariantArray & array);
     Variant(const VariantMap & map);
+    Variant(const Object * obj);
+    Variant(Object * obj);
     //@}
 
     //@{
