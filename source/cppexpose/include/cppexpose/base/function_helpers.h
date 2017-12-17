@@ -109,6 +109,17 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue<const Variant &, POS> {
     }
 };
 
+template<typename T, size_t POS>
+struct CPPEXPOSE_TEMPLATE_API ArgValue<const std::vector<T> &, POS> {
+    static std::vector<T> get(const std::vector<Variant> & args) {
+        if (POS < args.size()) {
+            return args[POS].toVector<T>();
+        } else {
+            return std::vector<T>();
+        }
+    }
+};
+
 template<size_t POS>
 struct CPPEXPOSE_TEMPLATE_API ArgValue<const std::vector<Variant> &, POS> {
     static std::vector<Variant> get(const std::vector<Variant> & args) {

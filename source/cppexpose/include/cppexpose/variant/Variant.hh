@@ -325,7 +325,7 @@ public:
     *    std::vector instance (empty instance if Variant is not a VariantArray)
     */
     template <typename T>
-    std::vector<T> toVector();
+    std::vector<T> toVector() const;
 
     // Virtual TypeInterface interface
     virtual bool isEnum() const override;

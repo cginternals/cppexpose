@@ -62,7 +62,7 @@ Variant Variant::fromVector(const std::vector<T> & values)
 }
 
 template <typename T>
-std::vector<T> Variant::toVector()
+std::vector<T> Variant::toVector() const
 {
     std::vector<T> vector;
 
