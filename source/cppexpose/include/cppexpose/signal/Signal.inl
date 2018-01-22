@@ -27,8 +27,8 @@ Connection Signal<Arguments...>::connect(Callback callback) const
 }
 
 template <typename... Arguments>
-template <class T>
-Connection Signal<Arguments...>::connect(T * object, void (T::*method)(Arguments...)) const
+template <class T, class U>
+Connection Signal<Arguments...>::connect(T * object, void (U::*method)(Arguments...)) const
 {
     return connect([object, method](Arguments... arguments)
     {
