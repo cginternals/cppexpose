@@ -62,8 +62,8 @@ public:
     *  @param[in] method
     *    Member function that is invoked
     */
-    template <class T>
-    Connection connect(T * object, void (T::*method)(Arguments...)) const;
+    template <class T, class U>
+    Connection connect(T * object, void (U::*method)(Arguments...)) const;
 
     /**
     *  @brief
