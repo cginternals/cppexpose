@@ -1,0 +1,35 @@
+Source: libcppexpose
+Section: misc
+Priority: optional
+Maintainer: Willy Scheibel <willy.scheibel@cginternals.com>
+Build-Depends: build-essential, cmake, doxygen, graphviz
+Standards-Version: 3.8.0
+
+Package: libcppexpose
+Architecture: any
+Homepage: https://github.org/cginternals/cppexpose
+Depends: libcppassist, libcpplocate
+Description: C++ library for type introspection, reflection, and scripting interface.
+
+Package: libcppexpose-dev
+Architecture: any
+Depends: libcppexpose, libcppassist-dev, libcpplocate-dev
+Homepage: https://github.org/cginternals/cppexpose
+Description: C++ library for type introspection, reflection, and scripting interface.
+
+Package: libcppexpose-docs
+Architecture: any
+Homepage: https://github.org/cginternals/cppexpose
+Description: C++ library for type introspection, reflection, and scripting interface.
+
+Package: libcppexpose-dbg
+Architecture: any
+Depends: libcppexpose, libcppexpose-dev
+Homepage: https://github.org/cginternals/cppexpose
+Description: C++ library for type introspection, reflection, and scripting interface.
+
+Package: libcppexpose-all
+Architecture: any
+Depends: libcppexpose, libcppexpose-dev, libcppexpose-docs
+Homepage: https://github.org/cginternals/cppexpose
+Description: C++ library for type introspection, reflection, and scripting interface.
