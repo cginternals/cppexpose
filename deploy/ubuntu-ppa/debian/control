@@ -2,7 +2,7 @@ Source: libcppexpose
 Section: misc
 Priority: optional
 Maintainer: Willy Scheibel <willy.scheibel@cginternals.com>
-Build-Depends: build-essential, cmake, doxygen, graphviz
+Build-Depends: build-essential, cmake, libcpplocate-dev, libcpplocate-dbg, libcppassist-dev, libcppassist-dbg, doxygen, graphviz
 Standards-Version: 3.8.0
 
 Package: libcppexpose
