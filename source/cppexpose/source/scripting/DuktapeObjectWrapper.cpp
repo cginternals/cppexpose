@@ -281,27 +281,40 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     duk_get_prop_string(context, -1, s_duktapeObjectPointerKey);
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
+    
+    // Assume that the wrapper exists, otherwise the backend is in an inconsistent state
+    assert(objWrapper != nullptr);
 
-    // Check if object wrapper was found
-    if (objWrapper)
+    // Get object
+    Object * obj = objWrapper->m_obj;
+
+    // Get property name
+    duk_push_current_function(context);
+    duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
+    std::string propName = duk_get_string(context, -1);
+    duk_pop_2(context);
+
+    // Get property
+    AbstractProperty * property = obj->property(propName);
+
+    // Assume that the property exists, otherwise the backend is in an inconsistent state
+    assert(property != nullptr);
+
+    // Return property value
+    try
     {
-        // Get object
-        Object * obj = objWrapper->m_obj;
-
-        // Get property name
-        duk_push_current_function(context);
-        duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
-        std::string propName = duk_get_string(context, -1);
-        duk_pop_2(context);
-
-        // Get property
-        AbstractProperty * property = obj->property(propName);
-        if (property)
-        {
-            // Return property value
-            Variant value = property->toVariant();
-            scriptBackend->pushToDukStack(value);
-        }
+        Variant value = property->toVariant();
+        scriptBackend->pushToDukStack(value);
+    }
+    catch (const std::exception & e)
+    {
+        // Does not return
+        duk_error(context, DUK_ERR_EVAL_ERROR, e.what());
+    }
+    catch (...)
+    {
+        // Does not return
+        duk_error(context, DUK_ERR_EVAL_ERROR, "unknown error");
     }
 
     // Return status
@@ -344,15 +357,27 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     // Assume that the property exists, otherwise the backend is in an inconsistent state
     assert(property != nullptr);
     
-    // Set property value
+    // Bail if propery is read-only
     if (property->isReadOnly())
     {
         // Does not return
         duk_error(context, DUK_ERR_TYPE_ERROR, "property '%s' is read-only", propName.c_str());
     }
-    else
+    
+    // Set property value
+    try
     {
         property->fromVariant(value);
+    }
+    catch (const std::exception & e)
+    {
+        // Does not return
+        duk_error(context, DUK_ERR_EVAL_ERROR, e.what());
+    }
+    catch (...)
+    {
+        // Does not return
+        duk_error(context, DUK_ERR_EVAL_ERROR, "unknown error");
     }
 
     // Return status
