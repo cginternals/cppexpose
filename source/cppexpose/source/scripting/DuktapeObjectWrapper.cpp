@@ -326,25 +326,33 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
-    // Check if object wrapper was found
-    if (objWrapper)
+    // Assume that the wrapper exists, otherwise the backend is in an inconsistent state
+    assert(objWrapper != nullptr);
+
+    // Get object
+    Object * obj = objWrapper->m_obj;
+
+    // Get property name
+    duk_push_current_function(context);
+    duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
+    std::string propName = duk_get_string(context, -1);
+    duk_pop_2(context);
+
+    // Get property
+    AbstractProperty * property = obj->property(propName);
+
+    // Assume that the property exists, otherwise the backend is in an inconsistent state
+    assert(property != nullptr);
+    
+    // Set property value
+    if (property->isReadOnly())
     {
-        // Get object
-        Object * obj = objWrapper->m_obj;
-
-        // Get property name
-        duk_push_current_function(context);
-        duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
-        std::string propName = duk_get_string(context, -1);
-        duk_pop_2(context);
-
-        // Get property
-        AbstractProperty * property = obj->property(propName);
-        if (property)
-        {
-            // Set property value
-            property->fromVariant(value);
-        }
+        // Does not return
+        duk_error(context, DUK_ERR_TYPE_ERROR, "property '%s' is read-only", propName.c_str());
+    }
+    else
+    {
+        property->fromVariant(value);
     }
 
     // Return status
