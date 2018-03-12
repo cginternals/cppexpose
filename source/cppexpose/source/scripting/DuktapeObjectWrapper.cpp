@@ -387,19 +387,32 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
         }
 
         // Call function
-        Variant value = func->call(arguments);
+        try
+        {
+            Variant value = func->call(arguments);
 
-        // Check return value
-        if (!value.isNull())
-        {
-            // Push return value to stack
-            scriptBackend->pushToDukStack(value);
-            return 1;
+            // Check return value
+            if (!value.isNull())
+            {
+                // Push return value to stack
+                scriptBackend->pushToDukStack(value);
+                return 1;
+            }
+            else
+            {
+                // No return value
+                return 0;
+            }
         }
-        else
+        catch (const std::exception & e)
         {
-            // No return value
-            return 0;
+            // Does not return
+            duk_error(context, DUK_ERR_EVAL_ERROR, e.what());
+        }
+        catch (...)
+        {
+            // Does not return
+            duk_error(context, DUK_ERR_EVAL_ERROR, "unknown error");
         }
     }
 
