@@ -309,8 +309,15 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
     else if (value.hasType<cppexpose::Object *>())
     {
         const auto object = value.value<cppexpose::Object *>();
-        const auto objWrapper = getOrCreateObjectWrapper(object);
-        objWrapper->pushToDukStack();
+        if (object == nullptr)
+        {
+            duk_push_null(m_context);
+        }
+        else
+        {
+            const auto objWrapper = getOrCreateObjectWrapper(object);
+            objWrapper->pushToDukStack();
+        }
     }
 
     else
