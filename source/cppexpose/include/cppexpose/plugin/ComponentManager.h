@@ -6,8 +6,6 @@
 #include <vector>
 #include <map>
 
-#include <cpplocate/ModuleInfo.h>
-
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/plugin/ComponentHelpers.h>
 
