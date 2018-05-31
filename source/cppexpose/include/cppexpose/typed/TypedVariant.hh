@@ -33,6 +33,8 @@ public:
     // Virtual AbstractTyped interface
     virtual std::string typeName() const override;
     virtual bool isVariant() const override;
+    virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & value) override;
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & value) override;
     virtual bool toBool() const override;

@@ -32,6 +32,19 @@ bool TypedVariant<T, BASE>::isVariant() const
 }
 
 template <typename T, typename BASE>
+Variant TypedVariant<T, BASE>::toVariant() const
+{
+    return this->value();
+}
+
+template <typename T, typename BASE>
+bool TypedVariant<T, BASE>::fromVariant(const Variant & variant)
+{
+    this->setValue(variant);
+    return true;
+}
+
+template <typename T, typename BASE>
 std::string TypedVariant<T, BASE>::toString() const
 {
     return this->value().toString();
