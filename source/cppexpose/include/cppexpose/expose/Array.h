@@ -18,21 +18,24 @@ class Property;
 
 /**
 *  @brief
-*    Array
+*    Array (list of properties)
 */
 class CPPEXPOSE_API Array : public PropertyContainer
 {
 public:
+    //@{
     /**
     *  @brief
-    *    Create array
+    *    Create new array
     *
     *  @return
     *    Unique pointer to new array
     */
     static std::unique_ptr<Array> create();
+    //@}
 
 public:
+    //@{
     /**
     *  @brief
     *    Constructor
@@ -65,56 +68,6 @@ public:
     */
     virtual ~Array();
 
-    // Replication
-    virtual AbstractVar * clone() const override;
-
-    // Variable type
-    virtual VarType type() const override;
-    virtual bool isNull() const override;
-    virtual bool isBool() const override;
-    virtual bool isNumber() const override;
-    virtual bool isIntegral() const override;
-    virtual bool isSignedIntegral() const override;
-    virtual bool isFloatingPoint() const override;
-    virtual bool isEnum() const override;
-    virtual bool isString() const override;
-    virtual bool isExternal() const override;
-    virtual bool isPointer() const override;
-    virtual bool isObject() const override;
-    virtual bool isArray() const override;
-    virtual bool isFunction() const override;
-
-    // Access modifiers
-    virtual bool isConst() const override;
-
-    // Additional information
-    virtual Variant minimumValue() const override;
-    virtual Variant maximumValue() const override;
-
-    // Conversion to other types
-    virtual bool canConvertToString() const override;
-    virtual std::string toString() const override;
-    virtual bool canConvertToBool() const override;
-    virtual bool toBool() const override;
-    virtual bool canConvertToLongLong() const override;
-    virtual long long toLongLong() const override;
-    virtual bool canConvertToULongLong() const override;
-    virtual unsigned long long toULongLong() const override;
-    virtual bool canConvertToDouble() const override;
-    virtual double toDouble() const override;
-    virtual bool canConvertToObject() const override;
-    virtual Object toObject() const override;
-    virtual bool canConvertToArray() const override;
-    virtual Array toArray() const override;
-
-    // Conversion from other types
-    virtual bool canConvertFromVar(const AbstractVar & value) override;
-    virtual void fromVar(const AbstractVar & value) override;
-
-    // Property container
-    virtual const Array * asArray() const override;
-    virtual Array * asArray() override;
-
     /**
     *  @brief
     *    Get size of array
@@ -123,7 +76,9 @@ public:
     *    Number of elements in the array
     */
     size_t size() const;
+    //@}
 
+    //@{
     /**
     *  @brief
     *    Get element at index
@@ -136,7 +91,9 @@ public:
     */
     const AbstractProperty * at(size_t index) const;
     AbstractProperty * at(size_t index);
+    //@}
 
+    //@{
     /**
     *  @brief
     *    Add element to array
@@ -201,9 +158,69 @@ public:
     *    If the array has ownership of the property, it will be deleted.
     */
     bool remove(AbstractProperty * property);
+    //@}
+
+    // Replication
+    virtual AbstractVar * clone() const override;
+
+    // Variable type
+    virtual VarType type() const override;
+    virtual bool isNull() const override;
+    virtual bool isBool() const override;
+    virtual bool isNumber() const override;
+    virtual bool isIntegral() const override;
+    virtual bool isSignedIntegral() const override;
+    virtual bool isFloatingPoint() const override;
+    virtual bool isEnum() const override;
+    virtual bool isString() const override;
+    virtual bool isExternal() const override;
+    virtual bool isPointer() const override;
+    virtual bool isObject() const override;
+    virtual bool isArray() const override;
+    virtual bool isFunction() const override;
+
+    // Access modifiers
+    virtual bool isConst() const override;
+
+    // Additional information
+    virtual Variant minimumValue() const override;
+    virtual Variant maximumValue() const override;
+
+    // Conversion to other types
+    virtual bool canConvertToString() const override;
+    virtual std::string toString() const override;
+    virtual bool canConvertToBool() const override;
+    virtual bool toBool() const override;
+    virtual bool canConvertToLongLong() const override;
+    virtual long long toLongLong() const override;
+    virtual bool canConvertToULongLong() const override;
+    virtual unsigned long long toULongLong() const override;
+    virtual bool canConvertToDouble() const override;
+    virtual double toDouble() const override;
+    virtual bool canConvertToObject() const override;
+    virtual Object toObject() const override;
+    virtual bool canConvertToArray() const override;
+    virtual Array toArray() const override;
+
+    // Conversion from other types
+    virtual bool canConvertFromVar(const AbstractVar & value) override;
+    virtual void fromVar(const AbstractVar & value) override;
+
+    // Property container
+    virtual const Array * asArray() const override;
+    virtual Array * asArray() override;
 
 protected:
+    //@{
+    /**
+    *  @brief
+    *    Duplicate array by copying all of its elements
+    *
+    *  @param[in] arr
+    *    Source array
+    */
     void copyFromArray(const Array & arr);
+    //@}
 
 protected:
     std::vector<AbstractProperty *>                m_properties;    ///< List of properties

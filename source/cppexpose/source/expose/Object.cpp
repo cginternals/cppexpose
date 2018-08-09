@@ -37,6 +37,163 @@ Object::~Object()
 {
 }
 
+const std::vector<std::string> & Object::properties() const
+{
+    // Check if property names have already been determined
+    if (m_propertyNames.size() > 0) {
+        return m_propertyNames;
+    }
+
+    // Gather list of property names
+    for (auto it : m_properties) {
+        m_propertyNames.push_back(it.first);
+    }
+
+    // Return list
+    return m_propertyNames;
+}
+
+bool Object::propertyExists(const std::string & name) const
+{
+    return m_properties.find(name) != m_properties.end();
+}
+
+const AbstractProperty * Object::property(const std::string & name) const
+{
+    const AbstractProperty * property = nullptr;
+
+    // Find property
+    const auto it = m_properties.find(name);
+    if (it != m_properties.end())
+    {
+        property = it->second;
+    }
+
+    // Return property if found
+    return property;
+}
+
+AbstractProperty * Object::property(const std::string & name)
+{
+    AbstractProperty * property = nullptr;
+
+    // Find property
+    const auto it = m_properties.find(name);
+    if (it != m_properties.end())
+    {
+        property = it->second;
+    }
+
+    // Return property if found
+    return property;
+}
+
+AbstractProperty * Object::addProperty(const std::string & name, AbstractProperty * property)
+{
+    // Reject properties that have no name, or whose name already exists,
+    // or that already have a parent object.
+    if (!property || this->propertyExists(name) || property->parent() != nullptr)
+    {
+        return nullptr;
+    }
+
+    // Set parent
+    // [TODO]
+//  property->setParent(this);
+
+    // Invoke callback
+    // [TODO]
+//  auto newIndex = m_properties.size();
+//  beforeAdd(newIndex, property);
+
+    // Add property
+    // [TODO]
+//  m_properties.push_back(property);
+    m_properties.insert(std::make_pair(name, property));
+
+    // Invoke callback
+    // [TODO]
+//  afterAdd(newIndex, property);
+
+    // Reset list of property names
+    m_propertyNames.clear();
+
+    // Success
+    return property;
+}
+
+AbstractProperty * Object::addProperty(const std::string & name, std::unique_ptr<AbstractProperty> && property)
+{
+    // Add property
+    const auto propertyPtr = addProperty(name, property.get());
+    if (propertyPtr)
+    {
+        // Manage property
+        m_ownProperties.push_back(std::move(property));
+
+        // Return property
+        return propertyPtr;
+    }
+
+    // Failed
+    return nullptr;
+}
+
+bool Object::removeProperty(AbstractProperty * property)
+{
+    // Reject properties that are not part of the object
+    if (!property || property->parent() != this)
+    {
+        return false;
+    }
+
+    // Find property in object
+    auto it = std::find_if(m_properties.begin(), m_properties.end(), [property] (const std::pair<std::string, AbstractProperty *> & pair)
+    {
+        return pair.second == property;
+    });
+
+    // Abort if property is not part of the object
+    if (it == m_properties.end())
+    {
+        return false;
+    }
+
+    // Invoke callback
+    // [TODO]
+//  size_t index = std::distance(m_properties.begin(), it);
+//  beforeRemove(index, property);
+
+    // Remove property from object
+    m_properties.erase(it);
+
+    // Reset property parent
+    // [TODO]
+//  property->setParent(nullptr);
+
+    // Invoke callback
+    // [TODO]
+//  afterRemove(index, property);
+
+    // Check if property is owned by the object
+    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
+    {
+        return managedProperty.get() == property;
+    });
+
+    // If yes, remove from managed list (delete property)
+    if (it2 != m_ownProperties.end())
+    {
+        m_ownProperties.erase(it2);
+    }
+
+    // Reset list of property names
+    m_propertyNames.clear();
+
+    // Success
+    return true;
+}
+
 AbstractVar * Object::clone() const
 {
     return new Object(*this);
@@ -222,163 +379,6 @@ const Object * Object::asObject() const
 Object * Object::asObject()
 {
     return this;
-}
-
-const std::vector<std::string> & Object::properties() const
-{
-    // Check if property names have already been determined
-    if (m_propertyNames.size() > 0) {
-        return m_propertyNames;
-    }
-
-    // Gather list of property names
-    for (auto it : m_properties) {
-        m_propertyNames.push_back(it.first);
-    }
-
-    // Return list
-    return m_propertyNames;
-}
-
-bool Object::propertyExists(const std::string & name) const
-{
-    return m_properties.find(name) != m_properties.end();
-}
-
-const AbstractProperty * Object::property(const std::string & name) const
-{
-    const AbstractProperty * property = nullptr;
-
-    // Find property
-    const auto it = m_properties.find(name);
-    if (it != m_properties.end())
-    {
-        property = it->second;
-    }
-
-    // Return property if found
-    return property;
-}
-
-AbstractProperty * Object::property(const std::string & name)
-{
-    AbstractProperty * property = nullptr;
-
-    // Find property
-    const auto it = m_properties.find(name);
-    if (it != m_properties.end())
-    {
-        property = it->second;
-    }
-
-    // Return property if found
-    return property;
-}
-
-AbstractProperty * Object::addProperty(const std::string & name, AbstractProperty * property)
-{
-    // Reject properties that have no name, or whose name already exists,
-    // or that already have a parent object.
-    if (!property || this->propertyExists(name) || property->parent() != nullptr)
-    {
-        return nullptr;
-    }
-
-    // Set parent
-    // [TODO]
-//  property->setParent(this);
-
-    // Invoke callback
-    // [TODO]
-//  auto newIndex = m_properties.size();
-//  beforeAdd(newIndex, property);
-
-    // Add property
-    // [TODO]
-//  m_properties.push_back(property);
-    m_properties.insert(std::make_pair(name, property));
-
-    // Invoke callback
-    // [TODO]
-//  afterAdd(newIndex, property);
-
-    // Reset list of property names
-    m_propertyNames.clear();
-
-    // Success
-    return property;
-}
-
-AbstractProperty * Object::addProperty(const std::string & name, std::unique_ptr<AbstractProperty> && property)
-{
-    // Add property
-    const auto propertyPtr = addProperty(name, property.get());
-    if (propertyPtr)
-    {
-        // Manage property
-        m_ownProperties.push_back(std::move(property));
-
-        // Return property
-        return propertyPtr;
-    }
-
-    // Failed
-    return nullptr;
-}
-
-bool Object::removeProperty(AbstractProperty * property)
-{
-    // Reject properties that are not part of the object
-    if (!property || property->parent() != this)
-    {
-        return false;
-    }
-
-    // Find property in object
-    auto it = std::find_if(m_properties.begin(), m_properties.end(), [property] (const std::pair<std::string, AbstractProperty *> & pair)
-    {
-        return pair.second == property;
-    });
-
-    // Abort if property is not part of the object
-    if (it == m_properties.end())
-    {
-        return false;
-    }
-
-    // Invoke callback
-    // [TODO]
-//  size_t index = std::distance(m_properties.begin(), it);
-//  beforeRemove(index, property);
-
-    // Remove property from object
-    m_properties.erase(it);
-
-    // Reset property parent
-    // [TODO]
-//  property->setParent(nullptr);
-
-    // Invoke callback
-    // [TODO]
-//  afterRemove(index, property);
-
-    // Check if property is owned by the object
-    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
-    {
-        return managedProperty.get() == property;
-    });
-
-    // If yes, remove from managed list (delete property)
-    if (it2 != m_ownProperties.end())
-    {
-        m_ownProperties.erase(it2);
-    }
-
-    // Reset list of property names
-    m_propertyNames.clear();
-
-    // Success
-    return true;
 }
 
 void Object::copyFromObject(const Object &)

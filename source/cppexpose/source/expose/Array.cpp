@@ -37,6 +37,124 @@ Array::~Array()
 {
 }
 
+size_t Array::size() const
+{
+    return m_properties.size();
+}
+
+const AbstractProperty * Array::at(size_t index) const
+{
+    if (index < m_properties.size()) {
+        return m_properties[index];
+    }
+
+    return nullptr;
+}
+
+AbstractProperty * Array::at(size_t index)
+{
+    if (index < m_properties.size()) {
+        return m_properties[index];
+    }
+
+    return nullptr;
+}
+
+AbstractProperty * Array::push(AbstractProperty * property)
+{
+    // Reject properties that already have a parent.
+    if (!property || property->parent() != nullptr)
+    {
+        return nullptr;
+    }
+
+    // Set parent
+    // [TODO]
+//  property->setParent(this);
+
+    // Invoke callback
+    // [TODO]
+//  auto newIndex = m_properties.size();
+//  beforeAdd(newIndex, property);
+
+    // Add property
+    // [TODO]
+    m_properties.push_back(property);
+
+    // Invoke callback
+    // [TODO]
+//  afterAdd(newIndex, property);
+
+    // Success
+    return property;
+}
+
+AbstractProperty * Array::push(std::unique_ptr<AbstractProperty> && property)
+{
+    // Add property
+    const auto propertyPtr = push(property.get());
+    if (propertyPtr)
+    {
+        // Manage property
+        m_ownProperties.push_back(std::move(property));
+
+        // Return property
+        return propertyPtr;
+    }
+
+    // Failed
+    return nullptr;
+}
+
+bool Array::remove(AbstractProperty * property)
+{
+    // Reject properties that are not part of the array
+    if (!property || property->parent() != this)
+    {
+        return false;
+    }
+
+    // Find property in array
+    auto it = std::find(m_properties.begin(), m_properties.end(), property);
+
+    // Abort if property is not part of the array
+    if (it == m_properties.end())
+    {
+        return false;
+    }
+
+    // Invoke callback
+    // [TODO]
+//  size_t index = std::distance(m_properties.begin(), it);
+//  beforeRemove(index, property);
+
+    // Remove property from array
+    m_properties.erase(it);
+
+    // Reset property parent
+    // [TODO]
+//  property->setParent(nullptr);
+
+    // Invoke callback
+    // [TODO]
+//  afterRemove(index, property);
+
+    // Check if property is owned by the array
+    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
+    {
+        return managedProperty.get() == property;
+    });
+
+    // If yet, remove from managed list (delete property)
+    if (it2 != m_ownProperties.end())
+    {
+        m_ownProperties.erase(it2);
+    }
+
+    // Success
+    return true;
+}
+
 AbstractVar * Array::clone() const
 {
     return new Array(*this);
@@ -222,124 +340,6 @@ const Array * Array::asArray() const
 Array * Array::asArray()
 {
     return this;
-}
-
-size_t Array::size() const
-{
-    return m_properties.size();
-}
-
-const AbstractProperty * Array::at(size_t index) const
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
-AbstractProperty * Array::at(size_t index)
-{
-    if (index < m_properties.size()) {
-        return m_properties[index];
-    }
-
-    return nullptr;
-}
-
-AbstractProperty * Array::push(AbstractProperty * property)
-{
-    // Reject properties that already have a parent.
-    if (!property || property->parent() != nullptr)
-    {
-        return nullptr;
-    }
-
-    // Set parent
-    // [TODO]
-//  property->setParent(this);
-
-    // Invoke callback
-    // [TODO]
-//  auto newIndex = m_properties.size();
-//  beforeAdd(newIndex, property);
-
-    // Add property
-    // [TODO]
-    m_properties.push_back(property);
-
-    // Invoke callback
-    // [TODO]
-//  afterAdd(newIndex, property);
-
-    // Success
-    return property;
-}
-
-AbstractProperty * Array::push(std::unique_ptr<AbstractProperty> && property)
-{
-    // Add property
-    const auto propertyPtr = push(property.get());
-    if (propertyPtr)
-    {
-        // Manage property
-        m_ownProperties.push_back(std::move(property));
-
-        // Return property
-        return propertyPtr;
-    }
-
-    // Failed
-    return nullptr;
-}
-
-bool Array::remove(AbstractProperty * property)
-{
-    // Reject properties that are not part of the array
-    if (!property || property->parent() != this)
-    {
-        return false;
-    }
-
-    // Find property in array
-    auto it = std::find(m_properties.begin(), m_properties.end(), property);
-
-    // Abort if property is not part of the array
-    if (it == m_properties.end())
-    {
-        return false;
-    }
-
-    // Invoke callback
-    // [TODO]
-//  size_t index = std::distance(m_properties.begin(), it);
-//  beforeRemove(index, property);
-
-    // Remove property from array
-    m_properties.erase(it);
-
-    // Reset property parent
-    // [TODO]
-//  property->setParent(nullptr);
-
-    // Invoke callback
-    // [TODO]
-//  afterRemove(index, property);
-
-    // Check if property is owned by the array
-    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
-    {
-        return managedProperty.get() == property;
-    });
-
-    // If yet, remove from managed list (delete property)
-    if (it2 != m_ownProperties.end())
-    {
-        m_ownProperties.erase(it2);
-    }
-
-    // Success
-    return true;
 }
 
 void Array::copyFromArray(const Array &)

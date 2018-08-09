@@ -33,18 +33,32 @@ public:
 
     /**
     *  @brief
-    *    Get parent property
+    *    Get parent property container
     *
     *  @return
-    *    Parent object or array (can be null)
+    *    Parent property container (can be null)
     */
     PropertyContainer * parent() const;
 
 protected:
+    /**
+    *  @brief
+    *    Register property at a parent container
+    *
+    *  @param[in] name
+    *    Name (can be empty)
+    *  @param[in] parent
+    *    Parent container (can be null)
+    *
+    *  @remarks
+    *    The internal parent is updated to the parent parameter.
+    *    Do not set m_parent before calling this function, otherwise
+    *    the property might be rejected when added to the parent.
+    */
     void registerProperty(const std::string & name, PropertyContainer * parent);
 
 protected:
-    PropertyContainer * m_parent; ///< Parent object or array (can be null)
+    PropertyContainer * m_parent; ///< Parent property container (can be null)
 };
 
 

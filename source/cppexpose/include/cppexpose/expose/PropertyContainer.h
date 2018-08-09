@@ -16,6 +16,7 @@ namespace cppexpose
 class CPPEXPOSE_API PropertyContainer : public AbstractProperty
 {
 public:
+    //@{
     /**
     *  @brief
     *    Constructor
@@ -27,7 +28,9 @@ public:
     *    Destructor
     */
     virtual ~PropertyContainer();
+    //@}
 
+    //@{
     /**
     *  @brief
     *    Get pointer to container as Object
@@ -37,7 +40,9 @@ public:
     */
     virtual const Object * asObject() const;
     virtual Object * asObject();
+    //@}
 
+    //@{
     /**
     *  @brief
     *    Get pointer to container as Array
@@ -47,6 +52,7 @@ public:
     */
     virtual const Array * asArray() const;
     virtual Array * asArray();
+    //@}
 };
 
 

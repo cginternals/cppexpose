@@ -14,7 +14,23 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Variable containing an arbitrary type
+*    Variable containing an arbitrarily typed value
+*
+*    A Variant can be used to store and pass arbitrary typed values in a uniform manner.
+*
+*    To create a Variant from a supported primitive data types, use one of the
+*    available constructors. To create a Variant from another data type, use the
+*    static function fromValue().
+*
+*    The type of the stored value can be determined by hasType<Type>().
+*    To access the value of a variant, call value<Type>(). If the given data type does not
+*    match the stored type, the value may be converted. Note that this only works, if the
+*    corresponding type class (see Typed* classes) has implemented an approriate conversion
+*    to one of the primitive data types, and a conversion path between the two values can
+*    be found. To check if a type can be converted, use canConvert<Type>().
+*
+*    To create object hierarchies, as analog to the JSON or javascript data models, use
+*    the classes Object and Array, which can also be stored in a variant.
 */
 class CPPEXPOSE_API Variant : public AbstractVar
 {
@@ -143,8 +159,18 @@ public:
     virtual void fromVar(const AbstractVar & value) override;
 
 protected:
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] var
+    *    Internal typed value
+    *
+    *  @remarks
+    *    This constructor takes ownership over the given typed value
+    *    and stored it in the variant.
+    */
     Variant(AbstractVar * var);
-
 
 protected:
     std::unique_ptr<AbstractVar> m_value;
