@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Signed integral number
+*    Representation of a signed integral value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedSignedIntegral : public AbstractNumber<Type, Storage>

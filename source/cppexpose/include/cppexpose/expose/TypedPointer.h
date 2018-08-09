@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Pointer variable
+*    Representation of a pointer value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedPointer : public Storage

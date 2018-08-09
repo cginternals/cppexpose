@@ -15,7 +15,7 @@ class Var;
 
 /**
 *  @brief
-*    Direct variable storage (non-const type)
+*    Value storage for a typed variable (non-const type)
 */
 template <typename Type, typename BaseClass>
 class CPPEXPOSE_TEMPLATE_API ValueStorage : public AbstractTyped<Type, BaseClass>
@@ -93,7 +93,7 @@ protected:
 
 /**
 *  @brief
-*    Direct variable storage (const type)
+*    Value storage for a typed variable (const type)
 */
 template <typename Type, typename BaseClass>
 class CPPEXPOSE_TEMPLATE_API ValueStorage<const Type, BaseClass> : public AbstractTyped<Type, BaseClass>

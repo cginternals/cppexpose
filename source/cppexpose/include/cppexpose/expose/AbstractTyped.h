@@ -45,7 +45,22 @@ public:
     //   Overloaded in derived classes
 
     // Value access
+    /**
+    *  @brief
+    *    Get typed value
+    *
+    *  @return
+    *    Typed value
+    */
     virtual const Type & value() const = 0;
+
+    /**
+    *  @brief
+    *    Set typed value
+    *
+    *  @param[in] value
+    *    Typed value
+    */
     virtual void setValue(const Type & value) = 0;
 
     // Conversion

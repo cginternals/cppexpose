@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Number variable
+*    Base class for number types
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API AbstractNumber : public Storage

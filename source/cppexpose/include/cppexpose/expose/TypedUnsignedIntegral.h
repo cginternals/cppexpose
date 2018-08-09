@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Unsigned integral number
+*    Representation of an unsigned integral value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedUnsignedIntegral : public AbstractNumber<Type, Storage>

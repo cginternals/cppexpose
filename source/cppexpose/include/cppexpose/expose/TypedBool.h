@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Boolean variable
+*    Representation of a boolean value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedBool : public Storage

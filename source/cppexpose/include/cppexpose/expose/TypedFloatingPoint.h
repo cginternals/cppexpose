@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Floating point number
+*    Representation of a floating point value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedFloatingPoint : public AbstractNumber<Type, Storage>

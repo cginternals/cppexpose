@@ -14,7 +14,27 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Enum variable
+*    Default value mapping for enum type
+*
+*    Specialize this template to provide a default string mapping for an enum.
+*/
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API EnumDefaultStrings
+{
+    /**
+    *  @brief
+    *    Return available enum values and their string representations
+    *
+    *  @return
+    *    Map of values and strings
+    */
+    std::map<Type, std::string> operator()();
+};
+
+
+/**
+*  @brief
+*    Representation of an enum value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedEnum : public Storage
@@ -106,26 +126,6 @@ public:
 protected:
     std::map<Type, std::string> m_stringMap; ///< Map from enum value -> string
     std::map<std::string, Type> m_enumMap;   ///< Map from string -> enum value
-};
-
-
-/**
-*  @brief
-*    Default value mapping for enum type
-*
-*    Specialize this template to provide a default string mapping for an enum.
-*/
-template <typename Type>
-struct CPPEXPOSE_TEMPLATE_API EnumDefaultStrings
-{
-    /**
-    *  @brief
-    *    Return available enum values and their string representations
-    *
-    *  @return
-    *    Map of values and strings
-    */
-    std::map<Type, std::string> operator()();
 };
 
 

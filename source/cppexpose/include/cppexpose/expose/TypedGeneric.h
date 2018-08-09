@@ -11,7 +11,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Generic variable
+*    Representation of an arbitrary (unknown typed) value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedGeneric : public Storage

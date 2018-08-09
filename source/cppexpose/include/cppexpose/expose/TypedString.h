@@ -14,7 +14,7 @@ namespace cppexpose
 
 /**
 *  @brief
-*    String variable
+*    Representation of a string value
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedString : public Storage

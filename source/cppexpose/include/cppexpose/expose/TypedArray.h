@@ -11,7 +11,11 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Array variable
+*    Representation of a typed array
+*
+*  @remarks
+*    This class is used for types that are an array, such as std::Array.
+*    It does not represent the class Array.
 */
 template <typename Type, typename Storage>
 class CPPEXPOSE_TEMPLATE_API TypedArray : public Storage
