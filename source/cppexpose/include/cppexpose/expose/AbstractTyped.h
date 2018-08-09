@@ -1,0 +1,59 @@
+
+#pragma once
+
+
+#include <type_traits>
+
+#include <cppexpose/expose/AbstractVar.h>
+
+
+namespace cppexpose
+{
+
+
+/**
+*  @brief
+*    Abstract base class for typed variables
+*/
+template <typename Type, typename BaseClass = AbstractVar>
+class CPPEXPOSE_TEMPLATE_API AbstractTyped : public BaseClass
+{
+public:
+    /**
+    *  @brief
+    *    Constructor
+    *
+    *  @param[in] args
+    *    Arguments which are passed on to the constructor of the base-var
+    */
+    template <typename... Args>
+    AbstractTyped(Args&&... args);
+
+    /**
+    *  @brief
+    *    Destructor
+    */
+    virtual ~AbstractTyped();
+
+    // Replication
+    //   Overloaded in derived classes
+
+    // Variable type
+    //   Overloaded in derived classes
+
+    // Access modifiers
+    //   Overloaded in derived classes
+
+    // Value access
+    virtual const Type & value() const = 0;
+    virtual void setValue(const Type & value) = 0;
+
+    // Conversion
+    //   Overloaded in derived classes
+};
+
+
+} // namespace cppexpose
+
+
+#include <cppexpose/expose/AbstractTyped.inl>

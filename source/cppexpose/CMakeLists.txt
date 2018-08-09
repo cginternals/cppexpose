@@ -170,6 +170,45 @@ set(headers
     ${include_path}/plugin/Component.inl
     ${include_path}/plugin/PluginLibrary.h
     ${include_path}/plugin/Example.h
+
+    ${include_path}/expose/AbstractNumber.h
+    ${include_path}/expose/AbstractNumber.inl
+    ${include_path}/expose/AbstractProperty.h
+    ${include_path}/expose/AbstractTyped.h
+    ${include_path}/expose/AbstractTyped.inl
+    ${include_path}/expose/AbstractVar.h
+    ${include_path}/expose/Array.h
+    ${include_path}/expose/Array.inl
+    ${include_path}/expose/Object.h
+    ${include_path}/expose/Object.inl
+    ${include_path}/expose/Property.h
+    ${include_path}/expose/Property.inl
+    ${include_path}/expose/PropertyContainer.h
+    ${include_path}/expose/TypedArray.h
+    ${include_path}/expose/TypedArray.inl
+    ${include_path}/expose/TypedBool.h
+    ${include_path}/expose/TypedBool.inl
+    ${include_path}/expose/TypedEnum.h
+    ${include_path}/expose/TypedEnum.inl
+    ${include_path}/expose/TypedFloatingPoint.h
+    ${include_path}/expose/TypedFloatingPoint.inl
+    ${include_path}/expose/TypedGeneric.h
+    ${include_path}/expose/TypedGeneric.inl
+    ${include_path}/expose/TypedPointer.h
+    ${include_path}/expose/TypedPointer.inl
+    ${include_path}/expose/TypedSignedIntegral.h
+    ${include_path}/expose/TypedSignedIntegral.inl
+    ${include_path}/expose/TypedString.h
+    ${include_path}/expose/TypedString.inl
+    ${include_path}/expose/TypedUnsignedIntegral.h
+    ${include_path}/expose/TypedUnsignedIntegral.inl
+    ${include_path}/expose/ValueStorage.h
+    ${include_path}/expose/ValueStorage.inl
+    ${include_path}/expose/Var.h
+    ${include_path}/expose/Var.inl
+    ${include_path}/expose/Variant.h
+    ${include_path}/expose/Variant.inl
+    ${include_path}/expose/VarType.h
 )
 
 set(sources
@@ -213,6 +252,13 @@ set(sources
     ${source_path}/plugin/AbstractComponent.cpp
     ${source_path}/plugin/PluginLibrary.cpp
     ${source_path}/plugin/Example.cpp
+
+    ${source_path}/expose/AbstractProperty.cpp
+    ${source_path}/expose/AbstractVar.cpp
+    ${source_path}/expose/Array.cpp
+    ${source_path}/expose/Object.cpp
+    ${source_path}/expose/PropertyContainer.cpp
+    ${source_path}/expose/Variant.cpp
 )
 
 # Group source files
