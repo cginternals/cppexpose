@@ -4,6 +4,7 @@
 
 #include <cppexpose/expose/AbstractProperty.h>
 #include <cppexpose/expose/ValueStorage.h>
+#include <cppexpose/expose/Var.h> // Important for template reasons
 #include <cppexpose/expose/GetTyped.h>
 
 

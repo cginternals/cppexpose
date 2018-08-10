@@ -142,7 +142,7 @@ set(sources
 
     ${source_path}/base/Tokenizer.cpp
 
-    ${source_path}/json/JSON.cpp
+#    ${source_path}/json/JSON.cpp
 
     ${source_path}/signal/AbstractSignal.cpp
     ${source_path}/signal/Connection.cpp

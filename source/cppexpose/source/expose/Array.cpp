@@ -94,8 +94,9 @@ AbstractProperty * Array::push(AbstractProperty * property)
     return property;
 }
 
-AbstractProperty * Array::push(AbstractProperty && property)
+AbstractProperty * Array::push(AbstractProperty &&)
 {
+    // [TODO]
     return nullptr;
 }
 
