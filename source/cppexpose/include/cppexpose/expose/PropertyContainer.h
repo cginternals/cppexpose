@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/expose/AbstractProperty.h>
+#include <cppexpose/expose/AbstractVar.h>
 
 
 namespace cppexpose
@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    Base class for objects that contain properties
 */
-class CPPEXPOSE_API PropertyContainer : public AbstractProperty
+class CPPEXPOSE_API PropertyContainer : public AbstractVar
 {
 public:
     //@{

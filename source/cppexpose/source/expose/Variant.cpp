@@ -15,19 +15,19 @@ Variant::Variant()
 }
 
 Variant::Variant(const AbstractVar & value)
-: AbstractProperty()
+: AbstractVar()
 , m_value(value.clone())
 {
 }
 
 Variant::Variant(std::unique_ptr<AbstractVar> && value)
-: AbstractProperty()
+: AbstractVar()
 , m_value(std::move(value))
 {
 }
 
 Variant::Variant(const Variant & variant)
-: AbstractProperty()
+: AbstractVar()
 , m_value(variant.clone())
 {
 }

@@ -39,6 +39,15 @@ public:
 
     /**
     *  @brief
+    *    Get parent property container
+    *
+    *  @return
+    *    Parent property container (can be null)
+    */
+    PropertyContainer * parent() const;
+
+    /**
+    *  @brief
     *    Check if value has a specific type
     *
     *  @return
@@ -46,10 +55,6 @@ public:
     */
     template <typename Type>
     bool hasType() const;
-
-    // [TODO] Remove AbstractProperty, copy things over to AbstractVar
-    const PropertyContainer * parent() const { return nullptr; }
-    PropertyContainer * parent() { return nullptr; }
 
     /**
     *  @brief
@@ -425,6 +430,26 @@ public:
     *    Typed value
     */
     virtual void fromVar(const AbstractVar & value) = 0;
+
+protected:
+    /**
+    *  @brief
+    *    Register property at a parent container
+    *
+    *  @param[in] name
+    *    Name (can be empty)
+    *  @param[in] parent
+    *    Parent container (can be null)
+    *
+    *  @remarks
+    *    The internal parent is updated to the parent parameter.
+    *    Do not set m_parent before calling this function, otherwise
+    *    the property might be rejected when added to the parent.
+    */
+    void registerProperty(const std::string & name, PropertyContainer * parent);
+
+protected:
+    PropertyContainer * m_parent; ///< Parent property container (can be null)
 };
 
 

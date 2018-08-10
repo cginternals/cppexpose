@@ -47,7 +47,7 @@ size_t Array::size() const
     return m_properties.size();
 }
 
-const AbstractProperty * Array::at(size_t index) const
+const AbstractVar * Array::at(size_t index) const
 {
     if (index < m_properties.size()) {
         return m_properties[index];
@@ -56,7 +56,7 @@ const AbstractProperty * Array::at(size_t index) const
     return nullptr;
 }
 
-AbstractProperty * Array::at(size_t index)
+AbstractVar * Array::at(size_t index)
 {
     if (index < m_properties.size()) {
         return m_properties[index];
@@ -65,7 +65,7 @@ AbstractProperty * Array::at(size_t index)
     return nullptr;
 }
 
-AbstractProperty * Array::push(AbstractProperty * property)
+AbstractVar * Array::push(AbstractVar * property)
 {
     // Reject properties that already have a parent.
     if (!property || property->parent() != nullptr)
@@ -94,13 +94,13 @@ AbstractProperty * Array::push(AbstractProperty * property)
     return property;
 }
 
-AbstractProperty * Array::push(AbstractProperty &&)
+AbstractVar * Array::push(AbstractVar &&)
 {
     // [TODO]
     return nullptr;
 }
 
-AbstractProperty * Array::push(std::unique_ptr<AbstractProperty> && property)
+AbstractVar * Array::push(std::unique_ptr<AbstractVar> && property)
 {
     // Add property
     const auto propertyPtr = push(property.get());
@@ -117,7 +117,7 @@ AbstractProperty * Array::push(std::unique_ptr<AbstractProperty> && property)
     return nullptr;
 }
 
-bool Array::remove(AbstractProperty * property)
+bool Array::remove(AbstractVar * property)
 {
     // Reject properties that are not part of the array
     if (!property || property->parent() != this)
@@ -151,7 +151,7 @@ bool Array::remove(AbstractProperty * property)
 //  afterRemove(index, property);
 
     // Check if property is owned by the array
-    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
+    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractVar> & managedProperty)
     {
         return managedProperty.get() == property;
     });

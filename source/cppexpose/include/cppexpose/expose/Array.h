@@ -98,8 +98,8 @@ public:
     *  @return
     *    Property (can be null)
     */
-    const AbstractProperty * at(size_t index) const;
-    AbstractProperty * at(size_t index);
+    const AbstractVar * at(size_t index) const;
+    AbstractVar * at(size_t index);
     //@}
 
     //@{
@@ -117,9 +117,9 @@ public:
     *    Adds the given property to the array.
     *    The array will not take ownership over the property.
     */
-    AbstractProperty * push(AbstractProperty * property);
+    AbstractVar * push(AbstractVar * property);
 
-    AbstractProperty * push(AbstractProperty && property);
+    AbstractVar * push(AbstractVar && property);
 
     /**
     *  @brief
@@ -134,7 +134,7 @@ public:
     *  @remarks
     *    Adds the given property to the array and transfers ownership.
     */
-    AbstractProperty * push(std::unique_ptr<AbstractProperty> && property);
+    AbstractVar * push(std::unique_ptr<AbstractVar> && property);
 
     /**
     *  @brief
@@ -168,7 +168,7 @@ public:
     *    this function will do nothing and return 'false'.
     *    If the array has ownership of the property, it will be deleted.
     */
-    bool remove(AbstractProperty * property);
+    bool remove(AbstractVar * property);
     //@}
 
     // Replication
@@ -235,8 +235,8 @@ protected:
     //@}
 
 protected:
-    std::vector<AbstractProperty *>                m_properties;    ///< List of properties
-    std::vector<std::unique_ptr<AbstractProperty>> m_ownProperties; ///< Properties that are owned by the array
+    std::vector<AbstractVar *>                m_properties;    ///< List of properties
+    std::vector<std::unique_ptr<AbstractVar>> m_ownProperties; ///< Properties that are owned by the array
 };
 
 

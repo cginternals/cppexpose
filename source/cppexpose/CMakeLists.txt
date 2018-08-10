@@ -99,7 +99,6 @@ set(headers
 
     ${include_path}/expose/AbstractNumber.h
     ${include_path}/expose/AbstractNumber.inl
-    ${include_path}/expose/AbstractProperty.h
     ${include_path}/expose/AbstractTyped.h
     ${include_path}/expose/AbstractTyped.inl
     ${include_path}/expose/AbstractVar.h
@@ -172,7 +171,6 @@ set(sources
     ${source_path}/plugin/PluginLibrary.cpp
     ${source_path}/plugin/Example.cpp
 
-    ${source_path}/expose/AbstractProperty.cpp
     ${source_path}/expose/AbstractVar.cpp
     ${source_path}/expose/Array.cpp
     ${source_path}/expose/Object.cpp

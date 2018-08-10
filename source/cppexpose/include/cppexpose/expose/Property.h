@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/expose/AbstractProperty.h>
+#include <cppexpose/expose/AbstractVar.h>
 #include <cppexpose/expose/ValueStorage.h>
 #include <cppexpose/expose/Var.h> // Important for template reasons
 #include <cppexpose/expose/GetTyped.h>
@@ -27,7 +27,7 @@ class PropertyContainer;
 *    for UI or scripting interfaces.
 */
 template <typename Type>
-class CPPEXPOSE_TEMPLATE_API Property : public GetTyped< Type, ValueStorage<Type, AbstractProperty> >::VarType
+class CPPEXPOSE_TEMPLATE_API Property : public GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType
 {
 public:
     /**
