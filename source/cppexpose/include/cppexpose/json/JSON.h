@@ -11,6 +11,7 @@ namespace cppexpose
 {
 
 
+class AbstractVar;
 class Variant;
 
 
@@ -38,14 +39,14 @@ public:
     *    Parse JSON from string
     *
     *  @param[in] root
-    *    Variant value
+    *    Typed value
     *  @param[in] outputMode
     *    JSON output mode
     *
     *  @return
     *    JSON string
     */
-    static std::string stringify(const Variant & root, OutputMode outputMode = Compact);
+    static std::string stringify(const AbstractVar & root, OutputMode outputMode = Compact);
 
     /**
     *  @brief

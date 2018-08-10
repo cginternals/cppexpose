@@ -110,6 +110,15 @@ public:
     *    Destructor
     */
     virtual ~Variant();
+
+    /**
+    *  @brief
+    *    Assignment operator
+    *
+    *  @param[in] value
+    *    Variant value that is copied
+    */
+    Variant & operator =(const Variant & value);
     //@}
 
     // Replication

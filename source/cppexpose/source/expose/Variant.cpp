@@ -115,6 +115,12 @@ Variant::~Variant()
 {
 }
 
+Variant & Variant::operator =(const Variant & value)
+{
+    m_value.reset(value.clone());
+    return *this;
+}
+
 AbstractVar * Variant::clone() const
 {
     return new Variant(m_value->clone());

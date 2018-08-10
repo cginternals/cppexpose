@@ -37,6 +37,11 @@ Object::~Object()
 {
 }
 
+bool Object::empty() const
+{
+    return m_properties.empty();
+}
+
 const std::vector<std::string> & Object::properties() const
 {
     // Check if property names have already been determined

@@ -70,6 +70,15 @@ public:
 
     /**
     *  @brief
+    *    Check if array is empty
+    *
+    *  @return
+    *    'true' if array is empty, else 'false'
+    */
+    bool empty() const;
+
+    /**
+    *  @brief
     *    Get size of array
     *
     *  @return

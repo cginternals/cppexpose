@@ -71,6 +71,15 @@ public:
 
     /**
     *  @brief
+    *    Check if object is empty
+    *
+    *  @return
+    *    'true' if object is empty, else 'false'
+    */
+    bool empty() const;
+
+    /**
+    *  @brief
     *    Get properties
     *
     *  @return

@@ -7,7 +7,9 @@
 #include <cppassist/logging/logging.h>
 
 #include <cppexpose/base/Tokenizer.h>
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/expose/Object.h>
+#include <cppexpose/expose/Array.h>
+#include <cppexpose/expose/Variant.h>
 
 
 using namespace cppassist;
@@ -57,13 +59,16 @@ std::string escapeString(const std::string & in)
     return out;
 }
 
-std::string jsonStringify(const Variant & root, bool beautify, const std::string & indent)
+std::string jsonStringify(const AbstractVar & root, bool beautify, const std::string & indent)
 {
-    // Variant is an object
-    if (root.isVariantMap())
+    // Value is an object
+    if (root.isObject())
     {
+        // Get object
+        auto & obj = static_cast<const Object &>(root);
+
         // Quick output: {} if empty
-        if (root.asMap()->empty()) return "{}";
+        if (obj.empty()) return "{}";
 
         // Begin output
         std::string json = "{"; // [TODO] maybe a stringstream can be more performant
@@ -73,33 +78,33 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
         // Add all variables
         bool first = true;
-        for (auto it : *root.asMap())
+        for (auto name : obj.properties())
         {
+            // Get property
+            auto * prop = obj.property(name);
+            if (!prop) continue;
+
             // Add separator (",")
             if (!first)
                 json += beautify ? ",\n" : ",";
             else
                 first = false;
 
-            // Get variable
-            const std::string & name       = it.first;
-            const cppexpose::Variant & var = it.second;
-
             // Get value
             std::string value;
-            if (var.isVariantMap() || var.isVariantArray())
+            if (prop->isObject() || prop->isArray())
             {
-                value = jsonStringify(var, beautify, indent + "    ");
+                value = jsonStringify(*prop, beautify, indent + "    ");
             }
-            else if (var.isNull())
+            else if (prop->isNull())
             {
                 value = "null";
             }
             else
             {
-                value = escapeString(jsonStringify(var, beautify, ""));
+                value = escapeString(jsonStringify(*prop, beautify, ""));
 
-                if (var.hasType<std::string>())
+                if (prop->isString())
                 {
                     value = "\"" + value + "\"";
                 }
@@ -116,10 +121,13 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
     }
 
     // Variant is an array
-    else if (root.isVariantArray())
+    else if (root.isArray())
     {
+        // Get array
+        auto & array = static_cast<const Array &>(root);
+
         // Quick output: [] if empty
-        if (root.asArray()->empty())
+        if (array.empty())
             return "[]";
 
         // Begin output
@@ -128,8 +136,12 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
         // Add all elements
         bool first = true;
-        for (const cppexpose::Variant & var : *root.asArray())
+        for (size_t i=0; i<array.size(); i++)
         {
+            // Get property
+            auto * prop = array.at(i);
+            if (!prop) continue;
+
             // Add separator (",")
             if (!first)
                 json += beautify ? ",\n" : ",";
@@ -138,19 +150,19 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
 
             // Get value
             std::string value;
-            if (var.isVariantMap() || var.isVariantArray())
+            if (prop->isObject() || prop->isArray())
             {
-                value = jsonStringify(var, beautify, indent + "    ");
+                value = jsonStringify(*prop, beautify, indent + "    ");
             }
-            else if (var.isNull())
+            else if (prop->isNull())
             {
                 value = "null";
             }
             else
             {
-                value = escapeString(jsonStringify(var, beautify, ""));
+                value = escapeString(jsonStringify(*prop, beautify, ""));
 
-                if (var.hasType<std::string>())
+                if (prop->isString())
                 {
                     value = "\"" + value + "\"";
                 }
@@ -167,7 +179,7 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
     }
 
     // Primitive data types
-    else if (root.canConvert<std::string>())
+    else if (root.canConvertToString())
     {
         return root.toString();
     }
@@ -235,7 +247,7 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
 bool readArray(Variant & root, Tokenizer & tokenizer)
 {
     // Create array
-    root = Variant::array();
+    root = Array();
 
     // Read next token
     Tokenizer::Token token = tokenizer.parseToken();

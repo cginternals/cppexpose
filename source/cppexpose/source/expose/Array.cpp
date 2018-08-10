@@ -37,6 +37,11 @@ Array::~Array()
 {
 }
 
+bool Array::empty() const
+{
+    return m_properties.empty();
+}
+
 size_t Array::size() const
 {
     return m_properties.size();

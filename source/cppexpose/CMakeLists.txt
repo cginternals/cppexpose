@@ -69,68 +69,6 @@ set(headers
     ${include_path}/signal/Signal.h
     ${include_path}/signal/Signal.inl
 
-    ${include_path}/typed/TypeInterface.h
-    ${include_path}/typed/AbstractTyped.h
-    ${include_path}/typed/AbstractTyped.hh
-    ${include_path}/typed/AbstractTyped.inl
-    ${include_path}/typed/GetTyped.h
-    ${include_path}/typed/GetTyped.hh
-    ${include_path}/typed/Typed.h
-    ${include_path}/typed/Typed.hh
-    ${include_path}/typed/Typed.inl
-    ${include_path}/typed/TypedGeneric.h
-    ${include_path}/typed/TypedGeneric.hh
-    ${include_path}/typed/TypedGeneric.inl
-    ${include_path}/typed/TypedBool.h
-    ${include_path}/typed/TypedBool.hh
-    ${include_path}/typed/TypedBool.inl
-    ${include_path}/typed/TypedString.h
-    ${include_path}/typed/TypedString.hh
-    ${include_path}/typed/TypedString.inl
-    ${include_path}/typed/TypedNumber.h
-    ${include_path}/typed/TypedNumber.hh
-    ${include_path}/typed/TypedNumber.inl
-    ${include_path}/typed/TypedSignedIntegral.h
-    ${include_path}/typed/TypedSignedIntegral.hh
-    ${include_path}/typed/TypedSignedIntegral.inl
-    ${include_path}/typed/TypedUnsignedIntegral.h
-    ${include_path}/typed/TypedUnsignedIntegral.hh
-    ${include_path}/typed/TypedUnsignedIntegral.inl
-    ${include_path}/typed/TypedFloatingPoint.h
-    ${include_path}/typed/TypedFloatingPoint.hh
-    ${include_path}/typed/TypedFloatingPoint.inl
-    ${include_path}/typed/TypedEnum.h
-    ${include_path}/typed/TypedEnum.hh
-    ${include_path}/typed/TypedEnum.inl
-    ${include_path}/typed/TypedArray.h
-    ${include_path}/typed/TypedArray.hh
-    ${include_path}/typed/TypedArray.inl
-    ${include_path}/typed/TypedVariant.h
-    ${include_path}/typed/TypedVariant.hh
-    ${include_path}/typed/TypedVariant.inl
-    ${include_path}/typed/TypedFilePath.h
-    ${include_path}/typed/TypedFilePath.hh
-    ${include_path}/typed/TypedFilePath.inl
-    ${include_path}/typed/DirectValue.h
-    ${include_path}/typed/DirectValue.hh
-    ${include_path}/typed/DirectValue.inl
-    ${include_path}/typed/DirectValueSingle.h
-    ${include_path}/typed/DirectValueSingle.hh
-    ${include_path}/typed/DirectValueSingle.inl
-    ${include_path}/typed/DirectValueArray.h
-    ${include_path}/typed/DirectValueArray.hh
-    ${include_path}/typed/DirectValueArray.inl
-    ${include_path}/typed/StoredValue.h
-    ${include_path}/typed/StoredValue.hh
-    ${include_path}/typed/StoredValue.inl
-    ${include_path}/typed/StoredValueSingle.h
-    ${include_path}/typed/StoredValueSingle.hh
-    ${include_path}/typed/StoredValueSingle.inl
-    ${include_path}/typed/StoredValueArray.h
-    ${include_path}/typed/StoredValueArray.hh
-    ${include_path}/typed/StoredValueArray.inl
-    ${include_path}/typed/typed_includes.inl
-
     ${include_path}/function/Function.h
     ${include_path}/function/AbstractFunction.h
     ${include_path}/function/StaticFunction.h
@@ -140,18 +78,6 @@ set(headers
     ${include_path}/function/ConstMemberFunction.h
     ${include_path}/function/ConstMemberFunction.inl
 
-    ${include_path}/variant/Variant.h
-    ${include_path}/variant/Variant.hh
-    ${include_path}/variant/Variant.inl
-
-    ${include_path}/reflection/AbstractProperty.h
-    ${include_path}/reflection/AbstractProperty.inl
-    ${include_path}/reflection/Object.h
-    ${include_path}/reflection/Object.inl
-    ${include_path}/reflection/Property.h
-    ${include_path}/reflection/Property.inl
-    ${include_path}/reflection/DynamicProperty.h
-    ${include_path}/reflection/DynamicProperty.inl
     ${include_path}/reflection/Method.h
 
     ${include_path}/scripting/ScriptContext.h
@@ -222,16 +148,9 @@ set(sources
     ${source_path}/signal/Connection.cpp
     ${source_path}/signal/ScopedConnection.cpp
 
-    ${source_path}/typed/TypeInterface.cpp
-    ${source_path}/typed/AbstractTyped.cpp
-
     ${source_path}/function/Function.cpp
     ${source_path}/function/AbstractFunction.cpp
 
-    ${source_path}/variant/Variant.cpp
-
-    ${source_path}/reflection/AbstractProperty.cpp
-    ${source_path}/reflection/Object.cpp
     ${source_path}/reflection/Method.cpp
 
     ${source_path}/scripting/duktape-1.4.0/duktape.c
