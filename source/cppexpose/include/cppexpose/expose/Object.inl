@@ -12,8 +12,8 @@ namespace cppexpose
 template <typename Type, typename... Args>
 bool Object::createProperty(const std::string & name, Args&&... args)
 {
-    auto property = cppassist::make_unique<Property<Type>>(std::forward<Args>(args)...);
-    return addProperty(name, std::move(property));
+    auto value = cppassist::make_unique<Var<Type>>(std::forward<Args>(args)...);
+    return addProperty(name, std::move(value));
 }
 
 

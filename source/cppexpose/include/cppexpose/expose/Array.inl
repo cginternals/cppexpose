@@ -12,8 +12,8 @@ namespace cppexpose
 template <typename Type, typename... Args>
 bool Array::createElement(Args&&... args)
 {
-    auto property = cppassist::make_unique<Property<Type>>(std::forward<Args>(args)...);
-    return this->push(std::move(property));
+    auto value = cppassist::make_unique<Var<Type>>(std::forward<Args>(args)...);
+    return this->push(std::move(value));
 }
 
 

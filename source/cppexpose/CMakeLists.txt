@@ -106,8 +106,6 @@ set(headers
     ${include_path}/expose/Array.inl
     ${include_path}/expose/Object.h
     ${include_path}/expose/Object.inl
-    ${include_path}/expose/Property.h
-    ${include_path}/expose/Property.inl
     ${include_path}/expose/PropertyContainer.h
     ${include_path}/expose/TypedArray.h
     ${include_path}/expose/TypedArray.inl

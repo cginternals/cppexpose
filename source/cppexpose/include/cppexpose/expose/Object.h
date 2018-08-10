@@ -13,10 +13,6 @@ namespace cppexpose
 {
 
 
-template <typename Type>
-class Property;
-
-
 /**
 *  @brief
 *    Object (container of properties)

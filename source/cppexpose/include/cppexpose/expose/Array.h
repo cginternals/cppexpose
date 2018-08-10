@@ -12,10 +12,6 @@ namespace cppexpose
 {
 
 
-template <typename Type>
-class Property;
-
-
 /**
 *  @brief
 *    Array (list of properties)
