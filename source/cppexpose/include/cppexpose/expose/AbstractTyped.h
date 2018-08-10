@@ -15,8 +15,8 @@ namespace cppexpose
 *  @brief
 *    Abstract base class for typed variables
 */
-template <typename Type, typename BaseClass = AbstractVar>
-class CPPEXPOSE_TEMPLATE_API AbstractTyped : public BaseClass
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API AbstractTyped : public AbstractVar
 {
 public:
     /**

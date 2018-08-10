@@ -2,7 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/expose/AbstractVar.h>
 #include <cppexpose/expose/ValueStorage.h>
 #include <cppexpose/expose/GetTyped.h>
 
@@ -16,7 +15,7 @@ namespace cppexpose
 *    Typed variable
 */
 template <typename Type>
-class CPPEXPOSE_TEMPLATE_API Var : public GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType
+class CPPEXPOSE_TEMPLATE_API Var : public GetTyped< Type, ValueStorage<Type> >::VarType
 {
 public:
     /**

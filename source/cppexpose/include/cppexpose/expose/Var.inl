@@ -8,33 +8,33 @@ namespace cppexpose
 
 template <typename Type>
 Var<Type>::Var()
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType()
+: GetTyped< Type, ValueStorage<Type> >::VarType()
 {
 }
 
 template <typename Type>
 Var<Type>::Var(const Type & value)
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType(value)
+: GetTyped< Type, ValueStorage<Type> >::VarType(value)
 {
 }
 
 template <typename Type>
 template <typename... Args>
 Var<Type>::Var(const Type & value, Args&&... args)
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType(value, std::forward<Args>(args)...)
+: GetTyped< Type, ValueStorage<Type> >::VarType(value, std::forward<Args>(args)...)
 {
 }
 
 template <typename Type>
 Var<Type>::Var(const std::string & name, PropertyContainer * parent)
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType()
+: GetTyped< Type, ValueStorage<Type> >::VarType()
 {
     this->registerProperty(name, parent);
 }
 
 template <typename Type>
 Var<Type>::Var(const std::string & name, PropertyContainer * parent, const Type & value)
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType(value)
+: GetTyped< Type, ValueStorage<Type> >::VarType(value)
 {
     this->registerProperty(name, parent);
 }
@@ -42,20 +42,20 @@ Var<Type>::Var(const std::string & name, PropertyContainer * parent, const Type 
 template <typename Type>
 template <typename... Args>
 Var<Type>::Var(const std::string & name, PropertyContainer * parent, const Type & value, Args&&... args)
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType(value, std::forward<Args>(args)...)
+: GetTyped< Type, ValueStorage<Type> >::VarType(value, std::forward<Args>(args)...)
 {
     this->registerProperty(name, parent);
 }
 
 template <typename Type>
 Var<Type>::Var(const Var<Type> & var)
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType(static_cast<const AbstractVar &>(var))
+: GetTyped< Type, ValueStorage<Type> >::VarType(static_cast<const AbstractVar &>(var))
 {
 }
 
 template <typename Type>
 Var<Type>::Var(const AbstractVar & var)
-: GetTyped< Type, ValueStorage<Type, AbstractVar> >::VarType(static_cast<const AbstractVar &>(var))
+: GetTyped< Type, ValueStorage<Type> >::VarType(static_cast<const AbstractVar &>(var))
 {
 }
 

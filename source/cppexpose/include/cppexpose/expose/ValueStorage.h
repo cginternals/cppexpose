@@ -17,8 +17,8 @@ class Var;
 *  @brief
 *    Value storage for a typed variable (non-const type)
 */
-template <typename Type, typename BaseClass>
-class CPPEXPOSE_TEMPLATE_API ValueStorage : public AbstractTyped<Type, BaseClass>
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API ValueStorage : public AbstractTyped<Type>
 {
 public:
     /**
@@ -95,8 +95,8 @@ protected:
 *  @brief
 *    Value storage for a typed variable (const type)
 */
-template <typename Type, typename BaseClass>
-class CPPEXPOSE_TEMPLATE_API ValueStorage<const Type, BaseClass> : public AbstractTyped<Type, BaseClass>
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API ValueStorage<const Type> : public AbstractTyped<Type>
 {
 public:
     /**

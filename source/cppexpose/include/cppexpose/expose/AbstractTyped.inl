@@ -6,15 +6,15 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename BaseClass>
+template <typename Type>
 template <typename... Args>
-AbstractTyped<Type, BaseClass>::AbstractTyped(Args&&... args)
-: BaseClass(std::forward<Args>(args)...)
+AbstractTyped<Type>::AbstractTyped(Args&&... args)
+: AbstractVar(std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename BaseClass>
-AbstractTyped<Type, BaseClass>::~AbstractTyped()
+template <typename Type>
+AbstractTyped<Type>::~AbstractTyped()
 {
 }
 
