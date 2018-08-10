@@ -94,6 +94,11 @@ AbstractProperty * Array::push(AbstractProperty * property)
     return property;
 }
 
+AbstractProperty * Array::push(AbstractProperty && property)
+{
+    return nullptr;
+}
+
 AbstractProperty * Array::push(std::unique_ptr<AbstractProperty> && property)
 {
     // Add property

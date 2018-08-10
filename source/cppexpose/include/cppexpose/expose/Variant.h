@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include <cppexpose/expose/AbstractVar.h>
+#include <cppexpose/expose/AbstractProperty.h>
 
 
 namespace cppexpose
@@ -32,7 +32,7 @@ namespace cppexpose
 *    To create object hierarchies, as analog to the JSON or javascript data models, use
 *    the classes Object and Array, which can also be stored in a variant.
 */
-class CPPEXPOSE_API Variant : public AbstractVar
+class CPPEXPOSE_API Variant : public AbstractProperty
 {
 public:
     //@{

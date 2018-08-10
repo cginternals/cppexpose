@@ -119,6 +119,8 @@ public:
     */
     AbstractProperty * push(AbstractProperty * property);
 
+    AbstractProperty * push(AbstractProperty && property);
+
     /**
     *  @brief
     *    Add element to array

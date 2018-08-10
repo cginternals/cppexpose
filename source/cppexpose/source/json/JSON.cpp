@@ -247,7 +247,7 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
 bool readArray(Variant & root, Tokenizer & tokenizer)
 {
     // Create array
-    root = Array();
+    auto array = Array::create();
 
     // Read next token
     Tokenizer::Token token = tokenizer.parseToken();
@@ -261,15 +261,15 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
     // Read array values
     while (true)
     {
-        // Add new value to array
-        root.asArray()->push_back(Variant());
-        Variant & value = (*root.asArray())[root.asArray()->size() - 1];
-
         // Read value
+        Variant value;
         if (!readValue(value, token, tokenizer))
         {
             return false;
         }
+
+        // Add value to array
+        array->push(std::move(value));
 
         // Read next token
         token = tokenizer.parseToken();
@@ -282,11 +282,15 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
         }
         else if (token.content == "]")
         {
+            root = array;
+
             // End of array
             return true;
         }
         else
         {
+            root = array;
+
             // Unexpected token
             cppassist::critical()
                 << "Unexpected token in array: '"

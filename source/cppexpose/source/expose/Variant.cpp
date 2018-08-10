@@ -3,7 +3,7 @@
 
 #include <cppexpose/expose/Object.h>
 #include <cppexpose/expose/Array.h>
-#include <cppexpose/expose/Var.h>
+#include <cppexpose/expose/Property.h>
 
 
 namespace cppexpose
@@ -15,19 +15,19 @@ Variant::Variant()
 }
 
 Variant::Variant(const AbstractVar & value)
-: AbstractVar()
+: AbstractProperty()
 , m_value(value.clone())
 {
 }
 
 Variant::Variant(std::unique_ptr<AbstractVar> && value)
-: AbstractVar()
+: AbstractProperty()
 , m_value(std::move(value))
 {
 }
 
 Variant::Variant(const Variant & variant)
-: AbstractVar()
+: AbstractProperty()
 , m_value(variant.clone())
 {
 }
@@ -38,82 +38,82 @@ Variant::Variant(AbstractVar * var)
 }
 
 Variant::Variant(bool value)
-: m_value(new Var<bool>(value))
+: m_value(new Property<bool>(value))
 {
 }
 
 Variant::Variant(char value)
-: m_value(new Var<char>(value))
+: m_value(new Property<char>(value))
 {
 }
 
 Variant::Variant(unsigned char value)
-: m_value(new Var<unsigned char>(value))
+: m_value(new Property<unsigned char>(value))
 {
 }
 
 Variant::Variant(short value)
-: m_value(new Var<short>(value))
+: m_value(new Property<short>(value))
 {
 }
 
 Variant::Variant(unsigned short value)
-: m_value(new Var<unsigned short>(value))
+: m_value(new Property<unsigned short>(value))
 {
 }
 
 Variant::Variant(int value)
-: m_value(new Var<int>(value))
+: m_value(new Property<int>(value))
 {
 }
 
 Variant::Variant(unsigned int value)
-: m_value(new Var<unsigned int>(value))
+: m_value(new Property<unsigned int>(value))
 {
 }
 
 Variant::Variant(long value)
-: m_value(new Var<long>(value))
+: m_value(new Property<long>(value))
 {
 }
 
 Variant::Variant(unsigned long value)
-: m_value(new Var<unsigned long>(value))
+: m_value(new Property<unsigned long>(value))
 {
 }
 
 Variant::Variant(long long value)
-: m_value(new Var<long long>(value))
+: m_value(new Property<long long>(value))
 {
 }
 
 Variant::Variant(unsigned long long value)
-: m_value(new Var<unsigned long long>(value))
+: m_value(new Property<unsigned long long>(value))
 {
 }
 
 Variant::Variant(float value)
-: m_value(new Var<float>(value))
+: m_value(new Property<float>(value))
 {
 }
 
 Variant::Variant(double value)
-: m_value(new Var<double>(value))
+: m_value(new Property<double>(value))
 {
 }
 
 Variant::Variant(const char * value)
-: m_value(new Var<std::string>(std::string(value)))
+: m_value(new Property<std::string>(std::string(value)))
 {
 }
 
 Variant::Variant(const std::string & value)
-: m_value(new Var<std::string>(value))
+: m_value(new Property<std::string>(value))
 {
 }
 
 Variant::Variant(const std::vector<std::string> & value)
-: m_value(new Var< std::vector<std::string> >(value))
+: m_value(new Property< std::vector<std::string> >(value))
 {
 }
 

@@ -61,7 +61,7 @@ set(headers
     ${include_path}/base/function_helpers.h
     ${include_path}/base/Tokenizer.h
 
-#   ${include_path}/json/JSON.h
+    ${include_path}/json/JSON.h
 
     ${include_path}/signal/AbstractSignal.h
     ${include_path}/signal/Connection.h
@@ -142,7 +142,7 @@ set(sources
 
     ${source_path}/base/Tokenizer.cpp
 
-#   ${source_path}/json/JSON.cpp
+    ${source_path}/json/JSON.cpp
 
     ${source_path}/signal/AbstractSignal.cpp
     ${source_path}/signal/Connection.cpp

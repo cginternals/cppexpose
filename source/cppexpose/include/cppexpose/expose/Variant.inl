@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cppexpose/expose/Property.h>
+
+
 namespace cppexpose
 {
 
@@ -9,7 +12,7 @@ namespace cppexpose
 template <typename Type>
 Variant Variant::fromValue(const Type & value)
 {
-    return Variant(new Var<Type>(value));
+    return Variant(new Property<Type>(value));
 }
 
 
