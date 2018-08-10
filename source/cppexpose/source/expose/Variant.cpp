@@ -20,6 +20,12 @@ Variant::Variant(const AbstractVar & value)
 {
 }
 
+Variant::Variant(std::unique_ptr<AbstractVar> && value)
+: AbstractVar()
+, m_value(std::move(value))
+{
+}
+
 Variant::Variant(const Variant & variant)
 : AbstractVar()
 , m_value(variant.clone())
@@ -118,6 +124,12 @@ Variant::~Variant()
 Variant & Variant::operator =(const Variant & value)
 {
     m_value.reset(value.clone());
+    return *this;
+}
+
+Variant & Variant::operator =(std::unique_ptr<AbstractVar> && value)
+{
+    m_value = std::move(value);
     return *this;
 }
 

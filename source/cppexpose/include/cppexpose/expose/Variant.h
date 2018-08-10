@@ -70,6 +70,15 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] value
+    *    Value that will be moved
+    */
+    Variant(std::unique_ptr<AbstractVar> && value);
+
+    /**
+    *  @brief
     *    Copy Constructor
     *
     *  @param[in] variant
@@ -119,6 +128,15 @@ public:
     *    Variant value that is copied
     */
     Variant & operator =(const Variant & value);
+
+    /**
+    *  @brief
+    *    Move operator
+    *
+    *  @param[in] value
+    *    Variant value that is moved
+    */
+    Variant & operator =(std::unique_ptr<AbstractVar> && value);
     //@}
 
     // Replication

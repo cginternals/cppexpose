@@ -61,7 +61,7 @@ set(headers
     ${include_path}/base/function_helpers.h
     ${include_path}/base/Tokenizer.h
 
-    ${include_path}/json/JSON.h
+#   ${include_path}/json/JSON.h
 
     ${include_path}/signal/AbstractSignal.h
     ${include_path}/signal/Connection.h
@@ -69,20 +69,20 @@ set(headers
     ${include_path}/signal/Signal.h
     ${include_path}/signal/Signal.inl
 
-    ${include_path}/function/Function.h
-    ${include_path}/function/AbstractFunction.h
-    ${include_path}/function/StaticFunction.h
-    ${include_path}/function/StaticFunction.inl
-    ${include_path}/function/MemberFunction.h
-    ${include_path}/function/MemberFunction.inl
-    ${include_path}/function/ConstMemberFunction.h
-    ${include_path}/function/ConstMemberFunction.inl
+#   ${include_path}/function/Function.h
+#   ${include_path}/function/AbstractFunction.h
+#   ${include_path}/function/StaticFunction.h
+#   ${include_path}/function/StaticFunction.inl
+#   ${include_path}/function/MemberFunction.h
+#   ${include_path}/function/MemberFunction.inl
+#   ${include_path}/function/ConstMemberFunction.h
+#   ${include_path}/function/ConstMemberFunction.inl
 
-    ${include_path}/reflection/Method.h
+#   ${include_path}/reflection/Method.h
 
-    ${include_path}/scripting/ScriptContext.h
-    ${include_path}/scripting/AbstractScriptBackend.h
-    ${include_path}/scripting/example/TreeNode.h
+#   ${include_path}/scripting/ScriptContext.h
+#   ${include_path}/scripting/AbstractScriptBackend.h
+#   ${include_path}/scripting/example/TreeNode.h
 
     ${include_path}/plugin/ComponentManager.h
     ${include_path}/plugin/ComponentManager.inl
@@ -142,29 +142,29 @@ set(sources
 
     ${source_path}/base/Tokenizer.cpp
 
-    ${source_path}/json/JSON.cpp
+#   ${source_path}/json/JSON.cpp
 
     ${source_path}/signal/AbstractSignal.cpp
     ${source_path}/signal/Connection.cpp
     ${source_path}/signal/ScopedConnection.cpp
 
-    ${source_path}/function/Function.cpp
-    ${source_path}/function/AbstractFunction.cpp
+#   ${source_path}/function/Function.cpp
+#   ${source_path}/function/AbstractFunction.cpp
 
-    ${source_path}/reflection/Method.cpp
+#   ${source_path}/reflection/Method.cpp
 
-    ${source_path}/scripting/duktape-1.4.0/duktape.c
-    ${source_path}/scripting/duktape-1.4.0/duktape.h
-    ${source_path}/scripting/duktape-1.4.0/duk_config.h
-    ${source_path}/scripting/example/TreeNode.cpp
-    ${source_path}/scripting/ScriptContext.cpp
-    ${source_path}/scripting/AbstractScriptBackend.cpp
-    ${source_path}/scripting/DuktapeScriptBackend.cpp
-    ${source_path}/scripting/DuktapeScriptBackend.h
-    ${source_path}/scripting/DuktapeScriptFunction.cpp
-    ${source_path}/scripting/DuktapeScriptFunction.h
-    ${source_path}/scripting/DuktapeObjectWrapper.cpp
-    ${source_path}/scripting/DuktapeObjectWrapper.h
+#   ${source_path}/scripting/duktape-1.4.0/duktape.c
+#   ${source_path}/scripting/duktape-1.4.0/duktape.h
+#   ${source_path}/scripting/duktape-1.4.0/duk_config.h
+#   ${source_path}/scripting/example/TreeNode.cpp
+#   ${source_path}/scripting/ScriptContext.cpp
+#   ${source_path}/scripting/AbstractScriptBackend.cpp
+#   ${source_path}/scripting/DuktapeScriptBackend.cpp
+#   ${source_path}/scripting/DuktapeScriptBackend.h
+#   ${source_path}/scripting/DuktapeScriptFunction.cpp
+#   ${source_path}/scripting/DuktapeScriptFunction.h
+#   ${source_path}/scripting/DuktapeObjectWrapper.cpp
+#   ${source_path}/scripting/DuktapeObjectWrapper.h
 
     ${source_path}/plugin/ComponentManager.cpp
     ${source_path}/plugin/ComponentRegistry.cpp
