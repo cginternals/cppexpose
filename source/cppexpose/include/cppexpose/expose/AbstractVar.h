@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <memory>
 #include <string>
 
 #include <cppexpose/expose/VarType.h>
@@ -14,6 +15,7 @@ namespace cppexpose
 class Variant;
 class Object;
 class Array;
+class PropertyContainer;
 
 
 /**
@@ -44,6 +46,10 @@ public:
     */
     template <typename Type>
     bool hasType() const;
+
+    // [TODO] Remove AbstractProperty, copy things over to AbstractVar
+    const PropertyContainer * parent() const { return nullptr; }
+    PropertyContainer * parent() { return nullptr; }
 
     /**
     *  @brief
@@ -90,6 +96,20 @@ public:
     *    in derived classes.
     */
     virtual AbstractVar * clone() const = 0;
+
+    /**
+    *  @brief
+    *    Move the contents of the typed value to a new object
+    *
+    *  @return
+    *    Pointer to the moved value
+    *
+    *  @remarks
+    *    The moved value should be of the exact same type
+    *    as the source and contain the same content, which
+    *    has been moved over to the new object using std::move.
+    */
+    virtual std::unique_ptr<AbstractVar> move() = 0;
 
     // Variable type
 

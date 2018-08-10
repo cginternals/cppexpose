@@ -173,6 +173,7 @@ public:
 
     // Replication
     virtual AbstractVar * clone() const override;
+    virtual std::unique_ptr<AbstractVar> move() override;
 
     // Variable type
     virtual VarType type() const override;

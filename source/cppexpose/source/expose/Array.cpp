@@ -171,6 +171,12 @@ AbstractVar * Array::clone() const
     return new Array(*this);
 }
 
+std::unique_ptr<AbstractVar> Array::move()
+{
+    // [TODO]
+    return nullptr;
+}
+
 VarType Array::type() const
 {
     return VarType::Array;

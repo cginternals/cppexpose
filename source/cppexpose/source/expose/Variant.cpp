@@ -138,6 +138,12 @@ AbstractVar * Variant::clone() const
     return new Variant(m_value->clone());
 }
 
+std::unique_ptr<AbstractVar> Variant::move()
+{
+    // [TODO]
+    return nullptr;
+}
+
 VarType Variant::type() const
 {
     return m_value->type();

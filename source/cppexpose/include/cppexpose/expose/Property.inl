@@ -65,5 +65,12 @@ Property<Type> & Property<Type>::operator =(const AbstractVar & var)
     return *this;
 }
 
+template <typename Type>
+std::unique_ptr<AbstractVar> Property<Type>::move()
+{
+    // Copy primitive values instead of moving
+    return std::unique_ptr<AbstractVar>(new Property<Type>(*this));
+}
+
 
 } // namespace cppexpose

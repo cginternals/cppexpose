@@ -111,8 +111,8 @@ public:
     *  @return
     *    Property (can be null)
     */
-    const AbstractProperty * property(const std::string & name) const;
-    AbstractProperty * property(const std::string & name);
+    const AbstractVar * property(const std::string & name) const;
+    AbstractVar * property(const std::string & name);
     //@}
 
     //@{
@@ -136,7 +136,7 @@ public:
     *    Otherwise, the property will not be added to the object.
     *    The object will not take ownership over the property.
     */
-    AbstractProperty * addProperty(const std::string & name, AbstractProperty * property);
+    AbstractVar * addProperty(const std::string & name, AbstractVar * property);
 
     /**
     *  @brief
@@ -158,7 +158,9 @@ public:
     *    Otherwise, the property will not be added to the object.
     *    The object will take ownership over the property.
     */
-    AbstractProperty * addProperty(const std::string & name, std::unique_ptr<AbstractProperty> && property);
+    AbstractVar * addProperty(const std::string & name, std::unique_ptr<AbstractVar> && property);
+
+    AbstractVar * addProperty(const std::string & name, AbstractVar && property);
 
     /**
     *  @brief
@@ -199,11 +201,12 @@ public:
     *
     *    If the object has ownership of the property, it will be deleted.
     */
-    bool removeProperty(AbstractProperty * property);
+    bool removeProperty(AbstractVar * property);
     //@}
 
     // Replication
     virtual AbstractVar * clone() const override;
+    virtual std::unique_ptr<AbstractVar> move() override;
 
     // Variable type
     virtual VarType type() const override;
@@ -265,9 +268,9 @@ protected:
     //@}
 
 protected:
-    std::unordered_map<std::string, AbstractProperty *> m_properties;    ///< Map of names and properties
-    std::vector<std::unique_ptr<AbstractProperty>>      m_ownProperties; ///< Properties that are owned by the object
-    mutable std::vector<std::string>                    m_propertyNames; ///< List of property names (created on-demand)
+    std::unordered_map<std::string, AbstractVar *> m_properties;    ///< Map of names and properties
+    std::vector<std::unique_ptr<AbstractVar>>      m_ownProperties; ///< Properties that are owned by the object
+    mutable std::vector<std::string>               m_propertyNames; ///< List of property names (created on-demand)
 };
 
 

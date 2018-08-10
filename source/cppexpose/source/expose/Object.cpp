@@ -7,6 +7,7 @@
 
 #include <cppexpose/expose/Array.h>
 #include <cppexpose/expose/Variant.h>
+#include <cppexpose/expose/AbstractVar.h>
 
 
 namespace cppexpose
@@ -63,9 +64,9 @@ bool Object::propertyExists(const std::string & name) const
     return m_properties.find(name) != m_properties.end();
 }
 
-const AbstractProperty * Object::property(const std::string & name) const
+const AbstractVar * Object::property(const std::string & name) const
 {
-    const AbstractProperty * property = nullptr;
+    const AbstractVar * property = nullptr;
 
     // Find property
     const auto it = m_properties.find(name);
@@ -78,9 +79,9 @@ const AbstractProperty * Object::property(const std::string & name) const
     return property;
 }
 
-AbstractProperty * Object::property(const std::string & name)
+AbstractVar * Object::property(const std::string & name)
 {
-    AbstractProperty * property = nullptr;
+    AbstractVar * property = nullptr;
 
     // Find property
     const auto it = m_properties.find(name);
@@ -93,7 +94,7 @@ AbstractProperty * Object::property(const std::string & name)
     return property;
 }
 
-AbstractProperty * Object::addProperty(const std::string & name, AbstractProperty * property)
+AbstractVar * Object::addProperty(const std::string & name, AbstractVar * property)
 {
     // Reject properties that have no name, or whose name already exists,
     // or that already have a parent object.
@@ -127,7 +128,7 @@ AbstractProperty * Object::addProperty(const std::string & name, AbstractPropert
     return property;
 }
 
-AbstractProperty * Object::addProperty(const std::string & name, std::unique_ptr<AbstractProperty> && property)
+AbstractVar * Object::addProperty(const std::string & name, std::unique_ptr<AbstractVar> && property)
 {
     // Add property
     const auto propertyPtr = addProperty(name, property.get());
@@ -144,7 +145,28 @@ AbstractProperty * Object::addProperty(const std::string & name, std::unique_ptr
     return nullptr;
 }
 
-bool Object::removeProperty(AbstractProperty * property)
+AbstractVar * Object::addProperty(const std::string & name, AbstractVar && property)
+{
+    // [willy]
+
+    auto movedProperty = property.move();
+
+    // Add property
+    const auto propertyPtr = addProperty(name, movedProperty.get());
+    if (propertyPtr)
+    {
+        // Manage property
+        m_ownProperties.push_back(std::move(movedProperty));
+
+        // Return property
+        return propertyPtr;
+    }
+
+    // Failed
+    return nullptr;
+}
+
+bool Object::removeProperty(AbstractVar * property)
 {
     // Reject properties that are not part of the object
     if (!property || property->parent() != this)
@@ -153,7 +175,7 @@ bool Object::removeProperty(AbstractProperty * property)
     }
 
     // Find property in object
-    auto it = std::find_if(m_properties.begin(), m_properties.end(), [property] (const std::pair<std::string, AbstractProperty *> & pair)
+    auto it = std::find_if(m_properties.begin(), m_properties.end(), [property] (const std::pair<std::string, AbstractVar *> & pair)
     {
         return pair.second == property;
     });
@@ -181,7 +203,7 @@ bool Object::removeProperty(AbstractProperty * property)
 //  afterRemove(index, property);
 
     // Check if property is owned by the object
-    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractProperty> & managedProperty)
+    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractVar> & managedProperty)
     {
         return managedProperty.get() == property;
     });
@@ -202,6 +224,23 @@ bool Object::removeProperty(AbstractProperty * property)
 AbstractVar * Object::clone() const
 {
     return new Object(*this);
+}
+
+std::unique_ptr<AbstractVar> Object::move()
+{
+    // [willy]
+
+    // [TODO] We ignore non-owned properties for now, they will have to be copied instead of moved
+
+    // Move owned properties
+    auto obj = cppassist::make_unique<Object>();
+    for (auto & ptr : m_ownProperties) {
+        obj->m_ownProperties.push_back(std::move(ptr));
+    }
+    m_ownProperties.clear();
+
+    // Return new object
+    return obj;
 }
 
 VarType Object::type() const

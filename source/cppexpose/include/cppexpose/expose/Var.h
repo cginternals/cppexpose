@@ -69,6 +69,9 @@ public:
     *    Variable whose value is copied
     */
     Var<Type> & operator =(const AbstractVar & var);
+
+    // Replication
+    virtual std::unique_ptr<AbstractVar> move() override;
 };
 
 
