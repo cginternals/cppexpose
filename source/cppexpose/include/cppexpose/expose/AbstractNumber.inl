@@ -48,9 +48,9 @@ AbstractNumber<Type, Storage>::~AbstractNumber()
 }
 
 template <typename Type, typename Storage>
-AbstractVar * AbstractNumber<Type, Storage>::clone() const
+std::unique_ptr<AbstractVar> AbstractNumber<Type, Storage>::clone() const
 {
-    return new Var<Type>(this->value(), this->m_minValue, this->m_maxValue);
+    return std::unique_ptr<AbstractVar>(new Var<Type>(this->value(), this->m_minValue, this->m_maxValue));
 }
 
 template <typename Type, typename Storage>

@@ -100,7 +100,7 @@ public:
     *    such as a property, when implementing clone()
     *    in derived classes.
     */
-    virtual AbstractVar * clone() const = 0;
+    virtual std::unique_ptr<AbstractVar> clone() const = 0;
 
     /**
     *  @brief

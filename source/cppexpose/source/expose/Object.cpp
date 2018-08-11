@@ -241,9 +241,9 @@ bool Object::removeProperty(AbstractVar * property)
     return true;
 }
 
-AbstractVar * Object::clone() const
+std::unique_ptr<AbstractVar> Object::clone() const
 {
-    return new Object(*this);
+    return std::unique_ptr<AbstractVar>(new Object(*this));
 }
 
 std::unique_ptr<AbstractVar> Object::move()
@@ -443,7 +443,7 @@ void Object::copyFromObject(const Object & obj)
         AbstractVar * var  = it.second;
 
         // Create copy of property
-        addProperty(name, std::move(std::unique_ptr<AbstractVar>(var->clone())));
+        addProperty(name, std::move(var->clone()));
     }
 }
 

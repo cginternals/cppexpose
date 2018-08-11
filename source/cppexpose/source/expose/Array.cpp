@@ -209,9 +209,9 @@ bool Array::remove(AbstractVar * property)
     return true;
 }
 
-AbstractVar * Array::clone() const
+std::unique_ptr<AbstractVar> Array::clone() const
 {
-    return new Array(*this);
+    return std::unique_ptr<AbstractVar>(new Array(*this));
 }
 
 std::unique_ptr<AbstractVar> Array::move()
@@ -407,7 +407,7 @@ void Array::copyFromArray(const Array & arr)
     // Copy properties
     for (auto * var : arr.m_properties) {
         // Create copy of property
-        push(std::move(std::unique_ptr<AbstractVar>(var->clone())));
+        push(std::move(var->clone()));
     }
 }
 

@@ -16,7 +16,13 @@ Variant::Variant()
 
 Variant::Variant(const Variant & variant)
 : AbstractVar()
-, m_value(variant.clone())
+, m_value(std::move(variant.clone()))
+{
+}
+
+Variant::Variant(const AbstractVar & value)
+: AbstractVar()
+, m_value(std::move(value.clone()))
 {
 }
 
@@ -27,15 +33,16 @@ Variant::Variant(Variant && variant)
     // [willy]
 }
 
-Variant::Variant(const AbstractVar & value)
-: AbstractVar()
-, m_value(value.clone())
-{
-}
-
 Variant::Variant(AbstractVar && value)
 : AbstractVar()
 , m_value(std::move(value.move()))
+{
+    // [willy]
+}
+
+Variant::Variant(std::unique_ptr<AbstractVar> && value)
+: AbstractVar()
+, m_value(std::move(value))
 {
     // [willy]
 }
@@ -131,7 +138,7 @@ Variant::~Variant()
 
 Variant & Variant::operator =(const Variant & value)
 {
-    m_value.reset(value.clone());
+    m_value = std::move(value.clone());
     return *this;
 }
 
@@ -141,10 +148,10 @@ Variant & Variant::operator =(std::unique_ptr<AbstractVar> && value)
     return *this;
 }
 
-AbstractVar * Variant::clone() const
+std::unique_ptr<AbstractVar> Variant::clone() const
 {
-    if (m_value) return new Variant(m_value->clone());
-    else         return new Variant;
+    if (m_value) return m_value->clone();
+    else         return std::unique_ptr<AbstractVar>(new Variant);
 }
 
 std::unique_ptr<AbstractVar> Variant::move()
@@ -348,7 +355,7 @@ bool Variant::canConvertFromVar(const AbstractVar &)
 void Variant::fromVar(const AbstractVar & value)
 {
     // Copy value
-    m_value.reset(value.clone());
+    m_value = std::move(value.clone());
 }
 
 const Object * Variant::asObject() const

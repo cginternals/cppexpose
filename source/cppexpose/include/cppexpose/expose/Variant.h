@@ -70,6 +70,15 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] value
+    *    Value that will be copied
+    */
+    Variant(const AbstractVar & value);
+
+    /**
+    *  @brief
     *    Move Constructor
     *
     *  @param[in] variant
@@ -82,9 +91,9 @@ public:
     *    Constructor
     *
     *  @param[in] value
-    *    Value that will be copied
+    *    Value that will be moved
     */
-    Variant(const AbstractVar & value);
+    Variant(AbstractVar && value);
 
     /**
     *  @brief
@@ -93,7 +102,7 @@ public:
     *  @param[in] value
     *    Value that will be moved
     */
-    Variant(AbstractVar && value);
+    Variant(std::unique_ptr<AbstractVar> && value);
     //@}
 
     //@{
@@ -149,7 +158,7 @@ public:
     //@}
 
     // Replication
-    virtual AbstractVar * clone() const override;
+    virtual std::unique_ptr<AbstractVar> clone() const override;
     virtual std::unique_ptr<AbstractVar> move() override;
 
     // Variable type

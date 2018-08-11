@@ -74,7 +74,7 @@ public:
     virtual ~ValueStorage();
 
     // Replication
-    virtual AbstractVar * clone() const override;
+    virtual std::unique_ptr<AbstractVar> clone() const override;
 
     // Variable type
     //   Overloaded in derived classes
@@ -152,7 +152,7 @@ public:
     virtual ~ValueStorage();
 
     // Replication
-    virtual AbstractVar * clone() const override;
+    virtual std::unique_ptr<AbstractVar> clone() const override;
 
     // Variable type
     //   Overloaded in derived classes

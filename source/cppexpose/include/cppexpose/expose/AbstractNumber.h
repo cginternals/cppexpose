@@ -64,7 +64,7 @@ public:
     virtual ~AbstractNumber();
 
     // Replication
-    virtual AbstractVar * clone() const override;
+    virtual std::unique_ptr<AbstractVar> clone() const override;
 
     // Variable type
     virtual VarType type() const override;
