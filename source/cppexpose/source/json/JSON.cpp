@@ -20,9 +20,9 @@ namespace
 {
 
 
-bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer);
-bool readArray(Variant & root, Tokenizer & tokenizer);
-bool readObject(Variant & root, Tokenizer & tokenizer);
+Variant readValue(Tokenizer::Token & token, Tokenizer & tokenizer);
+Variant readArray(Tokenizer & tokenizer);
+Variant readObject(Tokenizer & tokenizer);
 
 
 const char * const g_hexdig = "0123456789ABCDEF";
@@ -65,30 +65,32 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
     if (root.isObject())
     {
         // Get object
-        auto & obj = static_cast<const Object &>(root);
+        const Object & obj = *root.asObject();
 
         // Quick output: {} if empty
         if (obj.empty()) return "{}";
 
         // Begin output
         std::string json = "{"; // [TODO] maybe a stringstream can be more performant
-
-        if (beautify)
+        if (beautify) {
             json += "\n";
+        }
 
         // Add all variables
         bool first = true;
-        for (auto name : obj.properties())
+        for (auto it : obj.properties())
         {
-            // Get property
-            auto * prop = obj.property(name);
+            // Get name and property
+            std::string   name = it.first;
+            AbstractVar * prop = it.second;
             if (!prop) continue;
 
             // Add separator (",")
-            if (!first)
+            if (!first) {
                 json += beautify ? ",\n" : ",";
-            else
+            } else {
                 first = false;
+            }
 
             // Get value
             std::string value;
@@ -116,7 +118,6 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
 
         // Finish JSON
         json += (beautify ? "\n" + indent + "}" : "}");
-
         return json;
     }
 
@@ -124,11 +125,12 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
     else if (root.isArray())
     {
         // Get array
-        auto & array = static_cast<const Array &>(root);
+        const Array & array = *root.asArray();
 
         // Quick output: [] if empty
-        if (array.empty())
+        if (array.empty()) {
             return "[]";
+        }
 
         // Begin output
         std::string json = "["; // [TODO] maybe a stringstream can be more performant
@@ -211,16 +213,16 @@ Tokenizer createJSONTokenizer()
     return tokenizer;
 }
 
-bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
+Variant readValue(Tokenizer::Token & token, Tokenizer & tokenizer)
 {
     if (token.content == "{")
     {
-        return readObject(value, tokenizer);
+        return readObject(tokenizer);
     }
 
     else if (token.content == "[")
     {
-        return readArray(value, tokenizer);
+        return readArray(tokenizer);
     }
 
     else if (token.type == Tokenizer::TokenString ||
@@ -228,8 +230,7 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
              token.type == Tokenizer::TokenBoolean ||
              token.type == Tokenizer::TokenNull)
     {
-        value = token.value;
-        return true;
+        return std::move(Variant(token.value));
     }
 
     else
@@ -240,14 +241,14 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
             << "'"
             << std::endl;
 
-        return false;
+        return Variant();
     }
 }
 
-bool readArray(Variant & root, Tokenizer & tokenizer)
+Variant readArray(Tokenizer & tokenizer)
 {
     // Create array
-    auto array = Array::create();
+    Array array;
 
     // Read next token
     Tokenizer::Token token = tokenizer.parseToken();
@@ -262,14 +263,14 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
     while (true)
     {
         // Read value
-        Variant value;
-        if (!readValue(value, token, tokenizer))
+        Variant value = readValue(token, tokenizer);
+        if (value.isNull())
         {
-            return false;
+            return Variant();
         }
 
         // Add value to array
-        array->push(std::move(value));
+        array.push(std::move(value));
 
         // Read next token
         token = tokenizer.parseToken();
@@ -282,15 +283,11 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
         }
         else if (token.content == "]")
         {
-            root = array;
-
             // End of array
-            return true;
+            return std::move(array);
         }
         else
         {
-            root = array;
-
             // Unexpected token
             cppassist::critical()
                 << "Unexpected token in array: '"
@@ -298,18 +295,19 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            return false;
+            // Return error
+            return Variant();
         }
     }
 
     // Couldn't actually happen but makes compilers happy
-    return false;
+    return Variant();
 }
 
-bool readObject(Variant & root, Tokenizer & tokenizer)
+Variant readObject(Tokenizer & tokenizer)
 {
     // Create object
-    root = Variant::map();
+    Object obj;
 
     // Read next token
     Tokenizer::Token token = tokenizer.parseToken();
@@ -317,7 +315,7 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
     // Empty object?
     if (token.content == "}")
     {
-        return true;
+        return std::move(obj);
     }
 
     // Read object members
@@ -332,7 +330,7 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            return false;
+            return Variant();
         }
 
         std::string name = token.value.toString();
@@ -349,21 +347,21 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            return false;
+            return Variant();
         }
 
         // Read next token
         token = tokenizer.parseToken();
 
-        // Add new value to object
-        (*root.asMap())[name] = Variant();
-        Variant & value = (*root.asMap())[name];
-
         // Read value
-        if (!readValue(value, token, tokenizer))
+        Variant value = readValue(token, tokenizer);
+        if (value.isNull())
         {
-            return false;
+            return Variant();
         }
+
+        // Add new value to object
+        obj.addProperty(name, std::move(value));
 
         // Read next token
         token = tokenizer.parseToken();
@@ -377,7 +375,7 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
         else if (token.content == "}")
         {
             // End of object
-            return true;
+            return std::move(obj);
         }
         else
         {
@@ -388,27 +386,27 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            return false;
+            return Variant();
         }
     }
 
     // Couldn't actually happen but makes compilers happy
-    return false;
+    return Variant();
 }
 
-bool readDocument(Variant & root, Tokenizer & tokenizer)
+Variant readDocument(Tokenizer & tokenizer)
 {
     // The first value in a document must be either an object or an array
     Tokenizer::Token token = tokenizer.parseToken();
 
     if (token.content == "{")
     {
-        return readObject(root, tokenizer);
+        return readObject(tokenizer);
     }
 
     else if (token.content == "[")
     {
-        return readArray(root, tokenizer);
+        return readArray(tokenizer);
     }
 
     else
@@ -417,7 +415,7 @@ bool readDocument(Variant & root, Tokenizer & tokenizer)
             << "A valid JSON document must be either an array or an object value."
             << std::endl;
 
-        return false;
+        return Variant();
     }
 }
 
@@ -429,12 +427,12 @@ namespace cppexpose
 {
 
 
-std::string JSON::stringify(const Variant & root, JSON::OutputMode outputMode)
+std::string JSON::stringify(const AbstractVar & root, JSON::OutputMode outputMode)
 {
     return jsonStringify(root, outputMode == Beautify, "");
 }
 
-bool JSON::load(Variant & root, const std::string & filename)
+Variant JSON::load(const std::string & filename)
 {
     auto tokenizer = createJSONTokenizer();
 
@@ -445,10 +443,10 @@ bool JSON::load(Variant & root, const std::string & filename)
     }
 
     // Begin parsing
-    return readDocument(root, tokenizer);
+    return readDocument(tokenizer);
 }
 
-bool JSON::parse(Variant & root, const std::string & document)
+Variant JSON::parse(const std::string & document)
 {
     auto tokenizer = createJSONTokenizer();
 
@@ -456,7 +454,7 @@ bool JSON::parse(Variant & root, const std::string & document)
     tokenizer.setDocument(document);
 
     // Begin parsing
-    return readDocument(root, tokenizer);
+    return readDocument(tokenizer);
 }
 
 

@@ -52,29 +52,25 @@ public:
     *  @brief
     *    Load JSON from file
     *
-    *  @param[out] root
-    *    Output variant
     *  @param[in] filename
     *    Filename of JSON file
     *
     *  @return
-    *    'true' if all went fine, 'false' on error
+    *    Read value, empty on error
     */
-    static bool load(Variant & root, const std::string & filename);
+    static Variant load(const std::string & filename);
 
     /**
     *  @brief
     *    Parse JSON from string
     *
-    *  @param[out] root
-    *    Output variant
     *  @param[in] document
     *    JSON string
     *
     *  @return
-    *    'true' if all went fine, 'false' on error
+    *    Read value, empty on error
     */
-    static bool parse(Variant & root, const std::string & document);
+    static Variant parse(const std::string & document);
 };
 
 
