@@ -48,12 +48,25 @@ Object::Object(Object && obj)
 
     std::cout << "Object(obj &&)" << std::endl;
 
-    // [TODO] We ignore non-owned properties for now, they will have to be copied instead of moved
+    // Move properties
+    for (auto it : obj.m_properties) {
+        // Get name and var
+        std::string name = it.first;
+        AbstractVar * var = it.second;
 
-    // Move owned properties
-    for (auto & ptr : obj.m_ownProperties) {
-        m_ownProperties.push_back(std::move(ptr));
+        // Check if var is owned by the object
+        auto it2 = obj.m_ownProperties.find(name);
+        if (it2 != obj.m_ownProperties.end()) {
+            // Move unique_ptr directly
+            addProperty(name, std::move(it2->second));
+        } else {
+            // Move property by function call
+            addProperty(name, var->move());
+        }
     }
+
+    // Clear properties on source object
+    obj.m_properties.clear();
     obj.m_ownProperties.clear();
 }
 
@@ -164,7 +177,7 @@ AbstractVar * Object::addProperty(const std::string & name, AbstractVar && prope
     if (propertyPtr)
     {
         // Manage property
-        m_ownProperties.push_back(std::move(movedProperty));
+        m_ownProperties[name] = std::move(movedProperty);
 
         // Return property
         return propertyPtr;
@@ -181,7 +194,7 @@ AbstractVar * Object::addProperty(const std::string & name, std::unique_ptr<Abst
     if (propertyPtr)
     {
         // Manage property
-        m_ownProperties.push_back(std::move(property));
+        m_ownProperties[name] = std::move(property);
 
         // Return property
         return propertyPtr;
@@ -211,6 +224,9 @@ bool Object::removeProperty(AbstractVar * property)
         return false;
     }
 
+    // Get property name
+    std::string name = it->first;
+
     // Invoke callback
     // [TODO]
 //  size_t index = std::distance(m_properties.begin(), it);
@@ -228,12 +244,8 @@ bool Object::removeProperty(AbstractVar * property)
 //  afterRemove(index, property);
 
     // Check if property is owned by the object
-    auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractVar> & managedProperty)
-    {
-        return managedProperty.get() == property;
-    });
-
     // If yes, remove from managed list (delete property)
+    auto it2 = m_ownProperties.find(name);
     if (it2 != m_ownProperties.end())
     {
         m_ownProperties.erase(it2);
@@ -434,9 +446,9 @@ const Object * Object::asObject() const
     return this;
 }
 
-Object * Object::asObject()
+const Array * Object::asArray() const
 {
-    return this;
+    return nullptr;
 }
 
 void Object::copyFromObject(const Object &)

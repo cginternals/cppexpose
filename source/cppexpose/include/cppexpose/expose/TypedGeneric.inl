@@ -219,5 +219,17 @@ void TypedGeneric<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
+template <typename Type, typename Storage>
+const Object * TypedGeneric<Type, Storage>::asObject() const
+{
+    return nullptr;
+}
+
+template <typename Type, typename Storage>
+const Array * TypedGeneric<Type, Storage>::asArray() const
+{
+    return nullptr;
+}
+
 
 } // namespace cppexpose

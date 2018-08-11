@@ -268,9 +268,9 @@ public:
     virtual bool canConvertFromVar(const AbstractVar & value) override;
     virtual void fromVar(const AbstractVar & value) override;
 
-    // Property container
+    // Direct access
     virtual const Object * asObject() const override;
-    virtual Object * asObject() override;
+    virtual const Array * asArray() const override;
 
 protected:
     //@{
@@ -285,9 +285,9 @@ protected:
     //@}
 
 protected:
-    std::unordered_map<std::string, AbstractVar *> m_properties;    ///< Map of names and properties
-    std::vector<std::unique_ptr<AbstractVar>>      m_ownProperties; ///< Properties that are owned by the object
-    mutable std::vector<std::string>               m_propertyNames; ///< List of property names (created on-demand)
+    std::unordered_map<std::string, AbstractVar *>                m_properties;    ///< Map of names and properties
+    std::unordered_map<std::string, std::unique_ptr<AbstractVar>> m_ownProperties; ///< Properties that are owned by the object
+    mutable std::vector<std::string>                              m_propertyNames; ///< List of property names (created on-demand)
 };
 
 

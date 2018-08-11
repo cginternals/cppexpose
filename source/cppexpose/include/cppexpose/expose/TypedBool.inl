@@ -240,5 +240,17 @@ void TypedBool<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
+template <typename Type, typename Storage>
+const Object * TypedBool<Type, Storage>::asObject() const
+{
+    return nullptr;
+}
+
+template <typename Type, typename Storage>
+const Array * TypedBool<Type, Storage>::asArray() const
+{
+    return nullptr;
+}
+
 
 } // namespace cppexpose

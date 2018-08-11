@@ -223,5 +223,17 @@ Array AbstractNumber<Type, Storage>::toArray() const
     return Array();
 }
 
+template <typename Type, typename Storage>
+const Object * AbstractNumber<Type, Storage>::asObject() const
+{
+    return nullptr;
+}
+
+template <typename Type, typename Storage>
+const Array * AbstractNumber<Type, Storage>::asArray() const
+{
+    return nullptr;
+}
+
 
 } // namespace cppexpose

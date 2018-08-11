@@ -38,12 +38,25 @@ Array::Array(Array && arr)
 {
     // [willy]
 
-    // [TODO] We ignore non-owned properties for now, they will have to be copied instead of moved
+    // Move properties
+    for (AbstractVar * var : arr.m_properties) {
+        // Check if var is owned by the array
+        auto it = std::find_if(arr.m_ownProperties.begin(), arr.m_ownProperties.end(), [var] (const std::unique_ptr<AbstractVar> & ptr)
+        {
+            return ptr.get() == var;
+        });
 
-    // Move owned properties
-    for (auto & ptr : arr.m_ownProperties) {
-        m_ownProperties.push_back(std::move(ptr));
+        if (it != arr.m_ownProperties.end()) {
+            // Move unique_ptr directly
+            push(std::move(*it));
+        } else {
+            // Move property by function call
+            push(var->move());
+        }
     }
+
+    // Clear properties on source object
+    arr.m_properties.clear();
     arr.m_ownProperties.clear();
 }
 
@@ -108,9 +121,25 @@ AbstractVar * Array::push(AbstractVar * property)
     return property;
 }
 
-AbstractVar * Array::push(AbstractVar &&)
+AbstractVar * Array::push(AbstractVar && property)
 {
-    // [TODO]
+    // [willy]
+
+    // Move property to a new instance
+    auto movedProperty = property.move();
+
+    // Add property
+    const auto propertyPtr = push(movedProperty.get());
+    if (propertyPtr)
+    {
+        // Manage property
+        m_ownProperties.push_back(std::move(movedProperty));
+
+        // Return property
+        return propertyPtr;
+    }
+
+    // Failed
     return nullptr;
 }
 
@@ -363,12 +392,12 @@ void Array::fromVar(const AbstractVar & value)
     }
 }
 
-const Array * Array::asArray() const
+const Object * Array::asObject() const
 {
-    return this;
+    return nullptr;
 }
 
-Array * Array::asArray()
+const Array * Array::asArray() const
 {
     return this;
 }

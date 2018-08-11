@@ -223,9 +223,9 @@ public:
     virtual bool canConvertFromVar(const AbstractVar & value) override;
     virtual void fromVar(const AbstractVar & value) override;
 
-    // Property container
+    // Direct access
+    virtual const Object * asObject() const override;
     virtual const Array * asArray() const override;
-    virtual Array * asArray() override;
 
 protected:
     //@{

@@ -351,5 +351,17 @@ void Variant::fromVar(const AbstractVar & value)
     m_value.reset(value.clone());
 }
 
+const Object * Variant::asObject() const
+{
+    if (m_value && m_value->isObject()) return m_value->asObject();
+    else                                return nullptr;
+}
+
+const Array * Variant::asArray() const
+{
+    if (m_value && m_value->isArray()) return m_value->asArray();
+    else                               return nullptr;
+}
+
 
 } // namespace cppexpose

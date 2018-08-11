@@ -123,6 +123,10 @@ public:
     virtual bool canConvertFromVar(const AbstractVar & value) override;
     virtual void fromVar(const AbstractVar & value) override;
 
+    // Direct access
+    virtual const Object * asObject() const override;
+    virtual const Array * asArray() const override;
+
 protected:
     std::map<Type, std::string> m_stringMap; ///< Map from enum value -> string
     std::map<std::string, Type> m_enumMap;   ///< Map from string -> enum value

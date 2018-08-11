@@ -237,5 +237,17 @@ void TypedArray<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
+template <typename Type, typename Storage>
+const Object * TypedArray<Type, Storage>::asObject() const
+{
+    return nullptr;
+}
+
+template <typename Type, typename Storage>
+const Array * TypedArray<Type, Storage>::asArray() const
+{
+    return nullptr;
+}
+
 
 } // namespace cppexpose

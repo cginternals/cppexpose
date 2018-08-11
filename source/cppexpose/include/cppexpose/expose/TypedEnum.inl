@@ -279,5 +279,17 @@ void TypedEnum<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
+template <typename Type, typename Storage>
+const Object * TypedEnum<Type, Storage>::asObject() const
+{
+    return nullptr;
+}
+
+template <typename Type, typename Storage>
+const Array * TypedEnum<Type, Storage>::asArray() const
+{
+    return nullptr;
+}
+
 
 } // namespace cppexpose

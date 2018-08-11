@@ -431,6 +431,11 @@ public:
     */
     virtual void fromVar(const AbstractVar & value) = 0;
 
+    // Direct access
+
+    virtual const Object * asObject() const = 0;
+    virtual const Array * asArray() const = 0;
+
 protected:
     /**
     *  @brief

@@ -111,6 +111,10 @@ public:
     // Conversion from other types
     //   Overloaded in derived classes
 
+    // Direct access
+    virtual const Object * asObject() const override;
+    virtual const Array * asArray() const override;
+
 protected:
     Type m_minValue; ///< Minimum value
     Type m_maxValue; ///< Minimum value

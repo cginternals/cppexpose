@@ -81,6 +81,10 @@ public:
     // Conversion from other types
     virtual bool canConvertFromVar(const AbstractVar & value) override;
     virtual void fromVar(const AbstractVar & value) override;
+
+    // Direct access
+    virtual const Object * asObject() const override;
+    virtual const Array * asArray() const override;
 };
 
 

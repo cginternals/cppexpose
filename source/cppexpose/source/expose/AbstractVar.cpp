@@ -29,12 +29,12 @@ void AbstractVar::registerProperty(const std::string & name, PropertyContainer *
     if (!parent) return;
 
     // Check if parent is an Object
-    if (Object * obj = parent->asObject()) {
+    if (Object * obj = const_cast<Object *>(parent->asObject())) {
         obj->addProperty(name, this);
     }
 
     // Check if parent is an Array
-    else if (Array * arr = parent->asArray()) {
+    else if (Array * arr = const_cast<Array *>(parent->asArray())) {
         arr->push(this);
     }
 }
