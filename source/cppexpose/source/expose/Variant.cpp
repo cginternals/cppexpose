@@ -30,21 +30,18 @@ Variant::Variant(Variant && variant)
 : AbstractVar()
 , m_value(std::move(variant.m_value))
 {
-    // [willy]
 }
 
 Variant::Variant(AbstractVar && value)
 : AbstractVar()
 , m_value(std::move(value.move()))
 {
-    // [willy]
 }
 
 Variant::Variant(std::unique_ptr<AbstractVar> && value)
 : AbstractVar()
 , m_value(std::move(value))
 {
-    // [willy]
 }
 
 Variant::Variant(AbstractVar * var)
@@ -156,7 +153,6 @@ std::unique_ptr<AbstractVar> Variant::clone() const
 
 std::unique_ptr<AbstractVar> Variant::move()
 {
-    // [willy]
     return cppassist::make_unique<Variant>(std::move(*this));
 }
 

@@ -2,7 +2,6 @@
 #include <cppexpose/expose/Object.h>
 
 #include <algorithm>
-#include <iostream>
 
 #include <cppassist/memory/make_unique.h>
 
@@ -17,37 +16,27 @@ namespace cppexpose
 
 Object Object::create()
 {
-    std::cout << "Object::create()" << std::endl;
-
     return std::move(Object());
 }
 
 Object::Object()
 {
-    std::cout << "Object()" << std::endl;
 }
 
 Object::Object(const std::string & name, PropertyContainer * parent)
 {
-    std::cout << "Object(name, parent)" << std::endl;
     registerProperty(name, parent);
 }
 
 Object::Object(const Object & obj)
 : PropertyContainer()
 {
-    std::cout << "Object(obj &)" << std::endl;
-
     copyFromObject(obj);
 }
 
 Object::Object(Object && obj)
 : PropertyContainer()
 {
-    // [willy]
-
-    std::cout << "Object(obj &&)" << std::endl;
-
     // Move properties
     for (auto it : obj.m_properties) {
         // Get name and property
@@ -72,7 +61,6 @@ Object::Object(Object && obj)
 
 Object::~Object()
 {
-    std::cout << "~Object()" << std::endl;
 }
 
 bool Object::empty() const
@@ -153,8 +141,6 @@ AbstractVar * Object::addProperty(const std::string & name, AbstractVar * proper
 
 AbstractVar * Object::addProperty(const std::string & name, AbstractVar && property)
 {
-    // [willy]
-
     // Move property to a new instance
     auto movedProperty = property.move();
 
@@ -248,7 +234,6 @@ std::unique_ptr<AbstractVar> Object::clone() const
 
 std::unique_ptr<AbstractVar> Object::move()
 {
-    // [willy]
     return cppassist::make_unique<Object>(std::move(*this));
 }
 

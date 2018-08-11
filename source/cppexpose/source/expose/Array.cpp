@@ -36,8 +36,6 @@ Array::Array(const Array & arr)
 Array::Array(Array && arr)
 : PropertyContainer()
 {
-    // [willy]
-
     // Move properties
     for (AbstractVar * var : arr.m_properties) {
         // Check if property is owned by the array
@@ -123,8 +121,6 @@ AbstractVar * Array::push(AbstractVar * property)
 
 AbstractVar * Array::push(AbstractVar && property)
 {
-    // [willy]
-
     // Move property to a new instance
     auto movedProperty = property.move();
 
@@ -216,7 +212,6 @@ std::unique_ptr<AbstractVar> Array::clone() const
 
 std::unique_ptr<AbstractVar> Array::move()
 {
-    // [willy]
     return cppassist::make_unique<Array>(std::move(*this));
 }
 
