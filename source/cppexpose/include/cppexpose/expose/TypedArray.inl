@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <algorithm>
+
 #include <cppexpose/expose/Variant.h>
 #include <cppexpose/expose/Object.h>
 #include <cppexpose/expose/Array.h>
@@ -232,8 +234,41 @@ void TypedArray<Type, Storage>::fromVar(const AbstractVar & value)
 {
     if (value.hasType<Type>() || value.canConvert<Type>()) {
         this->setValue(value.value<Type>());
+    } else if (value.isArray()) {
+        // Get element type
+        using ValueType = typename Type::value_type;
+
+        // Check array
+        if (!value.asArray()) {
+            return;
+        }
+
+        // Get array
+        const Array & arrayValue = *value.asArray();
+
+        // Copy values into array
+        Type array;
+        for (size_t i=0; i<std::min(std::tuple_size<Type>::value, arrayValue.size()); i++) {
+            array[i] = arrayValue.at(i)->value<ValueType>();
+        }
+
+        // Set new value
+        this->setValue(array);
     } else if (value.canConvertToArray()) {
-        // [TODO]
+        // Get element type
+        using ValueType = typename Type::value_type;
+
+        // Convert value to generic array
+        Array arrayValue = value.toArray();
+
+        // Copy values into array
+        Type array;
+        for (size_t i=0; i<std::min(std::tuple_size<Type>::value, arrayValue.size()); i++) {
+            array[i] = arrayValue.at(i)->value<ValueType>();
+        }
+
+        // Set new value
+        this->setValue(array);
     }
 }
 
