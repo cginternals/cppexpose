@@ -27,7 +27,7 @@ public:
     *  @return
     *    Unique pointer to new array
     */
-    static std::unique_ptr<Array> create();
+    static Array create();
     //@}
 
 public:
@@ -40,6 +40,17 @@ public:
 
     /**
     *  @brief
+    *    Constructor that registers the array at a parent container
+    *
+    *  @param[in] name
+    *    Object name
+    *  @param[in] parent
+    *    Parent container (must NOT be null!)
+    */
+    Array(const std::string & name, PropertyContainer * parent);
+
+    /**
+    *  @brief
     *    Copy Constructor
     *
     *  @param[in] arr
@@ -49,14 +60,12 @@ public:
 
     /**
     *  @brief
-    *    Constructor adding the object to a parent container
+    *    Move Constructor
     *
-    *  @param[in] name
-    *    Object name
-    *  @param[in] parent
-    *    Parent container (must NOT be null!)
+    *  @param[in] arr
+    *    Array that will be moved
     */
-    Array(const std::string & name, PropertyContainer * parent);
+    Array(Array && arr);
 
     /**
     *  @brief

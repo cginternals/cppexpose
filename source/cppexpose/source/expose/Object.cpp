@@ -38,7 +38,6 @@ Object::Object(const Object & obj)
 {
     std::cout << "Object(obj &)" << std::endl;
 
-    // [TODO]
     copyFromObject(obj);
 }
 

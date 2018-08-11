@@ -13,13 +13,18 @@ namespace cppexpose
 {
 
 
-std::unique_ptr<Array> Array::create()
+Array Array::create()
 {
-    return cppassist::make_unique<Array>();
+    return std::move(Array());
 }
 
 Array::Array()
 {
+}
+
+Array::Array(const std::string & name, PropertyContainer * parent)
+{
+    registerProperty(name, parent);
 }
 
 Array::Array(const Array & arr)
@@ -28,9 +33,18 @@ Array::Array(const Array & arr)
     copyFromArray(arr);
 }
 
-Array::Array(const std::string & name, PropertyContainer * parent)
+Array::Array(Array && arr)
+: PropertyContainer()
 {
-    registerProperty(name, parent);
+    // [willy]
+
+    // [TODO] We ignore non-owned properties for now, they will have to be copied instead of moved
+
+    // Move owned properties
+    for (auto & ptr : arr.m_ownProperties) {
+        m_ownProperties.push_back(std::move(ptr));
+    }
+    arr.m_ownProperties.clear();
 }
 
 Array::~Array()
@@ -173,8 +187,8 @@ AbstractVar * Array::clone() const
 
 std::unique_ptr<AbstractVar> Array::move()
 {
-    // [TODO]
-    return nullptr;
+    // [willy]
+    return cppassist::make_unique<Array>(std::move(*this));
 }
 
 VarType Array::type() const
