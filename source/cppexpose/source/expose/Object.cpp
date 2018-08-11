@@ -50,11 +50,11 @@ Object::Object(Object && obj)
 
     // Move properties
     for (auto it : obj.m_properties) {
-        // Get name and var
+        // Get name and property
         std::string name = it.first;
         AbstractVar * var = it.second;
 
-        // Check if var is owned by the object
+        // Check if property is owned by the object
         auto it2 = obj.m_ownProperties.find(name);
         if (it2 != obj.m_ownProperties.end()) {
             // Move unique_ptr directly
@@ -434,9 +434,17 @@ const Array * Object::asArray() const
     return nullptr;
 }
 
-void Object::copyFromObject(const Object &)
+void Object::copyFromObject(const Object & obj)
 {
-    // [TODO]
+    // Copy properties
+    for (auto it : obj.m_properties) {
+        // Get name and property
+        std::string   name = it.first;
+        AbstractVar * var  = it.second;
+
+        // Create copy of property
+        addProperty(name, std::move(std::unique_ptr<AbstractVar>(var->clone())));
+    }
 }
 
 

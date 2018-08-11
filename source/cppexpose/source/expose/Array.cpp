@@ -40,7 +40,7 @@ Array::Array(Array && arr)
 
     // Move properties
     for (AbstractVar * var : arr.m_properties) {
-        // Check if var is owned by the array
+        // Check if property is owned by the array
         auto it = std::find_if(arr.m_ownProperties.begin(), arr.m_ownProperties.end(), [var] (const std::unique_ptr<AbstractVar> & ptr)
         {
             return ptr.get() == var;
@@ -402,9 +402,13 @@ const Array * Array::asArray() const
     return this;
 }
 
-void Array::copyFromArray(const Array &)
+void Array::copyFromArray(const Array & arr)
 {
-    // [TODO]
+    // Copy properties
+    for (auto * var : arr.m_properties) {
+        // Create copy of property
+        push(std::move(std::unique_ptr<AbstractVar>(var->clone())));
+    }
 }
 
 
