@@ -49,13 +49,19 @@ Var<Type>::Var(const std::string & name, PropertyContainer * parent, const Type 
 
 template <typename Type>
 Var<Type>::Var(const Var<Type> & var)
-: GetTyped< Type, ValueStorage<Type> >::VarType(static_cast<const AbstractVar &>(var))
+: GetTyped< Type, ValueStorage<Type> >::VarType(var.value())
+{
+}
+
+template <typename Type>
+Var<Type>::Var(Var<Type> && var)
+: GetTyped< Type, ValueStorage<Type> >::VarType(var.value())
 {
 }
 
 template <typename Type>
 Var<Type>::Var(const AbstractVar & var)
-: GetTyped< Type, ValueStorage<Type> >::VarType(static_cast<const AbstractVar &>(var))
+: GetTyped< Type, ValueStorage<Type> >::VarType(var)
 {
 }
 
@@ -65,9 +71,23 @@ Var<Type>::~Var()
 }
 
 template <typename Type>
+Var<Type> & Var<Type>::operator =(const Var<Type> & var)
+{
+    this->setValue(var.value());
+    return *this;
+}
+
+template <typename Type>
 Var<Type> & Var<Type>::operator =(const AbstractVar & var)
 {
     this->fromVar(var);
+    return *this;
+}
+
+template <typename Type>
+Var<Type> & Var<Type>::operator =(const Type & value)
+{
+    this->setValue(value);
     return *this;
 }
 

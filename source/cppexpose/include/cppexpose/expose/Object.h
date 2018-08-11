@@ -28,7 +28,7 @@ public:
     *  @return
     *    Unique pointer to new object
     */
-    static std::unique_ptr<Object> create();
+    static Object create();
     //@}
 
 public:
@@ -41,6 +41,17 @@ public:
 
     /**
     *  @brief
+    *    Constructor that registers the object at a parent container
+    *
+    *  @param[in] name
+    *    Object name
+    *  @param[in] parent
+    *    Parent container (must NOT be null!)
+    */
+    Object(const std::string & name, PropertyContainer * parent);
+
+    /**
+    *  @brief
     *    Copy Constructor
     *
     *  @param[in] obj
@@ -50,14 +61,12 @@ public:
 
     /**
     *  @brief
-    *    Constructor adding the object to a parent container
+    *    Move Constructor
     *
-    *  @param[in] name
-    *    Object name
-    *  @param[in] parent
-    *    Parent container (must NOT be null!)
+    *  @param[in] obj
+    *    Object that will be moved
     */
-    Object(const std::string & name, PropertyContainer * parent);
+    Object(Object && obj);
 
     /**
     *  @brief
@@ -141,22 +150,34 @@ public:
     *  @param[in] name
     *    Property name
     *  @param[in] property
+    *    Property
+    *
+    *  @return
+    *    Pointer to the property
+    *
+    *  @remarks
+    *    Adds the given property to the object and transfers ownership
+    *    of the property to the object.
+    */
+    AbstractVar * addProperty(const std::string & name, AbstractVar && property);
+
+    /**
+    *  @brief
+    *    Add property to object
+    *
+    *  @param[in] name
+    *    Property name
+    *  @param[in] property
     *    Property (must NOT be null!)
     *
     *  @return
     *    Pointer to the property
     *
     *  @remarks
-    *    Adds the given property to the object and transfer ownership.
-    *
-    *    The name of the property must be valid and unique to the object,
-    *    also the property must not belong to any other object already.
-    *    Otherwise, the property will not be added to the object.
-    *    The object will take ownership over the property.
+    *    Adds the given property to the object and transfers ownership
+    *    of the property to the object.
     */
     AbstractVar * addProperty(const std::string & name, std::unique_ptr<AbstractVar> && property);
-
-    AbstractVar * addProperty(const std::string & name, AbstractVar && property);
 
     /**
     *  @brief

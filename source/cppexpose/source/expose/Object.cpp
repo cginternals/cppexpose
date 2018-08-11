@@ -2,6 +2,7 @@
 #include <cppexpose/expose/Object.h>
 
 #include <algorithm>
+#include <iostream>
 
 #include <cppassist/memory/make_unique.h>
 
@@ -14,28 +15,52 @@ namespace cppexpose
 {
 
 
-std::unique_ptr<Object> Object::create()
+Object Object::create()
 {
-    return cppassist::make_unique<Object>();
+    std::cout << "Object::create()" << std::endl;
+
+    return std::move(Object());
 }
 
 Object::Object()
 {
+    std::cout << "Object()" << std::endl;
+}
+
+Object::Object(const std::string & name, PropertyContainer * parent)
+{
+    std::cout << "Object(name, parent)" << std::endl;
+    registerProperty(name, parent);
 }
 
 Object::Object(const Object & obj)
 : PropertyContainer()
 {
+    std::cout << "Object(obj &)" << std::endl;
+
+    // [TODO]
     copyFromObject(obj);
 }
 
-Object::Object(const std::string & name, PropertyContainer * parent)
+Object::Object(Object && obj)
+: PropertyContainer()
 {
-    registerProperty(name, parent);
+    // [willy]
+
+    std::cout << "Object(obj &&)" << std::endl;
+
+    // [TODO] We ignore non-owned properties for now, they will have to be copied instead of moved
+
+    // Move owned properties
+    for (auto & ptr : obj.m_ownProperties) {
+        m_ownProperties.push_back(std::move(ptr));
+    }
+    obj.m_ownProperties.clear();
 }
 
 Object::~Object()
 {
+    std::cout << "~Object()" << std::endl;
 }
 
 bool Object::empty() const
@@ -128,14 +153,19 @@ AbstractVar * Object::addProperty(const std::string & name, AbstractVar * proper
     return property;
 }
 
-AbstractVar * Object::addProperty(const std::string & name, std::unique_ptr<AbstractVar> && property)
+AbstractVar * Object::addProperty(const std::string & name, AbstractVar && property)
 {
+    // [willy]
+
+    // Move property to a new instance
+    auto movedProperty = property.move();
+
     // Add property
-    const auto propertyPtr = addProperty(name, property.get());
+    const auto propertyPtr = addProperty(name, movedProperty.get());
     if (propertyPtr)
     {
         // Manage property
-        m_ownProperties.push_back(std::move(property));
+        m_ownProperties.push_back(std::move(movedProperty));
 
         // Return property
         return propertyPtr;
@@ -145,18 +175,14 @@ AbstractVar * Object::addProperty(const std::string & name, std::unique_ptr<Abst
     return nullptr;
 }
 
-AbstractVar * Object::addProperty(const std::string & name, AbstractVar && property)
+AbstractVar * Object::addProperty(const std::string & name, std::unique_ptr<AbstractVar> && property)
 {
-    // [willy]
-
-    auto movedProperty = property.move();
-
     // Add property
-    const auto propertyPtr = addProperty(name, movedProperty.get());
+    const auto propertyPtr = addProperty(name, property.get());
     if (propertyPtr)
     {
         // Manage property
-        m_ownProperties.push_back(std::move(movedProperty));
+        m_ownProperties.push_back(std::move(property));
 
         // Return property
         return propertyPtr;
@@ -229,18 +255,7 @@ AbstractVar * Object::clone() const
 std::unique_ptr<AbstractVar> Object::move()
 {
     // [willy]
-
-    // [TODO] We ignore non-owned properties for now, they will have to be copied instead of moved
-
-    // Move owned properties
-    auto obj = cppassist::make_unique<Object>();
-    for (auto & ptr : m_ownProperties) {
-        obj->m_ownProperties.push_back(std::move(ptr));
-    }
-    m_ownProperties.clear();
-
-    // Return new object
-    return obj;
+    return cppassist::make_unique<Object>(std::move(*this));
 }
 
 VarType Object::type() const

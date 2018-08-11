@@ -96,6 +96,15 @@ public:
 
     /**
     *  @brief
+    *    Move Constructor
+    *
+    *  @param[in] var
+    *    Var that is moved
+    */
+    Var(Var<Type> && var);
+
+    /**
+    *  @brief
     *    Constructor that copies the value from another var
     *
     *  @param[in] var
@@ -116,7 +125,25 @@ public:
     *  @param[in] var
     *    Variable whose value is copied
     */
+    Var<Type> & operator =(const Var<Type> & var);
+
+    /**
+    *  @brief
+    *    Assignment operator
+    *
+    *  @param[in] var
+    *    Variable whose value is copied
+    */
     Var<Type> & operator =(const AbstractVar & var);
+
+    /**
+    *  @brief
+    *    Assignment operator
+    *
+    *  @param[in] value
+    *    New value
+    */
+    Var<Type> & operator =(const Type & value);
 
     // Replication
     virtual std::unique_ptr<AbstractVar> move() override;
