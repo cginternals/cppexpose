@@ -3,7 +3,6 @@
 
 
 #include <memory>
-#include <vector>
 #include <unordered_map>
 
 #include <cppexpose/expose/PropertyContainer.h>
@@ -88,9 +87,9 @@ public:
     *    Get properties
     *
     *  @return
-    *    Names of all properties
+    *    Property map
     */
-    const std::vector<std::string> & properties() const;
+    const std::unordered_map<std::string, AbstractVar *> & properties() const;
 
     /**
     *  @brief
@@ -287,7 +286,6 @@ protected:
 protected:
     std::unordered_map<std::string, AbstractVar *>                m_properties;    ///< Map of names and properties
     std::unordered_map<std::string, std::unique_ptr<AbstractVar>> m_ownProperties; ///< Properties that are owned by the object
-    mutable std::vector<std::string>                              m_propertyNames; ///< List of property names (created on-demand)
 };
 
 

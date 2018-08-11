@@ -80,20 +80,9 @@ bool Object::empty() const
     return m_properties.empty();
 }
 
-const std::vector<std::string> & Object::properties() const
+const std::unordered_map<std::string, AbstractVar *> & Object::properties() const
 {
-    // Check if property names have already been determined
-    if (m_propertyNames.size() > 0) {
-        return m_propertyNames;
-    }
-
-    // Gather list of property names
-    for (auto it : m_properties) {
-        m_propertyNames.push_back(it.first);
-    }
-
-    // Return list
-    return m_propertyNames;
+    return m_properties;
 }
 
 bool Object::propertyExists(const std::string & name) const
@@ -157,9 +146,6 @@ AbstractVar * Object::addProperty(const std::string & name, AbstractVar * proper
     // Invoke callback
     // [TODO]
 //  afterAdd(newIndex, property);
-
-    // Reset list of property names
-    m_propertyNames.clear();
 
     // Success
     return property;
@@ -250,9 +236,6 @@ bool Object::removeProperty(AbstractVar * property)
     {
         m_ownProperties.erase(it2);
     }
-
-    // Reset list of property names
-    m_propertyNames.clear();
 
     // Success
     return true;
