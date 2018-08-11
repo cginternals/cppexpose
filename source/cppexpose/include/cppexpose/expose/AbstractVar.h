@@ -432,8 +432,22 @@ public:
     virtual void fromVar(const AbstractVar & value) = 0;
 
     // Direct access
-
+    /**
+    *  @brief
+    *    Get direct access to object
+    *
+    *  @return
+    *    Pointer to object, or nullptr if the variable is no Object
+    */
     virtual const Object * asObject() const = 0;
+
+    /**
+    *  @brief
+    *    Get direct access to array
+    *
+    *  @return
+    *    Pointer to array, or nullptr if the variable is no Array
+    */
     virtual const Array * asArray() const = 0;
 
 protected:
