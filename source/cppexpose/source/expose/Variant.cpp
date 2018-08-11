@@ -14,22 +14,30 @@ Variant::Variant()
 {
 }
 
+Variant::Variant(const Variant & variant)
+: AbstractVar()
+, m_value(variant.clone())
+{
+}
+
+Variant::Variant(Variant && variant)
+: AbstractVar()
+, m_value(std::move(variant.m_value))
+{
+    // [willy]
+}
+
 Variant::Variant(const AbstractVar & value)
 : AbstractVar()
 , m_value(value.clone())
 {
 }
 
-Variant::Variant(std::unique_ptr<AbstractVar> && value)
+Variant::Variant(AbstractVar && value)
 : AbstractVar()
-, m_value(std::move(value))
+, m_value(std::move(value.move()))
 {
-}
-
-Variant::Variant(const Variant & variant)
-: AbstractVar()
-, m_value(variant.clone())
-{
+    // [willy]
 }
 
 Variant::Variant(AbstractVar * var)
@@ -135,168 +143,200 @@ Variant & Variant::operator =(std::unique_ptr<AbstractVar> && value)
 
 AbstractVar * Variant::clone() const
 {
-    return new Variant(m_value->clone());
+    if (m_value) return new Variant(m_value->clone());
+    else         return new Variant;
 }
 
 std::unique_ptr<AbstractVar> Variant::move()
 {
-    // [TODO]
-    return nullptr;
+    // [willy]
+    return cppassist::make_unique<Variant>(std::move(*this));
 }
 
 VarType Variant::type() const
 {
-    return m_value->type();
+    if (m_value) return m_value->type();
+    else         return VarType::Null;
 }
 
 bool Variant::isNull() const
 {
-    return m_value->isNull();
+    if (m_value) return m_value->isNull();
+    else         return true;
 }
 
 bool Variant::isBool() const
 {
-    return m_value->isBool();
+    if (m_value) return m_value->isBool();
+    else         return false;
 }
 
 bool Variant::isNumber() const
 {
-    return m_value->isNumber();
+    if (m_value) return m_value->isNumber();
+    else         return false;
 }
 
 bool Variant::isIntegral() const
 {
-    return m_value->isIntegral();
+    if (m_value) return m_value->isIntegral();
+    else         return false;
 }
 
 bool Variant::isSignedIntegral() const
 {
-    return m_value->isSignedIntegral();
+    if (m_value) return m_value->isSignedIntegral();
+    else         return false;
 }
 
 bool Variant::isFloatingPoint() const
 {
-    return m_value->isFloatingPoint();
+    if (m_value) return m_value->isFloatingPoint();
+    else         return false;
 }
 
 bool Variant::isEnum() const
 {
-    return m_value->isEnum();
+    if (m_value) return m_value->isEnum();
+    else         return false;
 }
 
 bool Variant::isString() const
 {
-    return m_value->isString();
+    if (m_value) return m_value->isString();
+    else         return false;
 }
 
 bool Variant::isExternal() const
 {
-    return m_value->isExternal();
+    if (m_value) return m_value->isExternal();
+    else         return false;
 }
 
 bool Variant::isPointer() const
 {
-    return m_value->isPointer();
+    if (m_value) return m_value->isPointer();
+    else         return false;
 }
 
 bool Variant::isObject() const
 {
-    return m_value->isObject();
+    if (m_value) return m_value->isObject();
+    else         return false;
 }
 
 bool Variant::isArray() const
 {
-    return m_value->isArray();
+    if (m_value) return m_value->isArray();
+    else         return false;
 }
 
 bool Variant::isFunction() const
 {
-    return m_value->isFunction();
+    if (m_value) return m_value->isFunction();
+    else         return false;
 }
 
 bool Variant::isConst() const
 {
-    return m_value->isConst();
+    if (m_value) return m_value->isConst();
+    else         return false;
 }
 
 Variant Variant::minimumValue() const
 {
-    return m_value->minimumValue();
+    if (m_value) return m_value->minimumValue();
+    else         return Variant();
 }
 
 Variant Variant::maximumValue() const
 {
-    return m_value->maximumValue();
+    if (m_value) return m_value->maximumValue();
+    else         return Variant();
 }
 
 bool Variant::canConvertToString() const
 {
-    return m_value->canConvertToString();
+    if (m_value) return m_value->canConvertToString();
+    else         return false;
 }
 
 std::string Variant::toString() const
 {
-    return m_value->toString();
+    if (m_value) return m_value->toString();
+    else         return "";
 }
 
 bool Variant::canConvertToBool() const
 {
-    return m_value->canConvertToBool();
+    if (m_value) return m_value->canConvertToBool();
+    else         return false;
 }
 
 bool Variant::toBool() const
 {
-    return m_value->toBool();
+    if (m_value) return m_value->toBool();
+    else         return false;
 }
 
 bool Variant::canConvertToLongLong() const
 {
-    return m_value->canConvertToLongLong();
+    if (m_value) return m_value->canConvertToLongLong();
+    else         return false;
 }
 
 long long Variant::toLongLong() const
 {
-    return m_value->toLongLong();
+    if (m_value) return m_value->toLongLong();
+    else         return 0ll;
 }
 
 bool Variant::canConvertToULongLong() const
 {
-    return m_value->canConvertToULongLong();
+    if (m_value) return m_value->canConvertToULongLong();
+    else         return false;
 }
 
 unsigned long long Variant::toULongLong() const
 {
-    return m_value->toULongLong();
+    if (m_value) return m_value->toULongLong();
+    else         return 0ull;
 }
 
 bool Variant::canConvertToDouble() const
 {
-    return m_value->canConvertToDouble();
+    if (m_value) return m_value->canConvertToDouble();
+    else         return false;
 }
 
 double Variant::toDouble() const
 {
-    return m_value->toDouble();
+    if (m_value) return m_value->toDouble();
+    else         return 0.0;
 }
 
 bool Variant::canConvertToObject() const
 {
-    return m_value->canConvertToObject();
+    if (m_value) return m_value->canConvertToObject();
+    else         return false;
 }
 
 Object Variant::toObject() const
 {
-    return m_value->toObject();
+    if (m_value) return m_value->toObject();
+    else         return Object();
 }
 
 bool Variant::canConvertToArray() const
 {
-    return m_value->canConvertToArray();
+    if (m_value) return m_value->canConvertToArray();
+    else         return false;
 }
 
 Array Variant::toArray() const
 {
-    return m_value->toArray();
+    if (m_value) return m_value->toArray();
+    else         return Array();
 }
 
 bool Variant::canConvertFromVar(const AbstractVar &)
