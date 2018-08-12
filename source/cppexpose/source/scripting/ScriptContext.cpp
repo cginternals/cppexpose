@@ -2,8 +2,8 @@
 #include <cppexpose/scripting/ScriptContext.h>
 
 #include <cppexpose/scripting/AbstractScriptBackend.h>
-#include <cppexpose/reflection/Object.h>
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/expose/Object.h>
+#include <cppexpose/expose/Variant.h>
 
 #include "DuktapeScriptBackend.h"
 
@@ -38,12 +38,12 @@ ScriptContext::~ScriptContext()
 {
 }
 
-const std::set<Object *> & ScriptContext::globalObjects() const
+const std::map<std::string, Object *> & ScriptContext::globalObjects() const
 {
     return m_globalObjects;
 }
 
-void ScriptContext::addGlobalObject(Object * obj)
+void ScriptContext::addGlobalObject(const std::string & name, Object * obj)
 {
     // Check if there is a valid scripting backend
     if (!m_backend)
@@ -52,14 +52,14 @@ void ScriptContext::addGlobalObject(Object * obj)
     }
 
     // Add global object
-    const auto inserted = m_globalObjects.insert(obj);
+    const auto inserted = m_globalObjects.insert(std::pair<std::string, Object *>(name, obj));
     if (inserted.second)
     {
-        m_backend->addGlobalObject(obj);
+        m_backend->addGlobalObject(name, obj);
     }
 }
 
-void ScriptContext::removeGlobalObject(Object * obj)
+void ScriptContext::removeGlobalObject(const std::string & name)
 {
     // Check if there is a valid scripting backend
     if (!m_backend)
@@ -67,11 +67,14 @@ void ScriptContext::removeGlobalObject(Object * obj)
         return;
     }
 
-    // Remove global object
-    const auto removed = m_globalObjects.erase(obj);
-    if (removed > 0)
-    {
-        m_backend->removeGlobalObject(obj);
+    // Find global object
+    auto it = m_globalObjects.find(name);
+    if (it != m_globalObjects.end()) {
+        // Remove global object
+        m_globalObjects.erase(it);
+
+        // Remove in backend
+        m_backend->removeGlobalObject(name);
     }
 }
 

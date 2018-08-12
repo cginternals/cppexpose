@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <cppexpose/reflection/Object.h>
-#include <cppexpose/reflection/Property.h>
+#include <cppexpose/expose/Object.h>
+#include <cppexpose/expose/Var.h>
 
 
 namespace cppexpose
@@ -24,18 +24,15 @@ class CPPEXPOSE_API TreeNode : public cppexpose::Object
 {
 public:
     // Properties
-    cppexpose::Property<int> id;
+    cppexpose::Var<int> id;
 
 
 public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] name
-    *    Object name
     */
-    TreeNode(const std::string & name);
+    TreeNode();
 
     /**
     *  @brief
@@ -96,7 +93,7 @@ public:
 
 
 protected:
-    int        m_id;                   ///< ID of the node
+    int                       m_id;    ///< ID of the node
     std::unique_ptr<TreeNode> m_left;  ///< Left child node (can be null)
     std::unique_ptr<TreeNode> m_right; ///< Right child node (can be null)
 };

@@ -60,19 +60,21 @@ public:
     *  @brief
     *    Add a global object that is exposed into the scripting environment
     *
+    *  @param[in] name
+    *    Global object name
     *  @param[in] obj
     *    Global object (must NOT be null)
     */
-    virtual void addGlobalObject(Object * obj) = 0;
+    virtual void addGlobalObject(const std::string & name, Object * obj) = 0;
 
     /**
     *  @brief
     *    Remove a global object that is exposed into the scripting environment
     *
-    *  @param[in] obj
-    *    Global object (must NOT be null)
+    *  @param[in] name
+    *    Global object name
     */
-    virtual void removeGlobalObject(Object * obj) = 0;
+    virtual void removeGlobalObject(const std::string & name) = 0;
 
     /**
     *  @brief

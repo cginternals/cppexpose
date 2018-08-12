@@ -13,17 +13,20 @@ using namespace cppexpose;
 static int g_nextId = 1;
 
 
-TreeNode::TreeNode(const std::string & name)
-: Object(name)
-, id("id", this, this, &TreeNode::getId, &TreeNode::setId)
+TreeNode::TreeNode()
+: Object()
+, id("id", this, g_nextId++)
 , m_id(g_nextId++)
 , m_left(nullptr)
 , m_right(nullptr)
 {
     // Register functions
+    // [TODO]
+    /*
     addFunction("expand",   this, &TreeNode::expand);
     addFunction("collapse", this, &TreeNode::collapse);
     addFunction("print",    this, &TreeNode::print);
+    */
 }
 
 TreeNode::~TreeNode()
@@ -50,11 +53,11 @@ void TreeNode::expand()
     }
 
     // Create child nodes
-    m_left = cppassist::make_unique<TreeNode>("left");
-    addProperty(m_left.get());
+    m_left = cppassist::make_unique<TreeNode>();
+    addProperty("left", m_left.get());
 
-    m_right = cppassist::make_unique<TreeNode>("right");
-    addProperty(m_right.get());
+    m_right = cppassist::make_unique<TreeNode>();
+    addProperty("right", m_right.get());
 }
 
 void TreeNode::collapse()

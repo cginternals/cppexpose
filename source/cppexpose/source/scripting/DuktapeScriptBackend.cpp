@@ -3,7 +3,10 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/expose/Object.h>
+#include <cppexpose/expose/Array.h>
+#include <cppexpose/expose/Variant.h>
+#include <cppexpose/function/Function.h>
 #include <cppexpose/scripting/ScriptContext.h>
 
 #include "DuktapeScriptFunction.h"
@@ -64,7 +67,7 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::addGlobalObject(Object * obj)
+void DuktapeScriptBackend::addGlobalObject(const std::string & name, Object * obj)
 {
     // Wrap object in javascript object
     const auto objWrapper = getOrCreateObjectWrapper(obj);
@@ -77,17 +80,17 @@ void DuktapeScriptBackend::addGlobalObject(Object * obj)
     objWrapper->pushToDukStack();
 
     // Register object in the global object
-    duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
+    duk_put_prop_string(m_context, parentIndex, name.c_str());
 
     // Pop global object from stack
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::removeGlobalObject(Object * obj)
+void DuktapeScriptBackend::removeGlobalObject(const std::string & name)
 {
     // Remove property in the global object
     duk_push_global_object(m_context);
-    duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
+    duk_del_prop_string(m_context, duk_get_top_index(m_context), name.c_str());
     duk_pop(m_context);
 }
 
@@ -187,12 +190,12 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
     // Array
     else if (duk_is_array(m_context, index))
     {
-        VariantArray array;
+        Array array;
 
         for (unsigned int i = 0; i < duk_get_length(m_context, index); ++i)
         {
             duk_get_prop_index(m_context, index, i);
-            array.push_back(fromDukStack());
+            array.push(fromDukStack());
             duk_pop(m_context);
         }
 
@@ -218,24 +221,26 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
             return Variant::fromValue(objWrapper->object());
         }
 
-
         // Otherwise, build a key-value map of the object's properties
-        VariantMap map;
+        else {
+            Object obj;
 
-        // Push enumerator
-        duk_enum(m_context, index, 0);
-        while (duk_next(m_context, -1, 1)) // Push next key (-2) & value (-1)
-        {
-            map.insert({fromDukStack(-2).value<std::string>(), fromDukStack(-1)});
+            // Push enumerator
+            duk_enum(m_context, index, 0);
+            while (duk_next(m_context, -1, 1)) // Push next key (-2) & value (-1)
+            {
+                // Set value on object
+                obj.addProperty(fromDukStack(-2).value<std::string>(), fromDukStack(-1));
 
-            // Pop key & value
-            duk_pop_2(m_context);
+                // Pop key & value
+                duk_pop_2(m_context);
+            }
+
+            // Pop enumerator
+            duk_pop(m_context);
+
+            return obj;
         }
-
-        // Pop enumerator
-        duk_pop(m_context);
-
-        return Variant(map);
     }
 
     // Pointer
@@ -263,11 +268,11 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
         duk_push_boolean(m_context, value.toBool());
     }
 
-    else if (value.isUnsignedIntegral()) {
+    else if (value.isIntegral() && !value.isSignedIntegral()) {
         duk_push_number(m_context, value.toULongLong());
     }
 
-    else if (value.isSignedIntegral() || value.isIntegral()) {
+    else if (value.isIntegral()) {
         duk_push_number(m_context, value.toLongLong());
     }
 
@@ -283,25 +288,27 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
         duk_push_string(m_context, value.value<char*>());
     }
 
-    else if (value.isVariantArray())
+    else if (value.isArray())
     {
-        VariantArray variantArray = value.value<VariantArray>();
+        const Array & array = *value.asArray();
+
         duk_idx_t arr_idx = duk_push_array(m_context);
 
-        for (unsigned int i=0; i<variantArray.size(); i++) {
-            pushToDukStack(variantArray.at(i));
+        for (unsigned int i=0; i<array.size(); i++) {
+            pushToDukStack(array.at(i));
             duk_put_prop_index(m_context, arr_idx, i);
         }
     }
 
-    else if (value.isVariantMap())
+    else if (value.isObject())
     {
-        VariantMap variantMap = value.value<VariantMap>();
+        const Object & obj = *value.asObject();
+
         duk_push_object(m_context);
 
-        for (const std::pair<std::string, Variant> & pair : variantMap)
+        for (const auto & pair : obj.properties())
         {
-            pushToDukStack(pair.second);
+            pushToDukStack(*pair.second);
             duk_put_prop_string(m_context, -2, pair.first.c_str());
         }
     }
@@ -322,7 +329,7 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
 
     else
     {
-        warning() << "Unknown variant type found: " << value.type().name();
+        warning() << "Unknown variant type found: " << value.typeName();
         duk_push_undefined(m_context);
     }
 }
@@ -341,10 +348,14 @@ DuktapeObjectWrapper * DuktapeScriptBackend::getOrCreateObjectWrapper(cppexpose:
 
     // Delete wrapper when object is destroyed
     // The connection will be deleted when this backend is destroyed
+    // [TODO]
+    Connection beforeDestroy;
+    /*
     const auto beforeDestroy = object->beforeDestroy.connect([this, object](AbstractProperty *)
     {
         m_objectWrappers.erase(object);
     });
+    */
 
     // Save wrapper for later
     m_objectWrappers[object] = {std::move(wrapper), beforeDestroy};

@@ -3,7 +3,7 @@
 
 
 #include <string>
-#include <set>
+#include <map>
 
 #include <cppexpose/signal/Signal.h>
 
@@ -63,12 +63,14 @@ public:
     *  @return
     *    List of global objects
     */
-    const std::set<Object *> & globalObjects() const;
+    const std::map<std::string, Object *> & globalObjects() const;
 
     /**
     *  @brief
     *    Add global object
     *
+    *  @param[in] name
+    *    Global object name
     *  @param[in] obj
     *    Global object (must NOT be null)
     *
@@ -77,19 +79,19 @@ public:
     *    It will be available in the global namespace using the object's name.
     *    The script context does not take ownership over the object.
     */
-    void addGlobalObject(Object * obj);
+    void addGlobalObject(const std::string & name, Object * obj);
 
     /**
     *  @brief
     *    Remove global object
     *
-    *  @param[in] obj
-    *    Global object (must NOT be null)
+    *  @param[in] name
+    *    Global object name
     *
     *  @remarks
     *    Removes a global object that is exposed to the scripting environment.
     */
-    void removeGlobalObject(Object * obj);
+    void removeGlobalObject(const std::string & name);
 
     /**
     *  @brief
@@ -106,7 +108,7 @@ public:
 
 protected:
     std::unique_ptr<AbstractScriptBackend> m_backend;       ///< Scripting backend (can be null)
-    std::set<Object *>                     m_globalObjects; ///< Global objects that are exposed to the scripting environment
+    std::map<std::string, Object *>        m_globalObjects; ///< Global objects that are exposed to the scripting environment
 };
 
 

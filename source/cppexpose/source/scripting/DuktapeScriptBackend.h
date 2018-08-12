@@ -70,8 +70,8 @@ public:
 
     // Virtual AbstractScriptBackend interface
     virtual void initialize(ScriptContext * scriptContext) override;
-    virtual void addGlobalObject(Object * obj) override;
-    virtual void removeGlobalObject(Object * obj) override;
+    virtual void addGlobalObject(const std::string & name, Object * obj) override;
+    virtual void removeGlobalObject(const std::string & name) override;
     virtual Variant evaluate(const std::string & code) override;
 
 

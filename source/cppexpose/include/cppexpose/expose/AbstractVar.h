@@ -129,6 +129,15 @@ public:
 
     /**
     *  @brief
+    *    Get type of variable
+    *
+    *  @return
+    *    Type name
+    */
+    virtual std::string typeName() const;
+
+    /**
+    *  @brief
     *    Check if value is of empty type
     *
     *  @return

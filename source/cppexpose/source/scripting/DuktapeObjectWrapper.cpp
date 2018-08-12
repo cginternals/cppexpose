@@ -1,9 +1,13 @@
 
 #include "DuktapeObjectWrapper.h"
 
+#include <cassert>
+
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/reflection/Object.h>
+#include <cppexpose/expose/Object.h>
+#include <cppexpose/expose/Variant.h>
+#include <cppexpose/function/Function.h>
 
 #include "DuktapeScriptBackend.h"
 
@@ -60,11 +64,11 @@ void DuktapeObjectWrapper::wrapObject()
     duk_put_prop_string(m_context, -2, s_duktapeObjectPointerKey);
 
     // Register object properties
-    for (unsigned int i=0; i<m_obj->numSubValues(); i++)
+    for (auto it : m_obj->properties())
     {
         // Get property
-        AbstractProperty * prop = m_obj->property(i);
-        std::string propName = prop->name();
+        std::string propName = it.first;
+        AbstractVar * prop = it.second;
 
         // Register property (ignore sub-objects, they are added later)
         if (!prop->isObject())
@@ -95,6 +99,8 @@ void DuktapeObjectWrapper::wrapObject()
     }
 
     // Register object functions
+    // [TODO]
+    /*
     const std::vector<Method> & funcs = m_obj->functions();
     for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
     {
@@ -107,13 +113,14 @@ void DuktapeObjectWrapper::wrapObject()
         duk_put_prop_string(m_context, -2, s_duktapeFunctionPointerKey);
         duk_put_prop_string(m_context, objIndex, method.name().c_str());
     }
+    */
 
     // Register sub-objects
-    for (unsigned int i=0; i<m_obj->numSubValues(); i++)
+    for (auto it : m_obj->properties())
     {
         // Get property
-        AbstractProperty * prop = m_obj->property(i);
-        std::string name = prop->name();
+        std::string propName = it.first;
+        AbstractVar * prop = it.second;
 
         // Check if it is an object
         if (prop->isObject())
@@ -124,7 +131,7 @@ void DuktapeObjectWrapper::wrapObject()
             objWrapper->pushToDukStack();
 
             // Register sub-object in parent object
-            duk_put_prop_string(m_context, objIndex, subObj->name().c_str());
+            duk_put_prop_string(m_context, objIndex, propName.c_str());
 
             // Add wrapper to sub-object
             m_subObjects.push_back(objWrapper);
@@ -132,6 +139,8 @@ void DuktapeObjectWrapper::wrapObject()
     }
 
     // Register callbacks for script engine update
+    // [TODO]
+    /*
     m_afterAddConnection = m_obj->afterAdd.connect([this](size_t index, cppexpose::AbstractProperty * property)
     {
         // [TODO] Provide an UNUSED() macro in cppassist
@@ -245,6 +254,7 @@ void DuktapeObjectWrapper::wrapObject()
         duk_pop(m_context);
         duk_pop(m_context);
     });
+    */
 }
 
 void DuktapeObjectWrapper::pushToDukStack()
@@ -281,7 +291,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     duk_get_prop_string(context, -1, s_duktapeObjectPointerKey);
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
-    
+
     // Assume that the wrapper exists, otherwise the backend is in an inconsistent state
     assert(objWrapper != nullptr);
 
@@ -295,7 +305,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     duk_pop_2(context);
 
     // Get property
-    AbstractProperty * property = obj->property(propName);
+    AbstractVar * property = obj->property(propName);
 
     // Assume that the property exists, otherwise the backend is in an inconsistent state
     assert(property != nullptr);
@@ -303,8 +313,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     // Return property value
     try
     {
-        Variant value = property->toVariant();
-        scriptBackend->pushToDukStack(value);
+        scriptBackend->pushToDukStack(*property);
     }
     catch (const std::exception & e)
     {
@@ -352,22 +361,22 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     duk_pop_2(context);
 
     // Get property
-    AbstractProperty * property = obj->property(propName);
+    AbstractVar * property = obj->property(propName);
 
     // Assume that the property exists, otherwise the backend is in an inconsistent state
     assert(property != nullptr);
-    
+
     // Bail if propery is read-only
-    if (property->isReadOnly())
+    if (property->isConst())
     {
         // Does not return
         duk_error(context, DUK_ERR_TYPE_ERROR, "property '%s' is read-only", propName.c_str());
     }
-    
+
     // Set property value
     try
     {
-        property->fromVariant(value);
+        property->fromVar(value);
     }
     catch (const std::exception & e)
     {
