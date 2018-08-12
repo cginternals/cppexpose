@@ -69,14 +69,14 @@ set(headers
     ${include_path}/signal/Signal.h
     ${include_path}/signal/Signal.inl
 
-#   ${include_path}/function/Function.h
-#   ${include_path}/function/AbstractFunction.h
-#   ${include_path}/function/StaticFunction.h
-#   ${include_path}/function/StaticFunction.inl
-#   ${include_path}/function/MemberFunction.h
-#   ${include_path}/function/MemberFunction.inl
-#   ${include_path}/function/ConstMemberFunction.h
-#   ${include_path}/function/ConstMemberFunction.inl
+    ${include_path}/function/Function.h
+    ${include_path}/function/AbstractFunction.h
+    ${include_path}/function/StaticFunction.h
+    ${include_path}/function/StaticFunction.inl
+    ${include_path}/function/MemberFunction.h
+    ${include_path}/function/MemberFunction.inl
+    ${include_path}/function/ConstMemberFunction.h
+    ${include_path}/function/ConstMemberFunction.inl
 
 #   ${include_path}/reflection/Method.h
 
@@ -145,8 +145,8 @@ set(sources
     ${source_path}/signal/Connection.cpp
     ${source_path}/signal/ScopedConnection.cpp
 
-#   ${source_path}/function/Function.cpp
-#   ${source_path}/function/AbstractFunction.cpp
+    ${source_path}/function/Function.cpp
+    ${source_path}/function/AbstractFunction.cpp
 
 #   ${source_path}/reflection/Method.cpp
 

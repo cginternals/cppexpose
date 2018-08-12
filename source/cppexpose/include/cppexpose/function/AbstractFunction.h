@@ -11,6 +11,7 @@
 namespace cppexpose
 {
 
+
 class Variant;
 
 
