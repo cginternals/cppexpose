@@ -15,15 +15,15 @@ namespace cppexpose
 *  @brief
 *    Representation of a member function
 */
-template <class T, typename RET, typename... Arguments>
+template <class Type, typename ReturnType, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API MemberFunction : public AbstractFunction
 {
 public:
     /**
     *  @brief
-    *    Typed function pointer for a member function of class T
+    *    Typed function pointer for a member function of class Type
     */
-    typedef RET (T::*Func) (Arguments...);
+    typedef ReturnType (Type::*Func) (Arguments...);
 
 
 public:
@@ -36,7 +36,7 @@ public:
     *  @param[in] func
     *    Pointer to member function
     */
-    MemberFunction(T * obj, Func func);
+    MemberFunction(Type * obj, Func func);
 
     /**
     *  @brief
@@ -55,7 +55,7 @@ protected:
 
 
 protected:
-    T    * m_obj;  ///< Pointer to instance of class T
+    Type * m_obj;  ///< Pointer to instance of class Type
     Func   m_func; ///< Function object (for non-const function)
 };
 

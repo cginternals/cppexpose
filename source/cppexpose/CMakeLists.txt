@@ -78,8 +78,6 @@ set(headers
     ${include_path}/function/ConstMemberFunction.h
     ${include_path}/function/ConstMemberFunction.inl
 
-#   ${include_path}/reflection/Method.h
-
 #   ${include_path}/scripting/ScriptContext.h
 #   ${include_path}/scripting/AbstractScriptBackend.h
 #   ${include_path}/scripting/example/TreeNode.h
@@ -147,8 +145,6 @@ set(sources
 
     ${source_path}/function/Function.cpp
     ${source_path}/function/AbstractFunction.cpp
-
-#   ${source_path}/reflection/Method.cpp
 
 #   ${source_path}/scripting/duktape-1.4.0/duktape.c
 #   ${source_path}/scripting/duktape-1.4.0/duktape.h

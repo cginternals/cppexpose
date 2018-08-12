@@ -15,7 +15,7 @@ namespace cppexpose
 *  @brief
 *    Representation of a static function
 */
-template <typename RET, typename... Arguments>
+template <typename ReturnType, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API StaticFunction : public AbstractFunction
 {
 public:
@@ -23,7 +23,7 @@ public:
     *  @brief
     *    Typed function pointer for a static function
     */
-    typedef RET (*Func) (Arguments...);
+    typedef ReturnType (*Func) (Arguments...);
 
 
 public:

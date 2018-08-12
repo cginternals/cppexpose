@@ -15,15 +15,15 @@ namespace cppexpose
 *  @brief
 *    Representation of a const member function
 */
-template <class T, typename RET, typename... Arguments>
+template <class Type, typename ReturnType, typename... Arguments>
 class CPPEXPOSE_TEMPLATE_API ConstMemberFunction : public AbstractFunction
 {
 public:
     /**
     *  @brief
-    *    Typed function pointer for a member function of class T
+    *    Typed function pointer for a member function of class Type
     */
-    typedef RET (T::*Func) (Arguments...) const;
+    typedef ReturnType (Type::*Func) (Arguments...) const;
 
 
 public:
@@ -36,7 +36,7 @@ public:
     *  @param[in] func
     *    Pointer to member function
     */
-    ConstMemberFunction(const T * obj, Func func);
+    ConstMemberFunction(const Type * obj, Func func);
 
     /**
     *  @brief
@@ -55,8 +55,8 @@ protected:
 
 
 protected:
-    const T * m_obj;  ///< Pointer to instance of class T
-    Func      m_func; ///< Function object (for non-const function)
+    const Type * m_obj;  ///< Pointer to instance of class Type
+    Func         m_func; ///< Function object (for non-const function)
 };
 
 

@@ -1,5 +1,7 @@
 
 #pragma once
+
+
 #include <cppassist/memory/make_unique.inl>
 
 
@@ -7,34 +9,34 @@ namespace cppexpose
 {
 
 
-template <typename RET, typename... Arguments>
-StaticFunction<RET, Arguments...>::StaticFunction(Func func)
+template <typename ReturnType, typename... Arguments>
+StaticFunction<ReturnType, Arguments...>::StaticFunction(Func func)
 : m_func(func)
 {
 }
 
-template <typename RET, typename... Arguments>
-StaticFunction<RET, Arguments...>::~StaticFunction()
+template <typename ReturnType, typename... Arguments>
+StaticFunction<ReturnType, Arguments...>::~StaticFunction()
 {
 }
 
-template <typename RET, typename... Arguments>
-std::unique_ptr<AbstractFunction> StaticFunction<RET, Arguments...>::clone()
+template <typename ReturnType, typename... Arguments>
+std::unique_ptr<AbstractFunction> StaticFunction<ReturnType, Arguments...>::clone()
 {
-    return cppassist::make_unique<StaticFunction<RET, Arguments...>>(m_func);
+    return cppassist::make_unique<StaticFunction<ReturnType, Arguments...>>(m_func);
 }
 
-template <typename RET, typename... Arguments>
-Variant StaticFunction<RET, Arguments...>::call(const std::vector<Variant> & args)
+template <typename ReturnType, typename... Arguments>
+Variant StaticFunction<ReturnType, Arguments...>::call(const std::vector<Variant> & args)
 {
     return callFunction(typename helper::GenSeq<sizeof...(Arguments)>::Type(), args);
 }
 
-template <typename RET, typename... Arguments>
+template <typename ReturnType, typename... Arguments>
 template<size_t... I>
-Variant StaticFunction<RET, Arguments...>::callFunction(helper::Seq<I...>, const std::vector<Variant> & args)
+Variant StaticFunction<ReturnType, Arguments...>::callFunction(helper::Seq<I...>, const std::vector<Variant> & args)
 {
-    return helper::CallFunction<RET, Arguments...>::call(m_func, helper::ArgValueGen<I, Arguments...>::Type::get(args)...);
+    return helper::CallFunction<ReturnType, Arguments...>::call(m_func, helper::ArgValueGen<I, Arguments...>::Type::get(args)...);
 }
 
 

@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 
-#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/function/AbstractFunction.h>
 
 
