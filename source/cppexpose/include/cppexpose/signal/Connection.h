@@ -20,7 +20,7 @@ class AbstractSignal;
 */
 class CPPEXPOSE_API Connection
 {
-friend class AbstractSignal;
+    friend class AbstractSignal;
 
 
 public:

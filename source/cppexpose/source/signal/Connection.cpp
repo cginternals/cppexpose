@@ -69,4 +69,5 @@ Connection::State::State(const AbstractSignal * signal, Id id)
 {
 }
 
+
 } // namespace cppexpose

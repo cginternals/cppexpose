@@ -5,7 +5,6 @@
 #include <functional>
 #include <unordered_map>
 
-#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/signal/AbstractSignal.h>
 
 
