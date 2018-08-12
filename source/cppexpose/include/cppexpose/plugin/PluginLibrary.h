@@ -85,9 +85,9 @@ protected:
 
 
 protected:
-    std::string                      m_filePath;         ///< Path to the loaded library
-    void                           * m_handle;           ///< Library handle
-    std::vector<AbstractComponent *> m_components;       ///< List of components that belong to the plugin library
+    std::string                      m_filePath;   ///< Path to the loaded library
+    void                           * m_handle;     ///< Library handle
+    std::vector<AbstractComponent *> m_components; ///< List of components that belong to the plugin library
 };
 
 

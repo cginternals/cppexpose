@@ -2,7 +2,6 @@
 #pragma once
 
 
-#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/plugin/AbstractGenericComponent.h>
 
 
