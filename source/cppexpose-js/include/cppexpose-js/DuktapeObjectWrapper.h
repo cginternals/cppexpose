@@ -4,9 +4,13 @@
 
 #include <vector>
 
-#include "duktape-1.4.0/duktape.h"
-
 #include <cppexpose/ScopedConnection.h>
+
+#include <cppexpose-js/cppexpose-js_api.h>
+
+
+struct duk_hthread;
+typedef struct duk_hthread duk_context;
 
 
 namespace cppexpose
@@ -28,7 +32,7 @@ class DuktapeScriptBackend;
 *    This class is used to expose a cppexpose::Object to
 *    a duktape scripting context.
 */
-class DuktapeObjectWrapper
+class CPPEXPOSE_JS_API DuktapeObjectWrapper
 {
 public:
     /**
@@ -105,7 +109,7 @@ protected:
     *    This function is called from the javascript context
     *    to read the value of an object property.
     */
-    static duk_ret_t getPropertyValue(duk_context * context);
+    static int getPropertyValue(duk_context * context);
 
     /**
     *  @brief
@@ -121,7 +125,7 @@ protected:
     *    This function is called from the javascript context
     *    to write the value of an object property.
     */
-    static duk_ret_t setPropertyValue(duk_context * context);
+    static int setPropertyValue(duk_context * context);
 
     /**
     *  @brief
@@ -137,7 +141,7 @@ protected:
     *    This function is called from the javascript context
     *    to call an object function.
     */
-    static duk_ret_t callObjectFunction(duk_context * context);
+    static int callObjectFunction(duk_context * context);
 
 
 protected:

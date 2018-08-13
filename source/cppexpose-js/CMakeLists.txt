@@ -33,7 +33,7 @@ endif()
 #
 
 # Target name
-set(target cppexpose-script)
+set(target cppexpose-js)
 
 # Exit here if required dependencies are not met
 message(STATUS "Lib ${target}")
@@ -55,15 +55,19 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/ScriptContext.h
-    ${include_path}/AbstractScriptBackend.h
-    ${include_path}/example/TreeNode.h
+    ${include_path}/DuktapeScriptBackend.h
+    ${include_path}/DuktapeScriptFunction.h
+    ${include_path}/DuktapeObjectWrapper.h
 )
 
 set(sources
-    ${source_path}/ScriptContext.cpp
-    ${source_path}/AbstractScriptBackend.cpp
-    ${source_path}/example/TreeNode.cpp
+    ${source_path}/duktape-1.4.0/duktape.c
+    ${source_path}/duktape-1.4.0/duktape.h
+    ${source_path}/duktape-1.4.0/duk_config.h
+
+    ${source_path}/DuktapeScriptBackend.cpp
+    ${source_path}/DuktapeScriptFunction.cpp
+    ${source_path}/DuktapeObjectWrapper.cpp
 )
 
 # Group source files
@@ -171,6 +175,7 @@ target_link_libraries(${target}
     ${DEFAULT_LIBRARIES}
     cppassist::cppassist
     cppexpose::cppexpose
+    cppexpose::cppexpose-script
 
     INTERFACE
 )

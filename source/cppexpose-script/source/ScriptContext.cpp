@@ -6,8 +6,6 @@
 
 #include <cppexpose-script/AbstractScriptBackend.h>
 
-#include "DuktapeScriptBackend.h"
-
 
 using namespace cppexpose;
 
@@ -15,19 +13,6 @@ using namespace cppexpose;
 namespace cppexpose_script
 {
 
-
-ScriptContext::ScriptContext(const std::string & backend)
-: m_backend(nullptr)
-{
-    // Create backend
-
-    // Javascript (duktape)
-    if (backend == "duktape" || backend == "javascript" || backend == "js")
-    {
-        m_backend = cppassist::make_unique<DuktapeScriptBackend>();
-        m_backend->initialize(this);
-    }
-}
 
 ScriptContext::ScriptContext(std::unique_ptr<AbstractScriptBackend> && backend)
 : m_backend(std::move(backend))

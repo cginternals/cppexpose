@@ -16,6 +16,7 @@ namespace cppexpose
     class Variant;
 }
 
+
 namespace cppexpose_script
 {
 

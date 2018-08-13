@@ -1,5 +1,5 @@
 
-#include "DuktapeScriptBackend.h"
+#include <cppexpose-js/DuktapeScriptBackend.h>
 
 #include <cppassist/logging/logging.h>
 
@@ -10,8 +10,10 @@
 
 #include <cppexpose-script/ScriptContext.h>
 
-#include "DuktapeScriptFunction.h"
-#include "DuktapeObjectWrapper.h"
+#include <cppexpose-js/DuktapeObjectWrapper.h>
+#include <cppexpose-js/DuktapeScriptFunction.h>
+
+#include "duktape-1.4.0/duktape.h"
 
 
 using namespace cppassist;
@@ -132,7 +134,7 @@ DuktapeScriptBackend * DuktapeScriptBackend::getScriptBackend(duk_context * cont
     return static_cast<DuktapeScriptBackend *>(ptr);
 }
 
-Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
+Variant DuktapeScriptBackend::fromDukStack(int index)
 {
     // Wrapped object function
     if (duk_is_c_function(m_context, index))

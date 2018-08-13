@@ -2,9 +2,13 @@
 #pragma once
 
 
-#include "duktape-1.4.0/duktape.h"
-
 #include <cppexpose/AbstractFunction.h>
+
+#include <cppexpose-js/cppexpose-js_api.h>
+
+
+struct duk_hthread;
+typedef struct duk_hthread duk_context;
 
 
 namespace cppexpose_script
@@ -21,7 +25,7 @@ class DuktapeScriptBackend;
 *    This class represents a function inside the scripting environment
 *    and makes it available to the reflection meta object system.
 */
-class DuktapeScriptFunction : public cppexpose::AbstractFunction
+class CPPEXPOSE_JS_API DuktapeScriptFunction : public cppexpose::AbstractFunction
 {
 public:
     /**

@@ -1,5 +1,5 @@
 
-#include "DuktapeScriptFunction.h"
+#include <cppexpose-js/DuktapeScriptFunction.h>
 
 #include <cppassist/memory/make_unique.h>
 
@@ -7,7 +7,9 @@
 
 #include <cppexpose-script/ScriptContext.h>
 
-#include "DuktapeScriptBackend.h"
+#include <cppexpose-js/DuktapeScriptBackend.h>
+
+#include "duktape-1.4.0/duktape.h"
 
 
 using namespace cppexpose;

@@ -11,7 +11,11 @@
 
 #include <cppexpose-script/AbstractScriptBackend.h>
 
-#include "duktape-1.4.0/duktape.h"
+#include <cppexpose-js/cppexpose-js_api.h>
+
+
+struct duk_hthread;
+typedef struct duk_hthread duk_context;
 
 
 namespace cppexpose
@@ -32,7 +36,7 @@ class DuktapeObjectWrapper;
 *  @brief
 *    Duktape (javascript) scripting backend
 */
-class CPPEXPOSE_SCRIPT_API DuktapeScriptBackend : public AbstractScriptBackend
+class CPPEXPOSE_JS_API DuktapeScriptBackend : public AbstractScriptBackend
 {
     friend class DuktapeScriptFunction;
     friend class DuktapeObjectWrapper;
@@ -107,7 +111,7 @@ protected:
     *  @return
     *    Variant value
     */
-    cppexpose::Variant fromDukStack(duk_idx_t index = -1);
+    cppexpose::Variant fromDukStack(int index = -1);
 
     /**
     *  @brief

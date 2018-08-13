@@ -1,5 +1,5 @@
 
-#include "DuktapeObjectWrapper.h"
+#include <cppexpose-js/DuktapeObjectWrapper.h>
 
 #include <cassert>
 
@@ -9,7 +9,9 @@
 #include <cppexpose/Variant.h>
 #include <cppexpose/Function.h>
 
-#include "DuktapeScriptBackend.h"
+#include <cppexpose-js/DuktapeScriptBackend.h>
+
+#include "duktape-1.4.0/duktape.h"
 
 
 using namespace cppassist;
@@ -282,7 +284,7 @@ void DuktapeObjectWrapper::pushToDukStack()
     duk_pop(m_context);
 }
 
-duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
+int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
 {
     // Get script backend
     auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
@@ -334,7 +336,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     return 1;
 }
 
-duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
+int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
 {
     // Get script backend
     auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
@@ -397,7 +399,7 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     return 0;
 }
 
-duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
+int DuktapeObjectWrapper::callObjectFunction(duk_context * context)
 {
     // Get script backend
     auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
