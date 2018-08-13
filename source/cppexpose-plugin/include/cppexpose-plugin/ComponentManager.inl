@@ -5,7 +5,7 @@
 #include <algorithm>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -42,4 +42,4 @@ typename ComponentTypes<BaseType>::AbstractComponentType * ComponentManager::com
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

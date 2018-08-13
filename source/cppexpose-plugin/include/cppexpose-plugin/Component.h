@@ -2,11 +2,11 @@
 #pragma once
 
 
-#include <cppexpose/cppexpose_api.h>
-#include <cppexpose/plugin/ComponentHelpers.h>
+#include <cppexpose-plugin/cppexpose-plugin_api.h>
+#include <cppexpose-plugin/ComponentHelpers.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -15,7 +15,7 @@ namespace cppexpose
 *    Represents a concrete component that can be instanciated
 */
 template <typename Type, typename BaseType>
-class CPPEXPOSE_TEMPLATE_API Component : public ComponentTypes<BaseType>::template ComponentType<Type>
+class CPPEXPOSE_PLUGIN_TEMPLATE_API Component : public ComponentTypes<BaseType>::template ComponentType<Type>
 {
 public:
     /**
@@ -57,7 +57,7 @@ public:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin
 
 
-#include <cppexpose/plugin/Component.inl>
+#include <cppexpose-plugin/Component.inl>

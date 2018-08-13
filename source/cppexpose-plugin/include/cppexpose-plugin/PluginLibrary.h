@@ -5,10 +5,10 @@
 #include <vector>
 #include <string>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose-plugin/cppexpose-plugin_api.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -19,7 +19,7 @@ class AbstractComponent;
 *  @brief
 *    Represents a dynamic plugin library
 */
-class CPPEXPOSE_API PluginLibrary
+class CPPEXPOSE_PLUGIN_API PluginLibrary
 {
     friend class ComponentManager;
 
@@ -91,4 +91,4 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

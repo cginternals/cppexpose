@@ -1,8 +1,8 @@
 
-#include <cppexpose/plugin/ComponentRegistry.h>
+#include <cppexpose-plugin/ComponentRegistry.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -30,4 +30,4 @@ void ComponentRegistry::clear()
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

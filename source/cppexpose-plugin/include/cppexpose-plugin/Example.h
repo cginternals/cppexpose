@@ -2,10 +2,10 @@
 #pragma once
 
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose-plugin/cppexpose-plugin_api.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -13,7 +13,7 @@ namespace cppexpose
 *  @brief
 *    Example class used to demonstrate plugins
 */
-class CPPEXPOSE_API Example
+class CPPEXPOSE_PLUGIN_API Example
 {
 public:
     /**
@@ -36,4 +36,4 @@ public:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

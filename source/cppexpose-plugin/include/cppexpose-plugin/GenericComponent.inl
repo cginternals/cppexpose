@@ -5,7 +5,7 @@
 #include <cppassist/memory/make_unique.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -27,4 +27,4 @@ std::unique_ptr<BaseType> GenericComponent<Type, BaseType>::createInstance() con
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

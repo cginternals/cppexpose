@@ -4,10 +4,10 @@
 
 #include <string>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose-plugin/cppexpose-plugin_api.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -15,7 +15,7 @@ namespace cppexpose
 *  @brief
 *    Abstract base class for components
 */
-class CPPEXPOSE_API AbstractComponent
+class CPPEXPOSE_PLUGIN_API AbstractComponent
 {
 public:
     /**
@@ -131,4 +131,4 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

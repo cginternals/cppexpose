@@ -2,10 +2,10 @@
 #pragma once
 
 
-#include <cppexpose/plugin/GenericComponent.h>
+#include <cppexpose-plugin/GenericComponent.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -46,4 +46,4 @@ struct ComponentTypes<BaseType, typename VoidType<typename BaseType::AbstractCom
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

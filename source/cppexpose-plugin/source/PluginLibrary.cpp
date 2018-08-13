@@ -1,5 +1,5 @@
 
-#include <cppexpose/plugin/PluginLibrary.h>
+#include <cppexpose-plugin/PluginLibrary.h>
 
 #ifdef WIN32
     #include <Windows.h>
@@ -11,7 +11,7 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/plugin/AbstractComponent.h>
+#include <cppexpose-plugin/AbstractComponent.h>
 
 
 #ifdef WIN32
@@ -44,7 +44,7 @@ namespace
 #endif
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -91,4 +91,4 @@ void PluginLibrary::addComponent(AbstractComponent * component)
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

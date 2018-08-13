@@ -2,7 +2,7 @@
 #pragma once
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -33,4 +33,4 @@ Component<Type, BaseType>::~Component()
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

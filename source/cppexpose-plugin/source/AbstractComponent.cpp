@@ -1,8 +1,8 @@
 
-#include <cppexpose/plugin/AbstractComponent.h>
+#include <cppexpose-plugin/AbstractComponent.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -55,4 +55,4 @@ const char * AbstractComponent::version() const
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

@@ -4,9 +4,9 @@
 
 #include <vector>
 
-#include <cppexpose/plugin/ComponentManager.h>
-#include <cppexpose/plugin/ComponentRegistry.h>
-#include <cppexpose/plugin/Component.h>
+#include <cppexpose-plugin/ComponentManager.h>
+#include <cppexpose-plugin/ComponentRegistry.h>
+#include <cppexpose-plugin/Component.h>
 
 
 #ifdef _MSC_VER

@@ -4,10 +4,10 @@
 
 #include <memory>
 
-#include <cppexpose/plugin/AbstractComponent.h>
+#include <cppexpose-plugin/AbstractComponent.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -23,7 +23,7 @@ namespace cppexpose
 *    instanciated using a default constructor.
 */
 template <typename BaseType>
-class CPPEXPOSE_TEMPLATE_API AbstractGenericComponent : public AbstractComponent
+class CPPEXPOSE_PLUGIN_TEMPLATE_API AbstractGenericComponent : public AbstractComponent
 {
 public:
     /**
@@ -49,7 +49,7 @@ public:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin
 
 
-#include <cppexpose/plugin/AbstractGenericComponent.inl>
+#include <cppexpose-plugin/AbstractGenericComponent.inl>

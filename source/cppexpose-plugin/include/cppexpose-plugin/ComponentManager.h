@@ -7,10 +7,10 @@
 #include <map>
 
 #include <cppexpose/signal/Signal.h>
-#include <cppexpose/plugin/ComponentHelpers.h>
+#include <cppexpose-plugin/ComponentHelpers.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -44,10 +44,10 @@ enum class PluginPathType
 *    by name. It also provides functions for search and loading plugin
 *    libraries, which in turn register components on the component manager.
 */
-class CPPEXPOSE_API ComponentManager
+class CPPEXPOSE_PLUGIN_API ComponentManager
 {
 public:
-    Signal<> componentsChanged; ///< Called when a component has been added
+    cppexpose::Signal<> componentsChanged; ///< Called when a component has been added
 
 
 public:
@@ -273,7 +273,7 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin
 
 
-#include <cppexpose/plugin/ComponentManager.inl>
+#include <cppexpose-plugin/ComponentManager.inl>

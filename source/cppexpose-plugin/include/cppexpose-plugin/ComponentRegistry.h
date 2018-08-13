@@ -4,10 +4,10 @@
 
 #include <vector>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose-plugin/cppexpose-plugin_api.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -25,7 +25,7 @@ class AbstractComponent;
 *    initialized. When the ComponentManager update its list of
 *    components, it also clears the component registry afterwards.
 */
-class CPPEXPOSE_API ComponentRegistry
+class CPPEXPOSE_PLUGIN_API ComponentRegistry
 {
 public:
     /**
@@ -70,4 +70,4 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

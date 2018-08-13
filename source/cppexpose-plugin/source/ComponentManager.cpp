@@ -1,5 +1,5 @@
 
-#include <cppexpose/plugin/ComponentManager.h>
+#include <cppexpose-plugin/ComponentManager.h>
 
 #include <algorithm>
 #include <sys/stat.h>
@@ -20,12 +20,12 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/plugin/ComponentRegistry.h>
-#include <cppexpose/plugin/PluginLibrary.h>
-#include <cppexpose/plugin/AbstractComponent.h>
+#include <cppexpose-plugin/ComponentRegistry.h>
+#include <cppexpose-plugin/PluginLibrary.h>
+#include <cppexpose-plugin/AbstractComponent.h>
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -305,4 +305,4 @@ void ComponentManager::updateComponents(PluginLibrary * library) const
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

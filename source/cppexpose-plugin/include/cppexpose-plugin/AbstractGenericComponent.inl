@@ -2,7 +2,7 @@
 #pragma once
 
 
-namespace cppexpose
+namespace cppexpose_plugin
 {
 
 
@@ -17,4 +17,4 @@ AbstractGenericComponent<BaseType>::~AbstractGenericComponent()
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_plugin

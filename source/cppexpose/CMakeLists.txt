@@ -82,19 +82,6 @@ set(headers
     ${include_path}/scripting/AbstractScriptBackend.h
     ${include_path}/scripting/example/TreeNode.h
 
-    ${include_path}/plugin/ComponentManager.h
-    ${include_path}/plugin/ComponentManager.inl
-    ${include_path}/plugin/ComponentRegistry.h
-    ${include_path}/plugin/AbstractComponent.h
-    ${include_path}/plugin/AbstractGenericComponent.h
-    ${include_path}/plugin/AbstractGenericComponent.inl
-    ${include_path}/plugin/GenericComponent.h
-    ${include_path}/plugin/GenericComponent.inl
-    ${include_path}/plugin/Component.h
-    ${include_path}/plugin/Component.inl
-    ${include_path}/plugin/PluginLibrary.h
-    ${include_path}/plugin/Example.h
-
     ${include_path}/expose/AbstractNumber.h
     ${include_path}/expose/AbstractNumber.inl
     ${include_path}/expose/AbstractTyped.h
@@ -158,12 +145,6 @@ set(sources
     ${source_path}/scripting/DuktapeScriptFunction.h
     ${source_path}/scripting/DuktapeObjectWrapper.cpp
     ${source_path}/scripting/DuktapeObjectWrapper.h
-
-    ${source_path}/plugin/ComponentManager.cpp
-    ${source_path}/plugin/ComponentRegistry.cpp
-    ${source_path}/plugin/AbstractComponent.cpp
-    ${source_path}/plugin/PluginLibrary.cpp
-    ${source_path}/plugin/Example.cpp
 
     ${source_path}/expose/AbstractVar.cpp
     ${source_path}/expose/Array.cpp
