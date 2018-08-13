@@ -4,23 +4,27 @@
 
 #include <string>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose-script/cppexpose-script_api.h>
 
 
 namespace cppexpose
 {
+    class Object;
+    class Variant;
+}
+
+namespace cppexpose_script
+{
 
 
-class Object;
 class ScriptContext;
-class Variant;
 
 
 /**
 *  @brief
 *    Base class for scripting context backends
 */
-class CPPEXPOSE_API AbstractScriptBackend
+class CPPEXPOSE_SCRIPT_API AbstractScriptBackend
 {
 public:
     /**
@@ -65,7 +69,7 @@ public:
     *  @param[in] obj
     *    Global object (must NOT be null)
     */
-    virtual void addGlobalObject(const std::string & name, Object * obj) = 0;
+    virtual void addGlobalObject(const std::string & name, cppexpose::Object * obj) = 0;
 
     /**
     *  @brief
@@ -86,7 +90,7 @@ public:
     *  @return
     *    Return value of the executed code
     */
-    virtual Variant evaluate(const std::string & code) = 0;
+    virtual cppexpose::Variant evaluate(const std::string & code) = 0;
 
 
 protected:
@@ -94,4 +98,4 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

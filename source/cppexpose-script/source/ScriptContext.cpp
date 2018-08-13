@@ -1,14 +1,18 @@
 
-#include <cppexpose/scripting/ScriptContext.h>
+#include <cppexpose-script/ScriptContext.h>
 
-#include <cppexpose/scripting/AbstractScriptBackend.h>
 #include <cppexpose/expose/Object.h>
 #include <cppexpose/expose/Variant.h>
+
+#include <cppexpose-script/AbstractScriptBackend.h>
 
 #include "DuktapeScriptBackend.h"
 
 
-namespace cppexpose
+using namespace cppexpose;
+
+
+namespace cppexpose_script
 {
 
 
@@ -91,4 +95,4 @@ Variant ScriptContext::evaluate(const std::string & code)
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

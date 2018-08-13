@@ -33,7 +33,7 @@ endif()
 #
 
 # Target name
-set(target cppexpose)
+set(target cppexpose-script)
 
 # Exit here if required dependencies are not met
 message(STATUS "Lib ${target}")
@@ -55,85 +55,24 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/cppexpose.h
-
-    ${include_path}/base/template_helpers.h
-    ${include_path}/base/function_helpers.h
-    ${include_path}/base/Tokenizer.h
-
-    ${include_path}/json/JSON.h
-
-    ${include_path}/signal/AbstractSignal.h
-    ${include_path}/signal/Connection.h
-    ${include_path}/signal/ScopedConnection.h
-    ${include_path}/signal/Signal.h
-    ${include_path}/signal/Signal.inl
-
-    ${include_path}/function/Function.h
-    ${include_path}/function/AbstractFunction.h
-    ${include_path}/function/StaticFunction.h
-    ${include_path}/function/StaticFunction.inl
-    ${include_path}/function/MemberFunction.h
-    ${include_path}/function/MemberFunction.inl
-    ${include_path}/function/ConstMemberFunction.h
-    ${include_path}/function/ConstMemberFunction.inl
-
-    ${include_path}/expose/AbstractNumber.h
-    ${include_path}/expose/AbstractNumber.inl
-    ${include_path}/expose/AbstractTyped.h
-    ${include_path}/expose/AbstractTyped.inl
-    ${include_path}/expose/AbstractVar.h
-    ${include_path}/expose/Array.h
-    ${include_path}/expose/Array.inl
-    ${include_path}/expose/Object.h
-    ${include_path}/expose/Object.inl
-    ${include_path}/expose/PropertyContainer.h
-    ${include_path}/expose/TypedArray.h
-    ${include_path}/expose/TypedArray.inl
-    ${include_path}/expose/TypedBool.h
-    ${include_path}/expose/TypedBool.inl
-    ${include_path}/expose/TypedEnum.h
-    ${include_path}/expose/TypedEnum.inl
-    ${include_path}/expose/TypedFloatingPoint.h
-    ${include_path}/expose/TypedFloatingPoint.inl
-    ${include_path}/expose/TypedGeneric.h
-    ${include_path}/expose/TypedGeneric.inl
-    ${include_path}/expose/TypedPointer.h
-    ${include_path}/expose/TypedPointer.inl
-    ${include_path}/expose/TypedSignedIntegral.h
-    ${include_path}/expose/TypedSignedIntegral.inl
-    ${include_path}/expose/TypedString.h
-    ${include_path}/expose/TypedString.inl
-    ${include_path}/expose/TypedUnsignedIntegral.h
-    ${include_path}/expose/TypedUnsignedIntegral.inl
-    ${include_path}/expose/ValueStorage.h
-    ${include_path}/expose/ValueStorage.inl
-    ${include_path}/expose/Var.h
-    ${include_path}/expose/Var.inl
-    ${include_path}/expose/Variant.h
-    ${include_path}/expose/Variant.inl
-    ${include_path}/expose/VarType.h
+    ${include_path}/ScriptContext.h
+    ${include_path}/AbstractScriptBackend.h
+    ${include_path}/example/TreeNode.h
 )
 
 set(sources
-    ${source_path}/cppexpose.cpp
-
-    ${source_path}/base/Tokenizer.cpp
-
-    ${source_path}/json/JSON.cpp
-
-    ${source_path}/signal/AbstractSignal.cpp
-    ${source_path}/signal/Connection.cpp
-    ${source_path}/signal/ScopedConnection.cpp
-
-    ${source_path}/function/Function.cpp
-    ${source_path}/function/AbstractFunction.cpp
-
-    ${source_path}/expose/AbstractVar.cpp
-    ${source_path}/expose/Array.cpp
-    ${source_path}/expose/Object.cpp
-    ${source_path}/expose/PropertyContainer.cpp
-    ${source_path}/expose/Variant.cpp
+    ${source_path}/duktape-1.4.0/duktape.c
+    ${source_path}/duktape-1.4.0/duktape.h
+    ${source_path}/duktape-1.4.0/duk_config.h
+    ${source_path}/example/TreeNode.cpp
+    ${source_path}/ScriptContext.cpp
+    ${source_path}/AbstractScriptBackend.cpp
+    ${source_path}/DuktapeScriptBackend.cpp
+    ${source_path}/DuktapeScriptBackend.h
+    ${source_path}/DuktapeScriptFunction.cpp
+    ${source_path}/DuktapeScriptFunction.h
+    ${source_path}/DuktapeObjectWrapper.cpp
+    ${source_path}/DuktapeObjectWrapper.h
 )
 
 # Group source files
@@ -240,6 +179,7 @@ target_link_libraries(${target}
     PUBLIC
     ${DEFAULT_LIBRARIES}
     cppassist::cppassist
+    cppexpose::cppexpose
 
     INTERFACE
 )

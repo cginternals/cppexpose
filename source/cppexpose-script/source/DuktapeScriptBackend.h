@@ -7,17 +7,24 @@
 #include <map>
 
 #include <cppexpose/cppexpose_features.h>
-#include <cppexpose/scripting/AbstractScriptBackend.h>
 #include <cppexpose/signal/ScopedConnection.h>
+
+#include <cppexpose-script/AbstractScriptBackend.h>
 
 #include "duktape-1.4.0/duktape.h"
 
 
 namespace cppexpose
 {
+    class Object;
+    class Variant;
+}
 
 
-class Object;
+namespace cppexpose_script
+{
+
+
 class DuktapeObjectWrapper;
 
 
@@ -25,7 +32,7 @@ class DuktapeObjectWrapper;
 *  @brief
 *    Duktape (javascript) scripting backend
 */
-class CPPEXPOSE_API DuktapeScriptBackend : public AbstractScriptBackend
+class CPPEXPOSE_SCRIPT_API DuktapeScriptBackend : public AbstractScriptBackend
 {
     friend class DuktapeScriptFunction;
     friend class DuktapeObjectWrapper;
@@ -70,9 +77,9 @@ public:
 
     // Virtual AbstractScriptBackend interface
     virtual void initialize(ScriptContext * scriptContext) override;
-    virtual void addGlobalObject(const std::string & name, Object * obj) override;
+    virtual void addGlobalObject(const std::string & name, cppexpose::Object * obj) override;
     virtual void removeGlobalObject(const std::string & name) override;
-    virtual Variant evaluate(const std::string & code) override;
+    virtual cppexpose::Variant evaluate(const std::string & code) override;
 
 
 protected:
@@ -100,7 +107,7 @@ protected:
     *  @return
     *    Variant value
     */
-    Variant fromDukStack(duk_idx_t index = -1);
+    cppexpose::Variant fromDukStack(duk_idx_t index = -1);
 
     /**
     *  @brief
@@ -111,7 +118,7 @@ protected:
     *  @param[in] value
     *    Variant value
     */
-    void pushToDukStack(const Variant & value);
+    void pushToDukStack(const cppexpose::Variant & value);
 
     /**
     *  @brief
@@ -138,9 +145,11 @@ protected:
 
 
 protected:
-    duk_context                                                                    * m_context;        ///< Duktape context (never null)
-    std::map<Object *, std::pair<std::unique_ptr<DuktapeObjectWrapper>, Connection>> m_objectWrappers; ///< Object wrappers + beforeDestroy connections
+    duk_context * m_context; ///< Duktape context (never null)
+
+    /// Object wrappers and beforeDestroy connections
+    std::map<cppexpose::Object *, std::pair<std::unique_ptr<DuktapeObjectWrapper>, cppexpose::Connection>> m_objectWrappers;
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

@@ -13,9 +13,10 @@
 
 
 using namespace cppassist;
+using namespace cppexpose;
 
 
-namespace cppexpose
+namespace cppexpose_script
 {
 
 
@@ -455,4 +456,4 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
     return DUK_RET_ERROR;
 }
 
-} // namespace cppexpose
+} // namespace cppexpose_script

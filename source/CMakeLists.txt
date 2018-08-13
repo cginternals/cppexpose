@@ -15,6 +15,7 @@ configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT_N
 set(IDE_FOLDER "")
 add_subdirectory(cppexpose)
 add_subdirectory(cppexpose-plugin)
+add_subdirectory(cppexpose-script)
 
 # Examples
 set(IDE_FOLDER "Examples")

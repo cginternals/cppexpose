@@ -1,8 +1,8 @@
 
-#include <cppexpose/scripting/AbstractScriptBackend.h>
+#include <cppexpose-script/AbstractScriptBackend.h>
 
 
-namespace cppexpose
+namespace cppexpose_script
 {
 
 
@@ -21,4 +21,4 @@ ScriptContext * AbstractScriptBackend::scriptContext() const
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

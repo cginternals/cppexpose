@@ -1,5 +1,5 @@
 
-#include <cppexpose/scripting/example/TreeNode.h>
+#include <cppexpose-script/example/TreeNode.h>
 
 #include <cppassist/string/conversion.h>
 #include <cppassist/memory/make_unique.h>
@@ -11,6 +11,10 @@ using namespace cppexpose;
 
 
 static int g_nextId = 1;
+
+
+namespace cppexpose_script
+{
 
 
 TreeNode::TreeNode()
@@ -92,3 +96,6 @@ void TreeNode::print(const std::string & indent)
         m_right->print(indent + "  ");
     }
 }
+
+
+} // namespace cppexpose_script

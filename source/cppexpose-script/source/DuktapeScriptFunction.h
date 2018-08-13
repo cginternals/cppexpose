@@ -7,7 +7,7 @@
 #include <cppexpose/function/AbstractFunction.h>
 
 
-namespace cppexpose
+namespace cppexpose_script
 {
 
 
@@ -21,7 +21,7 @@ class DuktapeScriptBackend;
 *    This class represents a function inside the scripting environment
 *    and makes it available to the reflection meta object system.
 */
-class DuktapeScriptFunction : public AbstractFunction
+class DuktapeScriptFunction : public cppexpose::AbstractFunction
 {
 public:
     /**
@@ -37,7 +37,7 @@ public:
 
     // Virtual AbstractFunction interface
     virtual std::unique_ptr<AbstractFunction> clone() override;
-    virtual Variant call(const std::vector<Variant> & args) override;
+    virtual cppexpose::Variant call(const std::vector<cppexpose::Variant> & args) override;
 
 
 protected:
@@ -47,4 +47,4 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

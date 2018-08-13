@@ -4,12 +4,16 @@
 #include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/expose/Variant.h>
-#include <cppexpose/scripting/ScriptContext.h>
+
+#include <cppexpose-script/ScriptContext.h>
 
 #include "DuktapeScriptBackend.h"
 
 
-namespace cppexpose
+using namespace cppexpose;
+
+
+namespace cppexpose_script
 {
 
 
@@ -56,4 +60,4 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

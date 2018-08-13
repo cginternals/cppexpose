@@ -5,8 +5,10 @@
 #include <cppexpose/expose/Object.h>
 #include <cppexpose/expose/Var.h>
 
+#include <cppexpose-script/cppexpose-script_api.h>
 
-namespace cppexpose
+
+namespace cppexpose_script
 {
 
 
@@ -20,7 +22,7 @@ namespace cppexpose
 *    the cppexpose scripting framework's ability to cope
 *    with such dynamic object hierarchies.
 */
-class CPPEXPOSE_API TreeNode : public cppexpose::Object
+class CPPEXPOSE_SCRIPT_API TreeNode : public cppexpose::Object
 {
 public:
     // Properties
@@ -99,4 +101,4 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

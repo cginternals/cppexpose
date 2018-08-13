@@ -7,28 +7,34 @@
 
 #include <cppexpose/signal/Signal.h>
 
+#include <cppexpose-script/cppexpose-script_api.h>
+
 
 namespace cppexpose
 {
+    class Object;
+    class Variant;
+}
+
+namespace cppexpose_script
+{
 
 
-class Object;
 class AbstractScriptBackend;
-class Variant;
 
 
 /**
 *  @brief
 *    The entry point to managing scripting in your application
 */
-class CPPEXPOSE_API ScriptContext
+class CPPEXPOSE_SCRIPT_API ScriptContext
 {
 public:
     /**
     *  @brief
     *    Called when a script triggered an exception
     */
-    Signal<const std::string &> scriptException;
+    cppexpose::Signal<const std::string &> scriptException;
 
 
 public:
@@ -63,7 +69,7 @@ public:
     *  @return
     *    List of global objects
     */
-    const std::map<std::string, Object *> & globalObjects() const;
+    const std::map<std::string, cppexpose::Object *> & globalObjects() const;
 
     /**
     *  @brief
@@ -79,7 +85,7 @@ public:
     *    It will be available in the global namespace using the object's name.
     *    The script context does not take ownership over the object.
     */
-    void addGlobalObject(const std::string & name, Object * obj);
+    void addGlobalObject(const std::string & name, cppexpose::Object * obj);
 
     /**
     *  @brief
@@ -103,13 +109,13 @@ public:
     *  @return
     *    Return value of the executed code
     */
-    Variant evaluate(const std::string & code);
+    cppexpose::Variant evaluate(const std::string & code);
 
 
 protected:
-    std::unique_ptr<AbstractScriptBackend> m_backend;       ///< Scripting backend (can be null)
-    std::map<std::string, Object *>        m_globalObjects; ///< Global objects that are exposed to the scripting environment
+    std::unique_ptr<AbstractScriptBackend>     m_backend;       ///< Scripting backend (can be null)
+    std::map<std::string, cppexpose::Object *> m_globalObjects; ///< Global objects that are exposed to the scripting environment
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

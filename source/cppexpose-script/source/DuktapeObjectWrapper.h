@@ -11,9 +11,13 @@
 
 namespace cppexpose
 {
+    class Object;
+}
+
+namespace cppexpose_script
+{
 
 
-class Object;
 class DuktapeScriptBackend;
 
 
@@ -41,7 +45,7 @@ public:
     *    instead to ensure only one javascript representation exists
     *    for the given cppexpose::Object.
     */
-    DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend, Object * obj);
+    DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend, cppexpose::Object * obj);
 
     /**
     *  @brief
@@ -53,13 +57,13 @@ public:
     *  @brief
     *    Get wrapped cppexpose::Object (never null)
     */
-    Object * object();
+    cppexpose::Object * object();
 
     /**
     *  @brief
     *    Get wrapped cppexpose::Object (never null)
     */
-    const Object * object() const;
+    const cppexpose::Object * object() const;
 
     /**
     *  @brief
@@ -139,7 +143,7 @@ protected:
 protected:
     duk_context                       * m_context;       ///< Duktape context
     DuktapeScriptBackend              * m_scriptBackend; ///< Duktape scripting backend
-    Object                            * m_obj;           ///< The wrapped object
+    cppexpose::Object                 * m_obj;           ///< The wrapped object
     int                                 m_stashIndex;    ///< Index of the wrapped object in the stash
     std::vector<DuktapeObjectWrapper *> m_subObjects;    ///< List of wrapped sub-objects
 
@@ -150,4 +154,4 @@ protected:
 };
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script

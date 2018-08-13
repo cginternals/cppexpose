@@ -7,16 +7,18 @@
 #include <cppexpose/expose/Array.h>
 #include <cppexpose/expose/Variant.h>
 #include <cppexpose/function/Function.h>
-#include <cppexpose/scripting/ScriptContext.h>
+
+#include <cppexpose-script/ScriptContext.h>
 
 #include "DuktapeScriptFunction.h"
 #include "DuktapeObjectWrapper.h"
 
 
 using namespace cppassist;
+using namespace cppexpose;
 
 
-namespace cppexpose
+namespace cppexpose_script
 {
 
 
@@ -386,4 +388,4 @@ int DuktapeScriptBackend::getNextStashIndex()
 }
 
 
-} // namespace cppexpose
+} // namespace cppexpose_script
