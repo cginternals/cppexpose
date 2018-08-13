@@ -9,7 +9,7 @@
 #include <cppexpose/Variant.h>
 #include <cppexpose/Function.h>
 
-#include <cppexpose-js/DuktapeScriptBackend.h>
+#include <cppexpose-js/DuktapeScriptEngine.h>
 
 #include "duktape-1.4.0/duktape.h"
 
@@ -27,9 +27,9 @@ extern const char * s_duktapeObjectPointerKey;
 extern const char * s_duktapePropertyNameKey;
 
 
-DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend, Object * obj)
-: m_context(scriptBackend->m_context)
-, m_scriptBackend(scriptBackend)
+DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptEngine * engine, Object * obj)
+: m_context(engine->m_context)
+, m_engine(engine)
 , m_obj(obj)
 , m_stashIndex(-1)
 {
@@ -55,7 +55,7 @@ void DuktapeObjectWrapper::wrapObject()
     duk_idx_t objIndex = duk_push_object(m_context);
 
     // Save object in stash
-    m_stashIndex = m_scriptBackend->getNextStashIndex();
+    m_stashIndex = m_engine->getNextStashIndex();
     duk_push_global_stash(m_context);
     duk_push_int(m_context, m_stashIndex);
     duk_dup(m_context, -3);
@@ -130,7 +130,7 @@ void DuktapeObjectWrapper::wrapObject()
         {
             // Wrap sub object
             auto subObj = static_cast<Object *>(prop);
-            auto objWrapper = m_scriptBackend->getOrCreateObjectWrapper(subObj);
+            auto objWrapper = m_engine->getOrCreateObjectWrapper(subObj);
             objWrapper->pushToDukStack();
 
             // Register sub-object in parent object
@@ -163,7 +163,7 @@ void DuktapeObjectWrapper::wrapObject()
             const auto parentIndex = duk_get_top_index(m_context);
 
             // Wrap object
-            const auto objWrapper = m_scriptBackend->getOrCreateObjectWrapper(obj);
+            const auto objWrapper = m_engine->getOrCreateObjectWrapper(obj);
             objWrapper->pushToDukStack();
 
             // Register object in parent object
@@ -286,8 +286,8 @@ void DuktapeObjectWrapper::pushToDukStack()
 
 int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
 {
-    // Get script backend
-    auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
+    // Get script engine
+    auto engine = DuktapeScriptEngine::getScriptEngine(context);
 
     // Get object wrapper
     duk_push_this(context);
@@ -295,7 +295,7 @@ int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
-    // Assume that the wrapper exists, otherwise the backend is in an inconsistent state
+    // Assume that the wrapper exists, otherwise the engine is in an inconsistent state
     assert(objWrapper != nullptr);
 
     // Get object
@@ -310,13 +310,13 @@ int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     // Get property
     AbstractVar * property = obj->property(propName);
 
-    // Assume that the property exists, otherwise the backend is in an inconsistent state
+    // Assume that the property exists, otherwise the engine is in an inconsistent state
     assert(property != nullptr);
 
     // Return property value
     try
     {
-        scriptBackend->pushToDukStack(*property);
+        engine->pushToDukStack(*property);
     }
     catch (const std::exception & e)
     {
@@ -338,11 +338,11 @@ int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
 
 int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
 {
-    // Get script backend
-    auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
+    // Get script engine
+    auto engine = DuktapeScriptEngine::getScriptEngine(context);
 
     // Get value from stack
-    Variant value = scriptBackend->fromDukStack(-1);
+    Variant value = engine->fromDukStack(-1);
     duk_pop(context);
 
     // Get object wrapper
@@ -351,7 +351,7 @@ int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
-    // Assume that the wrapper exists, otherwise the backend is in an inconsistent state
+    // Assume that the wrapper exists, otherwise the engine is in an inconsistent state
     assert(objWrapper != nullptr);
 
     // Get object
@@ -366,7 +366,7 @@ int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     // Get property
     AbstractVar * property = obj->property(propName);
 
-    // Assume that the property exists, otherwise the backend is in an inconsistent state
+    // Assume that the property exists, otherwise the engine is in an inconsistent state
     assert(property != nullptr);
 
     // Bail if propery is read-only
@@ -401,8 +401,8 @@ int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
 
 int DuktapeObjectWrapper::callObjectFunction(duk_context * context)
 {
-    // Get script backend
-    auto scriptBackend = DuktapeScriptBackend::getScriptBackend(context);
+    // Get script engine
+    auto engine = DuktapeScriptEngine::getScriptEngine(context);
 
     // Determine number of arguments
     duk_idx_t nargs = duk_get_top(context);
@@ -419,7 +419,7 @@ int DuktapeObjectWrapper::callObjectFunction(duk_context * context)
         // Get all arguments from the stack and convert them into variants
         std::vector<Variant> arguments(nargs);
         for (int i = 0; i < nargs; ++i){
-            arguments[i] = scriptBackend->fromDukStack(0);
+            arguments[i] = engine->fromDukStack(0);
             duk_remove(context, 0);
         }
 
@@ -432,7 +432,7 @@ int DuktapeObjectWrapper::callObjectFunction(duk_context * context)
             if (!value.isNull())
             {
                 // Push return value to stack
-                scriptBackend->pushToDukStack(value);
+                engine->pushToDukStack(value);
                 return 1;
             }
             else

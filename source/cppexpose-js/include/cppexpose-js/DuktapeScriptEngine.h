@@ -9,7 +9,7 @@
 #include <cppexpose/cppexpose_features.h>
 #include <cppexpose/ScopedConnection.h>
 
-#include <cppexpose-script/AbstractScriptBackend.h>
+#include <cppexpose-script/ScriptEngine.h>
 
 #include <cppexpose-js/cppexpose-js_api.h>
 
@@ -34,9 +34,9 @@ class DuktapeObjectWrapper;
 
 /**
 *  @brief
-*    Duktape (javascript) scripting backend
+*    Duktape (javascript) scripting engine
 */
-class CPPEXPOSE_JS_API DuktapeScriptBackend : public AbstractScriptBackend
+class CPPEXPOSE_JS_API DuktapeScriptEngine : public ScriptEngine
 {
     friend class DuktapeScriptFunction;
     friend class DuktapeObjectWrapper;
@@ -47,39 +47,39 @@ public:
     *  @brief
     *    Constructor
     */
-    DuktapeScriptBackend();
+    DuktapeScriptEngine();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~DuktapeScriptBackend();
+    virtual ~DuktapeScriptEngine();
 
     /**
     *  @brief
     *    Copy constructor (deleted)
     */
-    DuktapeScriptBackend(const DuktapeScriptBackend & other) = delete;
+    DuktapeScriptEngine(const DuktapeScriptEngine & other) = delete;
 
     /**
     *  @brief
     *    Move constructor (deleted)
     */
-    DuktapeScriptBackend(DuktapeScriptBackend && other) CPPEXPOSE_NOEXCEPT = delete;
+    DuktapeScriptEngine(DuktapeScriptEngine && other) CPPEXPOSE_NOEXCEPT = delete;
 
     /**
     *  @brief
     *    Copy assignment operator (deleted)
     */
-    DuktapeScriptBackend & operator=(const DuktapeScriptBackend & other) = delete;
+    DuktapeScriptEngine & operator=(const DuktapeScriptEngine & other) = delete;
 
     /**
     *  @brief
     *    Move assignment operator (deleted)
     */
-    DuktapeScriptBackend & operator=(DuktapeScriptBackend && other) CPPEXPOSE_NOEXCEPT = delete;
+    DuktapeScriptEngine & operator=(DuktapeScriptEngine && other) CPPEXPOSE_NOEXCEPT = delete;
 
-    // Virtual AbstractScriptBackend interface
+    // Virtual ScriptEngine interface
     virtual void onAddGlobalObject(const std::string & name, cppexpose::Object * obj) override;
     virtual void onRemoveGlobalObject(const std::string & name) override;
     virtual cppexpose::Variant onEvaluate(const std::string & code) override;
@@ -88,15 +88,15 @@ public:
 protected:
     /**
     *  @brief
-    *    Get duktape scripting backend from duktape context
+    *    Get duktape scripting engine from duktape context
     *
     *  @param[in] context
     *    Duktape context
     *
     *  @return
-    *    Duktape scripting backend (can be null)
+    *    Duktape scripting engine (can be null)
     */
-    static DuktapeScriptBackend * getScriptBackend(duk_context * context);
+    static DuktapeScriptEngine * getScriptEngine(duk_context * context);
 
     /**
     *  @brief
@@ -131,8 +131,8 @@ protected:
     *    Object to be wrapped
     *
     *  @remarks
-    *    The returned object wrapper is owned by the backend
-    *    and will be deleted if either the backend or the
+    *    The returned object wrapper is owned by the engine
+    *    and will be deleted if either the engine or the
     *    wrapped object is destroyed
     */
     DuktapeObjectWrapper * getOrCreateObjectWrapper(cppexpose::Object * object);

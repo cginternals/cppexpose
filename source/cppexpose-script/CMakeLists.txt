@@ -55,12 +55,12 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/AbstractScriptBackend.h
+    ${include_path}/ScriptEngine.h
     ${include_path}/example/TreeNode.h
 )
 
 set(sources
-    ${source_path}/AbstractScriptBackend.cpp
+    ${source_path}/ScriptEngine.cpp
     ${source_path}/example/TreeNode.cpp
 )
 

@@ -55,7 +55,7 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/DuktapeScriptBackend.h
+    ${include_path}/DuktapeScriptEngine.h
     ${include_path}/DuktapeScriptFunction.h
     ${include_path}/DuktapeObjectWrapper.h
 )
@@ -65,7 +65,7 @@ set(sources
     ${source_path}/duktape-1.4.0/duktape.h
     ${source_path}/duktape-1.4.0/duk_config.h
 
-    ${source_path}/DuktapeScriptBackend.cpp
+    ${source_path}/DuktapeScriptEngine.cpp
     ${source_path}/DuktapeScriptFunction.cpp
     ${source_path}/DuktapeObjectWrapper.cpp
 )

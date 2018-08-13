@@ -5,7 +5,7 @@
 
 #include <cppexpose/Variant.h>
 
-#include <cppexpose-js/DuktapeScriptBackend.h>
+#include <cppexpose-js/DuktapeScriptEngine.h>
 
 #include "duktape-1.4.0/duktape.h"
 
@@ -17,16 +17,16 @@ namespace cppexpose_script
 {
 
 
-DuktapeScriptFunction::DuktapeScriptFunction(DuktapeScriptBackend * scriptBackend, int stashIndex)
-: m_scriptBackend(scriptBackend)
-, m_context(scriptBackend->m_context)
+DuktapeScriptFunction::DuktapeScriptFunction(DuktapeScriptEngine * engine, int stashIndex)
+: m_engine(engine)
+, m_context(engine->m_context)
 , m_stashIndex(stashIndex)
 {
 }
 
 std::unique_ptr<AbstractFunction> DuktapeScriptFunction::clone()
 {
-    return cppassist::make_unique<DuktapeScriptFunction>(m_scriptBackend, m_stashIndex);
+    return cppassist::make_unique<DuktapeScriptFunction>(m_engine, m_stashIndex);
 }
 
 Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
@@ -38,7 +38,7 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
     // Push arguments
     for (Variant var : args)
     {
-        m_scriptBackend->pushToDukStack(var);
+        m_engine->pushToDukStack(var);
     }
 
     // Call function
@@ -48,13 +48,13 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
     if (error)
     {
         // Raise script exception
-        m_scriptBackend->scriptException(std::string(duk_safe_to_string(m_context, -1)));
+        m_engine->scriptException(std::string(duk_safe_to_string(m_context, -1)));
         duk_pop_2(m_context);
         return Variant();
     }
 
     // Convert return value
-    Variant value = m_scriptBackend->fromDukStack(-1);
+    Variant value = m_engine->fromDukStack(-1);
     duk_pop_2(m_context);
     return value;
 }

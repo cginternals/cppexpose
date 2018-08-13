@@ -22,7 +22,7 @@ namespace cppexpose_script
 {
 
 
-class DuktapeScriptBackend;
+class DuktapeScriptEngine;
 
 
 /**
@@ -39,17 +39,17 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] scriptBackend
-    *    Duktape scripting backend (must not be null)
+    *  @param[in] engine
+    *    Duktape scripting engine (must not be null)
     *  @param[in] obj
     *    Object to be wrapped (must not be null)
     *
     *  @remarks
-    *    Don't call this directly, use DuktapeScriptBackend::getOrCreateObjectWrapper
+    *    Don't call this directly, use DuktapeScriptEngine::getOrCreateObjectWrapper
     *    instead to ensure only one javascript representation exists
     *    for the given cppexpose::Object.
     */
-    DuktapeObjectWrapper(DuktapeScriptBackend * scriptBackend, cppexpose::Object * obj);
+    DuktapeObjectWrapper(DuktapeScriptEngine * engine, cppexpose::Object * obj);
 
     /**
     *  @brief
@@ -146,7 +146,7 @@ protected:
 
 protected:
     duk_context                       * m_context;       ///< Duktape context
-    DuktapeScriptBackend              * m_scriptBackend; ///< Duktape scripting backend
+    DuktapeScriptEngine               * m_engine;        ///< Duktape scripting engine
     cppexpose::Object                 * m_obj;           ///< The wrapped object
     int                                 m_stashIndex;    ///< Index of the wrapped object in the stash
     std::vector<DuktapeObjectWrapper *> m_subObjects;    ///< List of wrapped sub-objects

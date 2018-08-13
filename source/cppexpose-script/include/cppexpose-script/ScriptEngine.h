@@ -25,7 +25,7 @@ namespace cppexpose_script
 *  @brief
 *    Base class for scripting environments
 */
-class CPPEXPOSE_SCRIPT_API AbstractScriptBackend
+class CPPEXPOSE_SCRIPT_API ScriptEngine
 {
 public:
     /**
@@ -40,13 +40,13 @@ public:
     *  @brief
     *    Constructor
     */
-    AbstractScriptBackend();
+    ScriptEngine();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~AbstractScriptBackend();
+    virtual ~ScriptEngine();
 
     /**
     *  @brief

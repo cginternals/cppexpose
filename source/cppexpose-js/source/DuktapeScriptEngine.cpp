@@ -1,5 +1,5 @@
 
-#include <cppexpose-js/DuktapeScriptBackend.h>
+#include <cppexpose-js/DuktapeScriptEngine.h>
 
 #include <cppassist/logging/logging.h>
 
@@ -22,14 +22,14 @@ namespace cppexpose_script
 {
 
 
-const char * s_duktapeScriptBackendKey   = "duktapeScriptBackend";
+const char * s_duktapeScriptEngineKey   = "duktapeScriptEngine";
 const char * s_duktapeNextStashIndexKey  = "duktapeNextStashFunctionIndex";
 const char * s_duktapeFunctionPointerKey = "duktapeFunctionPointer";
 const char * s_duktapeObjectPointerKey   = "duktapeObjectPointer";
 const char * s_duktapePropertyNameKey    = "duktapePropertyName";
 
 
-DuktapeScriptBackend::DuktapeScriptBackend()
+DuktapeScriptEngine::DuktapeScriptEngine()
 : m_context(nullptr)
 {
     // Create duktape script context
@@ -38,10 +38,10 @@ DuktapeScriptBackend::DuktapeScriptBackend()
     // Get stash
     duk_push_global_stash(m_context);
 
-    // Save pointer to script backend in global stash
+    // Save pointer to script engine in global stash
     void * context_ptr = static_cast<void *>(this);
     duk_push_pointer(m_context, context_ptr);
-    duk_put_prop_string(m_context, -2, s_duktapeScriptBackendKey);
+    duk_put_prop_string(m_context, -2, s_duktapeScriptEngineKey);
 
     // Initialize next index for storing functions and objects in the stash
     duk_push_int(m_context, 0);
@@ -51,7 +51,7 @@ DuktapeScriptBackend::DuktapeScriptBackend()
     duk_pop(m_context);
 }
 
-DuktapeScriptBackend::~DuktapeScriptBackend()
+DuktapeScriptEngine::~DuktapeScriptEngine()
 {
     // Disconnect from Object::beforeDestroy signals
     for (auto & objectWrapper : m_objectWrappers)
@@ -63,7 +63,7 @@ DuktapeScriptBackend::~DuktapeScriptBackend()
     duk_destroy_heap(m_context);
 }
 
-void DuktapeScriptBackend::onAddGlobalObject(const std::string & name, Object * obj)
+void DuktapeScriptEngine::onAddGlobalObject(const std::string & name, Object * obj)
 {
     // Wrap object in javascript object
     const auto objWrapper = getOrCreateObjectWrapper(obj);
@@ -82,7 +82,7 @@ void DuktapeScriptBackend::onAddGlobalObject(const std::string & name, Object * 
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::onRemoveGlobalObject(const std::string & name)
+void DuktapeScriptEngine::onRemoveGlobalObject(const std::string & name)
 {
     // Remove property in the global object
     duk_push_global_object(m_context);
@@ -90,7 +90,7 @@ void DuktapeScriptBackend::onRemoveGlobalObject(const std::string & name)
     duk_pop(m_context);
 }
 
-Variant DuktapeScriptBackend::onEvaluate(const std::string & code)
+Variant DuktapeScriptEngine::onEvaluate(const std::string & code)
 {
     // Execute code
     duk_int_t error = duk_peval_string(m_context, code.c_str());
@@ -112,21 +112,21 @@ Variant DuktapeScriptBackend::onEvaluate(const std::string & code)
     return value;
 }
 
-DuktapeScriptBackend * DuktapeScriptBackend::getScriptBackend(duk_context * context)
+DuktapeScriptEngine * DuktapeScriptEngine::getScriptEngine(duk_context * context)
 {
     // Get stash object
     duk_push_global_stash(context);
 
-    // Get pointer to duktape scripting backend
-    duk_get_prop_string(context, -1, s_duktapeScriptBackendKey);
+    // Get pointer to duktape scripting engine
+    duk_get_prop_string(context, -1, s_duktapeScriptEngineKey);
     void * ptr = duk_get_pointer(context, -1);
     duk_pop_2(context);
 
-    // Return duktape scripting backend
-    return static_cast<DuktapeScriptBackend *>(ptr);
+    // Return duktape scripting engine
+    return static_cast<DuktapeScriptEngine *>(ptr);
 }
 
-Variant DuktapeScriptBackend::fromDukStack(int index)
+Variant DuktapeScriptEngine::fromDukStack(int index)
 {
     // Wrapped object function
     if (duk_is_c_function(m_context, index))
@@ -258,7 +258,7 @@ Variant DuktapeScriptBackend::fromDukStack(int index)
     return Variant();
 }
 
-void DuktapeScriptBackend::pushToDukStack(const Variant & value)
+void DuktapeScriptEngine::pushToDukStack(const Variant & value)
 {
     if (value.isBool()) {
         duk_push_boolean(m_context, value.toBool());
@@ -330,7 +330,7 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
     }
 }
 
-DuktapeObjectWrapper * DuktapeScriptBackend::getOrCreateObjectWrapper(cppexpose::Object * object)
+DuktapeObjectWrapper * DuktapeScriptEngine::getOrCreateObjectWrapper(cppexpose::Object * object)
 {
     // Check if wrapper exists
     const auto itr = m_objectWrappers.find(object);
@@ -343,7 +343,7 @@ DuktapeObjectWrapper * DuktapeScriptBackend::getOrCreateObjectWrapper(cppexpose:
     auto wrapper = cppassist::make_unique<DuktapeObjectWrapper>(this, object);
 
     // Delete wrapper when object is destroyed
-    // The connection will be deleted when this backend is destroyed
+    // The connection will be deleted when the engine is destroyed
     // [TODO]
     Connection beforeDestroy;
     /*
@@ -360,7 +360,7 @@ DuktapeObjectWrapper * DuktapeScriptBackend::getOrCreateObjectWrapper(cppexpose:
     return m_objectWrappers[object].first.get();
 }
 
-int DuktapeScriptBackend::getNextStashIndex()
+int DuktapeScriptEngine::getNextStashIndex()
 {
     // Get stash object
     duk_push_global_stash(m_context);

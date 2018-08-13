@@ -1,5 +1,5 @@
 
-#include <cppexpose-script/AbstractScriptBackend.h>
+#include <cppexpose-script/ScriptEngine.h>
 
 #include <cppexpose/Variant.h>
 
@@ -11,20 +11,20 @@ namespace cppexpose_script
 {
 
 
-AbstractScriptBackend::AbstractScriptBackend()
+ScriptEngine::ScriptEngine()
 {
 }
 
-AbstractScriptBackend::~AbstractScriptBackend()
+ScriptEngine::~ScriptEngine()
 {
 }
 
-const std::map<std::string, Object *> & AbstractScriptBackend::globalObjects() const
+const std::map<std::string, Object *> & ScriptEngine::globalObjects() const
 {
     return m_globalObjects;
 }
 
-void AbstractScriptBackend::addGlobalObject(const std::string & name, cppexpose::Object * obj)
+void ScriptEngine::addGlobalObject(const std::string & name, cppexpose::Object * obj)
 {
     // Add global object
     const auto inserted = m_globalObjects.insert(std::pair<std::string, Object *>(name, obj));
@@ -34,7 +34,7 @@ void AbstractScriptBackend::addGlobalObject(const std::string & name, cppexpose:
     }
 }
 
-void AbstractScriptBackend::removeGlobalObject(const std::string & name)
+void ScriptEngine::removeGlobalObject(const std::string & name)
 {
     // Find global object
     auto it = m_globalObjects.find(name);
@@ -47,7 +47,7 @@ void AbstractScriptBackend::removeGlobalObject(const std::string & name)
     }
 }
 
-cppexpose::Variant AbstractScriptBackend::evaluate(const std::string & code)
+cppexpose::Variant ScriptEngine::evaluate(const std::string & code)
 {
     return onEvaluate(code);
 }
