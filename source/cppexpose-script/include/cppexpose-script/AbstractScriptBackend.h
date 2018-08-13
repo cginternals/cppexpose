@@ -3,6 +3,9 @@
 
 
 #include <string>
+#include <map>
+
+#include <cppexpose/Signal.h>
 
 #include <cppexpose-script/cppexpose-script_api.h>
 
@@ -13,19 +16,25 @@ namespace cppexpose
     class Variant;
 }
 
+
 namespace cppexpose_script
 {
 
 
-class ScriptContext;
-
-
 /**
 *  @brief
-*    Base class for scripting context backends
+*    Base class for scripting environments
 */
 class CPPEXPOSE_SCRIPT_API AbstractScriptBackend
 {
+public:
+    /**
+    *  @brief
+    *    Called when a script triggered an exception
+    */
+    cppexpose::Signal<const std::string &> scriptException;
+
+
 public:
     /**
     *  @brief
@@ -41,24 +50,12 @@ public:
 
     /**
     *  @brief
-    *    Get script context that owns the backend
+    *    Get global objects
     *
     *  @return
-    *    Script context that owns the backend (can be null)
+    *    List of global objects
     */
-    ScriptContext * scriptContext() const;
-
-    /**
-    *  @brief
-    *    Initialize scripting backend
-    *
-    *  @param[in] scriptContext
-    *    Script context that owns the backend (must NOT be null)
-    *
-    *  @remarks
-    *    Be sure to assign the script context to m_scriptContext.
-    */
-    virtual void initialize(ScriptContext * scriptContext) = 0;
+    const std::map<std::string, cppexpose::Object *> & globalObjects() const;
 
     /**
     *  @brief
@@ -69,7 +66,7 @@ public:
     *  @param[in] obj
     *    Global object (must NOT be null)
     */
-    virtual void addGlobalObject(const std::string & name, cppexpose::Object * obj) = 0;
+    virtual void addGlobalObject(const std::string & name, cppexpose::Object * obj);
 
     /**
     *  @brief
@@ -78,7 +75,7 @@ public:
     *  @param[in] name
     *    Global object name
     */
-    virtual void removeGlobalObject(const std::string & name) = 0;
+    virtual void removeGlobalObject(const std::string & name);
 
     /**
     *  @brief
@@ -90,11 +87,17 @@ public:
     *  @return
     *    Return value of the executed code
     */
-    virtual cppexpose::Variant evaluate(const std::string & code) = 0;
+    virtual cppexpose::Variant evaluate(const std::string & code);
 
 
 protected:
-	ScriptContext * m_scriptContext; ///< Script context holding this backend
+    virtual void onAddGlobalObject(const std::string & name, cppexpose::Object * obj) = 0;
+    virtual void onRemoveGlobalObject(const std::string & name) = 0;
+    virtual cppexpose::Variant onEvaluate(const std::string & code) = 0;
+
+
+protected:
+    std::map<std::string, cppexpose::Object *> m_globalObjects; ///< Global objects that are exposed to the scripting environment
 };
 
 

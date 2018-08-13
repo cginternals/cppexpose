@@ -80,10 +80,9 @@ public:
     DuktapeScriptBackend & operator=(DuktapeScriptBackend && other) CPPEXPOSE_NOEXCEPT = delete;
 
     // Virtual AbstractScriptBackend interface
-    virtual void initialize(ScriptContext * scriptContext) override;
-    virtual void addGlobalObject(const std::string & name, cppexpose::Object * obj) override;
-    virtual void removeGlobalObject(const std::string & name) override;
-    virtual cppexpose::Variant evaluate(const std::string & code) override;
+    virtual void onAddGlobalObject(const std::string & name, cppexpose::Object * obj) override;
+    virtual void onRemoveGlobalObject(const std::string & name) override;
+    virtual cppexpose::Variant onEvaluate(const std::string & code) override;
 
 
 protected:

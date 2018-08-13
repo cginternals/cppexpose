@@ -8,8 +8,6 @@
 #include <cppexpose/Variant.h>
 #include <cppexpose/Function.h>
 
-#include <cppexpose-script/ScriptContext.h>
-
 #include <cppexpose-js/DuktapeObjectWrapper.h>
 #include <cppexpose-js/DuktapeScriptFunction.h>
 
@@ -36,24 +34,6 @@ DuktapeScriptBackend::DuktapeScriptBackend()
 {
     // Create duktape script context
     m_context = duk_create_heap_default();
-}
-
-DuktapeScriptBackend::~DuktapeScriptBackend()
-{
-    // Disconnect from Object::beforeDestroy signals
-    for (auto & objectWrapper : m_objectWrappers)
-    {
-        objectWrapper.second.second.disconnect();
-    }
-
-    // Destroy duktape script context
-    duk_destroy_heap(m_context);
-}
-
-void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
-{
-    // Store script context
-    m_scriptContext = scriptContext;
 
     // Get stash
     duk_push_global_stash(m_context);
@@ -71,7 +51,19 @@ void DuktapeScriptBackend::initialize(ScriptContext * scriptContext)
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::addGlobalObject(const std::string & name, Object * obj)
+DuktapeScriptBackend::~DuktapeScriptBackend()
+{
+    // Disconnect from Object::beforeDestroy signals
+    for (auto & objectWrapper : m_objectWrappers)
+    {
+        objectWrapper.second.second.disconnect();
+    }
+
+    // Destroy duktape script context
+    duk_destroy_heap(m_context);
+}
+
+void DuktapeScriptBackend::onAddGlobalObject(const std::string & name, Object * obj)
 {
     // Wrap object in javascript object
     const auto objWrapper = getOrCreateObjectWrapper(obj);
@@ -90,7 +82,7 @@ void DuktapeScriptBackend::addGlobalObject(const std::string & name, Object * ob
     duk_pop(m_context);
 }
 
-void DuktapeScriptBackend::removeGlobalObject(const std::string & name)
+void DuktapeScriptBackend::onRemoveGlobalObject(const std::string & name)
 {
     // Remove property in the global object
     duk_push_global_object(m_context);
@@ -98,7 +90,7 @@ void DuktapeScriptBackend::removeGlobalObject(const std::string & name)
     duk_pop(m_context);
 }
 
-Variant DuktapeScriptBackend::evaluate(const std::string & code)
+Variant DuktapeScriptBackend::onEvaluate(const std::string & code)
 {
     // Execute code
     duk_int_t error = duk_peval_string(m_context, code.c_str());
@@ -107,7 +99,7 @@ Variant DuktapeScriptBackend::evaluate(const std::string & code)
     if (error)
     {
         // Raise exception
-        m_scriptContext->scriptException(std::string(duk_safe_to_string(m_context, -1)));
+        scriptException(std::string(duk_safe_to_string(m_context, -1)));
 
         // Abort and return undefined value
         duk_pop(m_context);

@@ -5,8 +5,6 @@
 
 #include <cppexpose/Variant.h>
 
-#include <cppexpose-script/ScriptContext.h>
-
 #include <cppexpose-js/DuktapeScriptBackend.h>
 
 #include "duktape-1.4.0/duktape.h"
@@ -50,7 +48,7 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
     if (error)
     {
         // Raise script exception
-        m_scriptBackend->m_scriptContext->scriptException(std::string(duk_safe_to_string(m_context, -1)));
+        m_scriptBackend->scriptException(std::string(duk_safe_to_string(m_context, -1)));
         duk_pop_2(m_context);
         return Variant();
     }
