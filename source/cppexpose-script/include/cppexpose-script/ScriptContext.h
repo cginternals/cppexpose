@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-#include <cppexpose/signal/Signal.h>
+#include <cppexpose/Signal.h>
 
 #include <cppexpose-script/cppexpose-script_api.h>
 

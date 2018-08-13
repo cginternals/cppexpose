@@ -4,7 +4,7 @@
 
 #include "duktape-1.4.0/duktape.h"
 
-#include <cppexpose/function/AbstractFunction.h>
+#include <cppexpose/AbstractFunction.h>
 
 
 namespace cppexpose_script

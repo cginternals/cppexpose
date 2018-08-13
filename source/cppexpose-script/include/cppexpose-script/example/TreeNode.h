@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <cppexpose/expose/Object.h>
-#include <cppexpose/expose/Var.h>
+#include <cppexpose/Object.h>
+#include <cppexpose/Var.h>
 
 #include <cppexpose-script/cppexpose-script_api.h>
 

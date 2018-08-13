@@ -3,7 +3,7 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/expose/Variant.h>
+#include <cppexpose/Variant.h>
 
 #include <cppexpose-script/ScriptContext.h>
 

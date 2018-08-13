@@ -3,7 +3,7 @@
 
 #include <gmock/gmock.h>
 
-#include <reflectionzeug/base/Color.h>
+#include <reflectionzeug/Color.h>
 
 
 using namespace reflectionzeug;
@@ -32,7 +32,7 @@ TEST_F(Color_test, FromStringWithoutAlphaShouldSucceed)
 {
     const auto expectedColor = Color{254, 196, 45};
     const auto hexString = std::string{"#FEC42D"};
-    
+
     auto success = true;
     const auto color = Color::fromString(hexString, &success);
 
@@ -56,9 +56,9 @@ TEST_F(Color_test, AsHexForBlack)
 {
     const auto expectedHex = std::string{"#000000"};
     const auto color = Color{0, 0, 0};
-    
+
     const auto hexString = color.asHex(false);
-    
+
     ASSERT_EQ(expectedHex, hexString);
 }
 
@@ -66,8 +66,8 @@ TEST_F(Color_test, AsHexWithAlpha)
 {
     const auto expectedHex = std::string{"#7F1586BF"};
     const auto color = Color{21, 134, 191, 127};
-    
+
     const auto hexString = color.asHex(true);
-    
+
     ASSERT_EQ(expectedHex, hexString);
 }

@@ -4,7 +4,7 @@
 
 #include <cppassist/string/conversion.h>
 
-#include <cppexpose/base/Tokenizer.h>
+#include <cppexpose/Tokenizer.h>
 #include <cppexpose/json/JSON.h>
 #include <cppexpose/variant/Variant.h>
 

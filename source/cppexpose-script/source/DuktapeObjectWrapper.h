@@ -6,7 +6,7 @@
 
 #include "duktape-1.4.0/duktape.h"
 
-#include <cppexpose/signal/ScopedConnection.h>
+#include <cppexpose/ScopedConnection.h>
 
 
 namespace cppexpose

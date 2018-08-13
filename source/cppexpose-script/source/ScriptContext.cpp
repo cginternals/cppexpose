@@ -1,8 +1,8 @@
 
 #include <cppexpose-script/ScriptContext.h>
 
-#include <cppexpose/expose/Object.h>
-#include <cppexpose/expose/Variant.h>
+#include <cppexpose/Object.h>
+#include <cppexpose/Variant.h>
 
 #include <cppexpose-script/AbstractScriptBackend.h>
 

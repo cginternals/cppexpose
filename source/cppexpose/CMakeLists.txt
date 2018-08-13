@@ -55,85 +55,82 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
+    ${include_path}/template_helpers.h
+    ${include_path}/function_helpers.h
+
     ${include_path}/cppexpose.h
+    ${include_path}/JSON.h
+    ${include_path}/Tokenizer.h
 
-    ${include_path}/base/template_helpers.h
-    ${include_path}/base/function_helpers.h
-    ${include_path}/base/Tokenizer.h
+    ${include_path}/AbstractNumber.h
+    ${include_path}/AbstractNumber.inl
+    ${include_path}/AbstractTyped.h
+    ${include_path}/AbstractTyped.inl
+    ${include_path}/AbstractVar.h
+    ${include_path}/Array.h
+    ${include_path}/Array.inl
+    ${include_path}/Object.h
+    ${include_path}/Object.inl
+    ${include_path}/PropertyContainer.h
+    ${include_path}/TypedArray.h
+    ${include_path}/TypedArray.inl
+    ${include_path}/TypedBool.h
+    ${include_path}/TypedBool.inl
+    ${include_path}/TypedEnum.h
+    ${include_path}/TypedEnum.inl
+    ${include_path}/TypedFloatingPoint.h
+    ${include_path}/TypedFloatingPoint.inl
+    ${include_path}/TypedGeneric.h
+    ${include_path}/TypedGeneric.inl
+    ${include_path}/TypedPointer.h
+    ${include_path}/TypedPointer.inl
+    ${include_path}/TypedSignedIntegral.h
+    ${include_path}/TypedSignedIntegral.inl
+    ${include_path}/TypedString.h
+    ${include_path}/TypedString.inl
+    ${include_path}/TypedUnsignedIntegral.h
+    ${include_path}/TypedUnsignedIntegral.inl
+    ${include_path}/ValueStorage.h
+    ${include_path}/ValueStorage.inl
+    ${include_path}/Var.h
+    ${include_path}/Var.inl
+    ${include_path}/Variant.h
+    ${include_path}/Variant.inl
+    ${include_path}/VarType.h
 
-    ${include_path}/json/JSON.h
+    ${include_path}/Function.h
+    ${include_path}/AbstractFunction.h
+    ${include_path}/StaticFunction.h
+    ${include_path}/StaticFunction.inl
+    ${include_path}/MemberFunction.h
+    ${include_path}/MemberFunction.inl
+    ${include_path}/ConstMemberFunction.h
+    ${include_path}/ConstMemberFunction.inl
 
-    ${include_path}/signal/AbstractSignal.h
-    ${include_path}/signal/Connection.h
-    ${include_path}/signal/ScopedConnection.h
-    ${include_path}/signal/Signal.h
-    ${include_path}/signal/Signal.inl
-
-    ${include_path}/function/Function.h
-    ${include_path}/function/AbstractFunction.h
-    ${include_path}/function/StaticFunction.h
-    ${include_path}/function/StaticFunction.inl
-    ${include_path}/function/MemberFunction.h
-    ${include_path}/function/MemberFunction.inl
-    ${include_path}/function/ConstMemberFunction.h
-    ${include_path}/function/ConstMemberFunction.inl
-
-    ${include_path}/expose/AbstractNumber.h
-    ${include_path}/expose/AbstractNumber.inl
-    ${include_path}/expose/AbstractTyped.h
-    ${include_path}/expose/AbstractTyped.inl
-    ${include_path}/expose/AbstractVar.h
-    ${include_path}/expose/Array.h
-    ${include_path}/expose/Array.inl
-    ${include_path}/expose/Object.h
-    ${include_path}/expose/Object.inl
-    ${include_path}/expose/PropertyContainer.h
-    ${include_path}/expose/TypedArray.h
-    ${include_path}/expose/TypedArray.inl
-    ${include_path}/expose/TypedBool.h
-    ${include_path}/expose/TypedBool.inl
-    ${include_path}/expose/TypedEnum.h
-    ${include_path}/expose/TypedEnum.inl
-    ${include_path}/expose/TypedFloatingPoint.h
-    ${include_path}/expose/TypedFloatingPoint.inl
-    ${include_path}/expose/TypedGeneric.h
-    ${include_path}/expose/TypedGeneric.inl
-    ${include_path}/expose/TypedPointer.h
-    ${include_path}/expose/TypedPointer.inl
-    ${include_path}/expose/TypedSignedIntegral.h
-    ${include_path}/expose/TypedSignedIntegral.inl
-    ${include_path}/expose/TypedString.h
-    ${include_path}/expose/TypedString.inl
-    ${include_path}/expose/TypedUnsignedIntegral.h
-    ${include_path}/expose/TypedUnsignedIntegral.inl
-    ${include_path}/expose/ValueStorage.h
-    ${include_path}/expose/ValueStorage.inl
-    ${include_path}/expose/Var.h
-    ${include_path}/expose/Var.inl
-    ${include_path}/expose/Variant.h
-    ${include_path}/expose/Variant.inl
-    ${include_path}/expose/VarType.h
+    ${include_path}/AbstractSignal.h
+    ${include_path}/Connection.h
+    ${include_path}/ScopedConnection.h
+    ${include_path}/Signal.h
+    ${include_path}/Signal.inl
 )
 
 set(sources
     ${source_path}/cppexpose.cpp
+    ${source_path}/JSON.cpp
+    ${source_path}/Tokenizer.cpp
 
-    ${source_path}/base/Tokenizer.cpp
+    ${source_path}/AbstractVar.cpp
+    ${source_path}/Array.cpp
+    ${source_path}/Object.cpp
+    ${source_path}/PropertyContainer.cpp
+    ${source_path}/Variant.cpp
 
-    ${source_path}/json/JSON.cpp
+    ${source_path}/Function.cpp
+    ${source_path}/AbstractFunction.cpp
 
-    ${source_path}/signal/AbstractSignal.cpp
-    ${source_path}/signal/Connection.cpp
-    ${source_path}/signal/ScopedConnection.cpp
-
-    ${source_path}/function/Function.cpp
-    ${source_path}/function/AbstractFunction.cpp
-
-    ${source_path}/expose/AbstractVar.cpp
-    ${source_path}/expose/Array.cpp
-    ${source_path}/expose/Object.cpp
-    ${source_path}/expose/PropertyContainer.cpp
-    ${source_path}/expose/Variant.cpp
+    ${source_path}/AbstractSignal.cpp
+    ${source_path}/Connection.cpp
+    ${source_path}/ScopedConnection.cpp
 )
 
 # Group source files

@@ -5,9 +5,9 @@
 
 #include <cppassist/logging/logging.h>
 
-#include <cppexpose/expose/Object.h>
-#include <cppexpose/expose/Variant.h>
-#include <cppexpose/function/Function.h>
+#include <cppexpose/Object.h>
+#include <cppexpose/Variant.h>
+#include <cppexpose/Function.h>
 
 #include "DuktapeScriptBackend.h"
 

@@ -7,7 +7,7 @@
 #include <map>
 
 #include <cppexpose/cppexpose_features.h>
-#include <cppexpose/signal/ScopedConnection.h>
+#include <cppexpose/ScopedConnection.h>
 
 #include <cppexpose-script/AbstractScriptBackend.h>
 

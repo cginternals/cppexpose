@@ -6,7 +6,8 @@
 #include <vector>
 #include <map>
 
-#include <cppexpose/signal/Signal.h>
+#include <cppexpose/Signal.h>
+
 #include <cppexpose-plugin/ComponentHelpers.h>
 
 
