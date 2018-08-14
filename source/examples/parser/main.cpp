@@ -5,8 +5,8 @@
 #include <cppassist/string/conversion.h>
 
 #include <cppexpose/Tokenizer.h>
-#include <cppexpose/json/JSON.h>
-#include <cppexpose/variant/Variant.h>
+#include <cppexpose/JSON.h>
+#include <cppexpose/Variant.h>
 
 
 using namespace cppassist;
@@ -81,8 +81,7 @@ int main(int, char * [])
     std::cout << std::endl;
 
     // Load JSON to variant
-    Variant obj;
-    JSON::parse(obj, json);
+    Variant obj = JSON::parse(json);
 
     // Print variant as compact JSON
     std::cout << JSON::stringify(obj) << std::endl;

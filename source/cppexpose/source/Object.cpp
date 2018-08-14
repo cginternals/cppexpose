@@ -23,9 +23,9 @@ Object::Object()
 {
 }
 
-Object::Object(const std::string & name, PropertyContainer * parent)
+Object::Object(PropertyContainer * parent, const std::string & name)
 {
-    registerProperty(name, parent);
+    registerProperty(parent, name);
 }
 
 Object::Object(const Object & obj)

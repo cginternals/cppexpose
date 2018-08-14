@@ -20,7 +20,7 @@ add_subdirectory(cppexpose-js)
 
 # Examples
 set(IDE_FOLDER "Examples")
-#add_subdirectory(examples)
+add_subdirectory(examples)
 
 # Tests
 if(OPTION_BUILD_TESTS AND NOT MINGW)

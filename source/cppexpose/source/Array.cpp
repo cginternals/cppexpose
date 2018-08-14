@@ -22,9 +22,9 @@ Array::Array()
 {
 }
 
-Array::Array(const std::string & name, PropertyContainer * parent)
+Array::Array(PropertyContainer * parent, const std::string & name)
 {
-    registerProperty(name, parent);
+    registerProperty(parent, name);
 }
 
 Array::Array(const Array & arr)

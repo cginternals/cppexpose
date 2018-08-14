@@ -95,6 +95,7 @@ target_link_libraries(${target}
     cpplocate::cpplocate
     cppassist::cppassist
     ${META_PROJECT_NAME}::cppexpose
+    ${META_PROJECT_NAME}::cppexpose-plugin
 
     PUBLIC
     ${DEFAULT_LIBRARIES}

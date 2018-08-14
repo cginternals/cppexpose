@@ -3,8 +3,8 @@
 #include <iostream>
 #include <vector>
 
-#include <cppexpose/plugin/ComponentManager.h>
-#include <cppexpose/plugin/AbstractComponent.h>
+#include <cppexpose-plugin/ComponentManager.h>
+#include <cppexpose-plugin/AbstractComponent.h>
 
 #include "BottlesOfBeer.h"
 #include "Addition.h"
@@ -12,6 +12,7 @@
 
 
 using namespace cppexpose;
+using namespace cppexpose_plugin;
 
 
 int main(int, char * [])
@@ -41,13 +42,13 @@ int main(int, char * [])
     }
 
     // Get all examples
-    for (auto * component : componentManager.components<cppexpose::Example>())
+    for (auto * component : componentManager.components<cppexpose_plugin::Example>())
     {
         std::string name = component->name();
         std::string type = component->type();
 
-        // Check if type is "cppexpose::Example"
-        if (type != "cppexpose::Example")
+        // Check if type is "cppexpose_plugin::Example"
+        if (type != "cppexpose_plugin::Example")
             continue;
 
         // Instanciate example

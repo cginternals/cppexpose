@@ -49,41 +49,41 @@ public:
     *  @brief
     *    Constructor that registers the property at a parent container
     *
-    *  @param[in] name
-    *    Name of property
     *  @param[in] parent
     *    Parent container (must NOT be null!)
+    *  @param[in] name
+    *    Name of property
     */
-    Var(const std::string & name, PropertyContainer * parent);
+    Var(PropertyContainer * parent, const std::string & name);
 
     /**
     *  @brief
     *    Constructor that registers the property, and initial value
     *
-    *  @param[in] name
-    *    Name of property
     *  @param[in] parent
     *    Parent container (must NOT be null!)
+    *  @param[in] name
+    *    Name of property
     *  @param[in] value
     *    Initial value
     */
-    Var(const std::string & name, PropertyContainer * parent, const Type & value);
+    Var(PropertyContainer * parent, const std::string & name, const Type & value);
 
     /**
     *  @brief
     *    Constructor that registers the property, initial value and additional arguments
     *
-    *  @param[in] name
-    *    Name of property
     *  @param[in] parent
     *    Parent container (must NOT be null!)
+    *  @param[in] name
+    *    Name of property
     *  @param[in] value
     *    Initial value
     *  @param[in] args
     *    Arguments which are passed on to the constructor of the base-var
     */
     template <typename... Args>
-    Var(const std::string & name, PropertyContainer * parent, const Type & value, Args&&... args);
+    Var(PropertyContainer * parent, const std::string & name, const Type & value, Args&&... args);
 
     /**
     *  @brief

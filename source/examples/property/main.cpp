@@ -5,7 +5,8 @@
 #include <cppassist/string/conversion.h>
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/reflection/DynamicProperty.h>
+#include <cppexpose/AbstractVar.h>
+#include <cppexpose/JSON.h>
 
 #include "MyObject.h"
 
@@ -24,8 +25,9 @@ int main(int, char * [])
     std::cout << "Properties:" << std::endl;
     for (auto it : obj.properties())
     {
-        AbstractProperty * property = it.second;
-        std::cout << "- " << property->name() << " (" << property->typeName() << ")" << std::endl;
+        std::string   name     = it.first;
+        AbstractVar * property = it.second;
+        std::cout << "- " << name << " (" << property->typeName() << ")" << std::endl;
     }
     std::cout << std::endl;
 
@@ -36,39 +38,45 @@ int main(int, char * [])
     obj.print();
 
     // Register callback on property changes
+    /* // [TODO]
     obj.Int.valueChanged.connect([] (const int & value)
     {
         std::cout << "CALLBACK: int set to " << value << std::endl;
     });
+    */
 
     // Get property by name
-    AbstractProperty * property = obj.property("int");
+    AbstractVar * property = obj.property("int");
 
     // Set property value from different data types
-    property->fromLongLong(-10);
-    property->fromDouble(2.5);
-    property->fromULongLong(10);
-    property->fromBool(1);
-    property->fromString("Hallo");
-    property->fromString("123");
-    property->fromVariant(Variant(2));
+    property->fromVar(Var<int>(-10));
+    property->fromVar(Var<double>(2.5));
+    property->fromVar(Var<unsigned long long>(10));
+    property->fromVar(Var<bool>(1));
+    property->fromVar(Var<std::string>("Hallo"));
+    property->fromVar(Var<std::string>("123"));
+    property->fromVar(Variant(2));
     std::cout << std::endl;
 
     // Set enum values
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
-    obj.MyMood.setValue(Mood::Neutral);
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
-    obj.MyMood.fromString("Happy");
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
-    obj.MyMood.fromVariant(Variant(-1));
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
-    obj.MyMood.fromULongLong(0);
-    std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
+    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+
+    obj.MyMood = Mood::Neutral;
+    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+
+    obj.MyMood = Variant("Happy");
+    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+
+    obj.MyMood = Variant(-1);
+    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+
+    obj.MyMood = Variant(0);
+    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+
     std::cout << std::endl;
 
     // Serialize object properties
-    Variant values = obj.toVariant();
-    std::cout << values.toJSON(JSON::Beautify) << std::endl;
+    std::cout << JSON::stringify(obj, JSON::Beautify) << std::endl;
     std::cout << std::endl;
 
     // Create object with sub-objects and dynamic properties
@@ -77,22 +85,21 @@ int main(int, char * [])
     for (int i=1; i<=4; i++)
     {
         std::string name = "sub" + cppassist::string::toString<int>(i);
-        auto sub = cppassist::make_unique<Object>(name);
+        auto sub = cppassist::make_unique<Object>();
 
         for (int j=1; j<=4; j++)
         {
             std::string name = "value" + cppassist::string::toString<int>(j);
-            sub->createDynamicProperty<int>(name, i * 10 + j);
+            sub->createProperty<int>(name, i * 10 + j);
         }
 
         sub->removeProperty(sub->property("value2"));
         sub->removeProperty(sub->property("value3"));
 
-        root->addProperty(std::move(sub));
+        root->addProperty(name, std::move(sub));
     }
 
-    values = root->toVariant();
-    std::cout << values.toJSON(JSON::Beautify) << std::endl;
+    std::cout << JSON::stringify(obj, JSON::Beautify) << std::endl;
     std::cout << std::endl;
 
     // Exit

@@ -3,7 +3,7 @@
 
 
 #include <cppexpose/cppexpose-version.h>
-#include <cppexpose/plugin/plugin_api.h>
+#include <cppexpose-plugin/plugin_api.h>
 
 #include "BinaryOperator.h"
 

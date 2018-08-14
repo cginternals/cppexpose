@@ -42,12 +42,12 @@ public:
     *  @brief
     *    Constructor that registers the array at a parent container
     *
-    *  @param[in] name
-    *    Object name
     *  @param[in] parent
     *    Parent container (must NOT be null!)
+    *  @param[in] name
+    *    Object name
     */
-    Array(const std::string & name, PropertyContainer * parent);
+    Array(PropertyContainer * parent, const std::string & name);
 
     /**
     *  @brief

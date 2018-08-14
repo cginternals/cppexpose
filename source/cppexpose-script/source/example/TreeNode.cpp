@@ -19,7 +19,7 @@ namespace cppexpose_script
 
 TreeNode::TreeNode()
 : Object()
-, id("id", this, g_nextId++)
+, id(this, "id", g_nextId++)
 , m_id(g_nextId++)
 , m_left(nullptr)
 , m_right(nullptr)

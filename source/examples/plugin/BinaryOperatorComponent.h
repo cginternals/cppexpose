@@ -6,7 +6,7 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/plugin/AbstractComponent.h>
+#include <cppexpose-plugin/AbstractComponent.h>
 
 
 class BinaryOperator;
@@ -16,7 +16,7 @@ class BinaryOperator;
 *  @brief
 *    Component base class for BinaryOperator
 */
-class AbstractBinaryOperatorComponent : public cppexpose::AbstractComponent
+class AbstractBinaryOperatorComponent : public cppexpose_plugin::AbstractComponent
 {
 public:
     AbstractBinaryOperatorComponent()

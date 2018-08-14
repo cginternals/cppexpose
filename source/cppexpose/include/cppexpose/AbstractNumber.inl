@@ -50,7 +50,7 @@ AbstractNumber<Type, Storage>::~AbstractNumber()
 template <typename Type, typename Storage>
 std::unique_ptr<AbstractVar> AbstractNumber<Type, Storage>::clone() const
 {
-    return std::unique_ptr<AbstractVar>(new Var<Type>(this->value(), this->m_minValue, this->m_maxValue));
+    return std::unique_ptr<AbstractVar>(new Var<Type>(this->getValue(), this->m_minValue, this->m_maxValue));
 }
 
 template <typename Type, typename Storage>
@@ -142,7 +142,7 @@ template <typename Type, typename Storage>
 std::string AbstractNumber<Type, Storage>::toString() const
 {
     // Convert number to string
-    return cppassist::string::toString<Type>(this->value());
+    return cppassist::string::toString<Type>(this->getValue());
 }
 
 template <typename Type, typename Storage>
@@ -155,7 +155,7 @@ bool AbstractNumber<Type, Storage>::canConvertToBool() const
 template <typename Type, typename Storage>
 bool AbstractNumber<Type, Storage>::toBool() const
 {
-    return static_cast<bool>(this->value());
+    return static_cast<bool>(this->getValue());
 }
 
 template <typename Type, typename Storage>
@@ -168,7 +168,7 @@ bool AbstractNumber<Type, Storage>::canConvertToLongLong() const
 template <typename Type, typename Storage>
 long long AbstractNumber<Type, Storage>::toLongLong() const
 {
-    return static_cast<long long>(this->value());
+    return static_cast<long long>(this->getValue());
 }
 
 template <typename Type, typename Storage>
@@ -181,7 +181,7 @@ bool AbstractNumber<Type, Storage>::canConvertToULongLong() const
 template <typename Type, typename Storage>
 unsigned long long AbstractNumber<Type, Storage>::toULongLong() const
 {
-    return static_cast<unsigned long long>(this->value());
+    return static_cast<unsigned long long>(this->getValue());
 }
 
 template <typename Type, typename Storage>
@@ -194,7 +194,7 @@ bool AbstractNumber<Type, Storage>::canConvertToDouble() const
 template <typename Type, typename Storage>
 double AbstractNumber<Type, Storage>::toDouble() const
 {
-    return static_cast<double>(this->value());
+    return static_cast<double>(this->getValue());
 }
 
 template <typename Type, typename Storage>

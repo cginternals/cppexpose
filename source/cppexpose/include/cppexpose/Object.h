@@ -42,12 +42,12 @@ public:
     *  @brief
     *    Constructor that registers the object at a parent container
     *
-    *  @param[in] name
-    *    Object name
     *  @param[in] parent
     *    Parent container (must NOT be null!)
+    *  @param[in] name
+    *    Object name
     */
-    Object(const std::string & name, PropertyContainer * parent);
+    Object(PropertyContainer * parent, const std::string & name);
 
     /**
     *  @brief

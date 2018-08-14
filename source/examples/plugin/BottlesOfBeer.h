@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <cppexpose/plugin/Example.h>
-#include <cppexpose/plugin/plugin_api.h>
+#include <cppexpose-plugin/Example.h>
+#include <cppexpose-plugin/plugin_api.h>
 
 #include <cppexpose/cppexpose-version.h>
 
@@ -12,11 +12,11 @@
 *  @brief
 *    99 bottles of beer example
 */
-class BottlesOfBeer : public cppexpose::Example
+class BottlesOfBeer : public cppexpose_plugin::Example
 {
 public:
     CPPEXPOSE_DECLARE_COMPONENT(
-        BottlesOfBeer, cppexpose::Example,
+        BottlesOfBeer, cppexpose_plugin::Example,
         "", // Tags
         "", // Icon
         "", // Annotations

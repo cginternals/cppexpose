@@ -83,7 +83,7 @@ public:
     virtual bool isConst() const override;
 
     // Value access
-    virtual const Type & value() const override;
+    virtual const Type & getValue() const override;
     virtual void setValue(const Type & value) override;
 
 protected:

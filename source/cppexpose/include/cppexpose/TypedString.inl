@@ -145,7 +145,7 @@ bool TypedString<Type, Storage>::canConvertToString() const
 template <typename Type, typename Storage>
 std::string TypedString<Type, Storage>::toString() const
 {
-    return this->value();
+    return this->getValue();
 }
 
 template <typename Type, typename Storage>
@@ -158,7 +158,7 @@ bool TypedString<Type, Storage>::canConvertToBool() const
 template <typename Type, typename Storage>
 bool TypedString<Type, Storage>::toBool() const
 {
-    return (this->value() == "true");
+    return (this->getValue() == "true");
 }
 
 template <typename Type, typename Storage>
@@ -171,7 +171,7 @@ bool TypedString<Type, Storage>::canConvertToLongLong() const
 template <typename Type, typename Storage>
 long long TypedString<Type, Storage>::toLongLong() const
 {
-    return cppassist::string::fromString<long long>(this->value());
+    return cppassist::string::fromString<long long>(this->getValue());
 }
 
 template <typename Type, typename Storage>
@@ -184,7 +184,7 @@ bool TypedString<Type, Storage>::canConvertToULongLong() const
 template <typename Type, typename Storage>
 unsigned long long TypedString<Type, Storage>::toULongLong() const
 {
-    return cppassist::string::fromString<unsigned long long>(this->value());
+    return cppassist::string::fromString<unsigned long long>(this->getValue());
 }
 
 template <typename Type, typename Storage>
@@ -197,7 +197,7 @@ bool TypedString<Type, Storage>::canConvertToDouble() const
 template <typename Type, typename Storage>
 double TypedString<Type, Storage>::toDouble() const
 {
-    return cppassist::string::fromString<double>(this->value());
+    return cppassist::string::fromString<double>(this->getValue());
 }
 
 template <typename Type, typename Storage>

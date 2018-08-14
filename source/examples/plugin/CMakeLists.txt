@@ -1,15 +1,15 @@
 
-# 
+#
 # External dependencies
-# 
+#
 
 find_package(cpplocate REQUIRED)
 find_package(cppassist REQUIRED)
 
 
-# 
+#
 # Executable name and options
-# 
+#
 
 # Target name
 set(target plugin-example)
@@ -18,9 +18,9 @@ set(target plugin-example)
 message(STATUS "Example ${target}")
 
 
-# 
+#
 # Sources
-# 
+#
 
 set(sources
     main.cpp
@@ -36,9 +36,9 @@ set(sources
 )
 
 
-# 
+#
 # Create executable
-# 
+#
 
 # Build executable
 add_executable(${target}
@@ -50,9 +50,9 @@ add_executable(${target}
 add_executable(${META_PROJECT_NAME}::${target} ALIAS ${target})
 
 
-# 
+#
 # Project options
-# 
+#
 
 set_target_properties(${target}
     PROPERTIES
@@ -61,9 +61,9 @@ set_target_properties(${target}
 )
 
 
-# 
+#
 # Include directories
-# 
+#
 
 target_include_directories(${target}
     PRIVATE
@@ -72,9 +72,9 @@ target_include_directories(${target}
 )
 
 
-# 
+#
 # Libraries
-# 
+#
 
 target_link_libraries(${target}
     PRIVATE
@@ -82,12 +82,13 @@ target_link_libraries(${target}
     cpplocate::cpplocate
     cppassist::cppassist
     ${META_PROJECT_NAME}::cppexpose
+    ${META_PROJECT_NAME}::cppexpose-plugin
 )
 
 
-# 
+#
 # Compile definitions
-# 
+#
 
 target_compile_definitions(${target}
     PRIVATE
@@ -95,9 +96,9 @@ target_compile_definitions(${target}
 )
 
 
-# 
+#
 # Compile options
-# 
+#
 
 target_compile_options(${target}
     PRIVATE
@@ -105,9 +106,9 @@ target_compile_options(${target}
 )
 
 
-# 
+#
 # Linker options
-# 
+#
 
 target_link_libraries(${target}
     PRIVATE
@@ -125,9 +126,9 @@ perform_health_checks(
 )
 
 
-# 
+#
 # Deployment
-# 
+#
 
 # Executable
 install(TARGETS ${target}

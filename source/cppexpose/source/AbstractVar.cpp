@@ -29,7 +29,7 @@ std::string AbstractVar::typeName() const
     return "<unknown>";
 }
 
-void AbstractVar::registerProperty(const std::string & name, PropertyContainer * parent)
+void AbstractVar::registerProperty(PropertyContainer * parent, const std::string & name)
 {
     // Check if parent is valid
     if (!parent) return;

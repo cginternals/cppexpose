@@ -134,7 +134,7 @@ template <typename Type, typename Storage>
 std::string TypedPointer<Type, Storage>::toString() const
 {
     // Get address
-    const void * address = static_cast<const void*>(this->value());
+    const void * address = static_cast<const void*>(this->getValue());
 
     // Convert to string
     std::stringstream ss;
@@ -179,7 +179,7 @@ bool TypedPointer<Type, Storage>::canConvertToULongLong() const
 template <typename Type, typename Storage>
 unsigned long long TypedPointer<Type, Storage>::toULongLong() const
 {
-    return reinterpret_cast<unsigned long long>(reinterpret_cast<const void *>(this->value()));
+    return reinterpret_cast<unsigned long long>(reinterpret_cast<const void *>(this->getValue()));
 }
 
 template <typename Type, typename Storage>

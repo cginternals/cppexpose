@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <cppexpose/plugin/Example.h>
-#include <cppexpose/plugin/plugin_api.h>
+#include <cppexpose-plugin/Example.h>
+#include <cppexpose-plugin/plugin_api.h>
 
 #include <cppexpose/cppexpose-version.h>
 
@@ -12,11 +12,11 @@
 *  @brief
 *    Hello world example
 */
-class HelloWorld : public cppexpose::Example
+class HelloWorld : public cppexpose_plugin::Example
 {
 public:
     CPPEXPOSE_DECLARE_COMPONENT(
-        HelloWorld, cppexpose::Example,
+        HelloWorld, cppexpose_plugin::Example,
         "", // Tags
         "", // Icon
         "", // Annotations

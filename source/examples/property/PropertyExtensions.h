@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/reflection/Property.h>
+#include <cppexpose/Var.h>
 
 #include "Mood.h"
 
