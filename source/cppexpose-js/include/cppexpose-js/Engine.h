@@ -25,21 +25,21 @@ namespace cppexpose
 }
 
 
-namespace cppexpose_script
+namespace cppexpose_js
 {
 
 
-class DuktapeObjectWrapper;
+class ObjectWrapper;
 
 
 /**
 *  @brief
 *    Duktape (javascript) scripting engine
 */
-class CPPEXPOSE_JS_API DuktapeScriptEngine : public ScriptEngine
+class CPPEXPOSE_JS_API Engine : public cppexpose_script::ScriptEngine
 {
-    friend class DuktapeScriptFunction;
-    friend class DuktapeObjectWrapper;
+    friend class FunctionWrapper;
+    friend class ObjectWrapper;
 
 
 public:
@@ -47,37 +47,37 @@ public:
     *  @brief
     *    Constructor
     */
-    DuktapeScriptEngine();
+    Engine();
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~DuktapeScriptEngine();
+    virtual ~Engine();
 
     /**
     *  @brief
     *    Copy constructor (deleted)
     */
-    DuktapeScriptEngine(const DuktapeScriptEngine & other) = delete;
+    Engine(const Engine & other) = delete;
 
     /**
     *  @brief
     *    Move constructor (deleted)
     */
-    DuktapeScriptEngine(DuktapeScriptEngine && other) CPPEXPOSE_NOEXCEPT = delete;
+    Engine(Engine && other) CPPEXPOSE_NOEXCEPT = delete;
 
     /**
     *  @brief
     *    Copy assignment operator (deleted)
     */
-    DuktapeScriptEngine & operator=(const DuktapeScriptEngine & other) = delete;
+    Engine & operator=(const Engine & other) = delete;
 
     /**
     *  @brief
     *    Move assignment operator (deleted)
     */
-    DuktapeScriptEngine & operator=(DuktapeScriptEngine && other) CPPEXPOSE_NOEXCEPT = delete;
+    Engine & operator=(Engine && other) CPPEXPOSE_NOEXCEPT = delete;
 
     // Virtual ScriptEngine interface
     virtual void onAddGlobalObject(const std::string & name, cppexpose::Object * obj) override;
@@ -96,7 +96,7 @@ protected:
     *  @return
     *    Duktape scripting engine (can be null)
     */
-    static DuktapeScriptEngine * getScriptEngine(duk_context * context);
+    static Engine * getScriptEngine(duk_context * context);
 
     /**
     *  @brief
@@ -135,7 +135,7 @@ protected:
     *    and will be deleted if either the engine or the
     *    wrapped object is destroyed
     */
-    DuktapeObjectWrapper * getOrCreateObjectWrapper(cppexpose::Object * object);
+    ObjectWrapper * getOrCreateObjectWrapper(cppexpose::Object * object);
 
     /**
     *  @brief
@@ -151,8 +151,8 @@ protected:
     duk_context * m_context; ///< Duktape context (never null)
 
     /// Object wrappers and beforeDestroy connections
-    std::map<cppexpose::Object *, std::pair<std::unique_ptr<DuktapeObjectWrapper>, cppexpose::Connection>> m_objectWrappers;
+    std::map<cppexpose::Object *, std::pair<std::unique_ptr<ObjectWrapper>, cppexpose::Connection>> m_objectWrappers;
 };
 
 
-} // namespace cppexpose_script
+} // namespace cppexpose_js

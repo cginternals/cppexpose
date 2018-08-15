@@ -1,11 +1,11 @@
 
-#include <cppexpose-js/DuktapeScriptFunction.h>
+#include <cppexpose-js/FunctionWrapper.h>
 
 #include <cppassist/memory/make_unique.h>
 
 #include <cppexpose/Variant.h>
 
-#include <cppexpose-js/DuktapeScriptEngine.h>
+#include <cppexpose-js/Engine.h>
 
 #include "duktape-1.4.0/duktape.h"
 
@@ -13,23 +13,23 @@
 using namespace cppexpose;
 
 
-namespace cppexpose_script
+namespace cppexpose_js
 {
 
 
-DuktapeScriptFunction::DuktapeScriptFunction(DuktapeScriptEngine * engine, int stashIndex)
+FunctionWrapper::FunctionWrapper(Engine * engine, int stashIndex)
 : m_engine(engine)
 , m_context(engine->m_context)
 , m_stashIndex(stashIndex)
 {
 }
 
-std::unique_ptr<AbstractFunction> DuktapeScriptFunction::clone()
+std::unique_ptr<AbstractFunction> FunctionWrapper::clone()
 {
-    return cppassist::make_unique<DuktapeScriptFunction>(m_engine, m_stashIndex);
+    return cppassist::make_unique<FunctionWrapper>(m_engine, m_stashIndex);
 }
 
-Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
+Variant FunctionWrapper::call(const std::vector<Variant> & args)
 {
     // Get function wrapper from stash
     duk_push_global_stash(m_context);
@@ -60,4 +60,4 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
 }
 
 
-} // namespace cppexpose_script
+} // namespace cppexpose_js

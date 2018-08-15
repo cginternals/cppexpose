@@ -18,11 +18,12 @@ namespace cppexpose
     class Object;
 }
 
-namespace cppexpose_script
+
+namespace cppexpose_js
 {
 
 
-class DuktapeScriptEngine;
+class Engine;
 
 
 /**
@@ -32,7 +33,7 @@ class DuktapeScriptEngine;
 *    This class is used to expose a cppexpose::Object to
 *    a duktape scripting context.
 */
-class CPPEXPOSE_JS_API DuktapeObjectWrapper
+class CPPEXPOSE_JS_API ObjectWrapper
 {
 public:
     /**
@@ -45,17 +46,17 @@ public:
     *    Object to be wrapped (must not be null)
     *
     *  @remarks
-    *    Don't call this directly, use DuktapeScriptEngine::getOrCreateObjectWrapper
+    *    Don't call this directly, use Engine::getOrCreateObjectWrapper
     *    instead to ensure only one javascript representation exists
     *    for the given cppexpose::Object.
     */
-    DuktapeObjectWrapper(DuktapeScriptEngine * engine, cppexpose::Object * obj);
+    ObjectWrapper(Engine * engine, cppexpose::Object * obj);
 
     /**
     *  @brief
     *    Destructor
     */
-    ~DuktapeObjectWrapper();
+    ~ObjectWrapper();
 
     /**
     *  @brief
@@ -145,11 +146,11 @@ protected:
 
 
 protected:
-    duk_context                       * m_context;       ///< Duktape context
-    DuktapeScriptEngine               * m_engine;        ///< Duktape scripting engine
-    cppexpose::Object                 * m_obj;           ///< The wrapped object
-    int                                 m_stashIndex;    ///< Index of the wrapped object in the stash
-    std::vector<DuktapeObjectWrapper *> m_subObjects;    ///< List of wrapped sub-objects
+    duk_context                * m_context;    ///< Duktape context
+    Engine                     * m_engine;     ///< Duktape scripting engine
+    cppexpose::Object          * m_obj;        ///< The wrapped object
+    int                          m_stashIndex; ///< Index of the wrapped object in the stash
+    std::vector<ObjectWrapper *> m_subObjects; ///< List of wrapped sub-objects
 
     // Connections to the wrapped object
     cppexpose::ScopedConnection m_beforeDestroyConnection;
@@ -158,4 +159,4 @@ protected:
 };
 
 
-} // namespace cppexpose_script
+} // namespace cppexpose_js

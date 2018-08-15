@@ -1,5 +1,5 @@
 
-#include <cppexpose-js/DuktapeObjectWrapper.h>
+#include <cppexpose-js/ObjectWrapper.h>
 
 #include <cassert>
 
@@ -9,7 +9,7 @@
 #include <cppexpose/Variant.h>
 #include <cppexpose/Function.h>
 
-#include <cppexpose-js/DuktapeScriptEngine.h>
+#include <cppexpose-js/Engine.h>
 
 #include "duktape-1.4.0/duktape.h"
 
@@ -18,7 +18,7 @@ using namespace cppassist;
 using namespace cppexpose;
 
 
-namespace cppexpose_script
+namespace cppexpose_js
 {
 
 
@@ -27,7 +27,7 @@ extern const char * s_duktapeObjectPointerKey;
 extern const char * s_duktapePropertyNameKey;
 
 
-DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptEngine * engine, Object * obj)
+ObjectWrapper::ObjectWrapper(Engine * engine, Object * obj)
 : m_context(engine->m_context)
 , m_engine(engine)
 , m_obj(obj)
@@ -35,21 +35,21 @@ DuktapeObjectWrapper::DuktapeObjectWrapper(DuktapeScriptEngine * engine, Object 
 {
 }
 
-DuktapeObjectWrapper::~DuktapeObjectWrapper()
+ObjectWrapper::~ObjectWrapper()
 {
 }
 
-Object * DuktapeObjectWrapper::object()
-{
-    return m_obj;
-}
-
-const Object * DuktapeObjectWrapper::object() const
+Object * ObjectWrapper::object()
 {
     return m_obj;
 }
 
-void DuktapeObjectWrapper::wrapObject()
+const Object * ObjectWrapper::object() const
+{
+    return m_obj;
+}
+
+void ObjectWrapper::wrapObject()
 {
     // Create empty object on the stack
     duk_idx_t objIndex = duk_push_object(m_context);
@@ -80,12 +80,12 @@ void DuktapeObjectWrapper::wrapObject()
             duk_push_string(m_context, name.c_str());
 
             // Getter function object
-            duk_push_c_function(m_context, &DuktapeObjectWrapper::getPropertyValue, 0);
+            duk_push_c_function(m_context, &ObjectWrapper::getPropertyValue, 0);
             duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
             // Setter function object
-            duk_push_c_function(m_context, &DuktapeObjectWrapper::setPropertyValue, 1);
+            duk_push_c_function(m_context, &ObjectWrapper::setPropertyValue, 1);
             duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
@@ -180,11 +180,11 @@ void DuktapeObjectWrapper::wrapObject()
 
             duk_push_string(m_context, name.c_str());
 
-            duk_push_c_function(m_context, &DuktapeObjectWrapper::getPropertyValue, 0);
+            duk_push_c_function(m_context, &ObjectWrapper::getPropertyValue, 0);
             duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
-            duk_push_c_function(m_context, &DuktapeObjectWrapper::setPropertyValue, 1);
+            duk_push_c_function(m_context, &ObjectWrapper::setPropertyValue, 1);
             duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
@@ -245,7 +245,7 @@ void DuktapeObjectWrapper::wrapObject()
     });
 }
 
-void DuktapeObjectWrapper::pushToDukStack()
+void ObjectWrapper::pushToDukStack()
 {
     // If object has not been wrapped before ...
     if (m_stashIndex == -1)
@@ -269,15 +269,15 @@ void DuktapeObjectWrapper::pushToDukStack()
     duk_pop(m_context);
 }
 
-int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
+int ObjectWrapper::getPropertyValue(duk_context * context)
 {
     // Get script engine
-    auto engine = DuktapeScriptEngine::getScriptEngine(context);
+    auto engine = Engine::getScriptEngine(context);
 
     // Get object wrapper
     duk_push_this(context);
     duk_get_prop_string(context, -1, s_duktapeObjectPointerKey);
-    auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
+    auto objWrapper = static_cast<ObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
     // Assume that the wrapper exists, otherwise the engine is in an inconsistent state
@@ -321,10 +321,10 @@ int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     return 1;
 }
 
-int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
+int ObjectWrapper::setPropertyValue(duk_context * context)
 {
     // Get script engine
-    auto engine = DuktapeScriptEngine::getScriptEngine(context);
+    auto engine = Engine::getScriptEngine(context);
 
     // Get value from stack
     Variant value = engine->fromDukStack(-1);
@@ -333,7 +333,7 @@ int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     // Get object wrapper
     duk_push_this(context);
     duk_get_prop_string(context, -1, s_duktapeObjectPointerKey);
-    auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
+    auto objWrapper = static_cast<ObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
 
     // Assume that the wrapper exists, otherwise the engine is in an inconsistent state
@@ -384,10 +384,10 @@ int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     return 0;
 }
 
-int DuktapeObjectWrapper::callObjectFunction(duk_context * context)
+int ObjectWrapper::callObjectFunction(duk_context * context)
 {
     // Get script engine
-    auto engine = DuktapeScriptEngine::getScriptEngine(context);
+    auto engine = Engine::getScriptEngine(context);
 
     // Determine number of arguments
     duk_idx_t nargs = duk_get_top(context);
@@ -443,4 +443,4 @@ int DuktapeObjectWrapper::callObjectFunction(duk_context * context)
     return DUK_RET_ERROR;
 }
 
-} // namespace cppexpose_script
+} // namespace cppexpose_js

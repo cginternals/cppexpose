@@ -7,7 +7,7 @@
 
 #include <cppexpose-script/example/TreeNode.h>
 
-#include <cppexpose-js/DuktapeScriptEngine.h>
+#include <cppexpose-js/Engine.h>
 
 
 using namespace cppexpose;
@@ -74,7 +74,7 @@ protected:
 
 int main(int, char * [])
 {
-    DuktapeScriptEngine engine;
+    cppexpose_js::Engine engine;
 
     // Create scripting environment
     Object script;

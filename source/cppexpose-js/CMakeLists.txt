@@ -55,9 +55,9 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/DuktapeScriptEngine.h
-    ${include_path}/DuktapeScriptFunction.h
-    ${include_path}/DuktapeObjectWrapper.h
+    ${include_path}/Engine.h
+    ${include_path}/FunctionWrapper.h
+    ${include_path}/ObjectWrapper.h
 )
 
 set(sources
@@ -65,9 +65,9 @@ set(sources
     ${source_path}/duktape-1.4.0/duktape.h
     ${source_path}/duktape-1.4.0/duk_config.h
 
-    ${source_path}/DuktapeScriptEngine.cpp
-    ${source_path}/DuktapeScriptFunction.cpp
-    ${source_path}/DuktapeObjectWrapper.cpp
+    ${source_path}/Engine.cpp
+    ${source_path}/FunctionWrapper.cpp
+    ${source_path}/ObjectWrapper.cpp
 )
 
 # Group source files

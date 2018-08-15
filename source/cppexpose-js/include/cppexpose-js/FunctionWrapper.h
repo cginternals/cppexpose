@@ -11,11 +11,11 @@ struct duk_hthread;
 typedef struct duk_hthread duk_context;
 
 
-namespace cppexpose_script
+namespace cppexpose_js
 {
 
 
-class DuktapeScriptEngine;
+class Engine;
 
 
 /**
@@ -25,7 +25,7 @@ class DuktapeScriptEngine;
 *    This class represents a function inside the scripting environment
 *    and makes it available to the reflection meta object system.
 */
-class CPPEXPOSE_JS_API DuktapeScriptFunction : public cppexpose::AbstractFunction
+class CPPEXPOSE_JS_API FunctionWrapper : public cppexpose::AbstractFunction
 {
 public:
     /**
@@ -37,7 +37,7 @@ public:
     *  @param[in] stashIndex
     *    Index of the wrapped function in the stash
     */
-    DuktapeScriptFunction(DuktapeScriptEngine * engine, int stashIndex);
+    FunctionWrapper(Engine * engine, int stashIndex);
 
     // Virtual AbstractFunction interface
     virtual std::unique_ptr<AbstractFunction> clone() override;
@@ -45,10 +45,10 @@ public:
 
 
 protected:
-    DuktapeScriptEngine * m_engine;     ///< Duktape scripting engine (never null)
-    duk_context         * m_context;    ///< Duktape context (never null)
-    int                   m_stashIndex; ///< Index of the wrapped function in the stash
+    Engine      * m_engine;     ///< Duktape scripting engine (never null)
+    duk_context * m_context;    ///< Duktape context (never null)
+    int           m_stashIndex; ///< Index of the wrapped function in the stash
 };
 
 
-} // namespace cppexpose_script
+} // namespace cppexpose_js
