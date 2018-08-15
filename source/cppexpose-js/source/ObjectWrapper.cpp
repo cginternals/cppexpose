@@ -66,15 +66,15 @@ void ObjectWrapper::wrapObject()
     duk_push_pointer(m_context, static_cast<void *>(this));
     duk_put_prop_string(m_context, -2, s_duktapeObjectPointerKey);
 
-    // Register object properties
+    // Register object properties, functions, and sub-objects
     for (auto it : m_obj->properties())
     {
         // Get property
         std::string   name = it.first;
         AbstractVar * prop = it.second;
 
-        // Register property (ignore sub-objects, they are added later)
-        if (!prop->isObject())
+        // Register value property (not sub-object or function)
+        if (!prop->isObject() && !prop->isFunction())
         {
             // Key (for accessor)
             duk_push_string(m_context, name.c_str());
@@ -99,34 +99,21 @@ void ObjectWrapper::wrapObject()
             // Add empty sub-object placeholder for value properties
             m_subObjects.push_back(nullptr);
         }
-    }
 
-    // Register object functions
-    // [TODO]
-    /*
-    const std::vector<Method> & funcs = m_obj->functions();
-    for (std::vector<Method>::const_iterator it = funcs.begin(); it != funcs.end(); ++it)
-    {
-        const Method & method = *it;
+        // Register function
+        else if (prop->isFunction()) {
+            // Get function
+            const Function & func = static_cast<Var<Function> *>(prop)->getValue();
 
-        auto & func = static_cast<const Function &>(method);
+            // Register function
+            duk_push_c_function(m_context, callObjectFunction, DUK_VARARGS);
+            duk_push_pointer(m_context, const_cast<Function *>(&func));
+            duk_put_prop_string(m_context, -2, s_duktapeFunctionPointerKey);
+            duk_put_prop_string(m_context, objIndex, name.c_str());
+        }
 
-        duk_push_c_function(m_context, callObjectFunction, DUK_VARARGS);
-        duk_push_pointer(m_context, const_cast<Function *>(&func));
-        duk_put_prop_string(m_context, -2, s_duktapeFunctionPointerKey);
-        duk_put_prop_string(m_context, objIndex, method.name().c_str());
-    }
-    */
-
-    // Register sub-objects
-    for (auto it : m_obj->properties())
-    {
-        // Get property
-        std::string   name = it.first;
-        AbstractVar * prop = it.second;
-
-        // Check if it is an object
-        if (prop->isObject())
+        // Register sub-object
+        else if (prop->isObject())
         {
             // Wrap sub object
             auto subObj = static_cast<Object *>(prop);
@@ -442,5 +429,6 @@ int ObjectWrapper::callObjectFunction(duk_context * context)
     warning() << "Error: No valid function pointer found." << std::endl;
     return DUK_RET_ERROR;
 }
+
 
 } // namespace cppexpose_js

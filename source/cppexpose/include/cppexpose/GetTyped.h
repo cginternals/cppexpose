@@ -5,6 +5,7 @@
 #include <cppassist/fs/FilePath.h>
 
 #include <cppexpose/template_helpers.h>
+#include <cppexpose/Function.h>
 #include <cppexpose/TypedGeneric.h>
 #include <cppexpose/TypedBool.h>
 #include <cppexpose/TypedString.h>
@@ -16,6 +17,7 @@
 #include <cppexpose/TypedArray.h>
 //#include <cppexpose/TypedVariant.h>
 //#include <cppexpose/TypedFilePath.h>
+#include <cppexpose/TypedFunction.h>
 
 
 namespace cppexpose
@@ -182,6 +184,16 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath, Storage>
     using VarType = TypedFilePath<const cppassist::FilePath, Storage>;
 };
 */
+
+/**
+*  @brief
+*    Type selector for bool
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Function, Storage>
+{
+    using VarType = TypedFunction<Function, Storage>;
+};
 
 
 } // namespace cppexpose

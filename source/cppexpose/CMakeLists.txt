@@ -80,6 +80,8 @@ set(headers
     ${include_path}/TypedEnum.inl
     ${include_path}/TypedFloatingPoint.h
     ${include_path}/TypedFloatingPoint.inl
+    ${include_path}/TypedFunction.h
+    ${include_path}/TypedFunction.inl
     ${include_path}/TypedGeneric.h
     ${include_path}/TypedGeneric.inl
     ${include_path}/TypedPointer.h
