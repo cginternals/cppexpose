@@ -122,18 +122,13 @@ AbstractVar * Object::addProperty(const std::string & name, AbstractVar * proper
 //  property->setParent(this);
 
     // Invoke callback
-    // [TODO]
-//  auto newIndex = m_properties.size();
-//  beforeAdd(newIndex, property);
+    beforeAdd(name, property);
 
     // Add property
-    // [TODO]
-//  m_properties.push_back(property);
     m_properties.insert(std::make_pair(name, property));
 
     // Invoke callback
-    // [TODO]
-//  afterAdd(newIndex, property);
+    afterAdd(name, property);
 
     // Success
     return property;
@@ -200,9 +195,7 @@ bool Object::removeProperty(AbstractVar * property)
     std::string name = it->first;
 
     // Invoke callback
-    // [TODO]
-//  size_t index = std::distance(m_properties.begin(), it);
-//  beforeRemove(index, property);
+    beforeRemove(name, property);
 
     // Remove property from object
     m_properties.erase(it);
@@ -212,8 +205,7 @@ bool Object::removeProperty(AbstractVar * property)
 //  property->setParent(nullptr);
 
     // Invoke callback
-    // [TODO]
-//  afterRemove(index, property);
+    afterRemove(name, property);
 
     // Check if property is owned by the object
     // If yes, remove from managed list (delete property)

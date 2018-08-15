@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <cppexpose/PropertyContainer.h>
+#include <cppexpose/Signal.h>
 
 
 namespace cppexpose
@@ -18,6 +19,12 @@ namespace cppexpose
 */
 class CPPEXPOSE_API Array : public PropertyContainer
 {
+public:
+    Signal<size_t, AbstractVar *> beforeAdd;    ///< Called before a property is added to the object
+    Signal<size_t, AbstractVar *> afterAdd;     ///< Called after a property is added to the object
+    Signal<size_t, AbstractVar *> beforeRemove; ///< Called before a property is removed from the object
+    Signal<size_t, AbstractVar *> afterRemove;  ///< Called after a property is removed from the object
+
 public:
     //@{
     /**

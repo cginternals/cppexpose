@@ -66,7 +66,11 @@ const Type & ValueStorage<Type>::getValue() const
 template <typename Type>
 void ValueStorage<Type>::setValue(const Type & value)
 {
+    // Store value
     m_value = value;
+
+    // Emit signal
+    this->valueChanged(value);
 }
 
 

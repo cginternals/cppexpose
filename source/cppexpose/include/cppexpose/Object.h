@@ -4,8 +4,10 @@
 
 #include <memory>
 #include <unordered_map>
+#include <string>
 
 #include <cppexpose/PropertyContainer.h>
+#include <cppexpose/Signal.h>
 
 
 namespace cppexpose
@@ -18,6 +20,12 @@ namespace cppexpose
 */
 class CPPEXPOSE_API Object : public PropertyContainer
 {
+public:
+    Signal<const std::string &, AbstractVar *> beforeAdd;    ///< Called before a property is added to the object
+    Signal<const std::string &, AbstractVar *> afterAdd;     ///< Called after a property is added to the object
+    Signal<const std::string &, AbstractVar *> beforeRemove; ///< Called before a property is removed from the object
+    Signal<const std::string &, AbstractVar *> afterRemove;  ///< Called after a property is removed from the object
+
 public:
     //@{
     /**

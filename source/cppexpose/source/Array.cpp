@@ -103,17 +103,14 @@ AbstractVar * Array::push(AbstractVar * property)
 //  property->setParent(this);
 
     // Invoke callback
-    // [TODO]
-//  auto newIndex = m_properties.size();
-//  beforeAdd(newIndex, property);
+    auto newIndex = m_properties.size();
+    beforeAdd(newIndex, property);
 
     // Add property
-    // [TODO]
     m_properties.push_back(property);
 
     // Invoke callback
-    // [TODO]
-//  afterAdd(newIndex, property);
+    afterAdd(newIndex, property);
 
     // Success
     return property;
@@ -174,9 +171,8 @@ bool Array::remove(AbstractVar * property)
     }
 
     // Invoke callback
-    // [TODO]
-//  size_t index = std::distance(m_properties.begin(), it);
-//  beforeRemove(index, property);
+    size_t index = std::distance(m_properties.begin(), it);
+    beforeRemove(index, property);
 
     // Remove property from array
     m_properties.erase(it);
@@ -186,8 +182,7 @@ bool Array::remove(AbstractVar * property)
 //  property->setParent(nullptr);
 
     // Invoke callback
-    // [TODO]
-//  afterRemove(index, property);
+    afterRemove(index, property);
 
     // Check if property is owned by the array
     auto it2 = std::find_if(m_ownProperties.begin(), m_ownProperties.end(), [property] (const std::unique_ptr<AbstractVar> & managedProperty)

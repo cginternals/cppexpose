@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include <cppexpose/AbstractVar.h>
+#include <cppexpose/Signal.h>
 
 
 namespace cppexpose
@@ -18,6 +19,10 @@ namespace cppexpose
 template <typename Type>
 class CPPEXPOSE_TEMPLATE_API AbstractTyped : public AbstractVar
 {
+public:
+    Signal<const Type &> valueChanged; ///< Called when the value has been changed
+
+
 public:
     /**
     *  @brief
