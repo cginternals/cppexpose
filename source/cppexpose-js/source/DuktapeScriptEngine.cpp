@@ -344,14 +344,11 @@ DuktapeObjectWrapper * DuktapeScriptEngine::getOrCreateObjectWrapper(cppexpose::
 
     // Delete wrapper when object is destroyed
     // The connection will be deleted when the engine is destroyed
-    // [TODO]
-    Connection beforeDestroy;
-    /*
-    const auto beforeDestroy = object->beforeDestroy.connect([this, object](AbstractProperty *)
+    auto * obj = object;
+    const auto beforeDestroy = object->beforeDestroy.connect([this, obj]()
     {
-        m_objectWrappers.erase(object);
+        m_objectWrappers.erase(obj);
     });
-    */
 
     // Save wrapper for later
     m_objectWrappers[object] = {std::move(wrapper), beforeDestroy};

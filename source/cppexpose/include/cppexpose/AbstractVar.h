@@ -6,6 +6,7 @@
 #include <string>
 
 #include <cppexpose/VarType.h>
+#include <cppexpose/Signal.h>
 
 
 namespace cppexpose
@@ -24,6 +25,9 @@ class PropertyContainer;
 */
 class CPPEXPOSE_API AbstractVar
 {
+public:
+    Signal<> beforeDestroy; ///< Called before a property is destroyed
+
 public:
     /**
     *  @brief

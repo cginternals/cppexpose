@@ -70,23 +70,23 @@ void DuktapeObjectWrapper::wrapObject()
     for (auto it : m_obj->properties())
     {
         // Get property
-        std::string propName = it.first;
+        std::string   name = it.first;
         AbstractVar * prop = it.second;
 
         // Register property (ignore sub-objects, they are added later)
         if (!prop->isObject())
         {
             // Key (for accessor)
-            duk_push_string(m_context, propName.c_str());
+            duk_push_string(m_context, name.c_str());
 
             // Getter function object
             duk_push_c_function(m_context, &DuktapeObjectWrapper::getPropertyValue, 0);
-            duk_push_string(m_context, propName.c_str());
+            duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
             // Setter function object
             duk_push_c_function(m_context, &DuktapeObjectWrapper::setPropertyValue, 1);
-            duk_push_string(m_context, propName.c_str());
+            duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
             // Define property with getter/setter
@@ -122,7 +122,7 @@ void DuktapeObjectWrapper::wrapObject()
     for (auto it : m_obj->properties())
     {
         // Get property
-        std::string propName = it.first;
+        std::string   name = it.first;
         AbstractVar * prop = it.second;
 
         // Check if it is an object
@@ -134,7 +134,7 @@ void DuktapeObjectWrapper::wrapObject()
             objWrapper->pushToDukStack();
 
             // Register sub-object in parent object
-            duk_put_prop_string(m_context, objIndex, propName.c_str());
+            duk_put_prop_string(m_context, objIndex, name.c_str());
 
             // Add wrapper to sub-object
             m_subObjects.push_back(objWrapper);
@@ -142,13 +142,8 @@ void DuktapeObjectWrapper::wrapObject()
     }
 
     // Register callbacks for script engine update
-    // [TODO]
-    /*
-    m_afterAddConnection = m_obj->afterAdd.connect([this](size_t index, cppexpose::AbstractProperty * property)
+    m_afterAddConnection = m_obj->afterAdd.connect([this](const std::string & name, cppexpose::AbstractVar * property)
     {
-        // [TODO] Provide an UNUSED() macro in cppassist
-        (void)(index);
-
         // Check if property is an object or a value property
         if (property->isObject())
         {
@@ -167,7 +162,7 @@ void DuktapeObjectWrapper::wrapObject()
             objWrapper->pushToDukStack();
 
             // Register object in parent object
-            duk_put_prop_string(m_context, parentIndex, obj->name().c_str());
+            duk_put_prop_string(m_context, parentIndex, name.c_str());
 
             // Clean up
             duk_pop(m_context);
@@ -178,9 +173,6 @@ void DuktapeObjectWrapper::wrapObject()
         }
         else
         {
-            // Get property
-            std::string propName = property->name();
-
             // Add empty sub-object placeholder for value properties
             m_subObjects.push_back(nullptr);
 
@@ -188,14 +180,14 @@ void DuktapeObjectWrapper::wrapObject()
             duk_push_global_stash(m_context);
             duk_get_prop_index(m_context, -1, m_stashIndex);
 
-            duk_push_string(m_context, propName.c_str());
+            duk_push_string(m_context, name.c_str());
 
             duk_push_c_function(m_context, &DuktapeObjectWrapper::getPropertyValue, 0);
-            duk_push_string(m_context, propName.c_str());
+            duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
             duk_push_c_function(m_context, &DuktapeObjectWrapper::setPropertyValue, 1);
-            duk_push_string(m_context, propName.c_str());
+            duk_push_string(m_context, name.c_str());
             duk_put_prop_string(m_context, -2, s_duktapePropertyNameKey);
 
             duk_def_prop(m_context, -4,
@@ -209,26 +201,22 @@ void DuktapeObjectWrapper::wrapObject()
         }
     });
 
-    m_beforeRemoveConnection = m_obj->beforeRemove.connect([this](size_t index, cppexpose::AbstractProperty * property)
+    m_beforeRemoveConnection = m_obj->beforeRemove.connect([this](const std::string & name, cppexpose::AbstractVar *)
     {
         // Remove property
         duk_push_global_stash(m_context);
         duk_get_prop_index(m_context, -1, m_stashIndex);
-        duk_del_prop_string(m_context, -1, property->name().c_str());
+        duk_del_prop_string(m_context, -1, name.c_str());
         duk_pop(m_context);
         duk_pop(m_context);
 
         // Delete object wrapper
-        auto it = m_subObjects.begin() + index;
+        auto it = m_subObjects.begin() + m_stashIndex; // [TODO] is m_stashIndex correct?
         m_subObjects.erase(it);
     });
 
-    m_beforeDestroyConnection = m_obj->beforeDestroy.connect([this](cppexpose::AbstractProperty * property)
+    m_beforeDestroyConnection = m_obj->beforeDestroy.connect([this]()
     {
-        // [TODO] Provide an UNUSED() macro in cppassist
-        assert(property == m_obj);
-        (void)(property);
-
         // Get wrapper object
         duk_push_global_stash(m_context);
         duk_get_prop_index(m_context, -1, m_stashIndex);
@@ -257,7 +245,6 @@ void DuktapeObjectWrapper::wrapObject()
         duk_pop(m_context);
         duk_pop(m_context);
     });
-    */
 }
 
 void DuktapeObjectWrapper::pushToDukStack()
@@ -304,11 +291,11 @@ int DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     // Get property name
     duk_push_current_function(context);
     duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
-    std::string propName = duk_get_string(context, -1);
+    std::string name = duk_get_string(context, -1);
     duk_pop_2(context);
 
     // Get property
-    AbstractVar * property = obj->property(propName);
+    AbstractVar * property = obj->property(name);
 
     // Assume that the property exists, otherwise the engine is in an inconsistent state
     assert(property != nullptr);
@@ -360,11 +347,11 @@ int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     // Get property name
     duk_push_current_function(context);
     duk_get_prop_string(context, -1, s_duktapePropertyNameKey);
-    std::string propName = duk_get_string(context, -1);
+    std::string name = duk_get_string(context, -1);
     duk_pop_2(context);
 
     // Get property
-    AbstractVar * property = obj->property(propName);
+    AbstractVar * property = obj->property(name);
 
     // Assume that the property exists, otherwise the engine is in an inconsistent state
     assert(property != nullptr);
@@ -373,7 +360,7 @@ int DuktapeObjectWrapper::setPropertyValue(duk_context * context)
     if (property->isConst())
     {
         // Does not return
-        duk_error(context, DUK_ERR_TYPE_ERROR, "property '%s' is read-only", propName.c_str());
+        duk_error(context, DUK_ERR_TYPE_ERROR, "property '%s' is read-only", name.c_str());
     }
 
     // Set property value

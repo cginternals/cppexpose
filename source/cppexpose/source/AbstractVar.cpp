@@ -16,6 +16,7 @@ AbstractVar::AbstractVar()
 
 AbstractVar::~AbstractVar()
 {
+    beforeDestroy();
 }
 
 PropertyContainer * AbstractVar::parent() const
