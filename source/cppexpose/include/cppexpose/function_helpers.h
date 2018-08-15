@@ -6,8 +6,6 @@
 #include <type_traits>
 #include <functional>
 
-#include <cppexpose/Variant.h>
-
 
 namespace cppexpose
 {

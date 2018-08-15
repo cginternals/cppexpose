@@ -25,12 +25,9 @@ TreeNode::TreeNode()
 , m_right(nullptr)
 {
     // Register functions
-    // [TODO]
-    /*
     addFunction("expand",   this, &TreeNode::expand);
     addFunction("collapse", this, &TreeNode::collapse);
     addFunction("print",    this, &TreeNode::print);
-    */
 }
 
 TreeNode::~TreeNode()

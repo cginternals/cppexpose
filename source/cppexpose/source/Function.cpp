@@ -1,8 +1,8 @@
 
 #include <cppexpose/Function.h>
 
-#include <cppexpose/StaticFunction.h>
-#include <cppexpose/MemberFunction.h>
+#include <cppexpose/AbstractFunction.h>
+#include <cppexpose/Variant.h>
 
 
 namespace cppexpose

@@ -4,7 +4,6 @@
 
 #include <cppassist/fs/FilePath.h>
 
-#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/template_helpers.h>
 #include <cppexpose/TypedGeneric.h>
 #include <cppexpose/TypedBool.h>

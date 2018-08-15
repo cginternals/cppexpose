@@ -147,8 +147,6 @@ void DuktapeObjectWrapper::wrapObject()
         // Check if property is an object or a value property
         if (property->isObject())
         {
-            assert(m_subObjects.size() == index);
-
             // Get object
             Object * obj = static_cast<Object *>(property);
 

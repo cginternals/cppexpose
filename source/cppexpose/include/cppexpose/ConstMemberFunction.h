@@ -2,9 +2,9 @@
 #pragma once
 
 
-#include <cppexpose/cppexpose_api.h>
-#include <cppexpose/function_helpers.h>
 #include <cppexpose/AbstractFunction.h>
+#include <cppexpose/Variant.h>
+#include <cppexpose/function_helpers.h>
 
 
 namespace cppexpose

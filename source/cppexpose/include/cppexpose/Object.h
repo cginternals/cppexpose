@@ -226,6 +226,46 @@ public:
     *    If the object has ownership of the property, it will be deleted.
     */
     bool removeProperty(AbstractVar * property);
+
+    /**
+    *  @brief
+    *    Add (export) static function
+    *
+    *  @param[in] name
+    *    Function name
+    *  @param[in] fn
+    *    Function pointer
+    */
+    template <typename RetType, typename... Args>
+    void addFunction(const std::string & name, RetType (*fn)(Args...));
+
+    /**
+    *  @brief
+    *    Add (export) method on object
+    *
+    *  @param[in] name
+    *    Function name
+    *  @param[in] obj
+    *    Pointer to object instance
+    *  @param[in] member
+    *    Method pointer
+    */
+    template <class Type, typename RetType, typename... Args>
+    void addFunction(const std::string & name, Type * obj, RetType (Type::*fn)(Args...));
+
+    /**
+    *  @brief
+    *    Add (export) const method on object
+    *
+    *  @param[in] name
+    *    Function name
+    *  @param[in] obj
+    *    Pointer to object instance
+    *  @param[in] member
+    *    Method pointer
+    */
+    template <class Type, typename RetType, typename... Args>
+    void addFunction(const std::string & name, Type * obj, RetType (Type::*fn)(Args...) const);
     //@}
 
     // Replication

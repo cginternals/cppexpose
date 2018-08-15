@@ -2,33 +2,31 @@
 #include <string>
 #include <iostream>
 
-#include <cppexpose/reflection/Object.h>
-#include <cppexpose/reflection/Property.h>
-#include <cppexpose/typed/DirectValue.h>
-#include <cppexpose/scripting/ScriptContext.h>
-#include <cppexpose/scripting/example/TreeNode.h>
+#include <cppexpose/Object.h>
+#include <cppexpose/Var.h>
+
+#include <cppexpose-script/example/TreeNode.h>
+
+#include <cppexpose-js/DuktapeScriptEngine.h>
 
 
 using namespace cppexpose;
+using namespace cppexpose_script;
 
 
 class MyObject : public cppexpose::Object
 {
 public:
-    Property<std::string> String;
-    Property<int>         Int;
-    Property<float>       Float;
+    Var<std::string> String;
+    Var<int>         Int;
+    Var<float>       Float;
 
 
 public:
-    MyObject(const std::string & name = "obj")
-    : Object(name)
-    , String("string", this, this, &MyObject::getString, &MyObject::setString)
-    , Int   ("int"   , this, this, &MyObject::getInt,    &MyObject::setInt)
-    , Float ("float",  this, this, &MyObject::getFloat,  &MyObject::setFloat)
-    , m_string("Hallo")
-    , m_int(100)
-    , m_float(23.42)
+    MyObject()
+    : String(this, "string", "Hallo")
+    , Int   (this, "int", 100)
+    , Float (this, "float", 23.42f)
     {
         addFunction("print",        this, &MyObject::print);
         addFunction("test",         this, &MyObject::test);
@@ -38,36 +36,6 @@ public:
 
     virtual ~MyObject()
     {
-    }
-
-    std::string getString() const
-    {
-        return m_string;
-    }
-
-    void setString(const std::string & value)
-    {
-        m_string = value;
-    }
-
-    int getInt() const
-    {
-        return m_int;
-    }
-
-    void setInt(const int & value)
-    {
-        m_int = value;
-    }
-
-    float getFloat() const
-    {
-        return m_float;
-    }
-
-    void setFloat(const float & value)
-    {
-        m_float = value;
     }
 
 
@@ -100,26 +68,23 @@ protected:
 
 
 protected:
-    std::string m_string;
-    int         m_int;
-    float       m_float;
-    Function    m_func;
+    Function m_func;
 };
 
 
 int main(int, char * [])
 {
-    ScriptContext scriptContext;
+    DuktapeScriptEngine engine;
 
     // Create scripting environment
-    Object script("script");
-    scriptContext.addGlobalObject(&script);
+    Object script;
+    engine.addGlobalObject("script", &script);
 
-    MyObject obj ("obj");
-    script.addProperty(&obj);
+    MyObject obj;
+    script.addProperty("obj", &obj);
 
-    TreeNode tree("tree");
-    script.addProperty(&tree);
+    TreeNode tree;
+    script.addProperty("tree", &tree);
 
     // Provide a script console
     bool done = false;
@@ -134,7 +99,7 @@ int main(int, char * [])
 
         // Process command
         if (cmd != "exit") {
-            Variant result = scriptContext.evaluate(cmd);
+            Variant result = engine.evaluate(cmd);
             std::cout << result.toString() << std::endl;
         } else done = true;
     }
