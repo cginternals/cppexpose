@@ -8,10 +8,6 @@
 #include <cppexpose-script/cppexpose-script_api.h>
 
 
-namespace cppexpose_script
-{
-
-
 /**
 *  @brief
 *    Example class for dynamic hierarchies
@@ -99,6 +95,3 @@ protected:
     std::unique_ptr<TreeNode> m_left;  ///< Left child node (can be null)
     std::unique_ptr<TreeNode> m_right; ///< Right child node (can be null)
 };
-
-
-} // namespace cppexpose_script

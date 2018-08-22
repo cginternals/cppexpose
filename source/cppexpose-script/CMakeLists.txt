@@ -56,12 +56,10 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${include_path}/ScriptEngine.h
-    ${include_path}/example/TreeNode.h
 )
 
 set(sources
     ${source_path}/ScriptEngine.cpp
-    ${source_path}/example/TreeNode.cpp
 )
 
 # Group source files

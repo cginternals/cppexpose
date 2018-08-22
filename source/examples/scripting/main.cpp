@@ -5,9 +5,9 @@
 #include <cppexpose/Object.h>
 #include <cppexpose/Var.h>
 
-#include <cppexpose-script/example/TreeNode.h>
-
 #include <cppexpose-js/Engine.h>
+
+#include "TreeNode.h"
 
 
 using namespace cppexpose;
