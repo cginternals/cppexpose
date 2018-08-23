@@ -31,7 +31,7 @@ Type AbstractVar::convert() const
 {
     Var<Type> var;
     var.fromVar(*this);
-    return var.getValue();
+    return var.value();
 }
 
 

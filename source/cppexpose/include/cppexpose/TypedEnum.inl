@@ -162,7 +162,7 @@ template <typename Type, typename Storage>
 std::string TypedEnum<Type, Storage>::toString() const
 {
     // Check if value has a string representation
-    const auto it = m_stringMap.find(this->getValue());
+    const auto it = m_stringMap.find(this->value());
 
     // Return string representation
     if (it != m_stringMap.cend()) {
@@ -182,7 +182,7 @@ bool TypedEnum<Type, Storage>::canConvertToBool() const
 template <typename Type, typename Storage>
 bool TypedEnum<Type, Storage>::toBool() const
 {
-    return static_cast<bool>(this->getValue());
+    return static_cast<bool>(this->value());
 }
 
 template <typename Type, typename Storage>
@@ -194,7 +194,7 @@ bool TypedEnum<Type, Storage>::canConvertToLongLong() const
 template <typename Type, typename Storage>
 long long TypedEnum<Type, Storage>::toLongLong() const
 {
-    return static_cast<long long>(this->getValue());
+    return static_cast<long long>(this->value());
 }
 
 template <typename Type, typename Storage>
@@ -206,7 +206,7 @@ bool TypedEnum<Type, Storage>::canConvertToULongLong() const
 template <typename Type, typename Storage>
 unsigned long long TypedEnum<Type, Storage>::toULongLong() const
 {
-    return static_cast<unsigned long long>(this->getValue());
+    return static_cast<unsigned long long>(this->value());
 }
 
 template <typename Type, typename Storage>
@@ -218,7 +218,7 @@ bool TypedEnum<Type, Storage>::canConvertToDouble() const
 template <typename Type, typename Storage>
 double TypedEnum<Type, Storage>::toDouble() const
 {
-    return static_cast<double>(this->getValue());
+    return static_cast<double>(this->value());
 }
 
 template <typename Type, typename Storage>

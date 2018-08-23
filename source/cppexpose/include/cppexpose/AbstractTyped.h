@@ -57,7 +57,7 @@ public:
     *  @return
     *    Typed value
     */
-    virtual const Type & getValue() const = 0;
+    virtual const Type & value() const = 0;
 
     /**
     *  @brief

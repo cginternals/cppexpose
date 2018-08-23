@@ -23,9 +23,9 @@ MyObject::~MyObject()
 void MyObject::print()
 {
     /*
-    std::cout << "string = '" << String.getValue() << "'" << std::endl;
-    std::cout << "int    = "  << Int.getValue() << std::endl;
-    std::cout << "float  = "  << Float.getValue() << std::endl;
+    std::cout << "string = '" << String.value() << "'" << std::endl;
+    std::cout << "int    = "  << Int.value() << std::endl;
+    std::cout << "float  = "  << Float.value() << std::endl;
     std::cout << "mood   = "  << MyMood.convert<int>() << " (" << MyMood.convert<std::string>() << ")" << std::endl;
     std::cout << std::endl;
     */

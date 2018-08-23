@@ -48,7 +48,7 @@ ValueStorage<Type>::~ValueStorage()
 template <typename Type>
 std::unique_ptr<AbstractVar> ValueStorage<Type>::clone() const
 {
-    return std::unique_ptr<AbstractVar>(new Var<Type>(this->getValue()));
+    return std::unique_ptr<AbstractVar>(new Var<Type>(this->value()));
 }
 
 template <typename Type>
@@ -58,7 +58,7 @@ bool ValueStorage<Type>::isConst() const
 }
 
 template <typename Type>
-const Type & ValueStorage<Type>::getValue() const
+const Type & ValueStorage<Type>::value() const
 {
     return m_value;
 }
@@ -116,7 +116,7 @@ ValueStorage<const Type>::~ValueStorage()
 template <typename Type>
 std::unique_ptr<AbstractVar> ValueStorage<const Type>::clone() const
 {
-    return std::unique_ptr<AbstractVar>(new Var<const Type>(this->getValue()));
+    return std::unique_ptr<AbstractVar>(new Var<const Type>(this->value()));
 }
 
 template <typename Type>

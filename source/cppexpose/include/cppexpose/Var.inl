@@ -49,13 +49,13 @@ Var<Type>::Var(PropertyContainer * parent, const std::string & name, const Type 
 
 template <typename Type>
 Var<Type>::Var(const Var<Type> & var)
-: GetTyped< Type, ValueStorage<Type> >::VarType(var.getValue())
+: GetTyped< Type, ValueStorage<Type> >::VarType(var.value())
 {
 }
 
 template <typename Type>
 Var<Type>::Var(Var<Type> && var)
-: GetTyped< Type, ValueStorage<Type> >::VarType(var.getValue())
+: GetTyped< Type, ValueStorage<Type> >::VarType(var.value())
 {
 }
 
@@ -73,7 +73,7 @@ Var<Type>::~Var()
 template <typename Type>
 Var<Type> & Var<Type>::operator =(const Var<Type> & var)
 {
-    this->setValue(var.getValue());
+    this->setValue(var.value());
     return *this;
 }
 

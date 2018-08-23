@@ -130,7 +130,7 @@ bool TypedBool<Type, Storage>::canConvertToString() const
 template <typename Type, typename Storage>
 std::string TypedBool<Type, Storage>::toString() const
 {
-    return this->getValue() ? "true" : "false";
+    return this->value() ? "true" : "false";
 }
 
 template <typename Type, typename Storage>
@@ -143,7 +143,7 @@ bool TypedBool<Type, Storage>::canConvertToBool() const
 template <typename Type, typename Storage>
 bool TypedBool<Type, Storage>::toBool() const
 {
-    return this->getValue();
+    return this->value();
 }
 
 template <typename Type, typename Storage>
@@ -156,7 +156,7 @@ bool TypedBool<Type, Storage>::canConvertToLongLong() const
 template <typename Type, typename Storage>
 long long TypedBool<Type, Storage>::toLongLong() const
 {
-    return this->getValue() ? 1ll : 0ll;
+    return this->value() ? 1ll : 0ll;
 }
 
 template <typename Type, typename Storage>
@@ -169,7 +169,7 @@ bool TypedBool<Type, Storage>::canConvertToULongLong() const
 template <typename Type, typename Storage>
 unsigned long long TypedBool<Type, Storage>::toULongLong() const
 {
-    return this->getValue() ? 1ull : 0ull;
+    return this->value() ? 1ull : 0ull;
 }
 
 template <typename Type, typename Storage>
@@ -182,7 +182,7 @@ bool TypedBool<Type, Storage>::canConvertToDouble() const
 template <typename Type, typename Storage>
 double TypedBool<Type, Storage>::toDouble() const
 {
-    return this->getValue() ? 1.0 : 0.0;
+    return this->value() ? 1.0 : 0.0;
 }
 
 template <typename Type, typename Storage>

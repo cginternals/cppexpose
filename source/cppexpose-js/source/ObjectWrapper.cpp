@@ -103,7 +103,7 @@ void ObjectWrapper::wrapObject()
         // Register function
         else if (prop->isFunction()) {
             // Get function
-            const Function & func = static_cast<Var<Function> *>(prop)->getValue();
+            const Function & func = static_cast<Var<Function> *>(prop)->value();
 
             // Register function
             duk_push_c_function(m_context, callObjectFunction, DUK_VARARGS);

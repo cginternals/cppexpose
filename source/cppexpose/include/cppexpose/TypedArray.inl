@@ -211,7 +211,7 @@ Array TypedArray<Type, Storage>::toArray() const
     size_t numElements = std::tuple_size<Type>::value;
 
     // Get array
-    auto const & value = this->getValue();
+    auto const & value = this->value();
 
     // Create Array
     Array array;
