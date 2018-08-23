@@ -228,7 +228,7 @@ template <typename Type, typename Storage>
 void TypedPointer<Type, Storage>::fromVar(const AbstractVar & value)
 {
     if (value.hasType<Type>() || value.canConvert<Type>()) {
-        this->setValue(value.value<Type>());
+        this->setValue(value.convert<Type>());
     } else if (value.canConvertToULongLong()) {
         this->setValue(reinterpret_cast<Type>(reinterpret_cast<void *>(value.toULongLong())));
     }

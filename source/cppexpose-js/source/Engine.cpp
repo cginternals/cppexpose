@@ -226,7 +226,7 @@ Variant Engine::fromDukStack(int index)
             while (duk_next(m_context, -1, 1)) // Push next key (-2) & value (-1)
             {
                 // Set value on object
-                obj.addProperty(fromDukStack(-2).value<std::string>(), fromDukStack(-1));
+                obj.addProperty(fromDukStack(-2).convert<std::string>(), fromDukStack(-1));
 
                 // Pop key & value
                 duk_pop_2(m_context);
@@ -281,7 +281,7 @@ void Engine::pushToDukStack(const Variant & value)
     }
 
     else if (value.hasType<char*>()) {
-        duk_push_string(m_context, value.value<char*>());
+        duk_push_string(m_context, value.convert<char*>());
     }
 
     else if (value.isArray())
@@ -311,7 +311,7 @@ void Engine::pushToDukStack(const Variant & value)
 
     else if (value.hasType<cppexpose::Object *>())
     {
-        const auto object = value.value<cppexpose::Object *>();
+        const auto object = value.convert<cppexpose::Object *>();
         if (object == nullptr)
         {
             duk_push_null(m_context);

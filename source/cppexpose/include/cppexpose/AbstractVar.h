@@ -86,7 +86,7 @@ public:
     *    If the conversion fails, the value will be the default value for the given type.
     */
     template <typename Type>
-    Type value() const;
+    Type convert() const;
 
     // Replication
 

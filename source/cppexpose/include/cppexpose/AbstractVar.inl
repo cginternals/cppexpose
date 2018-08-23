@@ -27,7 +27,7 @@ bool AbstractVar::canConvert() const
 }
 
 template <typename Type>
-Type AbstractVar::value() const
+Type AbstractVar::convert() const
 {
     Var<Type> var;
     var.fromVar(*this);

@@ -233,7 +233,7 @@ template <typename Type, typename Storage>
 void TypedArray<Type, Storage>::fromVar(const AbstractVar & value)
 {
     if (value.hasType<Type>() || value.canConvert<Type>()) {
-        this->setValue(value.value<Type>());
+        this->setValue(value.convert<Type>());
     } else if (value.isArray()) {
         // Get element type
         using ValueType = typename Type::value_type;
@@ -249,7 +249,7 @@ void TypedArray<Type, Storage>::fromVar(const AbstractVar & value)
         // Copy values into array
         Type array;
         for (size_t i=0; i<std::min(std::tuple_size<Type>::value, arrayValue.size()); i++) {
-            array[i] = arrayValue.at(i)->value<ValueType>();
+            array[i] = arrayValue.at(i)->convert<ValueType>();
         }
 
         // Set new value
@@ -264,7 +264,7 @@ void TypedArray<Type, Storage>::fromVar(const AbstractVar & value)
         // Copy values into array
         Type array;
         for (size_t i=0; i<std::min(std::tuple_size<Type>::value, arrayValue.size()); i++) {
-            array[i] = arrayValue.at(i)->value<ValueType>();
+            array[i] = arrayValue.at(i)->convert<ValueType>();
         }
 
         // Set new value

@@ -59,19 +59,19 @@ int main(int, char * [])
     std::cout << std::endl;
 
     // Set enum values
-    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+    std::cout << "mood = "  << obj.MyMood.convert<int>() << " (" << obj.MyMood.convert<std::string>() << ")" << std::endl;
 
     obj.MyMood = Mood::Neutral;
-    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+    std::cout << "mood = "  << obj.MyMood.convert<int>() << " (" << obj.MyMood.convert<std::string>() << ")" << std::endl;
 
     obj.MyMood = Variant("Happy");
-    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+    std::cout << "mood = "  << obj.MyMood.convert<int>() << " (" << obj.MyMood.convert<std::string>() << ")" << std::endl;
 
     obj.MyMood = Variant(-1);
-    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+    std::cout << "mood = "  << obj.MyMood.convert<int>() << " (" << obj.MyMood.convert<std::string>() << ")" << std::endl;
 
     obj.MyMood = Variant(0);
-    std::cout << "mood = "  << obj.MyMood.value<int>() << " (" << obj.MyMood.value<std::string>() << ")" << std::endl;
+    std::cout << "mood = "  << obj.MyMood.convert<int>() << " (" << obj.MyMood.convert<std::string>() << ")" << std::endl;
 
     std::cout << std::endl;
 

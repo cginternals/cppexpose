@@ -37,7 +37,7 @@ void MyObject::setFunction(const Variant & func)
 {
     if (func.hasType<Function>()) {
         std::cout << "Setting function." << std::endl;
-        m_func = func.value<Function>();
+        m_func = func.convert<Function>();
     } else {
         std::cout << "Parameter is not a function." << std::endl;
     }

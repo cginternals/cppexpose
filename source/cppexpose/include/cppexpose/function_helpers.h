@@ -32,7 +32,7 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue {
         // Assume signed integral type by default
         int value = 0;
         if (POS < args.size()) {
-            value = args[POS].value<int>();
+            value = args[POS].convert<int>();
         }
         return value;
     }
@@ -50,7 +50,7 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue<float, POS> {
     static float get(const std::vector<Variant> & args) {
         float value = 0.0f;
         if (POS < args.size()) {
-            value = (float)args[POS].value<double>();
+            value = (float)args[POS].convert<double>();
         }
         return value;
     }
@@ -61,7 +61,7 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue<double, POS> {
     static double get(const std::vector<Variant> & args) {
         double value = 0.0f;
         if (POS < args.size()) {
-            value = args[POS].value<double>();
+            value = args[POS].convert<double>();
         }
         return value;
     }
@@ -72,7 +72,7 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue<bool, POS> {
     static bool get(const std::vector<Variant> & args) {
         bool value = false;
         if (POS < args.size()) {
-            value = args[POS].value<bool>();
+            value = args[POS].convert<bool>();
         }
         return value;
     }
@@ -83,7 +83,7 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue<std::string, POS> {
     static std::string get(const std::vector<Variant> & args) {
         std::string value;
         if (POS < args.size()) {
-            value = args[POS].value<std::string>();
+            value = args[POS].convert<std::string>();
         }
         return value;
     }
@@ -137,7 +137,7 @@ struct CPPEXPOSE_TEMPLATE_API ArgValue<cppexpose::Object *, POS> {
     static cppexpose::Object * get(const std::vector<Variant> & args) {
         cppexpose::Object * obj = nullptr;
         if (POS < args.size()) {
-            obj = args[POS].value<cppexpose::Object *>();
+            obj = args[POS].convert<cppexpose::Object *>();
         }
         return obj;
     }

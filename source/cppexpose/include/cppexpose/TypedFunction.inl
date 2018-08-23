@@ -215,7 +215,7 @@ template <typename Type, typename Storage>
 void TypedFunction<Type, Storage>::fromVar(const AbstractVar & value)
 {
     if (value.isFunction()) {
-        this->setValue(value.value<Type>());
+        this->setValue(value.convert<Type>());
     }
 }
 

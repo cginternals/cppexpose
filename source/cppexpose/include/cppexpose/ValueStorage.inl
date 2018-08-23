@@ -15,14 +15,14 @@ ValueStorage<Type>::ValueStorage()
 template <typename Type>
 ValueStorage<Type>::ValueStorage(const AbstractVar & var)
 : AbstractTyped<Type>()
-, m_value(var.value<Type>())
+, m_value(var.convert<Type>())
 {
 }
 
 template <typename Type>
 ValueStorage<Type>::ValueStorage(const Type &, const AbstractVar & var)
 : AbstractTyped<Type>()
-, m_value(var.value<Type>())
+, m_value(var.convert<Type>())
 {
 }
 
@@ -83,14 +83,14 @@ ValueStorage<const Type>::ValueStorage()
 template <typename Type>
 ValueStorage<const Type>::ValueStorage(const AbstractVar & var)
 : AbstractTyped<Type>()
-, m_value(var.value<Type>())
+, m_value(var.convert<Type>())
 {
 }
 
 template <typename Type>
 ValueStorage<const Type>::ValueStorage(const Type &, const AbstractVar & var)
 : AbstractTyped<Type>()
-, m_value(var.value<Type>())
+, m_value(var.convert<Type>())
 {
 }
 
