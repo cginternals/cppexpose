@@ -3,73 +3,14 @@
 #include <iostream>
 
 #include <cppexpose/Object.h>
-#include <cppexpose/Var.h>
 
 #include <cppexpose-js/Engine.h>
 
 #include "TreeNode.h"
+#include "MyObject.h"
 
 
 using namespace cppexpose;
-using namespace cppexpose_script;
-
-
-class MyObject : public cppexpose::Object
-{
-public:
-    Var<std::string> String;
-    Var<int>         Int;
-    Var<float>       Float;
-
-
-public:
-    MyObject()
-    : String(this, "string", "Hallo")
-    , Int   (this, "int", 100)
-    , Float (this, "float", 23.42f)
-    {
-        addFunction("print",        this, &MyObject::print);
-        addFunction("test",         this, &MyObject::test);
-        addFunction("setFunction",  this, &MyObject::setFunction);
-        addFunction("callFunction", this, &MyObject::callFunction);
-    }
-
-    virtual ~MyObject()
-    {
-    }
-
-
-protected:
-    void print(const Variant & value)
-    {
-        std::cout << ":: " << value.toString() << std::endl;
-    }
-
-    void test(int a, float b)
-    {
-        std::cout << "a = " << a << std::endl;
-        std::cout << "b = " << b << std::endl;
-    }
-
-    void setFunction(const Variant & func)
-    {
-        if (func.hasType<Function>()) {
-            std::cout << "Setting function." << std::endl;
-            m_func = func.value<Function>();
-        } else {
-            std::cout << "Parameter is not a function." << std::endl;
-        }
-    }
-
-    void callFunction()
-    {
-        m_func.call({Variant::fromValue<cppexpose::Object *>(this)});
-    }
-
-
-protected:
-    Function m_func;
-};
 
 
 int main(int, char * [])

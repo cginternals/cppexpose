@@ -23,6 +23,8 @@ message(STATUS "Example ${target}")
 
 set(sources
     main.cpp
+    MyObject.cpp
+    MyObject.h
     TreeNode.cpp
     TreeNode.h
 )
