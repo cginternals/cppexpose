@@ -131,6 +131,19 @@ public:
     */
     AbstractVar * push(AbstractVar * property);
 
+    /**
+    *  @brief
+    *    Add element to array
+    *
+    *  @param[in] property
+    *    Property
+    *
+    *  @return
+    *    Pointer to the property
+    *
+    *  @remarks
+    *    Adds the given property to the array and transfers ownership.
+    */
     AbstractVar * push(AbstractVar && property);
 
     /**
