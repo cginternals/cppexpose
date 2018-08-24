@@ -22,6 +22,12 @@ message(STATUS "Example ${target}")
 #
 
 set(sources
+    linenoise-ng/ConvertUTF.h
+    linenoise-ng/ConvertUTF.cpp
+    linenoise-ng/wcwidth.cpp
+    linenoise-ng/linenoise.h
+    linenoise-ng/linenoise.cpp
+
     main.cpp
     MyObject.cpp
     MyObject.h

@@ -8,6 +8,7 @@
 
 #include "TreeNode.h"
 #include "MyObject.h"
+#include "linenoise-ng/linenoise.h"
 
 
 using namespace cppexpose;
@@ -27,22 +28,26 @@ int main(int, char * [])
     TreeNode tree;
     script.addProperty("tree", &tree);
 
-    // Provide a script console
-    bool done = false;
-    while (!done && !std::cin.eof())
-    {
-        // Prompt
-        std::cout << "> " << std::flush;
+    while (char * line = linenoise("> ")) {
+        // Get command
+        std::string cmd = line;
+        free(line);
 
-        // Read command
-        std::string cmd;
-        std::getline(std::cin, cmd);
+        // Check command
+        if (cmd[0] != '\0') {
+            // Process command
+            if (cmd == "exit") {
+                // Exit command line
+                break;
+            } else {
+                // Execute javascript code
+                Variant result = engine.evaluate(cmd);
+                std::cout << result.toString() << std::endl;
 
-        // Process command
-        if (cmd != "exit") {
-            Variant result = engine.evaluate(cmd);
-            std::cout << result.toString() << std::endl;
-        } else done = true;
+                // Add line to history
+                linenoiseHistoryAdd(cmd.c_str());
+            }
+        }
     }
 
     // Exit application
