@@ -74,6 +74,8 @@ set(headers
     ${include_path}/PropertyContainer.h
     ${include_path}/TypedArray.h
     ${include_path}/TypedArray.inl
+    ${include_path}/TypedArrayPointer.h
+    ${include_path}/TypedArrayPointer.inl
     ${include_path}/TypedBool.h
     ${include_path}/TypedBool.inl
     ${include_path}/TypedEnum.h
@@ -84,6 +86,8 @@ set(headers
     ${include_path}/TypedFunction.inl
     ${include_path}/TypedGeneric.h
     ${include_path}/TypedGeneric.inl
+    ${include_path}/TypedObjectPointer.h
+    ${include_path}/TypedObjectPointer.inl
     ${include_path}/TypedPointer.h
     ${include_path}/TypedPointer.inl
     ${include_path}/TypedSignedIntegral.h

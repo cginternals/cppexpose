@@ -289,7 +289,17 @@ bool Object::isObject() const
     return true;
 }
 
+bool Object::isObjectPointer() const
+{
+    return false;
+}
+
 bool Object::isArray() const
+{
+    return false;
+}
+
+bool Object::isArrayPointer() const
 {
     return false;
 }
@@ -322,7 +332,7 @@ bool Object::canConvertToString() const
 std::string Object::toString() const
 {
     // [TODO]
-    return "";
+    return "{}";
 }
 
 bool Object::canConvertToBool() const

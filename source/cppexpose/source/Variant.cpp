@@ -228,9 +228,21 @@ bool Variant::isObject() const
     else         return false;
 }
 
+bool Variant::isObjectPointer() const
+{
+    if (m_value) return m_value->isObjectPointer();
+    else         return false;
+}
+
 bool Variant::isArray() const
 {
     if (m_value) return m_value->isArray();
+    else         return false;
+}
+
+bool Variant::isArrayPointer() const
+{
+    if (m_value) return m_value->isArrayPointer();
     else         return false;
 }
 

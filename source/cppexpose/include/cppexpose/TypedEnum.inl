@@ -127,7 +127,19 @@ bool TypedEnum<Type, Storage>::isObject() const
 }
 
 template <typename Type, typename Storage>
+bool TypedEnum<Type, Storage>::isObjectPointer() const
+{
+    return false;
+}
+
+template <typename Type, typename Storage>
 bool TypedEnum<Type, Storage>::isArray() const
+{
+    return false;
+}
+
+template <typename Type, typename Storage>
+bool TypedEnum<Type, Storage>::isArrayPointer() const
 {
     return false;
 }

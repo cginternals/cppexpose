@@ -70,7 +70,9 @@ public:
     virtual bool isExternal() const override;
     virtual bool isPointer() const override;
     virtual bool isObject() const override;
+    virtual bool isObjectPointer() const override;
     virtual bool isArray() const override;
+    virtual bool isArrayPointer() const override;
     virtual bool isFunction() const override;
 
     // Access modifiers

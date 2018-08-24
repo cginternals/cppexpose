@@ -270,9 +270,19 @@ bool Array::isObject() const
     return false;
 }
 
+bool Array::isObjectPointer() const
+{
+    return false;
+}
+
 bool Array::isArray() const
 {
     return true;
+}
+
+bool Array::isArrayPointer() const
+{
+    return false;
 }
 
 bool Array::isFunction() const
@@ -303,7 +313,7 @@ bool Array::canConvertToString() const
 std::string Array::toString() const
 {
     // [TODO]
-    return "";
+    return "[]";
 }
 
 bool Array::canConvertToBool() const

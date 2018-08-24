@@ -14,6 +14,8 @@
 #include <cppexpose/TypedFloatingPoint.h>
 #include <cppexpose/TypedEnum.h>
 #include <cppexpose/TypedPointer.h>
+#include <cppexpose/TypedObjectPointer.h>
+#include <cppexpose/TypedArrayPointer.h>
 #include <cppexpose/TypedArray.h>
 //#include <cppexpose/TypedVariant.h>
 //#include <cppexpose/TypedFilePath.h>
@@ -129,6 +131,46 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<std::is_p
 
 /**
 *  @brief
+*    Type selector for pointer to Object
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Object *, Storage>
+{
+    using VarType = TypedObjectPointer<cppexpose::Object *, Storage>;
+};
+
+/**
+*  @brief
+*    Type selector for pointer to Object (const)
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Object *, Storage>
+{
+    using VarType = TypedObjectPointer<const cppexpose::Object *, Storage>;
+};
+
+/**
+*  @brief
+*    Type selector for pointer to Array
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Array *, Storage>
+{
+    using VarType = TypedArrayPointer<cppexpose::Array *, Storage>;
+};
+
+/**
+*  @brief
+*    Type selector for pointer to Array (const)
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Array *, Storage>
+{
+    using VarType = TypedArrayPointer<const cppexpose::Array *, Storage>;
+};
+
+/**
+*  @brief
 *    Type selector for array types
 */
 template <typename Type, typename Storage>
@@ -187,7 +229,7 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath, Storage>
 
 /**
 *  @brief
-*    Type selector for bool
+*    Type selector for functions
 */
 template <typename Storage>
 struct CPPEXPOSE_TEMPLATE_API GetTyped<Function, Storage>

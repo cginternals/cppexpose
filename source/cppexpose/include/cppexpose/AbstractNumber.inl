@@ -108,7 +108,19 @@ bool AbstractNumber<Type, Storage>::isObject() const
 }
 
 template <typename Type, typename Storage>
+bool AbstractNumber<Type, Storage>::isObjectPointer() const
+{
+    return false;
+}
+
+template <typename Type, typename Storage>
 bool AbstractNumber<Type, Storage>::isArray() const
+{
+    return false;
+}
+
+template <typename Type, typename Storage>
+bool AbstractNumber<Type, Storage>::isArrayPointer() const
 {
     return false;
 }

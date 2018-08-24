@@ -11,10 +11,10 @@ namespace cppexpose
 
 /**
 *  @brief
-*    Representation of an arbitrary (unknown typed) value
+*    Representation of a pointer to an Array
 */
 template <typename Type, typename Storage>
-class CPPEXPOSE_TEMPLATE_API TypedGeneric : public Storage
+class CPPEXPOSE_TEMPLATE_API TypedArrayPointer : public Storage
 {
 public:
     /**
@@ -25,13 +25,13 @@ public:
     *    Arguments which are passed on to the constructor of the base-var
     */
     template <typename... Args>
-    TypedGeneric(Args&&... args);
+    TypedArrayPointer(Args&&... args);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~TypedGeneric();
+    virtual ~TypedArrayPointer();
 
     // Replication
     //   Overloaded in Storage type
@@ -93,4 +93,4 @@ public:
 } // namespace cppexpose
 
 
-#include <cppexpose/TypedGeneric.inl>
+#include <cppexpose/TypedArrayPointer.inl>

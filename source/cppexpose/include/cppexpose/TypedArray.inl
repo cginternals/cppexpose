@@ -98,10 +98,22 @@ bool TypedArray<Type, Storage>::isObject() const
 }
 
 template <typename Type, typename Storage>
+bool TypedArray<Type, Storage>::isObjectPointer() const
+{
+    return false;
+}
+
+template <typename Type, typename Storage>
 bool TypedArray<Type, Storage>::isArray() const
 {
     // This is not an instance of Array!
     // (But it can be converted, which is what TypedArray enables on array types.)
+    return false;
+}
+
+template <typename Type, typename Storage>
+bool TypedArray<Type, Storage>::isArrayPointer() const
+{
     return false;
 }
 

@@ -96,7 +96,19 @@ bool TypedFunction<Type, Storage>::isObject() const
 }
 
 template <typename Type, typename Storage>
+bool TypedFunction<Type, Storage>::isObjectPointer() const
+{
+    return false;
+}
+
+template <typename Type, typename Storage>
 bool TypedFunction<Type, Storage>::isArray() const
+{
+    return false;
+}
+
+template <typename Type, typename Storage>
+bool TypedFunction<Type, Storage>::isArrayPointer() const
 {
     return false;
 }

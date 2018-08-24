@@ -241,12 +241,30 @@ public:
 
     /**
     *  @brief
+    *    Check if value is a pointer to Object
+    *
+    *  @return
+    *    'true' if value is a pointer to Object, else 'false'
+    */
+    virtual bool isObjectPointer() const = 0;
+
+    /**
+    *  @brief
     *    Check if value is of type Array
     *
     *  @return
     *    'true' if value is an instance of type Array, else 'false'
     */
     virtual bool isArray() const = 0;
+
+    /**
+    *  @brief
+    *    Check if value is a pointer to Array
+    *
+    *  @return
+    *    'true' if value is a pointer to Array, else 'false'
+    */
+    virtual bool isArrayPointer() const = 0;
 
     /**
     *  @brief
