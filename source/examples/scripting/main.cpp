@@ -43,6 +43,10 @@ int main(int, char * [])
     arr = Variant("[123, 124, 125]");
     script.addProperty("arr", &arr);
 
+    script.createProperty<Object>("o");
+    script.createProperty<Array>("a");
+    script.createProperty<Variant>("v", Variant(111));
+
     // Start interactive command console
     while (char * line = linenoise("> ")) {
         // Get command

@@ -181,27 +181,73 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<helper::i
 
 /**
 *  @brief
-*    Type selector for cppexpose::Variant
+*    Type selector for Object
 */
-/*
 template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Variant, Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Object, Storage>
 {
-    using VarType = TypedVariant<cppexpose::Variant, Storage>;
+    using VarType = cppexpose::Object;
 };
-*/
 
 /**
 *  @brief
-*    Type selector for const cppexpose::Variant
+*    Type selector for Object (const)
 */
-/*
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Object, Storage>
+{
+    using VarType = cppexpose::Object;
+};
+
+/**
+*  @brief
+*    Type selector for Array
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Array, Storage>
+{
+    using VarType = cppexpose::Array;
+};
+
+/**
+*  @brief
+*    Type selector for Array (const)
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Array, Storage>
+{
+    using VarType = cppexpose::Array;
+};
+
+/**
+*  @brief
+*    Type selector for Variant
+*/
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Variant, Storage>
+{
+    using VarType = cppexpose::Variant;
+};
+
+/**
+*  @brief
+*    Type selector for Variant (const)
+*/
 template <typename Storage>
 struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant, Storage>
 {
-    using VarType = TypedVariant<const cppexpose::Variant, Storage>;
+    using VarType = cppexpose::Variant;
 };
+
+/**
+*  @brief
+*    Type selector for functions
 */
+template <typename Storage>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Function, Storage>
+{
+    using VarType = TypedFunction<Function, Storage>;
+};
 
 /**
 *  @brief
@@ -226,16 +272,6 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath, Storage>
     using VarType = TypedFilePath<const cppassist::FilePath, Storage>;
 };
 */
-
-/**
-*  @brief
-*    Type selector for functions
-*/
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Function, Storage>
-{
-    using VarType = TypedFunction<Function, Storage>;
-};
 
 
 } // namespace cppexpose

@@ -87,24 +87,6 @@ public:
 
     /**
     *  @brief
-    *    Copy Constructor
-    *
-    *  @param[in] var
-    *    Var that is copied
-    */
-    Var(const Var<Type> & var);
-
-    /**
-    *  @brief
-    *    Move Constructor
-    *
-    *  @param[in] var
-    *    Var that is moved
-    */
-    Var(Var<Type> && var);
-
-    /**
-    *  @brief
     *    Constructor that copies the value from another var
     *
     *  @param[in] var
