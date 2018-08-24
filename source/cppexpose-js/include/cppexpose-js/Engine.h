@@ -21,7 +21,7 @@ typedef struct duk_hthread duk_context;
 namespace cppexpose
 {
     class Object;
-    class Variant;
+    class AbstractVar;
 }
 
 
@@ -121,7 +121,7 @@ protected:
     *  @param[in] value
     *    Variant value
     */
-    void pushToDukStack(const cppexpose::Variant & value);
+    void pushToDukStack(const cppexpose::AbstractVar & value);
 
     /**
     *  @brief

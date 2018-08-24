@@ -258,7 +258,7 @@ Variant Engine::fromDukStack(int index)
     return Variant();
 }
 
-void Engine::pushToDukStack(const Variant & value)
+void Engine::pushToDukStack(const AbstractVar & value)
 {
     if (value.isBool()) {
         duk_push_boolean(m_context, value.toBool());
@@ -291,7 +291,7 @@ void Engine::pushToDukStack(const Variant & value)
         duk_idx_t arr_idx = duk_push_array(m_context);
 
         for (unsigned int i=0; i<array.size(); i++) {
-            pushToDukStack(array.at(i));
+            pushToDukStack(*array.at(i));
             duk_put_prop_index(m_context, arr_idx, i);
         }
     }
