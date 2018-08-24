@@ -1,7 +1,7 @@
 
 #include <cppexpose/JSON.h>
 
-#include <iostream>
+#include <sstream>
 
 #include <cppassist/string/conversion.h>
 #include <cppassist/logging/logging.h>
@@ -71,9 +71,10 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
         if (obj.empty()) return "{}";
 
         // Begin output
-        std::string json = "{"; // [TODO] maybe a stringstream can be more performant
+        std::stringstream ss;
+        ss << "{";
         if (beautify) {
-            json += "\n";
+            ss << "\n";
         }
 
         // Add all variables
@@ -87,7 +88,7 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
 
             // Add separator (",")
             if (!first) {
-                json += beautify ? ",\n" : ",";
+                ss << (beautify ? ",\n" : ",");
             } else {
                 first = false;
             }
@@ -113,12 +114,12 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
             }
 
             // Add value to JSON
-            json += (beautify ? (indent + "    \"" + name + "\": " + value) : ("\"" + name + "\":" + value));
+            ss << (beautify ? (indent + "    \"" + name + "\": " + value) : ("\"" + name + "\":" + value));
         }
 
         // Finish JSON
-        json += (beautify ? "\n" + indent + "}" : "}");
-        return json;
+        ss << (beautify ? "\n" + indent + "}" : "}");
+        return ss.str();
     }
 
     // Variant is an array
@@ -133,8 +134,11 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
         }
 
         // Begin output
-        std::string json = "["; // [TODO] maybe a stringstream can be more performant
-        if (beautify) json += "\n";
+        std::stringstream ss;
+        ss << "[";
+        if (beautify) {
+            ss << "\n";
+        }
 
         // Add all elements
         bool first = true;
@@ -146,7 +150,7 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
 
             // Add separator (",")
             if (!first)
-                json += beautify ? ",\n" : ",";
+                ss << (beautify ? ",\n" : ",");
             else
                 first = false;
 
@@ -171,13 +175,13 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
             }
 
             // Add value to JSON
-            json += (beautify ? (indent + "    " + value) : value);
+            ss << (beautify ? (indent + "    " + value) : value);
         }
 
         // Finish JSON
-        json += (beautify ? "\n" + indent + "]" : "]");
+        ss << (beautify ? "\n" + indent + "]" : "]");
 
-        return json;
+        return ss.str();
     }
 
     // Primitive data types
