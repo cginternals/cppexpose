@@ -64,6 +64,12 @@ Object::~Object()
 {
 }
 
+Object & Object::operator =(const AbstractVar & var)
+{
+    fromVar(var);
+    return *this;
+}
+
 bool Object::empty() const
 {
     return m_properties.empty();

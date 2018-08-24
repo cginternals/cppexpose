@@ -139,6 +139,12 @@ Variant & Variant::operator =(const Variant & value)
     return *this;
 }
 
+Variant & Variant::operator =(const AbstractVar & var)
+{
+    m_value = std::move(var.clone());
+    return *this;
+}
+
 Variant & Variant::operator =(std::unique_ptr<AbstractVar> && value)
 {
     m_value = std::move(value);

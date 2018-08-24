@@ -82,6 +82,15 @@ public:
 
     /**
     *  @brief
+    *    Assignment operator
+    *
+    *  @param[in] value
+    *    Variable whose value is copied
+    */
+    Array & operator =(const AbstractVar & var);
+
+    /**
+    *  @brief
     *    Check if array is empty
     *
     *  @return

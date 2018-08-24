@@ -149,6 +149,15 @@ public:
 
     /**
     *  @brief
+    *    Assignment operator
+    *
+    *  @param[in] value
+    *    Variable whose value is copied
+    */
+    Variant & operator =(const AbstractVar & var);
+
+    /**
+    *  @brief
     *    Move operator
     *
     *  @param[in] value

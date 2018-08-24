@@ -62,6 +62,12 @@ Array::~Array()
 {
 }
 
+Array & Array::operator =(const AbstractVar & var)
+{
+    fromVar(var);
+    return *this;
+}
+
 bool Array::empty() const
 {
     return m_properties.empty();
