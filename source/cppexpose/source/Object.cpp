@@ -458,6 +458,10 @@ const Array * Object::asArray() const
 
 void Object::copyFromObject(const Object & obj)
 {
+    // Clear properties
+    m_properties.clear();
+    m_ownProperties.clear();
+
     // Copy properties
     for (auto it : obj.m_properties) {
         // Get name and property

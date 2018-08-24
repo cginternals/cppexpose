@@ -431,6 +431,10 @@ const Array * Array::asArray() const
 
 void Array::copyFromArray(const Array & arr)
 {
+    // Clear properties
+    m_properties.clear();
+    m_ownProperties.clear();
+
     // Copy properties
     for (auto * var : arr.m_properties) {
         // Create copy of property
