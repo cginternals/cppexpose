@@ -312,8 +312,35 @@ bool Array::canConvertToString() const
 
 std::string Array::toString() const
 {
-    // [TODO]
-    return "[]";
+    std::stringstream ss;
+
+    // Begin array
+    ss << "[";
+
+    // Iterate over properties
+    bool first = true;
+    for (auto * var : m_properties) {
+        // Ignore certain types of var
+        if (var->isNull() || var->isFunction()) {
+            continue;
+        }
+
+        // Output comma between two properties
+        if (!first) {
+            ss << ", ";
+        } else first = false;
+
+        // Output property value
+        if (var->isString()) ss << "\"";
+        ss << var->toString();
+        if (var->isString()) ss << "\"";
+    }
+
+    // End array
+    ss << "]";
+
+    // Return string
+    return ss.str();
 }
 
 bool Array::canConvertToBool() const

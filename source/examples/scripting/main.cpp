@@ -28,6 +28,12 @@ int main(int, char * [])
     TreeNode tree;
     script.addProperty("tree", &tree);
 
+    Array array;
+    array.push(Variant(10));
+    array.push(Variant(11));
+    array.push(Variant(12));
+    script.addProperty("array", &array);
+
     // Start interactive command console
     while (char * line = linenoise("> ")) {
         // Get command

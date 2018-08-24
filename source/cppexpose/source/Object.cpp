@@ -2,6 +2,7 @@
 #include <cppexpose/Object.h>
 
 #include <algorithm>
+#include <sstream>
 
 #include <cppassist/memory/make_unique.h>
 
@@ -331,8 +332,42 @@ bool Object::canConvertToString() const
 
 std::string Object::toString() const
 {
-    // [TODO]
-    return "{}";
+    std::stringstream ss;
+
+    // Begin object
+    ss << "{";
+
+    // Iterate over properties
+    bool first = true;
+    for (auto it : m_properties) {
+        // Get name and property
+        std::string   name = it.first;
+        AbstractVar * var  = it.second;
+
+        // Ignore certain types of var
+        if (var->isNull() || var->isFunction()) {
+            continue;
+        }
+
+        // Output comma between two properties
+        if (!first) {
+            ss << ", ";
+        } else first = false;
+
+        // Output property name
+        ss << "\"" << name << "\"" << ": ";
+
+        // Output property value
+        if (var->isString()) ss << "\"";
+        ss << var->toString();
+        if (var->isString()) ss << "\"";
+    }
+
+    // End object
+    ss << "}";
+
+    // Return string
+    return ss.str();
 }
 
 bool Object::canConvertToBool() const

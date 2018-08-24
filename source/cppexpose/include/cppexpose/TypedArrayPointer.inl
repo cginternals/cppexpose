@@ -3,7 +3,6 @@
 
 
 #include <string>
-#include <sstream>
 
 #include <cppexpose/Variant.h>
 #include <cppexpose/Object.h>
