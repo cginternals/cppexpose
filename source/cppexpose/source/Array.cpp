@@ -7,6 +7,7 @@
 
 #include <cppexpose/Object.h>
 #include <cppexpose/Variant.h>
+#include <cppexpose/JSON.h>
 
 
 namespace cppexpose
@@ -417,7 +418,7 @@ Array Array::toArray() const
 
 bool Array::canConvertFromVar(const AbstractVar & value)
 {
-    return (value.isArray() || value.canConvertToArray());
+    return (value.isArray() || value.canConvertToArray() || value.isString() || value.canConvertToString());
 }
 
 void Array::fromVar(const AbstractVar & value)
@@ -428,6 +429,8 @@ void Array::fromVar(const AbstractVar & value)
     } else if (value.canConvertToArray()) {
         Array arr = value.toArray();
         copyFromArray(arr);
+    } else if (value.isString() || value.canConvertToString()) {
+        JSON::parse(*this, value.toString());
     }
 }
 

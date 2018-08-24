@@ -35,8 +35,13 @@ int main(int, char * [])
     array.push(Variant(12));
     script.addProperty("array", &array);
 
-    Variant var = JSON::load("/workspace/new/test.json");
-    script.addProperty("json", &var);
+    Object json;
+    json = Variant("{\"a\": 1, \"b\": 2, \"c\": 3 }");
+    script.addProperty("json", &json);
+
+    Array arr;
+    arr = Variant("[123, 124, 125]");
+    script.addProperty("arr", &arr);
 
     // Start interactive command console
     while (char * line = linenoise("> ")) {
