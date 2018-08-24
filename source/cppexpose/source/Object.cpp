@@ -56,8 +56,7 @@ Object::Object(Object && obj)
     }
 
     // Clear properties on source object
-    obj.m_properties.clear();
-    obj.m_ownProperties.clear();
+    obj.clear();
 }
 
 Object::~Object()
@@ -73,6 +72,13 @@ Object & Object::operator =(const AbstractVar & var)
 bool Object::empty() const
 {
     return m_properties.empty();
+}
+
+void Object::clear()
+{
+    // Clear properties
+    m_properties.clear();
+    m_ownProperties.clear();
 }
 
 const std::unordered_map<std::string, AbstractVar *> & Object::properties() const
@@ -465,8 +471,7 @@ const Array * Object::asArray() const
 void Object::copyFromObject(const Object & obj)
 {
     // Clear properties
-    m_properties.clear();
-    m_ownProperties.clear();
+    clear();
 
     // Copy properties
     for (auto it : obj.m_properties) {

@@ -21,8 +21,8 @@ namespace
 
 
 Variant readValue(Tokenizer::Token & token, Tokenizer & tokenizer);
-Variant readArray(Tokenizer & tokenizer);
-Variant readObject(Tokenizer & tokenizer);
+bool readArray(Array & array, Tokenizer & tokenizer);
+bool readObject(Object & obj, Tokenizer & tokenizer);
 
 
 const char * const g_hexdig = "0123456789ABCDEF";
@@ -221,12 +221,16 @@ Variant readValue(Tokenizer::Token & token, Tokenizer & tokenizer)
 {
     if (token.content == "{")
     {
-        return readObject(tokenizer);
+        Object obj;
+        readObject(obj, tokenizer);
+        return std::move(obj);
     }
 
     else if (token.content == "[")
     {
-        return readArray(tokenizer);
+        Array array;
+        readArray(array, tokenizer);
+        return std::move(array);
     }
 
     else if (token.type == Tokenizer::TokenString ||
@@ -249,10 +253,10 @@ Variant readValue(Tokenizer::Token & token, Tokenizer & tokenizer)
     }
 }
 
-Variant readArray(Tokenizer & tokenizer)
+bool readArray(Array & array, Tokenizer & tokenizer)
 {
-    // Create array
-    Array array;
+    // Clear array
+    array.clear();
 
     // Read next token
     Tokenizer::Token token = tokenizer.parseToken();
@@ -270,7 +274,8 @@ Variant readArray(Tokenizer & tokenizer)
         Variant value = readValue(token, tokenizer);
         if (value.isNull())
         {
-            return Variant();
+            // Abort
+            return false;
         }
 
         // Add value to array
@@ -288,7 +293,7 @@ Variant readArray(Tokenizer & tokenizer)
         else if (token.content == "]")
         {
             // End of array
-            return std::move(array);
+            return true;
         }
         else
         {
@@ -299,19 +304,16 @@ Variant readArray(Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            // Return error
-            return Variant();
+            // Abort
+            return false;
         }
     }
-
-    // Couldn't actually happen but makes compilers happy
-    return Variant();
 }
 
-Variant readObject(Tokenizer & tokenizer)
+bool readObject(Object & obj, Tokenizer & tokenizer)
 {
-    // Create object
-    Object obj;
+    // Clear object
+    obj.clear();
 
     // Read next token
     Tokenizer::Token token = tokenizer.parseToken();
@@ -319,7 +321,7 @@ Variant readObject(Tokenizer & tokenizer)
     // Empty object?
     if (token.content == "}")
     {
-        return std::move(obj);
+        return true;
     }
 
     // Read object members
@@ -334,7 +336,8 @@ Variant readObject(Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            return Variant();
+            // Abort
+            return false;
         }
 
         std::string name = token.value.toString();
@@ -351,7 +354,8 @@ Variant readObject(Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            return Variant();
+            // Abort
+            return false;
         }
 
         // Read next token
@@ -361,7 +365,8 @@ Variant readObject(Tokenizer & tokenizer)
         Variant value = readValue(token, tokenizer);
         if (value.isNull())
         {
-            return Variant();
+            // Abort
+            return false;
         }
 
         // Add new value to object
@@ -379,7 +384,7 @@ Variant readObject(Tokenizer & tokenizer)
         else if (token.content == "}")
         {
             // End of object
-            return std::move(obj);
+            return true;
         }
         else
         {
@@ -390,12 +395,10 @@ Variant readObject(Tokenizer & tokenizer)
                 << "'"
                 << std::endl;
 
-            return Variant();
+            // Abort
+            return false;
         }
     }
-
-    // Couldn't actually happen but makes compilers happy
-    return Variant();
 }
 
 Variant readDocument(Tokenizer & tokenizer)
@@ -405,12 +408,16 @@ Variant readDocument(Tokenizer & tokenizer)
 
     if (token.content == "{")
     {
-        return readObject(tokenizer);
+        Object obj;
+        readObject(obj, tokenizer);
+        return std::move(obj);
     }
 
     else if (token.content == "[")
     {
-        return readArray(tokenizer);
+        Array array;
+        readArray(array, tokenizer);
+        return std::move(array);
     }
 
     else
@@ -420,6 +427,38 @@ Variant readDocument(Tokenizer & tokenizer)
             << std::endl;
 
         return Variant();
+    }
+}
+
+bool readDocument(Object & obj, Tokenizer & tokenizer)
+{
+    // The first value in a document must be an object
+    Tokenizer::Token token = tokenizer.parseToken();
+
+    if (token.content == "{") {
+        return readObject(obj, tokenizer);
+    } else {
+        cppassist::critical()
+            << "Expected an object value."
+            << std::endl;
+
+        return false;
+    }
+}
+
+bool readDocument(Array & array, Tokenizer & tokenizer)
+{
+    // The first value in a document must be an array
+    Tokenizer::Token token = tokenizer.parseToken();
+
+    if (token.content == "[") {
+        return readArray(array, tokenizer);
+    } else {
+        cppassist::critical()
+            << "Expected an array value."
+            << std::endl;
+
+        return false;
     }
 }
 
@@ -443,11 +482,39 @@ Variant JSON::load(const std::string & filename)
     // Load file
     if (!tokenizer.loadDocument(filename))
     {
-        return false;
+        return Variant();
     }
 
     // Begin parsing
     return readDocument(tokenizer);
+}
+
+bool JSON::load(Object & obj, const std::string & filename)
+{
+    auto tokenizer = createJSONTokenizer();
+
+    // Load file
+    if (!tokenizer.loadDocument(filename))
+    {
+        return false;
+    }
+
+    // Begin parsing
+    return readDocument(obj, tokenizer);
+}
+
+bool JSON::load(Array & array, const std::string & filename)
+{
+    auto tokenizer = createJSONTokenizer();
+
+    // Load file
+    if (!tokenizer.loadDocument(filename))
+    {
+        return false;
+    }
+
+    // Begin parsing
+    return readDocument(array, tokenizer);
 }
 
 Variant JSON::parse(const std::string & document)
@@ -459,6 +526,28 @@ Variant JSON::parse(const std::string & document)
 
     // Begin parsing
     return readDocument(tokenizer);
+}
+
+bool JSON::parse(Object & obj, const std::string & document)
+{
+    auto tokenizer = createJSONTokenizer();
+
+    // Set document
+    tokenizer.setDocument(document);
+
+    // Begin parsing
+    return readDocument(obj, tokenizer);
+}
+
+bool JSON::parse(Array & array, const std::string & document)
+{
+    auto tokenizer = createJSONTokenizer();
+
+    // Set document
+    tokenizer.setDocument(document);
+
+    // Begin parsing
+    return readDocument(array, tokenizer);
 }
 
 

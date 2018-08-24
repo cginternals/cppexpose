@@ -54,8 +54,7 @@ Array::Array(Array && arr)
     }
 
     // Clear properties on source object
-    arr.m_properties.clear();
-    arr.m_ownProperties.clear();
+    arr.clear();
 }
 
 Array::~Array()
@@ -71,6 +70,13 @@ Array & Array::operator =(const AbstractVar & var)
 bool Array::empty() const
 {
     return m_properties.empty();
+}
+
+void Array::clear()
+{
+    // Clear properties
+    m_properties.clear();
+    m_ownProperties.clear();
 }
 
 size_t Array::size() const
@@ -438,8 +444,7 @@ const Array * Array::asArray() const
 void Array::copyFromArray(const Array & arr)
 {
     // Clear properties
-    m_properties.clear();
-    m_ownProperties.clear();
+    clear();
 
     // Copy properties
     for (auto * var : arr.m_properties) {

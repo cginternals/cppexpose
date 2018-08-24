@@ -101,6 +101,12 @@ public:
 
     /**
     *  @brief
+    *    Remove all properties of the object
+    */
+    void clear();
+
+    /**
+    *  @brief
     *    Get properties
     *
     *  @return

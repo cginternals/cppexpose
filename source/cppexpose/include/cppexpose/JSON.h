@@ -13,6 +13,8 @@ namespace cppexpose
 
 class AbstractVar;
 class Variant;
+class Object;
+class Array;
 
 
 /**
@@ -62,6 +64,34 @@ public:
 
     /**
     *  @brief
+    *    Load JSON object from file
+    *
+    *  @param[out] obj
+    *    Object
+    *  @param[in] filename
+    *    Filename of JSON file
+    *
+    *  @return
+    *    'true' if object could be parsed without error, else 'false'
+    */
+    static bool load(Object & obj, const std::string & filename);
+
+    /**
+    *  @brief
+    *    Load JSON array from file
+    *
+    *  @param[out] array
+    *    Array
+    *  @param[in] filename
+    *    Filename of JSON file
+    *
+    *  @return
+    *    'true' if array could be parsed without error, else 'false'
+    */
+    static bool load(Array & array, const std::string & filename);
+
+    /**
+    *  @brief
     *    Parse JSON from string
     *
     *  @param[in] document
@@ -71,6 +101,34 @@ public:
     *    Read value, empty on error
     */
     static Variant parse(const std::string & document);
+
+    /**
+    *  @brief
+    *    Parse JSON object from string
+    *
+    *  @param[out] obj
+    *    Object
+    *  @param[in] document
+    *    JSON string
+    *
+    *  @return
+    *    'true' if object could be parsed without error, else 'false'
+    */
+    static bool parse(Object & obj, const std::string & document);
+
+    /**
+    *  @brief
+    *    Parse JSON array from string
+    *
+    *  @param[out] array
+    *    Array
+    *  @param[in] document
+    *    JSON string
+    *
+    *  @return
+    *    'true' if array could be parsed without error, else 'false'
+    */
+    static bool parse(Array & array, const std::string & document);
 };
 
 

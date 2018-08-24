@@ -100,6 +100,12 @@ public:
 
     /**
     *  @brief
+    *    Remove all elements in the array
+    */
+    void clear();
+
+    /**
+    *  @brief
     *    Get size of array
     *
     *  @return
