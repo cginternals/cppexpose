@@ -116,7 +116,7 @@ void ObjectWrapper::wrapObject()
         else if (prop->isObject())
         {
             // Wrap sub object
-            auto subObj = static_cast<Object *>(prop);
+            Object * subObj = const_cast<Object *>(prop->asObject());
             auto objWrapper = m_engine->getOrCreateObjectWrapper(subObj);
             objWrapper->pushToDukStack();
 
@@ -135,7 +135,7 @@ void ObjectWrapper::wrapObject()
         if (property->isObject())
         {
             // Get object
-            Object * obj = static_cast<Object *>(property);
+            Object * obj = const_cast<Object *>(property->asObject());
 
             // Get parent object from stash
             duk_push_global_stash(m_context);

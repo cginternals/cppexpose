@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <cppexpose/Object.h>
+#include <cppexpose/JSON.h>
 
 #include <cppexpose-js/Engine.h>
 
@@ -33,6 +34,9 @@ int main(int, char * [])
     array.push(Variant(11));
     array.push(Variant(12));
     script.addProperty("array", &array);
+
+    Variant var = JSON::load("/workspace/new/test.json");
+    script.addProperty("json", &var);
 
     // Start interactive command console
     while (char * line = linenoise("> ")) {
