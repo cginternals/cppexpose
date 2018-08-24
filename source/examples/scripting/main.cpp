@@ -28,6 +28,7 @@ int main(int, char * [])
     TreeNode tree;
     script.addProperty("tree", &tree);
 
+    // Start interactive command console
     while (char * line = linenoise("> ")) {
         // Get command
         std::string cmd = line;
