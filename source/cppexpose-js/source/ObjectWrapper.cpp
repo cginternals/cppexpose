@@ -11,7 +11,7 @@
 
 #include <cppexpose-js/Engine.h>
 
-#include "duktape-1.4.0/duktape.h"
+#include "duktape/duktape.h"
 
 
 using namespace cppassist;

@@ -61,10 +61,6 @@ set(headers
 )
 
 set(sources
-    ${source_path}/duktape-1.4.0/duktape.c
-    ${source_path}/duktape-1.4.0/duktape.h
-    ${source_path}/duktape-1.4.0/duk_config.h
-
     ${source_path}/Engine.cpp
     ${source_path}/FunctionWrapper.cpp
     ${source_path}/ObjectWrapper.cpp
@@ -169,6 +165,7 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${ADDITIONAL_LIBRARIES}
+    externals::duktape
     cpplocate::cpplocate
 
     PUBLIC
