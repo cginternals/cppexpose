@@ -168,6 +168,12 @@ VarType Variant::type() const
     else         return VarType::Null;
 }
 
+std::string Variant::typeName() const
+{
+    if (m_value) return m_value->typeName();
+    else         return "Variant";
+}
+
 bool Variant::isNull() const
 {
     if (m_value) return m_value->isNull();

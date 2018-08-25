@@ -30,6 +30,12 @@ VarType TypedGeneric<Type>::type() const
 }
 
 template <typename Type>
+std::string TypedGeneric<Type>::typeName() const
+{
+    return "<unknown>";
+}
+
+template <typename Type>
 bool TypedGeneric<Type>::isNull() const
 {
     return false;

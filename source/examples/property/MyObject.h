@@ -15,10 +15,12 @@ class MyObject : public cppexpose::Object
 {
 public:
     // Properties
-    cppexpose::Var<std::string> String;
-    cppexpose::Var<int>         Int;
-    cppexpose::Var<float>       Float;
-    cppexpose::Var<Mood>        MyMood;
+    cppexpose::Var<std::string>        String;
+    cppexpose::Var<int>                Int;
+    cppexpose::Var<float>              Float;
+    cppexpose::Var<Mood>               MyMood;
+    cppexpose::Var<std::array<int, 3>> Array;
+    cppexpose::Var<void *>             Pointer;
 
 public:
     MyObject();

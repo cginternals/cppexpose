@@ -30,6 +30,12 @@ VarType TypedFunction<Type>::type() const
 }
 
 template <typename Type>
+std::string TypedFunction<Type>::typeName() const
+{
+    return "function";
+}
+
+template <typename Type>
 bool TypedFunction<Type>::isNull() const
 {
     return false;

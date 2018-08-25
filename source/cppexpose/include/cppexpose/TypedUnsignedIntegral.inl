@@ -22,6 +22,12 @@ TypedUnsignedIntegral<Type>::~TypedUnsignedIntegral()
 }
 
 template <typename Type>
+std::string TypedUnsignedIntegral<Type>::typeName() const
+{
+    return "uint" + cppassist::string::toString<unsigned int>(sizeof(Type) * 8);
+}
+
+template <typename Type>
 bool TypedUnsignedIntegral<Type>::isIntegral() const
 {
     return true;

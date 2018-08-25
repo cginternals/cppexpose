@@ -9,10 +9,12 @@ using namespace cppexpose;
 
 MyObject::MyObject()
 : Object()
-, String(this, "string", "Hello")
-, Int   (this, "int"   , 1)
-, Float (this, "float",  0.1f)
-, MyMood(this, "mood",   Mood::Sad)
+, String (this, "string", "Hello")
+, Int    (this, "int"   , 1)
+, Float  (this, "float",  0.1f)
+, MyMood (this, "mood",   Mood::Sad)
+, Array  (this, "array")
+, Pointer(this, "pointer", nullptr)
 {
 }
 

@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <memory>
 #include <string>
 #include <sstream>
 
@@ -30,6 +31,12 @@ template <typename Type>
 VarType TypedPointer<Type>::type() const
 {
     return VarType::Pointer;
+}
+
+template <typename Type>
+std::string TypedPointer<Type>::typeName() const
+{
+    return "pointer";
 }
 
 template <typename Type>

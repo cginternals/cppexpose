@@ -247,6 +247,11 @@ VarType Object::type() const
     return VarType::Object;
 }
 
+std::string Object::typeName() const
+{
+    return "Object";
+}
+
 bool Object::isNull() const
 {
     return false;

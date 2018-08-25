@@ -172,6 +172,7 @@ public:
 
     // Variable type
     virtual VarType type() const override;
+    virtual std::string typeName() const override;
     virtual bool isNull() const override;
     virtual bool isBool() const override;
     virtual bool isNumber() const override;

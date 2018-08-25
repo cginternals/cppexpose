@@ -228,6 +228,11 @@ VarType Array::type() const
     return VarType::Array;
 }
 
+std::string Array::typeName() const
+{
+    return "Array";
+}
+
 bool Array::isNull() const
 {
     return false;

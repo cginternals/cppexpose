@@ -32,6 +32,12 @@ VarType TypedObjectPointer<Type>::type() const
 }
 
 template <typename Type>
+std::string TypedObjectPointer<Type>::typeName() const
+{
+    return "Object*";
+}
+
+template <typename Type>
 bool TypedObjectPointer<Type>::isNull() const
 {
     return false;

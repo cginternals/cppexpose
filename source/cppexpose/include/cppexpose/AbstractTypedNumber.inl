@@ -50,7 +50,11 @@ AbstractTypedNumber<Type>::~AbstractTypedNumber()
 template <typename Type>
 std::unique_ptr<AbstractVar> AbstractTypedNumber<Type>::clone() const
 {
-    return std::unique_ptr<AbstractVar>(new Var<Type>(this->value(), this->m_minValue, this->m_maxValue));
+    auto * var = new Var<Type>(this->value());
+    var->m_minValue = this->m_minValue;
+    var->m_maxValue = this->m_maxValue;
+
+    return std::unique_ptr<AbstractVar>(var);
 }
 
 template <typename Type>

@@ -32,6 +32,12 @@ VarType TypedArrayPointer<Type>::type() const
 }
 
 template <typename Type>
+std::string TypedArrayPointer<Type>::typeName() const
+{
+    return "Array*";
+}
+
+template <typename Type>
 bool TypedArrayPointer<Type>::isNull() const
 {
     return false;

@@ -44,6 +44,12 @@ VarType TypedString<Type>::type() const
 }
 
 template <typename Type>
+std::string TypedString<Type>::typeName() const
+{
+    return "string";
+}
+
+template <typename Type>
 bool TypedString<Type>::isNull() const
 {
     return false;

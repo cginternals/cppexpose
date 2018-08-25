@@ -61,6 +61,12 @@ VarType TypedEnum<Type>::type() const
 }
 
 template <typename Type>
+std::string TypedEnum<Type>::typeName() const
+{
+    return "enum";
+}
+
+template <typename Type>
 bool TypedEnum<Type>::isNull() const
 {
     return false;

@@ -22,6 +22,12 @@ TypedFloatingPoint<Type>::~TypedFloatingPoint()
 }
 
 template <typename Type>
+std::string TypedFloatingPoint<Type>::typeName() const
+{
+    return "float" + cppassist::string::toString<unsigned int>(sizeof(Type) * 8);
+}
+
+template <typename Type>
 bool TypedFloatingPoint<Type>::isIntegral() const
 {
     return false;

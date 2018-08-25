@@ -161,7 +161,7 @@ public:
     *  @return
     *    Type name
     */
-    virtual std::string typeName() const;
+    virtual std::string typeName() const = 0;
 
     /**
     *  @brief

@@ -3,6 +3,9 @@
 
 
 #include <algorithm>
+#include <tuple>
+
+#include <cppassist/string/conversion.h>
 
 #include <cppexpose/Variant.h>
 #include <cppexpose/Object.h>
@@ -29,6 +32,13 @@ template <typename Type>
 VarType TypedArray<Type>::type() const
 {
     return VarType::External;
+}
+
+template <typename Type>
+std::string TypedArray<Type>::typeName() const
+{
+    Var<typename Type::value_type> var;
+    return "array<" + var.typeName() + "," + cppassist::string::toString<unsigned int>(std::tuple_size<Type>::value) + ">";
 }
 
 template <typename Type>

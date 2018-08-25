@@ -37,6 +37,7 @@ public:
     //    Overloaded in AbstractTypedNumber
 
     // Variable type
+    virtual std::string typeName() const override;
     virtual bool isIntegral() const override;
     virtual bool isSignedIntegral() const override;
     virtual bool isFloatingPoint() const override;

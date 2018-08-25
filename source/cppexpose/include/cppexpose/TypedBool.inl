@@ -29,6 +29,12 @@ VarType TypedBool<Type>::type() const
 }
 
 template <typename Type>
+std::string TypedBool<Type>::typeName() const
+{
+    return "bool";
+}
+
+template <typename Type>
 bool TypedBool<Type>::isNull() const
 {
     return false;

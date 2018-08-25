@@ -35,12 +35,6 @@ void AbstractVar::setParent(PropertyContainer * parent)
     }
 }
 
-std::string AbstractVar::typeName() const
-{
-    // [TODO]
-    return "<unknown>";
-}
-
 void AbstractVar::registerProperty(PropertyContainer * parent, const std::string & name)
 {
     // Check if parent is valid
