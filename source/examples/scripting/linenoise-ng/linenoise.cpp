@@ -430,9 +430,9 @@ static int write32(int fd, char32_t* text32, int len32) {
 
 class Utf32String {
  public:
-  Utf32String() : _length(0), _data(nullptr) { 
+  Utf32String() : _length(0), _data(nullptr) {
     // note: parens intentional, _data must be properly initialized
-    _data = new char32_t[1](); 
+    _data = new char32_t[1]();
   }
 
   explicit Utf32String(const char* src) : _length(0), _data(nullptr) {
@@ -464,9 +464,9 @@ class Utf32String {
     memcpy(_data, src, len * sizeof(char32_t));
   }
 
-  explicit Utf32String(int len) : _length(0), _data(nullptr) { 
+  explicit Utf32String(int len) : _length(0), _data(nullptr) {
     // note: parens intentional, _data must be properly initialized
-    _data = new char32_t[len](); 
+    _data = new char32_t[len]();
   }
 
   explicit Utf32String(const Utf32String& that) : _length(that._length), _data(nullptr) {
@@ -2067,6 +2067,8 @@ int InputBuffer::completeLine(PromptBase& pi) {
         if (write(1, "^C", 2) == -1) return -1;  // Display the ^C we got
         c = 0;
         break;
+      default:
+        break;
     }
   }
 
@@ -2135,6 +2137,8 @@ int InputBuffer::completeLine(PromptBase& pi) {
           case ctrlChar('C'):
             if (write(1, "^C", 2) == -1) return -1;  // Display the ^C we got
             stopList = true;
+            break;
+          default:
             break;
         }
       } else {
@@ -2542,7 +2546,7 @@ int InputBuffer::getInputLine(PromptBase& pi) {
     if (terminatingKeystroke == -1) {
       c = linenoiseReadChar();  // get a new keystroke
 
-      keyType = 0; 
+      keyType = 0;
       if (c != 0) {
         // set flag that we got some input
         if (c == ctrlChar('C')) {
