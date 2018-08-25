@@ -124,9 +124,8 @@ AbstractVar * Object::property(const std::string & name)
 
 AbstractVar * Object::addProperty(const std::string & name, AbstractVar * property)
 {
-    // Reject properties that have no name, or whose name already exists,
-    // or that already have a parent object.
-    if (!property || this->propertyExists(name) || property->parent() != nullptr)
+    // Reject property if name is already taken
+    if (!property || this->propertyExists(name))
     {
         return nullptr;
     }
