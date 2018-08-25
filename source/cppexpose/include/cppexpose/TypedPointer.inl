@@ -14,136 +14,136 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedPointer<Type, Storage>::TypedPointer(Args&&... args)
-: Storage(Type(nullptr), std::forward<Args>(args)...)
+TypedPointer<Type>::TypedPointer(Args&&... args)
+: ValueStorage<Type>(Type(nullptr), std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedPointer<Type, Storage>::~TypedPointer()
+template <typename Type>
+TypedPointer<Type>::~TypedPointer()
 {
 }
 
-template <typename Type, typename Storage>
-VarType TypedPointer<Type, Storage>::type() const
+template <typename Type>
+VarType TypedPointer<Type>::type() const
 {
     return VarType::Pointer;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isNull() const
+template <typename Type>
+bool TypedPointer<Type>::isNull() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isBool() const
+template <typename Type>
+bool TypedPointer<Type>::isBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isNumber() const
+template <typename Type>
+bool TypedPointer<Type>::isNumber() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isIntegral() const
+template <typename Type>
+bool TypedPointer<Type>::isIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedPointer<Type>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedPointer<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isEnum() const
+template <typename Type>
+bool TypedPointer<Type>::isEnum() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isString() const
+template <typename Type>
+bool TypedPointer<Type>::isString() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isExternal() const
+template <typename Type>
+bool TypedPointer<Type>::isExternal() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isPointer() const
+template <typename Type>
+bool TypedPointer<Type>::isPointer() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isObject() const
+template <typename Type>
+bool TypedPointer<Type>::isObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isObjectPointer() const
+template <typename Type>
+bool TypedPointer<Type>::isObjectPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isArray() const
+template <typename Type>
+bool TypedPointer<Type>::isArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isArrayPointer() const
+template <typename Type>
+bool TypedPointer<Type>::isArrayPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::isFunction() const
+template <typename Type>
+bool TypedPointer<Type>::isFunction() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Variant TypedPointer<Type, Storage>::minimumValue() const
+template <typename Type>
+Variant TypedPointer<Type>::minimumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-Variant TypedPointer<Type, Storage>::maximumValue() const
+template <typename Type>
+Variant TypedPointer<Type>::maximumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertToString() const
+template <typename Type>
+bool TypedPointer<Type>::canConvertToString() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-std::string TypedPointer<Type, Storage>::toString() const
+template <typename Type>
+std::string TypedPointer<Type>::toString() const
 {
     // Get address
     const void * address = static_cast<const void*>(this->value());
@@ -158,86 +158,86 @@ std::string TypedPointer<Type, Storage>::toString() const
     return hex;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertToBool() const
+template <typename Type>
+bool TypedPointer<Type>::canConvertToBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::toBool() const
+template <typename Type>
+bool TypedPointer<Type>::toBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertToLongLong() const
+template <typename Type>
+bool TypedPointer<Type>::canConvertToLongLong() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-long long TypedPointer<Type, Storage>::toLongLong() const
+template <typename Type>
+long long TypedPointer<Type>::toLongLong() const
 {
     return 0ll;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertToULongLong() const
+template <typename Type>
+bool TypedPointer<Type>::canConvertToULongLong() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-unsigned long long TypedPointer<Type, Storage>::toULongLong() const
+template <typename Type>
+unsigned long long TypedPointer<Type>::toULongLong() const
 {
     return reinterpret_cast<unsigned long long>(reinterpret_cast<const void *>(this->value()));
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertToDouble() const
+template <typename Type>
+bool TypedPointer<Type>::canConvertToDouble() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-double TypedPointer<Type, Storage>::toDouble() const
+template <typename Type>
+double TypedPointer<Type>::toDouble() const
 {
     return 0.0;
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertToObject() const
+template <typename Type>
+bool TypedPointer<Type>::canConvertToObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Object TypedPointer<Type, Storage>::toObject() const
+template <typename Type>
+Object TypedPointer<Type>::toObject() const
 {
     return Object();
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertToArray() const
+template <typename Type>
+bool TypedPointer<Type>::canConvertToArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Array TypedPointer<Type, Storage>::toArray() const
+template <typename Type>
+Array TypedPointer<Type>::toArray() const
 {
     return Array();
 }
 
-template <typename Type, typename Storage>
-bool TypedPointer<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedPointer<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.hasType<Type>() || value.canConvert<Type>() || value.canConvertToULongLong());
 }
 
-template <typename Type, typename Storage>
-void TypedPointer<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedPointer<Type>::fromVar(const AbstractVar & value)
 {
     if (value.hasType<Type>() || value.canConvert<Type>()) {
         this->setValue(value.convert<Type>());
@@ -246,14 +246,14 @@ void TypedPointer<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
-template <typename Type, typename Storage>
-const Object * TypedPointer<Type, Storage>::asObject() const
+template <typename Type>
+const Object * TypedPointer<Type>::asObject() const
 {
     return nullptr;
 }
 
-template <typename Type, typename Storage>
-const Array * TypedPointer<Type, Storage>::asArray() const
+template <typename Type>
+const Array * TypedPointer<Type>::asArray() const
 {
     return nullptr;
 }

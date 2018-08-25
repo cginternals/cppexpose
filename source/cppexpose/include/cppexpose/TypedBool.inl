@@ -10,220 +10,220 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedBool<Type, Storage>::TypedBool(Args&&... args)
-: Storage(Type(false), std::forward<Args>(args)...)
+TypedBool<Type>::TypedBool(Args&&... args)
+: ValueStorage<Type>(Type(false), std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedBool<Type, Storage>::~TypedBool()
+template <typename Type>
+TypedBool<Type>::~TypedBool()
 {
 }
 
-template <typename Type, typename Storage>
-VarType TypedBool<Type, Storage>::type() const
+template <typename Type>
+VarType TypedBool<Type>::type() const
 {
     return VarType::Bool;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isNull() const
+template <typename Type>
+bool TypedBool<Type>::isNull() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isBool() const
+template <typename Type>
+bool TypedBool<Type>::isBool() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isNumber() const
+template <typename Type>
+bool TypedBool<Type>::isNumber() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isIntegral() const
+template <typename Type>
+bool TypedBool<Type>::isIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedBool<Type>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedBool<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isEnum() const
+template <typename Type>
+bool TypedBool<Type>::isEnum() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isString() const
+template <typename Type>
+bool TypedBool<Type>::isString() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isExternal() const
+template <typename Type>
+bool TypedBool<Type>::isExternal() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isPointer() const
+template <typename Type>
+bool TypedBool<Type>::isPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isObject() const
+template <typename Type>
+bool TypedBool<Type>::isObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isObjectPointer() const
+template <typename Type>
+bool TypedBool<Type>::isObjectPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isArray() const
+template <typename Type>
+bool TypedBool<Type>::isArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isArrayPointer() const
+template <typename Type>
+bool TypedBool<Type>::isArrayPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::isFunction() const
+template <typename Type>
+bool TypedBool<Type>::isFunction() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Variant TypedBool<Type, Storage>::minimumValue() const
+template <typename Type>
+Variant TypedBool<Type>::minimumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-Variant TypedBool<Type, Storage>::maximumValue() const
+template <typename Type>
+Variant TypedBool<Type>::maximumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertToString() const
+template <typename Type>
+bool TypedBool<Type>::canConvertToString() const
 {
     // Well, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-std::string TypedBool<Type, Storage>::toString() const
+template <typename Type>
+std::string TypedBool<Type>::toString() const
 {
     return this->value() ? "true" : "false";
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertToBool() const
+template <typename Type>
+bool TypedBool<Type>::canConvertToBool() const
 {
     // Well, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::toBool() const
+template <typename Type>
+bool TypedBool<Type>::toBool() const
 {
     return this->value();
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertToLongLong() const
+template <typename Type>
+bool TypedBool<Type>::canConvertToLongLong() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-long long TypedBool<Type, Storage>::toLongLong() const
+template <typename Type>
+long long TypedBool<Type>::toLongLong() const
 {
     return this->value() ? 1ll : 0ll;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertToULongLong() const
+template <typename Type>
+bool TypedBool<Type>::canConvertToULongLong() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-unsigned long long TypedBool<Type, Storage>::toULongLong() const
+template <typename Type>
+unsigned long long TypedBool<Type>::toULongLong() const
 {
     return this->value() ? 1ull : 0ull;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertToDouble() const
+template <typename Type>
+bool TypedBool<Type>::canConvertToDouble() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-double TypedBool<Type, Storage>::toDouble() const
+template <typename Type>
+double TypedBool<Type>::toDouble() const
 {
     return this->value() ? 1.0 : 0.0;
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertToObject() const
+template <typename Type>
+bool TypedBool<Type>::canConvertToObject() const
 {
     // Converting a boolean to an object does not make sense
     return false;
 }
 
-template <typename Type, typename Storage>
-Object TypedBool<Type, Storage>::toObject() const
+template <typename Type>
+Object TypedBool<Type>::toObject() const
 {
     return Object();
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertToArray() const
+template <typename Type>
+bool TypedBool<Type>::canConvertToArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Array TypedBool<Type, Storage>::toArray() const
+template <typename Type>
+Array TypedBool<Type>::toArray() const
 {
     return Array();
 }
 
-template <typename Type, typename Storage>
-bool TypedBool<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedBool<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.canConvertToLongLong()  ||
             value.canConvertToULongLong() ||
@@ -232,8 +232,8 @@ bool TypedBool<Type, Storage>::canConvertFromVar(const AbstractVar & value)
             value.canConvertToString());
 }
 
-template <typename Type, typename Storage>
-void TypedBool<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedBool<Type>::fromVar(const AbstractVar & value)
 {
     if (value.canConvertToString()) {
         this->setValue(value.toString() == "true");
@@ -252,14 +252,14 @@ void TypedBool<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
-template <typename Type, typename Storage>
-const Object * TypedBool<Type, Storage>::asObject() const
+template <typename Type>
+const Object * TypedBool<Type>::asObject() const
 {
     return nullptr;
 }
 
-template <typename Type, typename Storage>
-const Array * TypedBool<Type, Storage>::asArray() const
+template <typename Type>
+const Array * TypedBool<Type>::asArray() const
 {
     return nullptr;
 }

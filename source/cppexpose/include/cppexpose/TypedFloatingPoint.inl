@@ -9,38 +9,38 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedFloatingPoint<Type, Storage>::TypedFloatingPoint(Args&&... args)
-: AbstractNumber<Type, Storage>(Type(0.0), std::forward<Args>(args)...)
+TypedFloatingPoint<Type>::TypedFloatingPoint(Args&&... args)
+: AbstractNumber<Type>(Type(0.0), std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedFloatingPoint<Type, Storage>::~TypedFloatingPoint()
+template <typename Type>
+TypedFloatingPoint<Type>::~TypedFloatingPoint()
 {
 }
 
-template <typename Type, typename Storage>
-bool TypedFloatingPoint<Type, Storage>::isIntegral() const
-{
-    return false;
-}
-
-template <typename Type, typename Storage>
-bool TypedFloatingPoint<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedFloatingPoint<Type>::isIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFloatingPoint<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedFloatingPoint<Type>::isSignedIntegral() const
+{
+    return false;
+}
+
+template <typename Type>
+bool TypedFloatingPoint<Type>::isFloatingPoint() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedFloatingPoint<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedFloatingPoint<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.canConvertToLongLong()  ||
             value.canConvertToULongLong() ||
@@ -49,8 +49,8 @@ bool TypedFloatingPoint<Type, Storage>::canConvertFromVar(const AbstractVar & va
             value.canConvertToString());
 }
 
-template <typename Type, typename Storage>
-void TypedFloatingPoint<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedFloatingPoint<Type>::fromVar(const AbstractVar & value)
 {
     if (value.canConvertToDouble()) {
         this->setValue(static_cast<Type>(value.toDouble()));

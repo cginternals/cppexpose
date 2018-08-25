@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/ValueStorage.h>
 
 
 namespace cppexpose
@@ -36,8 +36,8 @@ struct CPPEXPOSE_TEMPLATE_API EnumDefaultStrings
 *  @brief
 *    Representation of an enum value
 */
-template <typename Type, typename Storage>
-class CPPEXPOSE_TEMPLATE_API TypedEnum : public Storage
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API TypedEnum : public ValueStorage<Type>
 {
 public:
     /**
@@ -75,7 +75,7 @@ public:
     void setStrings(const std::map<Type, std::string> & pairs);
 
     // Replication
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Variable type
     virtual VarType type() const override;
@@ -96,10 +96,10 @@ public:
     virtual bool isFunction() const override;
 
     // Access modifiers
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Value access
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Additional information
     virtual Variant minimumValue() const override;

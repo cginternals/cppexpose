@@ -13,22 +13,22 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedEnum<Type, Storage>::TypedEnum(Args&&... args)
-: Storage(std::forward<Args>(args)...)
+TypedEnum<Type>::TypedEnum(Args&&... args)
+: ValueStorage<Type>(std::forward<Args>(args)...)
 {
     // Create default enum strings
     this->setStrings(EnumDefaultStrings<Type>()());
 }
 
-template <typename Type, typename Storage>
-TypedEnum<Type, Storage>::~TypedEnum()
+template <typename Type>
+TypedEnum<Type>::~TypedEnum()
 {
 }
 
-template <typename Type, typename Storage>
-std::vector<std::string> TypedEnum<Type, Storage>::strings() const
+template <typename Type>
+std::vector<std::string> TypedEnum<Type>::strings() const
 {
     std::vector<std::string> strings;
 
@@ -39,8 +39,8 @@ std::vector<std::string> TypedEnum<Type, Storage>::strings() const
     return strings;
 }
 
-template <typename Type, typename Storage>
-void TypedEnum<Type, Storage>::setStrings(const std::map<Type, std::string> & pairs)
+template <typename Type>
+void TypedEnum<Type>::setStrings(const std::map<Type, std::string> & pairs)
 {
     // Save map of enum value -> string representation
     m_stringMap = pairs;
@@ -54,124 +54,124 @@ void TypedEnum<Type, Storage>::setStrings(const std::map<Type, std::string> & pa
     }
 }
 
-template <typename Type, typename Storage>
-VarType TypedEnum<Type, Storage>::type() const
+template <typename Type>
+VarType TypedEnum<Type>::type() const
 {
     return VarType::Enum;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isNull() const
+template <typename Type>
+bool TypedEnum<Type>::isNull() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isBool() const
+template <typename Type>
+bool TypedEnum<Type>::isBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isNumber() const
+template <typename Type>
+bool TypedEnum<Type>::isNumber() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isIntegral() const
+template <typename Type>
+bool TypedEnum<Type>::isIntegral() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedEnum<Type>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedEnum<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isEnum() const
+template <typename Type>
+bool TypedEnum<Type>::isEnum() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isString() const
+template <typename Type>
+bool TypedEnum<Type>::isString() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isExternal() const
+template <typename Type>
+bool TypedEnum<Type>::isExternal() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isPointer() const
+template <typename Type>
+bool TypedEnum<Type>::isPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isObject() const
+template <typename Type>
+bool TypedEnum<Type>::isObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isObjectPointer() const
+template <typename Type>
+bool TypedEnum<Type>::isObjectPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isArray() const
+template <typename Type>
+bool TypedEnum<Type>::isArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isArrayPointer() const
+template <typename Type>
+bool TypedEnum<Type>::isArrayPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::isFunction() const
+template <typename Type>
+bool TypedEnum<Type>::isFunction() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Variant TypedEnum<Type, Storage>::minimumValue() const
+template <typename Type>
+Variant TypedEnum<Type>::minimumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-Variant TypedEnum<Type, Storage>::maximumValue() const
+template <typename Type>
+Variant TypedEnum<Type>::maximumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertToString() const
+template <typename Type>
+bool TypedEnum<Type>::canConvertToString() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-std::string TypedEnum<Type, Storage>::toString() const
+template <typename Type>
+std::string TypedEnum<Type>::toString() const
 {
     // Check if value has a string representation
     const auto it = m_stringMap.find(this->value());
@@ -185,80 +185,80 @@ std::string TypedEnum<Type, Storage>::toString() const
     return "";
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertToBool() const
+template <typename Type>
+bool TypedEnum<Type>::canConvertToBool() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::toBool() const
+template <typename Type>
+bool TypedEnum<Type>::toBool() const
 {
     return static_cast<bool>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertToLongLong() const
+template <typename Type>
+bool TypedEnum<Type>::canConvertToLongLong() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-long long TypedEnum<Type, Storage>::toLongLong() const
+template <typename Type>
+long long TypedEnum<Type>::toLongLong() const
 {
     return static_cast<long long>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertToULongLong() const
+template <typename Type>
+bool TypedEnum<Type>::canConvertToULongLong() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-unsigned long long TypedEnum<Type, Storage>::toULongLong() const
+template <typename Type>
+unsigned long long TypedEnum<Type>::toULongLong() const
 {
     return static_cast<unsigned long long>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertToDouble() const
+template <typename Type>
+bool TypedEnum<Type>::canConvertToDouble() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-double TypedEnum<Type, Storage>::toDouble() const
+template <typename Type>
+double TypedEnum<Type>::toDouble() const
 {
     return static_cast<double>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertToObject() const
+template <typename Type>
+bool TypedEnum<Type>::canConvertToObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Object TypedEnum<Type, Storage>::toObject() const
+template <typename Type>
+Object TypedEnum<Type>::toObject() const
 {
     return Object();
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertToArray() const
+template <typename Type>
+bool TypedEnum<Type>::canConvertToArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Array TypedEnum<Type, Storage>::toArray() const
+template <typename Type>
+Array TypedEnum<Type>::toArray() const
 {
     return Array();
 }
 
-template <typename Type, typename Storage>
-bool TypedEnum<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedEnum<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.hasType<Type>() || value.canConvert<Type>() ||
             value.canConvertToLongLong() ||
@@ -268,8 +268,8 @@ bool TypedEnum<Type, Storage>::canConvertFromVar(const AbstractVar & value)
             value.canConvertToString() );
 }
 
-template <typename Type, typename Storage>
-void TypedEnum<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedEnum<Type>::fromVar(const AbstractVar & value)
 {
     if (value.hasType<Type>() || value.canConvert<Type>()) {
         this->setValue(value.convert<Type>());
@@ -291,14 +291,14 @@ void TypedEnum<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
-template <typename Type, typename Storage>
-const Object * TypedEnum<Type, Storage>::asObject() const
+template <typename Type>
+const Object * TypedEnum<Type>::asObject() const
 {
     return nullptr;
 }
 
-template <typename Type, typename Storage>
-const Array * TypedEnum<Type, Storage>::asArray() const
+template <typename Type>
+const Array * TypedEnum<Type>::asArray() const
 {
     return nullptr;
 }

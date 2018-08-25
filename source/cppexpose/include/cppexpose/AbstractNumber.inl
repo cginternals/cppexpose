@@ -15,234 +15,234 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-AbstractNumber<Type, Storage>::AbstractNumber(Type defaultValue, Args&&... args)
-: Storage(defaultValue, std::forward<Args>(args)...)
+AbstractNumber<Type>::AbstractNumber(Type defaultValue, Args&&... args)
+: ValueStorage<Type>(defaultValue, std::forward<Args>(args)...)
 , m_minValue(std::numeric_limits<Type>::lowest())
 , m_maxValue(std::numeric_limits<Type>::max())
 {
 }
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-AbstractNumber<Type, Storage>::AbstractNumber(Type defaultValue, Type value, Args&&... args)
-: Storage(defaultValue, value, std::forward<Args>(args)...)
+AbstractNumber<Type>::AbstractNumber(Type defaultValue, Type value, Args&&... args)
+: ValueStorage<Type>(defaultValue, value, std::forward<Args>(args)...)
 , m_minValue(std::numeric_limits<Type>::lowest())
 , m_maxValue(std::numeric_limits<Type>::max())
 {
 }
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-AbstractNumber<Type, Storage>::AbstractNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args)
-: Storage(defaultValue, value, std::forward<Args>(args)...)
+AbstractNumber<Type>::AbstractNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args)
+: ValueStorage<Type>(defaultValue, value, std::forward<Args>(args)...)
 , m_minValue(minValue)
 , m_maxValue(maxValue)
 {
 }
 
-template <typename Type, typename Storage>
-AbstractNumber<Type, Storage>::~AbstractNumber()
+template <typename Type>
+AbstractNumber<Type>::~AbstractNumber()
 {
 }
 
-template <typename Type, typename Storage>
-std::unique_ptr<AbstractVar> AbstractNumber<Type, Storage>::clone() const
+template <typename Type>
+std::unique_ptr<AbstractVar> AbstractNumber<Type>::clone() const
 {
     return std::unique_ptr<AbstractVar>(new Var<Type>(this->value(), this->m_minValue, this->m_maxValue));
 }
 
-template <typename Type, typename Storage>
-VarType AbstractNumber<Type, Storage>::type() const
+template <typename Type>
+VarType AbstractNumber<Type>::type() const
 {
     return VarType::Number;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isNull() const
+template <typename Type>
+bool AbstractNumber<Type>::isNull() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isBool() const
+template <typename Type>
+bool AbstractNumber<Type>::isBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isNumber() const
+template <typename Type>
+bool AbstractNumber<Type>::isNumber() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isEnum() const
+template <typename Type>
+bool AbstractNumber<Type>::isEnum() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isString() const
+template <typename Type>
+bool AbstractNumber<Type>::isString() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isExternal() const
+template <typename Type>
+bool AbstractNumber<Type>::isExternal() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isPointer() const
+template <typename Type>
+bool AbstractNumber<Type>::isPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isObject() const
+template <typename Type>
+bool AbstractNumber<Type>::isObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isObjectPointer() const
+template <typename Type>
+bool AbstractNumber<Type>::isObjectPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isArray() const
+template <typename Type>
+bool AbstractNumber<Type>::isArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isArrayPointer() const
+template <typename Type>
+bool AbstractNumber<Type>::isArrayPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::isFunction() const
+template <typename Type>
+bool AbstractNumber<Type>::isFunction() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Variant AbstractNumber<Type, Storage>::minimumValue() const
+template <typename Type>
+Variant AbstractNumber<Type>::minimumValue() const
 {
     return Variant::fromValue<Type>(m_minValue);
 }
 
-template <typename Type, typename Storage>
-Variant AbstractNumber<Type, Storage>::maximumValue() const
+template <typename Type>
+Variant AbstractNumber<Type>::maximumValue() const
 {
     return Variant::fromValue<Type>(m_maxValue);
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::canConvertToString() const
+template <typename Type>
+bool AbstractNumber<Type>::canConvertToString() const
 {
     // Yes, numbers can be converted to strings
     return true;
 }
 
-template <typename Type, typename Storage>
-std::string AbstractNumber<Type, Storage>::toString() const
+template <typename Type>
+std::string AbstractNumber<Type>::toString() const
 {
     // Convert number to string
     return cppassist::string::toString<Type>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::canConvertToBool() const
+template <typename Type>
+bool AbstractNumber<Type>::canConvertToBool() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::toBool() const
+template <typename Type>
+bool AbstractNumber<Type>::toBool() const
 {
     return static_cast<bool>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::canConvertToLongLong() const
+template <typename Type>
+bool AbstractNumber<Type>::canConvertToLongLong() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-long long AbstractNumber<Type, Storage>::toLongLong() const
+template <typename Type>
+long long AbstractNumber<Type>::toLongLong() const
 {
     return static_cast<long long>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::canConvertToULongLong() const
+template <typename Type>
+bool AbstractNumber<Type>::canConvertToULongLong() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-unsigned long long AbstractNumber<Type, Storage>::toULongLong() const
+template <typename Type>
+unsigned long long AbstractNumber<Type>::toULongLong() const
 {
     return static_cast<unsigned long long>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::canConvertToDouble() const
+template <typename Type>
+bool AbstractNumber<Type>::canConvertToDouble() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-double AbstractNumber<Type, Storage>::toDouble() const
+template <typename Type>
+double AbstractNumber<Type>::toDouble() const
 {
     return static_cast<double>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::canConvertToObject() const
+template <typename Type>
+bool AbstractNumber<Type>::canConvertToObject() const
 {
     // Converting a number to an object does not make sense
     return false;
 }
 
-template <typename Type, typename Storage>
-Object AbstractNumber<Type, Storage>::toObject() const
+template <typename Type>
+Object AbstractNumber<Type>::toObject() const
 {
     return Object();
 }
 
-template <typename Type, typename Storage>
-bool AbstractNumber<Type, Storage>::canConvertToArray() const
+template <typename Type>
+bool AbstractNumber<Type>::canConvertToArray() const
 {
     // Converting a number to an array does not make sense
     return false;
 }
 
-template <typename Type, typename Storage>
-Array AbstractNumber<Type, Storage>::toArray() const
+template <typename Type>
+Array AbstractNumber<Type>::toArray() const
 {
     return Array();
 }
 
-template <typename Type, typename Storage>
-const Object * AbstractNumber<Type, Storage>::asObject() const
+template <typename Type>
+const Object * AbstractNumber<Type>::asObject() const
 {
     return nullptr;
 }
 
-template <typename Type, typename Storage>
-const Array * AbstractNumber<Type, Storage>::asArray() const
+template <typename Type>
+const Array * AbstractNumber<Type>::asArray() const
 {
     return nullptr;
 }

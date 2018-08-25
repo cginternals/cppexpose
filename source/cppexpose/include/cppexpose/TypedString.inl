@@ -13,232 +13,232 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedString<Type, Storage>::TypedString(Args&&... args)
-: Storage(Type(""), std::forward<Args>(args)...)
+TypedString<Type>::TypedString(Args&&... args)
+: ValueStorage<Type>(Type(""), std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedString<Type, Storage>::~TypedString()
+template <typename Type>
+TypedString<Type>::~TypedString()
 {
 }
 
-template <typename Type, typename Storage>
-std::vector<std::string> TypedString<Type, Storage>::choices() const
+template <typename Type>
+std::vector<std::string> TypedString<Type>::choices() const
 {
     return m_choices;
 }
 
-template <typename Type, typename Storage>
-void TypedString<Type, Storage>::setChoices(const std::vector<std::string> & choices)
+template <typename Type>
+void TypedString<Type>::setChoices(const std::vector<std::string> & choices)
 {
     m_choices = choices;
 }
 
-template <typename Type, typename Storage>
-VarType TypedString<Type, Storage>::type() const
+template <typename Type>
+VarType TypedString<Type>::type() const
 {
     return VarType::String;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isNull() const
+template <typename Type>
+bool TypedString<Type>::isNull() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isBool() const
+template <typename Type>
+bool TypedString<Type>::isBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isNumber() const
+template <typename Type>
+bool TypedString<Type>::isNumber() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isIntegral() const
+template <typename Type>
+bool TypedString<Type>::isIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedString<Type>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedString<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isEnum() const
+template <typename Type>
+bool TypedString<Type>::isEnum() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isString() const
+template <typename Type>
+bool TypedString<Type>::isString() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isExternal() const
+template <typename Type>
+bool TypedString<Type>::isExternal() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isPointer() const
+template <typename Type>
+bool TypedString<Type>::isPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isObject() const
+template <typename Type>
+bool TypedString<Type>::isObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isObjectPointer() const
+template <typename Type>
+bool TypedString<Type>::isObjectPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isArray() const
+template <typename Type>
+bool TypedString<Type>::isArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isArrayPointer() const
+template <typename Type>
+bool TypedString<Type>::isArrayPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::isFunction() const
+template <typename Type>
+bool TypedString<Type>::isFunction() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Variant TypedString<Type, Storage>::minimumValue() const
+template <typename Type>
+Variant TypedString<Type>::minimumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-Variant TypedString<Type, Storage>::maximumValue() const
+template <typename Type>
+Variant TypedString<Type>::maximumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertToString() const
+template <typename Type>
+bool TypedString<Type>::canConvertToString() const
 {
     // Well, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-std::string TypedString<Type, Storage>::toString() const
+template <typename Type>
+std::string TypedString<Type>::toString() const
 {
     return this->value();
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertToBool() const
+template <typename Type>
+bool TypedString<Type>::canConvertToBool() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::toBool() const
+template <typename Type>
+bool TypedString<Type>::toBool() const
 {
     return (this->value() == "true");
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertToLongLong() const
+template <typename Type>
+bool TypedString<Type>::canConvertToLongLong() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-long long TypedString<Type, Storage>::toLongLong() const
+template <typename Type>
+long long TypedString<Type>::toLongLong() const
 {
     return cppassist::string::fromString<long long>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertToULongLong() const
+template <typename Type>
+bool TypedString<Type>::canConvertToULongLong() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-unsigned long long TypedString<Type, Storage>::toULongLong() const
+template <typename Type>
+unsigned long long TypedString<Type>::toULongLong() const
 {
     return cppassist::string::fromString<unsigned long long>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertToDouble() const
+template <typename Type>
+bool TypedString<Type>::canConvertToDouble() const
 {
     // Generally, yes
     return true;
 }
 
-template <typename Type, typename Storage>
-double TypedString<Type, Storage>::toDouble() const
+template <typename Type>
+double TypedString<Type>::toDouble() const
 {
     return cppassist::string::fromString<double>(this->value());
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertToObject() const
+template <typename Type>
+bool TypedString<Type>::canConvertToObject() const
 {
     // Converting a string to an object does not make sense
     return false;
 }
 
-template <typename Type, typename Storage>
-Object TypedString<Type, Storage>::toObject() const
+template <typename Type>
+Object TypedString<Type>::toObject() const
 {
     return Object();
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertToArray() const
+template <typename Type>
+bool TypedString<Type>::canConvertToArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Array TypedString<Type, Storage>::toArray() const
+template <typename Type>
+Array TypedString<Type>::toArray() const
 {
     return Array();
 }
 
-template <typename Type, typename Storage>
-bool TypedString<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedString<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.canConvertToLongLong()  ||
             value.canConvertToULongLong() ||
@@ -247,8 +247,8 @@ bool TypedString<Type, Storage>::canConvertFromVar(const AbstractVar & value)
             value.canConvertToString());
 }
 
-template <typename Type, typename Storage>
-void TypedString<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedString<Type>::fromVar(const AbstractVar & value)
 {
     if (value.canConvertToString()) {
         this->setValue(value.toString());
@@ -267,14 +267,14 @@ void TypedString<Type, Storage>::fromVar(const AbstractVar & value)
     }
 }
 
-template <typename Type, typename Storage>
-const Object * TypedString<Type, Storage>::asObject() const
+template <typename Type>
+const Object * TypedString<Type>::asObject() const
 {
     return nullptr;
 }
 
-template <typename Type, typename Storage>
-const Array * TypedString<Type, Storage>::asArray() const
+template <typename Type>
+const Array * TypedString<Type>::asArray() const
 {
     return nullptr;
 }

@@ -9,38 +9,38 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedUnsignedIntegral<Type, Storage>::TypedUnsignedIntegral(Args&&... args)
-: AbstractNumber<Type, Storage>(Type(0u), std::forward<Args>(args)...)
+TypedUnsignedIntegral<Type>::TypedUnsignedIntegral(Args&&... args)
+: AbstractNumber<Type>(Type(0u), std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedUnsignedIntegral<Type, Storage>::~TypedUnsignedIntegral()
+template <typename Type>
+TypedUnsignedIntegral<Type>::~TypedUnsignedIntegral()
 {
 }
 
-template <typename Type, typename Storage>
-bool TypedUnsignedIntegral<Type, Storage>::isIntegral() const
+template <typename Type>
+bool TypedUnsignedIntegral<Type>::isIntegral() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedUnsignedIntegral<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedUnsignedIntegral<Type>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedUnsignedIntegral<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedUnsignedIntegral<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedUnsignedIntegral<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedUnsignedIntegral<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.canConvertToLongLong()  ||
             value.canConvertToULongLong() ||
@@ -49,8 +49,8 @@ bool TypedUnsignedIntegral<Type, Storage>::canConvertFromVar(const AbstractVar &
             value.canConvertToString());
 }
 
-template <typename Type, typename Storage>
-void TypedUnsignedIntegral<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedUnsignedIntegral<Type>::fromVar(const AbstractVar & value)
 {
     if (value.canConvertToULongLong()) {
         this->setValue(static_cast<Type>(value.toULongLong()));

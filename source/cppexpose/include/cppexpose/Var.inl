@@ -8,33 +8,33 @@ namespace cppexpose
 
 template <typename Type>
 Var<Type>::Var()
-: GetTyped< Type, ValueStorage<Type> >::VarType()
+: GetTyped<Type>::VarType()
 {
 }
 
 template <typename Type>
 Var<Type>::Var(const Type & value)
-: GetTyped< Type, ValueStorage<Type> >::VarType(value)
+: GetTyped<Type>::VarType(value)
 {
 }
 
 template <typename Type>
 template <typename... Args>
 Var<Type>::Var(const Type & value, Args&&... args)
-: GetTyped< Type, ValueStorage<Type> >::VarType(value, std::forward<Args>(args)...)
+: GetTyped<Type>::VarType(value, std::forward<Args>(args)...)
 {
 }
 
 template <typename Type>
 Var<Type>::Var(PropertyContainer * parent, const std::string & name)
-: GetTyped< Type, ValueStorage<Type> >::VarType()
+: GetTyped<Type>::VarType()
 {
     this->registerProperty(parent, name);
 }
 
 template <typename Type>
 Var<Type>::Var(PropertyContainer * parent, const std::string & name, const Type & value)
-: GetTyped< Type, ValueStorage<Type> >::VarType(value)
+: GetTyped<Type>::VarType(value)
 {
     this->registerProperty(parent, name);
 }
@@ -42,14 +42,14 @@ Var<Type>::Var(PropertyContainer * parent, const std::string & name, const Type 
 template <typename Type>
 template <typename... Args>
 Var<Type>::Var(PropertyContainer * parent, const std::string & name, const Type & value, Args&&... args)
-: GetTyped< Type, ValueStorage<Type> >::VarType(value, std::forward<Args>(args)...)
+: GetTyped<Type>::VarType(value, std::forward<Args>(args)...)
 {
     this->registerProperty(parent, name);
 }
 
 template <typename Type>
 Var<Type>::Var(const AbstractVar & var)
-: GetTyped< Type, ValueStorage<Type> >::VarType(var)
+: GetTyped<Type>::VarType(var)
 {
 }
 

@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a floating point value
 */
-template <typename Type, typename Storage>
-class CPPEXPOSE_TEMPLATE_API TypedFloatingPoint : public AbstractNumber<Type, Storage>
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API TypedFloatingPoint : public AbstractNumber<Type>
 {
 public:
     /**
@@ -42,10 +42,10 @@ public:
     virtual bool isFloatingPoint() const override;
 
     // Access modifiers
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Value access
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Conversion to other types
     //    Overloaded in AbstractNumber

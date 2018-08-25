@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/ValueStorage.h>
 
 
 namespace cppexpose
@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a pointer to an Object
 */
-template <typename Type, typename Storage>
-class CPPEXPOSE_TEMPLATE_API TypedObjectPointer : public Storage
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API TypedObjectPointer : public ValueStorage<Type>
 {
 public:
     /**
@@ -34,7 +34,7 @@ public:
     virtual ~TypedObjectPointer();
 
     // Replication
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Variable type
     virtual VarType type() const override;
@@ -55,10 +55,10 @@ public:
     virtual bool isFunction() const override;
 
     // Access modifiers
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Value access
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Additional information
     virtual Variant minimumValue() const override;

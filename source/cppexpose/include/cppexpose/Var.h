@@ -15,7 +15,7 @@ namespace cppexpose
 *    Typed variable
 */
 template <typename Type>
-class CPPEXPOSE_TEMPLATE_API Var : public GetTyped< Type, ValueStorage<Type> >::VarType
+class CPPEXPOSE_TEMPLATE_API Var : public GetTyped<Type>::VarType
 {
 public:
     /**

@@ -9,38 +9,38 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedSignedIntegral<Type, Storage>::TypedSignedIntegral(Args&&... args)
-: AbstractNumber<Type, Storage>(Type(0), std::forward<Args>(args)...)
+TypedSignedIntegral<Type>::TypedSignedIntegral(Args&&... args)
+: AbstractNumber<Type>(Type(0), std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedSignedIntegral<Type, Storage>::~TypedSignedIntegral()
+template <typename Type>
+TypedSignedIntegral<Type>::~TypedSignedIntegral()
 {
 }
 
-template <typename Type, typename Storage>
-bool TypedSignedIntegral<Type, Storage>::isIntegral() const
-{
-    return true;
-}
-
-template <typename Type, typename Storage>
-bool TypedSignedIntegral<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedSignedIntegral<Type>::isIntegral() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedSignedIntegral<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedSignedIntegral<Type>::isSignedIntegral() const
+{
+    return true;
+}
+
+template <typename Type>
+bool TypedSignedIntegral<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedSignedIntegral<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedSignedIntegral<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.canConvertToLongLong()  ||
             value.canConvertToULongLong() ||
@@ -49,8 +49,8 @@ bool TypedSignedIntegral<Type, Storage>::canConvertFromVar(const AbstractVar & v
             value.canConvertToString());
 }
 
-template <typename Type, typename Storage>
-void TypedSignedIntegral<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedSignedIntegral<Type>::fromVar(const AbstractVar & value)
 {
     if (value.canConvertToLongLong()) {
         this->setValue(static_cast<Type>(value.toLongLong()));

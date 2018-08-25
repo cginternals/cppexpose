@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/ValueStorage.h>
 
 
 namespace cppexpose
@@ -16,8 +16,8 @@ namespace cppexpose
 *  @brief
 *    Representation of a string value
 */
-template <typename Type, typename Storage>
-class CPPEXPOSE_TEMPLATE_API TypedString : public Storage
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API TypedString : public ValueStorage<Type>
 {
 public:
     /**
@@ -55,7 +55,7 @@ public:
     void setChoices(const std::vector<std::string> & choices);
 
     // Replication
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Variable type
     virtual VarType type() const override;
@@ -76,10 +76,10 @@ public:
     virtual bool isFunction() const override;
 
     // Access modifiers
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Value access
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Additional information
     virtual Variant minimumValue() const override;

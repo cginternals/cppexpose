@@ -11,234 +11,234 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedFunction<Type, Storage>::TypedFunction(Args&&... args)
-: Storage(std::forward<Args>(args)...)
+TypedFunction<Type>::TypedFunction(Args&&... args)
+: ValueStorage<Type>(std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedFunction<Type, Storage>::~TypedFunction()
+template <typename Type>
+TypedFunction<Type>::~TypedFunction()
 {
 }
 
-template <typename Type, typename Storage>
-VarType TypedFunction<Type, Storage>::type() const
+template <typename Type>
+VarType TypedFunction<Type>::type() const
 {
     return VarType::Function;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isNull() const
+template <typename Type>
+bool TypedFunction<Type>::isNull() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isBool() const
+template <typename Type>
+bool TypedFunction<Type>::isBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isNumber() const
+template <typename Type>
+bool TypedFunction<Type>::isNumber() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isIntegral() const
+template <typename Type>
+bool TypedFunction<Type>::isIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedFunction<Type>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedFunction<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isEnum() const
+template <typename Type>
+bool TypedFunction<Type>::isEnum() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isString() const
+template <typename Type>
+bool TypedFunction<Type>::isString() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isExternal() const
+template <typename Type>
+bool TypedFunction<Type>::isExternal() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isPointer() const
+template <typename Type>
+bool TypedFunction<Type>::isPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isObject() const
+template <typename Type>
+bool TypedFunction<Type>::isObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isObjectPointer() const
+template <typename Type>
+bool TypedFunction<Type>::isObjectPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isArray() const
+template <typename Type>
+bool TypedFunction<Type>::isArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isArrayPointer() const
+template <typename Type>
+bool TypedFunction<Type>::isArrayPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::isFunction() const
+template <typename Type>
+bool TypedFunction<Type>::isFunction() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-Variant TypedFunction<Type, Storage>::minimumValue() const
+template <typename Type>
+Variant TypedFunction<Type>::minimumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-Variant TypedFunction<Type, Storage>::maximumValue() const
+template <typename Type>
+Variant TypedFunction<Type>::maximumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertToString() const
+template <typename Type>
+bool TypedFunction<Type>::canConvertToString() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-std::string TypedFunction<Type, Storage>::toString() const
+template <typename Type>
+std::string TypedFunction<Type>::toString() const
 {
     return "";
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertToBool() const
+template <typename Type>
+bool TypedFunction<Type>::canConvertToBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::toBool() const
+template <typename Type>
+bool TypedFunction<Type>::toBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertToLongLong() const
+template <typename Type>
+bool TypedFunction<Type>::canConvertToLongLong() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-long long TypedFunction<Type, Storage>::toLongLong() const
+template <typename Type>
+long long TypedFunction<Type>::toLongLong() const
 {
     return 0ll;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertToULongLong() const
+template <typename Type>
+bool TypedFunction<Type>::canConvertToULongLong() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-unsigned long long TypedFunction<Type, Storage>::toULongLong() const
+template <typename Type>
+unsigned long long TypedFunction<Type>::toULongLong() const
 {
     return 0ull;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertToDouble() const
+template <typename Type>
+bool TypedFunction<Type>::canConvertToDouble() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-double TypedFunction<Type, Storage>::toDouble() const
+template <typename Type>
+double TypedFunction<Type>::toDouble() const
 {
     return 0.0;
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertToObject() const
+template <typename Type>
+bool TypedFunction<Type>::canConvertToObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Object TypedFunction<Type, Storage>::toObject() const
+template <typename Type>
+Object TypedFunction<Type>::toObject() const
 {
     return Object();
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertToArray() const
+template <typename Type>
+bool TypedFunction<Type>::canConvertToArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Array TypedFunction<Type, Storage>::toArray() const
+template <typename Type>
+Array TypedFunction<Type>::toArray() const
 {
     return Array();
 }
 
-template <typename Type, typename Storage>
-bool TypedFunction<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedFunction<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return value.isFunction();
 }
 
-template <typename Type, typename Storage>
-void TypedFunction<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedFunction<Type>::fromVar(const AbstractVar & value)
 {
     if (value.isFunction()) {
         this->setValue(value.convert<Type>());
     }
 }
 
-template <typename Type, typename Storage>
-const Object * TypedFunction<Type, Storage>::asObject() const
+template <typename Type>
+const Object * TypedFunction<Type>::asObject() const
 {
     return nullptr;
 }
 
-template <typename Type, typename Storage>
-const Array * TypedFunction<Type, Storage>::asArray() const
+template <typename Type>
+const Array * TypedFunction<Type>::asArray() const
 {
     return nullptr;
 }

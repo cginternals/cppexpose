@@ -11,234 +11,234 @@ namespace cppexpose
 {
 
 
-template <typename Type, typename Storage>
+template <typename Type>
 template <typename... Args>
-TypedGeneric<Type, Storage>::TypedGeneric(Args&&... args)
-: Storage(std::forward<Args>(args)...)
+TypedGeneric<Type>::TypedGeneric(Args&&... args)
+: ValueStorage<Type>(std::forward<Args>(args)...)
 {
 }
 
-template <typename Type, typename Storage>
-TypedGeneric<Type, Storage>::~TypedGeneric()
+template <typename Type>
+TypedGeneric<Type>::~TypedGeneric()
 {
 }
 
-template <typename Type, typename Storage>
-VarType TypedGeneric<Type, Storage>::type() const
+template <typename Type>
+VarType TypedGeneric<Type>::type() const
 {
     return VarType::External;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isNull() const
+template <typename Type>
+bool TypedGeneric<Type>::isNull() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isBool() const
+template <typename Type>
+bool TypedGeneric<Type>::isBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isNumber() const
+template <typename Type>
+bool TypedGeneric<Type>::isNumber() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isIntegral() const
+template <typename Type>
+bool TypedGeneric<Type>::isIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isSignedIntegral() const
+template <typename Type>
+bool TypedGeneric<Type>::isSignedIntegral() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isFloatingPoint() const
+template <typename Type>
+bool TypedGeneric<Type>::isFloatingPoint() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isEnum() const
+template <typename Type>
+bool TypedGeneric<Type>::isEnum() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isString() const
+template <typename Type>
+bool TypedGeneric<Type>::isString() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isExternal() const
+template <typename Type>
+bool TypedGeneric<Type>::isExternal() const
 {
     return true;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isPointer() const
+template <typename Type>
+bool TypedGeneric<Type>::isPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isObject() const
+template <typename Type>
+bool TypedGeneric<Type>::isObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isObjectPointer() const
+template <typename Type>
+bool TypedGeneric<Type>::isObjectPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isArray() const
+template <typename Type>
+bool TypedGeneric<Type>::isArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isArrayPointer() const
+template <typename Type>
+bool TypedGeneric<Type>::isArrayPointer() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::isFunction() const
+template <typename Type>
+bool TypedGeneric<Type>::isFunction() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Variant TypedGeneric<Type, Storage>::minimumValue() const
+template <typename Type>
+Variant TypedGeneric<Type>::minimumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-Variant TypedGeneric<Type, Storage>::maximumValue() const
+template <typename Type>
+Variant TypedGeneric<Type>::maximumValue() const
 {
     // Not supported
     return Variant();
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertToString() const
+template <typename Type>
+bool TypedGeneric<Type>::canConvertToString() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-std::string TypedGeneric<Type, Storage>::toString() const
+template <typename Type>
+std::string TypedGeneric<Type>::toString() const
 {
     return "";
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertToBool() const
+template <typename Type>
+bool TypedGeneric<Type>::canConvertToBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::toBool() const
+template <typename Type>
+bool TypedGeneric<Type>::toBool() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertToLongLong() const
+template <typename Type>
+bool TypedGeneric<Type>::canConvertToLongLong() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-long long TypedGeneric<Type, Storage>::toLongLong() const
+template <typename Type>
+long long TypedGeneric<Type>::toLongLong() const
 {
     return 0ll;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertToULongLong() const
+template <typename Type>
+bool TypedGeneric<Type>::canConvertToULongLong() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-unsigned long long TypedGeneric<Type, Storage>::toULongLong() const
+template <typename Type>
+unsigned long long TypedGeneric<Type>::toULongLong() const
 {
     return 0ull;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertToDouble() const
+template <typename Type>
+bool TypedGeneric<Type>::canConvertToDouble() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-double TypedGeneric<Type, Storage>::toDouble() const
+template <typename Type>
+double TypedGeneric<Type>::toDouble() const
 {
     return 0.0;
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertToObject() const
+template <typename Type>
+bool TypedGeneric<Type>::canConvertToObject() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Object TypedGeneric<Type, Storage>::toObject() const
+template <typename Type>
+Object TypedGeneric<Type>::toObject() const
 {
     return Object();
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertToArray() const
+template <typename Type>
+bool TypedGeneric<Type>::canConvertToArray() const
 {
     return false;
 }
 
-template <typename Type, typename Storage>
-Array TypedGeneric<Type, Storage>::toArray() const
+template <typename Type>
+Array TypedGeneric<Type>::toArray() const
 {
     return Array();
 }
 
-template <typename Type, typename Storage>
-bool TypedGeneric<Type, Storage>::canConvertFromVar(const AbstractVar & value)
+template <typename Type>
+bool TypedGeneric<Type>::canConvertFromVar(const AbstractVar & value)
 {
     return (value.hasType<Type>() || value.canConvert<Type>());
 }
 
-template <typename Type, typename Storage>
-void TypedGeneric<Type, Storage>::fromVar(const AbstractVar & value)
+template <typename Type>
+void TypedGeneric<Type>::fromVar(const AbstractVar & value)
 {
     if (value.hasType<Type>() || value.canConvert<Type>()) {
         this->setValue(value.convert<Type>());
     }
 }
 
-template <typename Type, typename Storage>
-const Object * TypedGeneric<Type, Storage>::asObject() const
+template <typename Type>
+const Object * TypedGeneric<Type>::asObject() const
 {
     return nullptr;
 }
 
-template <typename Type, typename Storage>
-const Array * TypedGeneric<Type, Storage>::asArray() const
+template <typename Type>
+const Array * TypedGeneric<Type>::asArray() const
 {
     return nullptr;
 }

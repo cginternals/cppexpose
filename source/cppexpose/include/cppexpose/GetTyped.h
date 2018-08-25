@@ -33,158 +33,158 @@ namespace cppexpose
 *    Specialize this class template to register a new type.
 *    Define the typed class that you want to use as typedef Type.
 */
-template <typename Type, typename Storage, typename = void>
+template <typename Type, typename = void>
 struct CPPEXPOSE_TEMPLATE_API GetTyped
 {
-    using VarType = TypedGeneric<Type, Storage>;
+    using VarType = TypedGeneric<Type>;
 };
 
 /**
 *  @brief
 *    Type selector for bool
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<bool, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<bool>
 {
-    using VarType = TypedBool<bool, Storage>;
+    using VarType = TypedBool<bool>;
 };
 
 /**
 *  @brief
 *    Type selector for const bool
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const bool, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const bool>
 {
-    using VarType = TypedBool<const bool, Storage>;
+    using VarType = TypedBool<const bool>;
 };
 
 /**
 *  @brief
 *    Type selector for std::string
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<std::string, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<std::string>
 {
-    using VarType = TypedString<std::string, Storage>;
+    using VarType = TypedString<std::string>;
 };
 
 /**
 *  @brief
 *    Type selector for const std::string
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const std::string, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const std::string>
 {
-    using VarType = TypedString<const std::string, Storage>;
+    using VarType = TypedString<const std::string>;
 };
 
 /**
 *  @brief
 *    Type selector for signed integral types
 */
-template <typename Type, typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<helper::isSignedIntegral<Type>>>
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, helper::EnableIf<helper::isSignedIntegral<Type>>>
 {
-    using VarType = TypedSignedIntegral<Type, Storage>;
+    using VarType = TypedSignedIntegral<Type>;
 };
 
 /**
 *  @brief
 *    Type selector for unsigned integral types
 */
-template <typename Type, typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<helper::isUnsignedIntegral<Type>>>
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, helper::EnableIf<helper::isUnsignedIntegral<Type>>>
 {
-    using VarType = TypedUnsignedIntegral<Type, Storage>;
+    using VarType = TypedUnsignedIntegral<Type>;
 };
 
 /**
 *  @brief
 *    Type selector for floating point types
 */
-template <typename Type, typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<helper::isFloatingPoint<Type>>>
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, helper::EnableIf<helper::isFloatingPoint<Type>>>
 {
-    using VarType = TypedFloatingPoint<Type, Storage>;
+    using VarType = TypedFloatingPoint<Type>;
 };
 
 /**
 *  @brief
 *    Type selector for enum types
 */
-template <typename Type, typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<std::is_enum<Type>>>
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, helper::EnableIf<std::is_enum<Type>>>
 {
-    using VarType = TypedEnum<Type, Storage>;
+    using VarType = TypedEnum<Type>;
 };
 
 /**
 *  @brief
 *    Type selector for pointer types
 */
-template <typename Type, typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<std::is_pointer<Type>>>
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, helper::EnableIf<std::is_pointer<Type>>>
 {
-    using VarType = TypedPointer<Type, Storage>;
+    using VarType = TypedPointer<Type>;
 };
 
 /**
 *  @brief
 *    Type selector for pointer to Object
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Object *, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Object *>
 {
-    using VarType = TypedObjectPointer<cppexpose::Object *, Storage>;
+    using VarType = TypedObjectPointer<cppexpose::Object *>;
 };
 
 /**
 *  @brief
 *    Type selector for pointer to Object (const)
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Object *, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Object *>
 {
-    using VarType = TypedObjectPointer<const cppexpose::Object *, Storage>;
+    using VarType = TypedObjectPointer<const cppexpose::Object *>;
 };
 
 /**
 *  @brief
 *    Type selector for pointer to Array
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Array *, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Array *>
 {
-    using VarType = TypedArrayPointer<cppexpose::Array *, Storage>;
+    using VarType = TypedArrayPointer<cppexpose::Array *>;
 };
 
 /**
 *  @brief
 *    Type selector for pointer to Array (const)
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Array *, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Array *>
 {
-    using VarType = TypedArrayPointer<const cppexpose::Array *, Storage>;
+    using VarType = TypedArrayPointer<const cppexpose::Array *>;
 };
 
 /**
 *  @brief
 *    Type selector for array types
 */
-template <typename Type, typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, Storage, helper::EnableIf<helper::isArray<Type>>>
+template <typename Type>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Type, helper::EnableIf<helper::isArray<Type>>>
 {
-    using VarType = TypedArray<Type, Storage>;
+    using VarType = TypedArray<Type>;
 };
 
 /**
 *  @brief
 *    Type selector for Object
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Object, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Object>
 {
     using VarType = cppexpose::Object;
 };
@@ -193,8 +193,8 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Object, Storage>
 *  @brief
 *    Type selector for Object (const)
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Object, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Object>
 {
     using VarType = cppexpose::Object;
 };
@@ -203,8 +203,8 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Object, Storage>
 *  @brief
 *    Type selector for Array
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Array, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Array>
 {
     using VarType = cppexpose::Array;
 };
@@ -213,8 +213,8 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Array, Storage>
 *  @brief
 *    Type selector for Array (const)
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Array, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Array>
 {
     using VarType = cppexpose::Array;
 };
@@ -223,8 +223,8 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Array, Storage>
 *  @brief
 *    Type selector for Variant
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Variant, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Variant>
 {
     using VarType = cppexpose::Variant;
 };
@@ -233,8 +233,8 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Variant, Storage>
 *  @brief
 *    Type selector for Variant (const)
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant>
 {
     using VarType = cppexpose::Variant;
 };
@@ -243,10 +243,10 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant, Storage>
 *  @brief
 *    Type selector for functions
 */
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<Function, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<Function>
 {
-    using VarType = TypedFunction<Function, Storage>;
+    using VarType = TypedFunction<Function>;
 };
 
 /**
@@ -254,10 +254,10 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<Function, Storage>
 *    Type selector for cppassist::FilePath
 */
 /*
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppassist::FilePath, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppassist::FilePath>
 {
-    using VarType = TypedFilePath<cppassist::FilePath, Storage>;
+    using VarType = TypedFilePath<cppassist::FilePath>;
 };
 */
 
@@ -266,10 +266,10 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<cppassist::FilePath, Storage>
 *    Type selector for const cppassist::FilePath
 */
 /*
-template <typename Storage>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath, Storage>
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath>
 {
-    using VarType = TypedFilePath<const cppassist::FilePath, Storage>;
+    using VarType = TypedFilePath<const cppassist::FilePath>;
 };
 */
 

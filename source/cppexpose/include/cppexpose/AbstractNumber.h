@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/cppexpose_api.h>
+#include <cppexpose/ValueStorage.h>
 
 
 namespace cppexpose
@@ -13,8 +13,8 @@ namespace cppexpose
 *  @brief
 *    Base class for number types
 */
-template <typename Type, typename Storage>
-class CPPEXPOSE_TEMPLATE_API AbstractNumber : public Storage
+template <typename Type>
+class CPPEXPOSE_TEMPLATE_API AbstractNumber : public ValueStorage<Type>
 {
 public:
     /**
@@ -85,10 +85,10 @@ public:
     virtual bool isFunction() const override;
 
     // Access modifiers
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Value access
-    //   Overloaded in Storage type
+    //   Overloaded in ValueStorage
 
     // Additional information
     virtual Variant minimumValue() const override;
