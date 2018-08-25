@@ -24,6 +24,13 @@ PropertyContainer * AbstractVar::parent() const
     return m_parent;
 }
 
+void AbstractVar::setParent(PropertyContainer * parent)
+{
+    if (!m_parent || !parent) {
+        m_parent = parent;
+    }
+}
+
 std::string AbstractVar::typeName() const
 {
     // [TODO]

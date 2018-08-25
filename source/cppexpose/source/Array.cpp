@@ -112,8 +112,7 @@ AbstractVar * Array::push(AbstractVar * property)
     }
 
     // Set parent
-    // [TODO]
-//  property->setParent(this);
+    property->setParent(this);
 
     // Invoke callback
     auto newIndex = m_properties.size();
@@ -191,8 +190,9 @@ bool Array::remove(AbstractVar * property)
     m_properties.erase(it);
 
     // Reset property parent
-    // [TODO]
-//  property->setParent(nullptr);
+    if (property->parent() == this) {
+        property->setParent(nullptr);
+    }
 
     // Invoke callback
     afterRemove(index, property);

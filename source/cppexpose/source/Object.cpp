@@ -132,8 +132,7 @@ AbstractVar * Object::addProperty(const std::string & name, AbstractVar * proper
     }
 
     // Set parent
-    // [TODO]
-//  property->setParent(this);
+    property->setParent(this);
 
     // Invoke callback
     beforeAdd(name, property);
@@ -215,8 +214,9 @@ bool Object::removeProperty(AbstractVar * property)
     m_properties.erase(it);
 
     // Reset property parent
-    // [TODO]
-//  property->setParent(nullptr);
+    if (property->parent() == this) {
+        property->setParent(nullptr);
+    }
 
     // Invoke callback
     afterRemove(name, property);

@@ -52,6 +52,24 @@ public:
 
     /**
     *  @brief
+    *    Set parent property container
+    *
+    *  @param[in] parent
+    *    Parent property container (can be null)
+    *
+    *  @remarks
+    *    Updates the parent according to the following rules:
+    *    - If the variable does not have a parent, and the new parent is not null,
+    *      the parent is updated.
+    *    - If the variable does have a parent, and the new parent is null,
+    *      the parent is removed.
+    *    - If the variable already has a parent, and the new parent is different but not null,
+    *      the parent is NOT updated.
+    */
+    void setParent(PropertyContainer * parent);
+
+    /**
+    *  @brief
     *    Check if value has a specific type
     *
     *  @return

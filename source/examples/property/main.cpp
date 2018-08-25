@@ -38,12 +38,10 @@ int main(int, char * [])
     obj.print();
 
     // Register callback on property changes
-    /* // [TODO]
     obj.Int.valueChanged.connect([] (const int & value)
     {
         std::cout << "CALLBACK: int set to " << value << std::endl;
     });
-    */
 
     // Get property by name
     AbstractVar * property = obj.property("int");
