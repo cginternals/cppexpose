@@ -280,9 +280,11 @@ void Engine::pushToDukStack(const AbstractVar & value)
         duk_push_string(m_context, value.toString().c_str());
     }
 
+    /* [TODO]
     else if (value.hasType<char*>()) {
         duk_push_string(m_context, value.convert<char*>());
     }
+    */
 
     else if (value.isArray())
     {
@@ -309,9 +311,9 @@ void Engine::pushToDukStack(const AbstractVar & value)
         }
     }
 
-    else if (value.hasType<cppexpose::Object *>())
+    else if (value.isObjectPointer())
     {
-        const auto object = value.convert<cppexpose::Object *>();
+        auto * object = const_cast<Object *>(value.asObject());
         if (object == nullptr)
         {
             duk_push_null(m_context);

@@ -220,13 +220,13 @@ Array TypedGeneric<Type>::toArray() const
 template <typename Type>
 bool TypedGeneric<Type>::canConvertFromVar(const AbstractVar & value)
 {
-    return (value.hasType<Type>() || value.canConvert<Type>());
+    return (value.canConvert<Type>());
 }
 
 template <typename Type>
 void TypedGeneric<Type>::fromVar(const AbstractVar & value)
 {
-    if (value.hasType<Type>() || value.canConvert<Type>()) {
+    if (value.canConvert<Type>()) {
         this->setValue(value.convert<Type>());
     }
 }

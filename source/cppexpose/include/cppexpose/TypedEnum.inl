@@ -260,7 +260,7 @@ Array TypedEnum<Type>::toArray() const
 template <typename Type>
 bool TypedEnum<Type>::canConvertFromVar(const AbstractVar & value)
 {
-    return (value.hasType<Type>() || value.canConvert<Type>() ||
+    return (value.canConvert<Type>() ||
             value.canConvertToLongLong() ||
             value.canConvertToULongLong() ||
             value.canConvertToDouble() ||
@@ -271,7 +271,7 @@ bool TypedEnum<Type>::canConvertFromVar(const AbstractVar & value)
 template <typename Type>
 void TypedEnum<Type>::fromVar(const AbstractVar & value)
 {
-    if (value.hasType<Type>() || value.canConvert<Type>()) {
+    if (value.canConvert<Type>()) {
         this->setValue(value.convert<Type>());
     } else if (value.canConvertToLongLong()) {
         this->setValue(static_cast<Type>(value.toLongLong()));

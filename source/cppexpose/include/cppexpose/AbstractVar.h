@@ -85,16 +85,6 @@ public:
 
     /**
     *  @brief
-    *    Check if value has a specific type
-    *
-    *  @return
-    *    'true' if value is of type Type, else 'false'.
-    */
-    template <typename Type>
-    bool hasType() const;
-
-    /**
-    *  @brief
     *    Check if value type can be converted
     *
     *  @return

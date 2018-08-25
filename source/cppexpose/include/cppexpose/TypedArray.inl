@@ -238,13 +238,13 @@ Array TypedArray<Type>::toArray() const
 template <typename Type>
 bool TypedArray<Type>::canConvertFromVar(const AbstractVar & value)
 {
-    return (value.hasType<Type>() || value.canConvert<Type>() || value.canConvertToArray());
+    return (value.canConvert<Type>() || value.canConvertToArray());
 }
 
 template <typename Type>
 void TypedArray<Type>::fromVar(const AbstractVar & value)
 {
-    if (value.hasType<Type>() || value.canConvert<Type>()) {
+    if (value.canConvert<Type>()) {
         this->setValue(value.convert<Type>());
     } else if (value.isArray()) {
         // Get element type

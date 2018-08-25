@@ -11,13 +11,6 @@ class Var;
 
 
 template <typename Type>
-bool AbstractVar::hasType() const
-{
-    // [TODO]
-    return false;
-}
-
-template <typename Type>
 bool AbstractVar::canConvert() const
 {
     return false;

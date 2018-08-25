@@ -233,13 +233,13 @@ Array TypedPointer<Type>::toArray() const
 template <typename Type>
 bool TypedPointer<Type>::canConvertFromVar(const AbstractVar & value)
 {
-    return (value.hasType<Type>() || value.canConvert<Type>() || value.canConvertToULongLong());
+    return (value.canConvert<Type>() || value.canConvertToULongLong());
 }
 
 template <typename Type>
 void TypedPointer<Type>::fromVar(const AbstractVar & value)
 {
-    if (value.hasType<Type>() || value.canConvert<Type>()) {
+    if (value.canConvert<Type>()) {
         this->setValue(value.convert<Type>());
     } else if (value.canConvertToULongLong()) {
         this->setValue(reinterpret_cast<Type>(reinterpret_cast<void *>(value.toULongLong())));

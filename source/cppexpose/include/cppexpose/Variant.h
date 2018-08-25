@@ -22,7 +22,7 @@ namespace cppexpose
 *    available constructors. To create a Variant from another data type, use the
 *    static function fromValue().
 *
-*    The type of the stored value can be determined by hasType<Type>().
+*    The type of the stored value can be determined by typeName().
 *    To access the value of a variant, call convert<Type>(). If the given data type does not
 *    match the stored type, the value may be converted. Note that this only works, if the
 *    corresponding type class (see Typed* classes) has implemented an approriate conversion

@@ -35,7 +35,8 @@ void MyObject::test(int a, float b)
 
 void MyObject::setFunction(const Variant & func)
 {
-    if (func.hasType<Function>()) {
+    if (func.type() == VarType::Function) {
+        // [TODO] This will most probably not work yet
         std::cout << "Setting function." << std::endl;
         m_func = func.convert<Function>();
     } else {
