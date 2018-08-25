@@ -48,6 +48,19 @@ int main(int, char * [])
     script.createProperty<Array>("a");
     script.createProperty<Variant>("v", Variant(111));
 
+    const AbstractVar * var = &script;
+    std::cout << "script: " << var->toString() << std::endl;
+    var = var->resolve("obj");
+    std::cout << "obj: " << var->toString() << std::endl;
+    var = var->resolve("string");
+    std::cout << "string: " << var->toString() << std::endl;
+    var = var->resolve("parent");
+    std::cout << "obj: " << var->toString() << std::endl;
+    var = var->resolve("parent.json.c");
+    std::cout << "c: " << var->toString() << std::endl;
+    var = var->resolve("parent.parent");
+    std::cout << "script: " << var->toString() << std::endl;
+
     // Start interactive command console
     while (char * line = linenoise("> ")) {
         // Get command

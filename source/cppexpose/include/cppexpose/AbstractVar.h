@@ -70,6 +70,21 @@ public:
 
     /**
     *  @brief
+    *    Resolve property by relative path
+    *
+    *  @param[in] path
+    *    Path to property relative to this var, e.g. "prop1", or "sub1.sub2.property", or "parent.val".
+    *
+    *  @return
+    *    Pointer to the property, or nullptr on error
+    *
+    *  @remarks
+    *    To access the parent property, the keyword "parent" can be used.
+    */
+    const AbstractVar * resolve(const std::string & path) const;
+
+    /**
+    *  @brief
     *    Check if value has a specific type
     *
     *  @return
@@ -515,6 +530,7 @@ protected:
     *    the property might be rejected when added to the parent.
     */
     void registerProperty(PropertyContainer * parent, const std::string & name);
+
 
 protected:
     PropertyContainer * m_parent; ///< Parent property container (can be null)
