@@ -23,11 +23,8 @@ public:
     *
     *  @param[in] defaultValue
     *    Default value (used if no initial value is given in args)
-    *  @param[in] args
-    *    Arguments which are passed on to the constructor of the base-var
     */
-    template <typename... Args>
-    AbstractTypedNumber(Type defaultValue, Args&&... args);
+    AbstractTypedNumber(Type defaultValue);
 
     /**
     *  @brief
@@ -35,11 +32,10 @@ public:
     *
     *  @param[in] defaultValue
     *    Default value (used if no initial value is given in args)
-    *  @param[in] args
-    *    Arguments which are passed on to the constructor of the base-var
+    *  @param[in] value
+    *    Initial value
     */
-    template <typename... Args>
-    AbstractTypedNumber(Type defaultValue, Type value, Args&&... args);
+    AbstractTypedNumber(Type defaultValue, Type value);
 
     /**
     *  @brief
@@ -47,15 +43,14 @@ public:
     *
     *  @param[in] defaultValue
     *    Default value (used if no initial value is given in args)
+    *  @param[in] value
+    *    Initial value
     *  @param[in] minValue
     *    Minimum value
     *  @param[in] maxValue
     *    Maximum value
-    *  @param[in] args
-    *    Arguments which are passed on to the constructor of the base-var
     */
-    template <typename... Args>
-    AbstractTypedNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args);
+    AbstractTypedNumber(Type defaultValue, Type value, Type minValue, Type maxValue);
 
     /**
     *  @brief

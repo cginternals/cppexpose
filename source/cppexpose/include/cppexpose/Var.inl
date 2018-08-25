@@ -19,6 +19,12 @@ Var<Type>::Var(const Type & value)
 }
 
 template <typename Type>
+Var<Type>::Var(const Type & value, const Type & minValue, const Type & maxValue)
+: GetTyped<Type>::VarType(value, minValue, maxValue)
+{
+}
+
+template <typename Type>
 Var<Type>::Var(PropertyContainer * parent, const std::string & name)
 : GetTyped<Type>::VarType()
 {
@@ -28,6 +34,13 @@ Var<Type>::Var(PropertyContainer * parent, const std::string & name)
 template <typename Type>
 Var<Type>::Var(PropertyContainer * parent, const std::string & name, const Type & value)
 : GetTyped<Type>::VarType(value)
+{
+    this->registerProperty(parent, name);
+}
+
+template <typename Type>
+Var<Type>::Var(PropertyContainer * parent, const std::string & name, const Type & value, const Type & minValue, const Type & maxValue)
+: GetTyped<Type>::VarType(value, minValue, maxValue)
 {
     this->registerProperty(parent, name);
 }

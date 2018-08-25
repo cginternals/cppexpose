@@ -31,7 +31,20 @@ public:
     *  @param[in] value
     *    Initial value
     */
-    Var(const Type & defaultValue);
+    Var(const Type & value);
+
+    /**
+    *  @brief
+    *    Constructor with initial value and value range
+    *
+    *  @param[in] value
+    *    Initial value
+    *  @param[in] minValue
+    *    Minimum value
+    *  @param[in] maxValue
+    *    Maximum value
+    */
+    Var(const Type & value, const Type & minValue, const Type & maxValue);
 
     /**
     *  @brief
@@ -56,6 +69,23 @@ public:
     *    Initial value
     */
     Var(PropertyContainer * parent, const std::string & name, const Type & value);
+
+    /**
+    *  @brief
+    *    Constructor that registers the property, and initial value, and value range
+    *
+    *  @param[in] parent
+    *    Parent container (must NOT be null!)
+    *  @param[in] name
+    *    Name of property
+    *  @param[in] value
+    *    Initial value
+    *  @param[in] minValue
+    *    Minimum value
+    *  @param[in] maxValue
+    *    Maximum value
+    */
+    Var(PropertyContainer * parent, const std::string & name, const Type & value, const Type & minValue, const Type & maxValue);
 
     /**
     *  @brief

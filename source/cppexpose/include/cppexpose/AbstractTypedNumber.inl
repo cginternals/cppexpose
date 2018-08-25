@@ -16,27 +16,24 @@ namespace cppexpose
 
 
 template <typename Type>
-template <typename... Args>
-AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Args&&... args)
-: ValueStorage<Type>(defaultValue, std::forward<Args>(args)...)
+AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue)
+: ValueStorage<Type>(defaultValue)
 , m_minValue(std::numeric_limits<Type>::lowest())
 , m_maxValue(std::numeric_limits<Type>::max())
 {
 }
 
 template <typename Type>
-template <typename... Args>
-AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Type value, Args&&... args)
-: ValueStorage<Type>(defaultValue, value, std::forward<Args>(args)...)
+AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Type value)
+: ValueStorage<Type>(defaultValue, value)
 , m_minValue(std::numeric_limits<Type>::lowest())
 , m_maxValue(std::numeric_limits<Type>::max())
 {
 }
 
 template <typename Type>
-template <typename... Args>
-AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args)
-: ValueStorage<Type>(defaultValue, value, std::forward<Args>(args)...)
+AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Type value, Type minValue, Type maxValue)
+: ValueStorage<Type>(defaultValue, value)
 , m_minValue(minValue)
 , m_maxValue(maxValue)
 {
@@ -50,11 +47,7 @@ AbstractTypedNumber<Type>::~AbstractTypedNumber()
 template <typename Type>
 std::unique_ptr<AbstractVar> AbstractTypedNumber<Type>::clone() const
 {
-    auto * var = new Var<Type>(this->value());
-    var->m_minValue = this->m_minValue;
-    var->m_maxValue = this->m_maxValue;
-
-    return std::unique_ptr<AbstractVar>(var);
+    return std::unique_ptr<AbstractVar>(new Var<Type>(this->value(), this->m_minValue, this->m_maxValue));
 }
 
 template <typename Type>

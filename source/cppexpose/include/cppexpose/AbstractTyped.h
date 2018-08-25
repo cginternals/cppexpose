@@ -22,17 +22,12 @@ class CPPEXPOSE_TEMPLATE_API AbstractTyped : public AbstractVar
 public:
     Signal<const Type &> valueChanged; ///< Called when the value has been changed
 
-
 public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] args
-    *    Arguments which are passed on to the constructor of the base-var
     */
-    template <typename... Args>
-    AbstractTyped(Args&&... args);
+    AbstractTyped();
 
     /**
     *  @brief

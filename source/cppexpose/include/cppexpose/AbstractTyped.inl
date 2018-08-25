@@ -7,9 +7,7 @@ namespace cppexpose
 
 
 template <typename Type>
-template <typename... Args>
-AbstractTyped<Type>::AbstractTyped(Args&&... args)
-: AbstractVar(std::forward<Args>(args)...)
+AbstractTyped<Type>::AbstractTyped()
 {
 }
 
