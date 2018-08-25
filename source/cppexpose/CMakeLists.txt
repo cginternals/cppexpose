@@ -60,7 +60,6 @@ set(headers
 
     ${include_path}/cppexpose.h
     ${include_path}/JSON.h
-    ${include_path}/Tokenizer.h
 
     ${include_path}/AbstractNumber.h
     ${include_path}/AbstractNumber.inl
@@ -123,7 +122,6 @@ set(headers
 set(sources
     ${source_path}/cppexpose.cpp
     ${source_path}/JSON.cpp
-    ${source_path}/Tokenizer.cpp
 
     ${source_path}/AbstractVar.cpp
     ${source_path}/Array.cpp

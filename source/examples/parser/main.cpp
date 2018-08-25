@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include <cppassist/string/conversion.h>
+#include <cppassist/tokenizer/Tokenizer.h>
 
-#include <cppexpose/Tokenizer.h>
 #include <cppexpose/JSON.h>
 #include <cppexpose/Variant.h>
 

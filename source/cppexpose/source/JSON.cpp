@@ -5,8 +5,8 @@
 
 #include <cppassist/string/conversion.h>
 #include <cppassist/logging/logging.h>
+#include <cppassist/tokenizer/Tokenizer.h>
 
-#include <cppexpose/Tokenizer.h>
 #include <cppexpose/Object.h>
 #include <cppexpose/Array.h>
 #include <cppexpose/Variant.h>
