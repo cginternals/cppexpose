@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <cppexpose/Variant.h>
+#include <cppexpose/cppexpose_api.h>
 
 
 namespace cppexpose
@@ -65,13 +65,17 @@ public:
     */
     struct Token
     {
-        TokenType    type;    ///< Type of token (see TokenType)
-        std::string  content; ///< Token content (the actual string read)
-        Variant      value;   ///< Interpreted value of the token
-        const char * begin;   ///< Pointer to the first character of the token
-        const char * end;     ///< Pointer to the first character after the token
-        unsigned int line;    ///< Line number where the token begins
-        unsigned int column;  ///< Columns number where the token begins
+        TokenType    type;         ///< Type of token (see TokenType)
+        std::string  content;      ///< Token content (the actual string read)
+        int          intValue;     ///< Only valid if type == TokenNumber
+        double       numberValue;  ///< Only valid if type == TokenNumber
+        std::string  stringValue;  ///< Only valid if type == TokenString
+        bool         booleanValue; ///< Only valid if type == TokenBoolean
+        bool         isDouble;     ///< If type == TokenNumber and isDouble, use numberValue
+        const char * begin;        ///< Pointer to the first character of the token
+        const char * end;          ///< Pointer to the first character after the token
+        unsigned int line;         ///< Line number where the token begins
+        unsigned int column;       ///< Columns number where the token begins
     };
 
     /**
@@ -429,28 +433,28 @@ private:
     *  @brief
     *    Convert token value into a number
     *
-    *  @return
-    *    Variant containing the number value
+    *  @param[in,out] token
+    *    Token
     */
-    Variant decodeNumber(const Token & token) const;
+    void decodeNumber(Token & token);
 
     /**
     *  @brief
     *    Convert token value into a double value
     *
-    *  @return
-    *    Double value
+    *  @param[in,out] token
+    *    Token
     */
-    double decodeDouble(const Token & token) const;
+    void decodeDouble(Token & token);
 
     /**
     *  @brief
     *    Convert token value into string
     *
-    *  @return
-    *    String value (without quotation marks or escape sequences)
+    *  @param[in,out] token
+    *    Token
     */
-    std::string decodeString(const Token & token) const;
+    void decodeString(Token & token);
 
     /**
     *  @brief

@@ -173,35 +173,35 @@ Tokenizer::Token Tokenizer::parseToken()
     // Convert token of specific types
     if (hasOption(OptionParseNumber) && token.type == TokenNumber)
     {
-        token.value = decodeNumber(token);
+        decodeNumber(token);
     }
 
     else if (hasOption(OptionParseStrings) && token.type == TokenString)
     {
-        token.value = Variant(decodeString(token));
+        decodeString(token);
     }
 
     else if (hasOption(OptionParseBoolean) && token.content == "true")
     {
         token.type = TokenBoolean;
-        token.value = Variant(true);
+        token.booleanValue = true;
     }
 
     else if (hasOption(OptionParseBoolean) && token.content == "false")
     {
         token.type = TokenBoolean;
-        token.value = Variant(false);
+        token.booleanValue = false;
     }
 
     else if (hasOption(OptionParseNull) && token.content == "null")
     {
         token.type = TokenNull;
-        token.value = Variant();
     }
 
     else
     {
-        token.value = Variant(token.content);
+        token.type = TokenString;
+        token.stringValue = token.content;
     }
 
     // Return parsed token
@@ -569,18 +569,19 @@ unsigned int Tokenizer::column() const
     return m_column;
 }
 
-Variant Tokenizer::decodeNumber(const Token & token) const
+void Tokenizer::decodeNumber(Token & token)
 {
-    bool isDouble = false;
+    token.isDouble = false;
 
     for (const char * inspect = token.begin; inspect != token.end; ++inspect) {
-        isDouble = isDouble ||
-                   charIn(*inspect, ".eE+") ||
-                   (*inspect == '-' && inspect != token.begin);
+        token.isDouble = token.isDouble ||
+                         charIn(*inspect, ".eE+") ||
+                         (*inspect == '-' && inspect != token.begin);
     }
 
-    if (isDouble) {
-        return Variant(decodeDouble(token));
+    if (token.isDouble) {
+        decodeDouble(token);
+        return;
     }
 
     const char * current = token.begin;
@@ -604,34 +605,35 @@ Variant Tokenizer::decodeNumber(const Token & token) const
                 << std::string(token.begin, token.end-token.begin)
                 << "' is not a number.";
 
-            return false;
+            return;
         }
 
         if (value >= threshold) {
-            return Variant(decodeDouble(token));
+            decodeDouble(token);
+            return;
         }
 
         value = value * 10 + unsigned(c - '0');
     }
 
     if (isNegative) {
-        return Variant(-int(value));
-    } else if (value <= unsigned(MAX_INT)) {
-        return Variant(int(value));
+        token.intValue = -int(value);
     } else {
-        return Variant(value);
+        token.intValue = int(value);
     }
 }
-double Tokenizer::decodeDouble(const Token & token) const
+void Tokenizer::decodeDouble(Token & token)
 {
+    token.isDouble = true;
+
     std::string buffer(token.begin, token.end-token.begin);
-    return cppassist::string::fromString<double>(buffer);
+    token.numberValue = cppassist::string::fromString<double>(buffer);
 }
 
-std::string Tokenizer::decodeString(const Token & token) const
+void Tokenizer::decodeString(Token & token)
 {
-    std::string decoded;
-    decoded.reserve(token.end - token.begin - 2);
+    token.stringValue.clear();
+    token.stringValue.reserve(token.end - token.begin - 2);
 
     const char * current = token.begin + 1; // Do not include '"'
     const char * end     = token.end   - 1; // Do not include '"'
@@ -650,46 +652,46 @@ std::string Tokenizer::decodeString(const Token & token) const
             if (current == end)
             {
                 warning() << "Empty escape sequence in string";
-                return decoded;
+                return;
             }
 
             char escape = *current++;
             switch (escape)
             {
-                case '"':  decoded += '"';  break;
-                case '/':  decoded += '/';  break;
-                case '\\': decoded += '\\'; break;
-                case 'b':  decoded += '\b'; break;
-                case 'f':  decoded += '\f'; break;
-                case 'n':  decoded += '\n'; break;
-                case 'r':  decoded += '\r'; break;
-                case 't':  decoded += '\t'; break;
+                case '"':  token.stringValue += '"';  break;
+                case '/':  token.stringValue += '/';  break;
+                case '\\': token.stringValue += '\\'; break;
+                case 'b':  token.stringValue += '\b'; break;
+                case 'f':  token.stringValue += '\f'; break;
+                case 'n':  token.stringValue += '\n'; break;
+                case 'r':  token.stringValue += '\r'; break;
+                case 't':  token.stringValue += '\t'; break;
                 case 'u':
                 {
                     unsigned int unicode;
 
                     if (!decodeUnicodeCodePoint(current, end, unicode)) {
-                        return "";
+                        token.stringValue = "";
+                        return;
                     }
 
-                    decoded += codePointToUTF8(unicode);
+                    token.stringValue += codePointToUTF8(unicode);
                     break;
                 }
 
                 default:
                 {
                     critical() << "Bad escape sequence in string";
-                    return "";
+                    token.stringValue = "";
+                    return;
                 }
             }
         }
         else
         {
-            decoded += c;
+            token.stringValue += c;
         }
     }
-
-    return decoded;
 }
 
 bool Tokenizer::decodeUnicodeCodePoint(const char * & current, const char * end, unsigned int & unicode) const

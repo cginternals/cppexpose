@@ -233,12 +233,25 @@ Variant readValue(Tokenizer::Token & token, Tokenizer & tokenizer)
         return std::move(array);
     }
 
-    else if (token.type == Tokenizer::TokenString ||
-             token.type == Tokenizer::TokenNumber ||
-             token.type == Tokenizer::TokenBoolean ||
-             token.type == Tokenizer::TokenNull)
+    else if (token.type == Tokenizer::TokenString)
     {
-        return std::move(Variant(token.value));
+        return Variant(token.stringValue);
+    }
+
+    else if (token.type == Tokenizer::TokenNumber)
+    {
+        if (token.isDouble) return Variant(token.numberValue);
+        else                return Variant(token.intValue);
+    }
+
+    else if (token.type == Tokenizer::TokenBoolean)
+    {
+        return Variant(token.booleanValue);
+    }
+
+    else if (token.type == Tokenizer::TokenNull)
+    {
+        return Variant();
     }
 
     else
@@ -340,7 +353,7 @@ bool readObject(Object & obj, Tokenizer & tokenizer)
             return false;
         }
 
-        std::string name = token.value.toString();
+        std::string name = token.stringValue;
 
         // Read next token
         token = tokenizer.parseToken();
