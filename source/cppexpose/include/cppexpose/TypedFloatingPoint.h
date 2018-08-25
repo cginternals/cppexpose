@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppexpose/AbstractNumber.h>
+#include <cppexpose/AbstractTypedNumber.h>
 
 
 namespace cppexpose
@@ -14,7 +14,7 @@ namespace cppexpose
 *    Representation of a floating point value
 */
 template <typename Type>
-class CPPEXPOSE_TEMPLATE_API TypedFloatingPoint : public AbstractNumber<Type>
+class CPPEXPOSE_TEMPLATE_API TypedFloatingPoint : public AbstractTypedNumber<Type>
 {
 public:
     /**
@@ -34,7 +34,7 @@ public:
     virtual ~TypedFloatingPoint();
 
     // Replication
-    //    Overloaded in AbstractNumber
+    //    Overloaded in AbstractTypedNumber
 
     // Variable type
     virtual bool isIntegral() const override;
@@ -48,7 +48,7 @@ public:
     //   Overloaded in ValueStorage
 
     // Conversion to other types
-    //    Overloaded in AbstractNumber
+    //    Overloaded in AbstractTypedNumber
 
     // Conversion from other types
     virtual bool canConvertFromVar(const AbstractVar & value) override;

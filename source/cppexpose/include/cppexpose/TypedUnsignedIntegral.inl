@@ -12,7 +12,7 @@ namespace cppexpose
 template <typename Type>
 template <typename... Args>
 TypedUnsignedIntegral<Type>::TypedUnsignedIntegral(Args&&... args)
-: AbstractNumber<Type>(Type(0u), std::forward<Args>(args)...)
+: AbstractTypedNumber<Type>(Type(0u), std::forward<Args>(args)...)
 {
 }
 

@@ -17,7 +17,7 @@ namespace cppexpose
 
 template <typename Type>
 template <typename... Args>
-AbstractNumber<Type>::AbstractNumber(Type defaultValue, Args&&... args)
+AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Args&&... args)
 : ValueStorage<Type>(defaultValue, std::forward<Args>(args)...)
 , m_minValue(std::numeric_limits<Type>::lowest())
 , m_maxValue(std::numeric_limits<Type>::max())
@@ -26,7 +26,7 @@ AbstractNumber<Type>::AbstractNumber(Type defaultValue, Args&&... args)
 
 template <typename Type>
 template <typename... Args>
-AbstractNumber<Type>::AbstractNumber(Type defaultValue, Type value, Args&&... args)
+AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Type value, Args&&... args)
 : ValueStorage<Type>(defaultValue, value, std::forward<Args>(args)...)
 , m_minValue(std::numeric_limits<Type>::lowest())
 , m_maxValue(std::numeric_limits<Type>::max())
@@ -35,7 +35,7 @@ AbstractNumber<Type>::AbstractNumber(Type defaultValue, Type value, Args&&... ar
 
 template <typename Type>
 template <typename... Args>
-AbstractNumber<Type>::AbstractNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args)
+AbstractTypedNumber<Type>::AbstractTypedNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args)
 : ValueStorage<Type>(defaultValue, value, std::forward<Args>(args)...)
 , m_minValue(minValue)
 , m_maxValue(maxValue)
@@ -43,206 +43,206 @@ AbstractNumber<Type>::AbstractNumber(Type defaultValue, Type value, Type minValu
 }
 
 template <typename Type>
-AbstractNumber<Type>::~AbstractNumber()
+AbstractTypedNumber<Type>::~AbstractTypedNumber()
 {
 }
 
 template <typename Type>
-std::unique_ptr<AbstractVar> AbstractNumber<Type>::clone() const
+std::unique_ptr<AbstractVar> AbstractTypedNumber<Type>::clone() const
 {
     return std::unique_ptr<AbstractVar>(new Var<Type>(this->value(), this->m_minValue, this->m_maxValue));
 }
 
 template <typename Type>
-VarType AbstractNumber<Type>::type() const
+VarType AbstractTypedNumber<Type>::type() const
 {
     return VarType::Number;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isNull() const
+bool AbstractTypedNumber<Type>::isNull() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isBool() const
+bool AbstractTypedNumber<Type>::isBool() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isNumber() const
+bool AbstractTypedNumber<Type>::isNumber() const
 {
     return true;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isEnum() const
+bool AbstractTypedNumber<Type>::isEnum() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isString() const
+bool AbstractTypedNumber<Type>::isString() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isExternal() const
+bool AbstractTypedNumber<Type>::isExternal() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isPointer() const
+bool AbstractTypedNumber<Type>::isPointer() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isObject() const
+bool AbstractTypedNumber<Type>::isObject() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isObjectPointer() const
+bool AbstractTypedNumber<Type>::isObjectPointer() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isArray() const
+bool AbstractTypedNumber<Type>::isArray() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isArrayPointer() const
+bool AbstractTypedNumber<Type>::isArrayPointer() const
 {
     return false;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::isFunction() const
+bool AbstractTypedNumber<Type>::isFunction() const
 {
     return false;
 }
 
 template <typename Type>
-Variant AbstractNumber<Type>::minimumValue() const
+Variant AbstractTypedNumber<Type>::minimumValue() const
 {
     return Variant::fromValue<Type>(m_minValue);
 }
 
 template <typename Type>
-Variant AbstractNumber<Type>::maximumValue() const
+Variant AbstractTypedNumber<Type>::maximumValue() const
 {
     return Variant::fromValue<Type>(m_maxValue);
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::canConvertToString() const
+bool AbstractTypedNumber<Type>::canConvertToString() const
 {
     // Yes, numbers can be converted to strings
     return true;
 }
 
 template <typename Type>
-std::string AbstractNumber<Type>::toString() const
+std::string AbstractTypedNumber<Type>::toString() const
 {
     // Convert number to string
     return cppassist::string::toString<Type>(this->value());
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::canConvertToBool() const
+bool AbstractTypedNumber<Type>::canConvertToBool() const
 {
     // Generally, yes
     return true;
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::toBool() const
+bool AbstractTypedNumber<Type>::toBool() const
 {
     return static_cast<bool>(this->value());
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::canConvertToLongLong() const
+bool AbstractTypedNumber<Type>::canConvertToLongLong() const
 {
     // Generally, yes
     return true;
 }
 
 template <typename Type>
-long long AbstractNumber<Type>::toLongLong() const
+long long AbstractTypedNumber<Type>::toLongLong() const
 {
     return static_cast<long long>(this->value());
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::canConvertToULongLong() const
+bool AbstractTypedNumber<Type>::canConvertToULongLong() const
 {
     // Generally, yes
     return true;
 }
 
 template <typename Type>
-unsigned long long AbstractNumber<Type>::toULongLong() const
+unsigned long long AbstractTypedNumber<Type>::toULongLong() const
 {
     return static_cast<unsigned long long>(this->value());
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::canConvertToDouble() const
+bool AbstractTypedNumber<Type>::canConvertToDouble() const
 {
     // Generally, yes
     return true;
 }
 
 template <typename Type>
-double AbstractNumber<Type>::toDouble() const
+double AbstractTypedNumber<Type>::toDouble() const
 {
     return static_cast<double>(this->value());
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::canConvertToObject() const
+bool AbstractTypedNumber<Type>::canConvertToObject() const
 {
     // Converting a number to an object does not make sense
     return false;
 }
 
 template <typename Type>
-Object AbstractNumber<Type>::toObject() const
+Object AbstractTypedNumber<Type>::toObject() const
 {
     return Object();
 }
 
 template <typename Type>
-bool AbstractNumber<Type>::canConvertToArray() const
+bool AbstractTypedNumber<Type>::canConvertToArray() const
 {
     // Converting a number to an array does not make sense
     return false;
 }
 
 template <typename Type>
-Array AbstractNumber<Type>::toArray() const
+Array AbstractTypedNumber<Type>::toArray() const
 {
     return Array();
 }
 
 template <typename Type>
-const Object * AbstractNumber<Type>::asObject() const
+const Object * AbstractTypedNumber<Type>::asObject() const
 {
     return nullptr;
 }
 
 template <typename Type>
-const Array * AbstractNumber<Type>::asArray() const
+const Array * AbstractTypedNumber<Type>::asArray() const
 {
     return nullptr;
 }

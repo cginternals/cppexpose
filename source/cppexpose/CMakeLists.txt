@@ -61,10 +61,10 @@ set(headers
     ${include_path}/cppexpose.h
     ${include_path}/JSON.h
 
-    ${include_path}/AbstractNumber.h
-    ${include_path}/AbstractNumber.inl
     ${include_path}/AbstractTyped.h
     ${include_path}/AbstractTyped.inl
+    ${include_path}/AbstractTypedNumber.h
+    ${include_path}/AbstractTypedNumber.inl
     ${include_path}/AbstractVar.h
     ${include_path}/Array.h
     ${include_path}/Array.inl

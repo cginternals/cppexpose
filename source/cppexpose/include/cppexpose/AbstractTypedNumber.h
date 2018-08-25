@@ -14,7 +14,7 @@ namespace cppexpose
 *    Base class for number types
 */
 template <typename Type>
-class CPPEXPOSE_TEMPLATE_API AbstractNumber : public ValueStorage<Type>
+class CPPEXPOSE_TEMPLATE_API AbstractTypedNumber : public ValueStorage<Type>
 {
 public:
     /**
@@ -27,7 +27,7 @@ public:
     *    Arguments which are passed on to the constructor of the base-var
     */
     template <typename... Args>
-    AbstractNumber(Type defaultValue, Args&&... args);
+    AbstractTypedNumber(Type defaultValue, Args&&... args);
 
     /**
     *  @brief
@@ -39,7 +39,7 @@ public:
     *    Arguments which are passed on to the constructor of the base-var
     */
     template <typename... Args>
-    AbstractNumber(Type defaultValue, Type value, Args&&... args);
+    AbstractTypedNumber(Type defaultValue, Type value, Args&&... args);
 
     /**
     *  @brief
@@ -55,13 +55,13 @@ public:
     *    Arguments which are passed on to the constructor of the base-var
     */
     template <typename... Args>
-    AbstractNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args);
+    AbstractTypedNumber(Type defaultValue, Type value, Type minValue, Type maxValue, Args&&... args);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~AbstractNumber();
+    virtual ~AbstractTypedNumber();
 
     // Replication
     virtual std::unique_ptr<AbstractVar> clone() const override;
@@ -126,4 +126,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <cppexpose/AbstractNumber.inl>
+#include <cppexpose/AbstractTypedNumber.inl>
