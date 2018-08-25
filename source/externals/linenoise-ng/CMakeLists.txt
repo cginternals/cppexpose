@@ -3,45 +3,49 @@
 # External dependencies
 #
 
-find_package(cppassist REQUIRED)
-
 
 #
-# Executable name and options
+# Library name and options
 #
 
 # Target name
-set(target scripting-example)
+set(target linenoise-ng)
 
 # Exit here if required dependencies are not met
-message(STATUS "Example ${target}")
+message(STATUS "External ${target}")
 
 
 #
 # Sources
 #
 
+set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
+set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
+
+set(headers
+    ${include_path}/linenoise.h
+    ${include_path}/ConvertUTF.h
+)
+
 set(sources
-    main.cpp
-    MyObject.cpp
-    MyObject.h
-    TreeNode.cpp
-    TreeNode.h
+    ${source_path}/linenoise.cpp
+    ${source_path}/ConvertUTF.cpp
+    ${source_path}/wcwidth.cpp
 )
 
 
 #
-# Create executable
+# Create library
 #
 
-# Build executable
-add_executable(${target}
-    MACOSX_BUNDLE
+# Build library
+add_library(${target} STATIC
     ${sources}
+    ${headers}
 )
 
 # Create namespaced alias
-add_executable(${META_PROJECT_NAME}::${target} ALIAS ${target})
+add_library(externals::${target} ALIAS ${target})
 
 
 #
@@ -63,6 +67,11 @@ target_include_directories(${target}
     PRIVATE
     ${DEFAULT_INCLUDE_DIRECTORIES}
     ${PROJECT_BINARY_DIR}/source/include
+
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+
+    INTERFACE
 )
 
 
@@ -72,12 +81,11 @@ target_include_directories(${target}
 
 target_link_libraries(${target}
     PRIVATE
+
+    PUBLIC
     ${DEFAULT_LIBRARIES}
-    externals::linenoise-ng
-    cppassist::cppassist
-    ${META_PROJECT_NAME}::cppexpose
-    ${META_PROJECT_NAME}::cppexpose-script
-    ${META_PROJECT_NAME}::cppexpose-js
+
+    INTERFACE
 )
 
 
@@ -87,7 +95,12 @@ target_link_libraries(${target}
 
 target_compile_definitions(${target}
     PRIVATE
+
+    PUBLIC
+    $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_upper}_STATIC_DEFINE>
     ${DEFAULT_COMPILE_DEFINITIONS}
+
+    INTERFACE
 )
 
 
@@ -97,7 +110,11 @@ target_compile_definitions(${target}
 
 target_compile_options(${target}
     PRIVATE
+
+    PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
+
+    INTERFACE
 )
 
 
@@ -107,7 +124,11 @@ target_compile_options(${target}
 
 target_link_libraries(${target}
     PRIVATE
+
+    PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
+
+    INTERFACE
 )
 
 
@@ -118,15 +139,4 @@ target_link_libraries(${target}
 perform_health_checks(
     ${target}
     ${sources}
-)
-
-
-#
-# Deployment
-#
-
-# Executable
-install(TARGETS ${target}
-    RUNTIME DESTINATION ${INSTALL_BIN} COMPONENT examples
-    BUNDLE  DESTINATION ${INSTALL_BIN} COMPONENT examples
 )

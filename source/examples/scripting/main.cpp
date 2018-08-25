@@ -7,9 +7,10 @@
 
 #include <cppexpose-js/Engine.h>
 
+#include <linenoise-ng/linenoise.h>
+
 #include "TreeNode.h"
 #include "MyObject.h"
-#include "linenoise-ng/linenoise.h"
 
 
 using namespace cppexpose;

@@ -121,8 +121,8 @@
 #include <errno.h>
 #include <fcntl.h>
 
-#include "linenoise.h"
-#include "ConvertUTF.h"
+#include "linenoise-ng/linenoise.h"
+#include "linenoise-ng/ConvertUTF.h"
 
 #include <string>
 #include <vector>
