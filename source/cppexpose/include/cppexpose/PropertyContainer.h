@@ -16,7 +16,6 @@ namespace cppexpose
 class CPPEXPOSE_API PropertyContainer : public AbstractVar
 {
 public:
-    //@{
     /**
     *  @brief
     *    Constructor
@@ -28,7 +27,6 @@ public:
     *    Destructor
     */
     virtual ~PropertyContainer();
-    //@}
 };
 
 
