@@ -85,6 +85,18 @@ void ValueStorage<Type>::setValue(const Type & value)
     this->valueChanged(value);
 }
 
+template <typename Type>
+const Type * ValueStorage<Type>::get() const
+{
+    return &m_value;
+}
+
+template <typename Type>
+Type * ValueStorage<Type>::get()
+{
+    return &m_value;
+}
+
 
 // Const type
 template <typename Type>
@@ -146,6 +158,18 @@ const Type & ValueStorage<const Type>::value() const
 template <typename Type>
 void ValueStorage<const Type>::setValue(const Type &)
 {
+}
+
+template <typename Type>
+const Type * ValueStorage<const Type>::get() const
+{
+    return &m_value;
+}
+
+template <typename Type>
+Type * ValueStorage<const Type>::get()
+{
+    return &m_value;
 }
 
 

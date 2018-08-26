@@ -35,6 +35,24 @@ public:
     */
     virtual ~AbstractTyped();
 
+    /**
+    *  @brief
+    *    Access stored value
+    *
+    *  @return
+    *    Pointer to value (should never be null!)
+    */
+    const Type * operator ->() const;
+
+    /**
+    *  @brief
+    *    Access stored value
+    *
+    *  @return
+    *    Pointer to value (should never be null!)
+    */
+    Type * operator ->();
+
     // Replication
     //   Overloaded in derived classes
 
@@ -62,6 +80,24 @@ public:
     *    Typed value
     */
     virtual void setValue(const Type & value) = 0;
+
+    /**
+    *  @brief
+    *    Get pointer to value
+    *
+    *  @return
+    *    Pointer to value (should never be null!)
+    */
+    virtual const Type * get() const = 0;
+
+    /**
+    *  @brief
+    *    Get pointer to value
+    *
+    *  @return
+    *    Pointer to value (should never be null!)
+    */
+    virtual Type * get() = 0;
 
     // Conversion
     //   Overloaded in derived classes

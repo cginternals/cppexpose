@@ -89,6 +89,8 @@ public:
     // Value access
     virtual const Type & value() const override;
     virtual void setValue(const Type & value) override;
+    virtual const Type * get() const override;
+    virtual Type * get() override;
 
 protected:
     Type m_value; ///< The actual value of the variable
@@ -167,6 +169,8 @@ public:
     // Value access
     virtual const Type & value() const override;
     virtual void setValue(const Type & value) override;
+    virtual const Type * get() const override;
+    virtual Type * get() override;
 
 protected:
     Type m_value; ///< The actual value of the variable
