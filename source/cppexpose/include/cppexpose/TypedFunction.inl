@@ -233,7 +233,7 @@ template <typename Type>
 void TypedFunction<Type>::fromVar(const AbstractVar & value)
 {
     if (value.isFunction()) {
-        this->setValue(value.convert<Type>());
+        this->setValue( value.asTyped<const ValueStorage<Function> *>()->value() );
     }
 }
 

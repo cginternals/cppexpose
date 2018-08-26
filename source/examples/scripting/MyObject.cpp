@@ -40,11 +40,12 @@ void MyObject::setFunction(const Variant & func)
     //   script.obj.callFunction();
 
     if (func.type() == VarType::Function) {
+        // Get function from var
         std::cout << "Setting function." << std::endl;
         m_func = func.asTyped<const Var<Function> *>()->value();
 
-        // [TODO] Would be nice if this worked, too
-        //m_func = func.convert<Function>();
+        // This works, too, but Function is copied several times
+        // m_func = func.convert<Function>();
     } else {
         std::cout << "Parameter is not a function." << std::endl;
     }
