@@ -32,7 +32,7 @@ public:
 protected:
     void print(const cppexpose::Variant & value);
     void test(int a, float b);
-    void setFunction(const cppexpose::Variant & func);
+    void setFunction(const cppexpose::Function & func);
     void callFunction();
     void emitSignal();
 

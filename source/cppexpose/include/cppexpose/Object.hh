@@ -496,7 +496,7 @@ protected:
 
     // Scripting functions
     cppexpose::Variant scr_signals();
-    void scr_connect(const std::string & name, const cppexpose::Variant & func);
+    void scr_connect(const std::string & name, const cppexpose::Function & func);
 
 protected:
     std::unordered_map<std::string, AbstractVar *>                   m_properties;    ///< Map of names and properties

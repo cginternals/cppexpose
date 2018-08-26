@@ -35,22 +35,15 @@ void MyObject::test(int a, float b)
     std::cout << "b = " << b << std::endl;
 }
 
-void MyObject::setFunction(const Variant & func)
+void MyObject::setFunction(const Function & func)
 {
     // Example usage:
     //   script.obj.setFunction(function(){print('hallo!');});
     //   script.obj.callFunction();
 
-    if (func.type() == VarType::Function) {
-        // Get function from var
-        std::cout << "Setting function." << std::endl;
-        m_func = func.asTyped<const Var<Function> *>()->value();
-
-        // This works, too, but Function is copied several times
-        // m_func = func.convert<Function>();
-    } else {
-        std::cout << "Parameter is not a function." << std::endl;
-    }
+    // Save function
+    std::cout << "Setting function." << std::endl;
+    m_func = func;
 }
 
 void MyObject::callFunction()

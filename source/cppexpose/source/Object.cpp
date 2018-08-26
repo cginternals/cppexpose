@@ -685,20 +685,15 @@ cppexpose::Variant Object::scr_signals()
     return std::move(names);
 }
 
-void Object::scr_connect(const std::string & name, const cppexpose::Variant & func)
+void Object::scr_connect(const std::string & name, const cppexpose::Function & func)
 {
     // Get signal
     auto * signal = this->signal(name);
     if (!signal) return;
 
-    // Check function
-    if (func.type() == VarType::Function) {
-        // Get function from var
-        Function function = func.asTyped<const Var<Function> *>()->value();
-
-        // Connect signal to function
-        signal->connect(function);
-    }
+    // Connect signal to function
+    Function function = func;
+    signal->connect(function);
 }
 
 void Object::registerFunctions()

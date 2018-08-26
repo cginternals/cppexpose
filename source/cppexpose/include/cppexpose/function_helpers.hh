@@ -29,19 +29,22 @@ namespace helper
 template<typename T, size_t POS>
 struct CPPEXPOSE_TEMPLATE_API ArgValue {
     static int get(const std::vector<Variant> & args) {
-        // Assume signed integral type by default
-        int value = 0;
         if (POS < args.size()) {
-            value = args[POS].convert<int>();
+            return args[POS].convert<T>();
+        } else {
+            return T();
         }
-        return value;
     }
 };
 
 template<typename T, size_t POS>
 struct CPPEXPOSE_TEMPLATE_API ArgValue<const T &, POS> {
     static T get(const std::vector<Variant> & args) {
-        return ArgValue<T, POS>::get(args);
+        if (POS < args.size()) {
+            return args[POS].convert<T>();
+        } else {
+            return T();
+        }
     }
 };
 
