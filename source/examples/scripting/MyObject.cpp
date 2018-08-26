@@ -18,7 +18,6 @@ MyObject::MyObject()
     addFunction("setFunction",  this, &MyObject::setFunction);
     addFunction("callFunction", this, &MyObject::callFunction);
     addFunction("emitSignal",   this, &MyObject::emitSignal);
-    addFunction("connect",      this, &MyObject::connect);
 }
 
 MyObject::~MyObject()
@@ -61,23 +60,10 @@ void MyObject::callFunction()
 
 void MyObject::emitSignal()
 {
-    numberFound(42);
-}
-
-void MyObject::connect(const std::string & name, const Variant & func)
-{
     // Example usage:
-    //   script.obj.connect(function(num){print('Number: ' + num);});
+    //   print(script.obj.signals());
+    //   script.obj.connect('numberFound', function(num){print('Number: ' + num);});
     //   script.obj.emitSignal();
 
-    // Get signal
-    auto * signal = this->signal(name);
-    if (!signal) return;
-
-    // Check function
-    if (func.type() == VarType::Function) {
-        // Get function from var
-        Function function = func.asTyped<const Var<Function> *>()->value();
-        numberFound.connect(function);
-    }
+    numberFound(42);
 }

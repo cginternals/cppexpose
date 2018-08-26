@@ -35,7 +35,6 @@ protected:
     void setFunction(const cppexpose::Variant & func);
     void callFunction();
     void emitSignal();
-    void connect(const std::string & name, const cppexpose::Variant & func);
 
 
 protected:

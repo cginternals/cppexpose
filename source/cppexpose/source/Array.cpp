@@ -105,8 +105,8 @@ AbstractVar * Array::at(size_t index)
 
 AbstractVar * Array::push(AbstractVar * property)
 {
-    // Reject properties that already have a parent.
-    if (!property || property->parent() != nullptr)
+    // Check property
+    if (!property)
     {
         return nullptr;
     }

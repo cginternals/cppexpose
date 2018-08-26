@@ -67,6 +67,9 @@ int main(int, char * [])
         func->call(std::vector<Variant>());
     }
 
+    // Load history
+    linenoiseHistoryLoad("history.txt");
+
     // Start interactive command console
     while (char * line = linenoise("> ")) {
         // Get command
@@ -89,6 +92,9 @@ int main(int, char * [])
             }
         }
     }
+
+    // Save history
+    linenoiseHistorySave("history.txt");
 
     // Exit application
     return 0;

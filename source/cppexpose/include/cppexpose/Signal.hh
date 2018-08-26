@@ -92,7 +92,7 @@ public:
     *  @param[in] func
     *    Function that is invoked
     */
-    Connection connect(Function & func) const;
+    virtual Connection connect(Function & func) const override;
 
     /**
     *  @brief
@@ -166,6 +166,13 @@ protected:
     template <typename Type>
     static void buildParams(std::vector<Variant> & params, Type param);
 
+    /**
+    *  @brief
+    *    Template for creating a variant list from typed arguments
+    *
+    *  @param[in] params
+    *    Parameter list to build up
+    */
     static void buildParams(std::vector<Variant> & params);
 
 

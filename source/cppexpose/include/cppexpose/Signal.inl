@@ -115,7 +115,7 @@ template <typename... Arguments>
 template <typename Type, typename... Args>
 void Signal<Arguments...>::buildParams(std::vector<Variant> & params, Type param, Args... args)
 {
-    params.push_back(Variant(param));
+    params.push_back(Variant::fromValue<Type>(param));
     buildParams(params, args...);
 }
 
@@ -123,11 +123,11 @@ template <typename... Arguments>
 template <typename Type>
 void Signal<Arguments...>::buildParams(std::vector<Variant> & params, Type param)
 {
-    params.push_back(Variant(param));
+    params.push_back(Variant::fromValue<Type>(param));
 }
 
 template <typename... Arguments>
-void Signal<Arguments...>::buildParams(std::vector<Variant> & params)
+void Signal<Arguments...>::buildParams(std::vector<Variant> &)
 {
 }
 

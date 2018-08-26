@@ -46,12 +46,5 @@ void AbstractSignal::disconnect(Connection & connection) const
     disconnectId(connection.id());
 }
 
-/*
-Connection AbstractSignal::connect(Function & func) const
-{
-    return createConnection();
-}
-*/
-
 
 } // namespace cppexpose

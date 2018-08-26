@@ -48,7 +48,14 @@ public:
     */
     virtual ~AbstractSignal();
 
-//    virtual Connection connect(Function & func) const;
+    /**
+    *  @brief
+    *    Connect signal to a scripting function
+    *
+    *  @param[in] func
+    *    Function that is invoked
+    */
+    virtual Connection connect(Function & func) const = 0;
 
 
 protected:

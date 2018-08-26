@@ -23,17 +23,27 @@ Object Object::create()
 
 Object::Object()
 {
+    // Register scripting functions
+    registerFunctions();
 }
 
 Object::Object(PropertyContainer * parent, const std::string & name)
 {
+    // Register property at parent
     registerProperty(parent, name);
+
+    // Register scripting functions
+    registerFunctions();
 }
 
 Object::Object(const Object & obj)
 : PropertyContainer()
 {
+    // Copy properties
     copyFromObject(obj);
+
+    // Register scripting functions
+    registerFunctions();
 }
 
 Object::Object(Object && obj)
@@ -44,6 +54,11 @@ Object::Object(Object && obj)
         // Get name and property
         std::string name = it.first;
         AbstractVar * var = it.second;
+
+        // Do not copy functions, as they are dependent on the instance
+        if (var->type() == VarType::Function) {
+            continue;
+        }
 
         // Check if property is owned by the object
         auto it2 = obj.m_ownProperties.find(name);
@@ -58,6 +73,9 @@ Object::Object(Object && obj)
 
     // Clear properties on source object
     obj.clear();
+
+    // Register scripting functions
+    registerFunctions();
 }
 
 Object::~Object()
@@ -645,9 +663,48 @@ void Object::copyFromObject(const Object & obj)
         std::string   name = it.first;
         AbstractVar * var  = it.second;
 
+        // Do not copy functions, as they are dependent on the instance
+        if (var->type() == VarType::Function) {
+            continue;
+        }
+
         // Create copy of property
         addProperty(name, std::move(var->clone()));
     }
+}
+
+cppexpose::Variant Object::scr_signals()
+{
+    // Get list of signals
+    Array names;
+    for (auto it : m_signals) {
+        names.push(Variant(it.first));
+    }
+
+    // Return list
+    return std::move(names);
+}
+
+void Object::scr_connect(const std::string & name, const cppexpose::Variant & func)
+{
+    // Get signal
+    auto * signal = this->signal(name);
+    if (!signal) return;
+
+    // Check function
+    if (func.type() == VarType::Function) {
+        // Get function from var
+        Function function = func.asTyped<const Var<Function> *>()->value();
+
+        // Connect signal to function
+        signal->connect(function);
+    }
+}
+
+void Object::registerFunctions()
+{
+    addFunction("signals", this, &Object::scr_signals);
+    addFunction("connect", this, &Object::scr_connect);
 }
 
 

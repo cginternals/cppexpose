@@ -486,7 +486,17 @@ protected:
     *    Source object
     */
     void copyFromObject(const Object & obj);
+
+    /**
+    *  @brief
+    *    Register scripting functions
+    */
+    void registerFunctions();
     //@}
+
+    // Scripting functions
+    cppexpose::Variant scr_signals();
+    void scr_connect(const std::string & name, const cppexpose::Variant & func);
 
 protected:
     std::unordered_map<std::string, AbstractVar *>                   m_properties;    ///< Map of names and properties
