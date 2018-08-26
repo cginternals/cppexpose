@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include <cppexpose/AbstractSignal.h>
+#include <cppexpose/Function.h>
 
 
 namespace cppexpose
@@ -33,6 +34,17 @@ public:
     *    Constructor
     */
     Signal();
+
+    /**
+    *  @brief
+    *    Constructor that registers the signal at a parent object
+    *
+    *  @param[in] parent
+    *    Parent object (must NOT be null!)
+    *  @param[in] name
+    *    Name (must NOT be empty!)
+    */
+    Signal(Object * parent, const std::string & name);
 
     /**
     *  @brief
@@ -72,6 +84,15 @@ public:
     *    Signal that is invoked
     */
     Connection connect(Signal & signal) const;
+
+    /**
+    *  @brief
+    *    Connect signal to a scripting function
+    *
+    *  @param[in] func
+    *    Function that is invoked
+    */
+    Connection connect(Function & func) const;
 
     /**
     *  @brief
@@ -116,6 +137,36 @@ protected:
 
     // Virtual AbstractSignal interface
     virtual void disconnectId(Connection::Id id) const override;
+
+
+protected:
+    /**
+    *  @brief
+    *    Template for creating a variant list from typed arguments
+    *
+    *  @param[in] params
+    *    Parameter list to build up
+    *  @param[in] param
+    *    First typed parameter
+    *  @param[in] args
+    *    More typed parameters
+    */
+    template <typename Type, typename... Args>
+    static void buildParams(std::vector<Variant> & params, Type param, Args... args);
+
+    /**
+    *  @brief
+    *    Template for creating a variant list from typed arguments
+    *
+    *  @param[in] params
+    *    Parameter list to build up
+    *  @param[in] param
+    *    Typed parameter
+    */
+    template <typename Type>
+    static void buildParams(std::vector<Variant> & params, Type param);
+
+    static void buildParams(std::vector<Variant> & params);
 
 
 protected:

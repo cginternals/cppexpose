@@ -42,5 +42,12 @@ void Object::addFunction(const std::string & name, Type * obj, RetType (Type::*f
     this->createProperty<Function>(name, Function(std::move(func)));
 }
 
+template <typename Type, typename... Args>
+bool Object::createSignal(const std::string & name, Args&&... args)
+{
+    auto signal = cppassist::make_unique<Signal<Args...>>();
+    return addSignal(name, std::move(signal));
+}
+
 
 } // namespace cppexpose

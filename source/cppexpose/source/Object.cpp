@@ -80,6 +80,10 @@ void Object::clear()
     // Clear properties
     m_properties.clear();
     m_ownProperties.clear();
+
+    // Clear signals
+    m_signals.clear();
+    m_ownSignals.clear();
 }
 
 const std::unordered_map<std::string, AbstractVar *> & Object::properties() const
@@ -185,8 +189,8 @@ AbstractVar * Object::addProperty(const std::string & name, std::unique_ptr<Abst
 
 bool Object::removeProperty(AbstractVar * property)
 {
-    // Reject properties that are not part of the object
-    if (!property || property->parent() != this)
+    // Check property
+    if (!property)
     {
         return false;
     }
@@ -266,6 +270,115 @@ Function * Object::function(const std::string & name)
     // Get pointer to function
     auto * funcProp = prop->asTyped<Var<Function> *>();
     return funcProp->get();
+}
+
+const std::unordered_map<std::string, AbstractSignal *> & Object::signals() const
+{
+    return m_signals;
+}
+
+bool Object::signalExists(const std::string & name) const
+{
+    return m_signals.find(name) != m_signals.end();
+}
+
+const AbstractSignal * Object::signal(const std::string & name) const
+{
+    const AbstractSignal * signal = nullptr;
+
+    // Find signal
+    const auto it = m_signals.find(name);
+    if (it != m_signals.end())
+    {
+        signal = it->second;
+    }
+
+    // Return signal if found
+    return signal;
+}
+
+AbstractSignal * Object::signal(const std::string & name)
+{
+    AbstractSignal * signal = nullptr;
+
+    // Find signal
+    const auto it = m_signals.find(name);
+    if (it != m_signals.end())
+    {
+        signal = it->second;
+    }
+
+    // Return signal if found
+    return signal;
+}
+
+AbstractSignal * Object::addSignal(const std::string & name, AbstractSignal * signal)
+{
+    // Reject signal if name is already taken
+    if (!signal || this->signalExists(name))
+    {
+        return nullptr;
+    }
+
+    // Add signal
+    m_signals.insert(std::make_pair(name, signal));
+
+    // Success
+    return signal;
+}
+
+AbstractSignal * Object::addSignal(const std::string & name, std::unique_ptr<AbstractSignal> && signal)
+{
+    // Add signal
+    const auto signalPtr = addSignal(name, signal.get());
+    if (signalPtr)
+    {
+        // Manage signal
+        m_ownSignals[name] = std::move(signal);
+
+        // Return signal
+        return signalPtr;
+    }
+
+    // Failed
+    return nullptr;
+}
+
+bool Object::removeSignal(AbstractSignal * signal)
+{
+    // Check signal
+    if (!signal) {
+        return false;
+    }
+
+    // Find signal in object
+    auto it = std::find_if(m_signals.begin(), m_signals.end(), [signal] (const std::pair<std::string, AbstractSignal *> & pair)
+    {
+        return pair.second == signal;
+    });
+
+    // Abort if signal is not part of the object
+    if (it == m_signals.end())
+    {
+        return false;
+    }
+
+    // Get signal name
+    std::string name = it->first;
+
+    // Remove signal from object
+    m_signals.erase(it);
+
+    // Check if signal is owned by the object
+    // If yes, remove from managed list (delete signal)
+    auto it2 = m_signals.find(name);
+    if (it2 != m_signals.end())
+    {
+        m_signals.erase(it2);
+    }
+
+    // Success
+    return true;
 }
 
 const AbstractVar * Object::innermost() const

@@ -13,6 +13,13 @@ Signal<Arguments...>::Signal()
 }
 
 template <typename... Arguments>
+Signal<Arguments...>::Signal(Object * parent, const std::string & name)
+: AbstractSignal(parent, name)
+, m_blocked(false)
+{
+}
+
+template <typename... Arguments>
 void Signal<Arguments...>::operator()(Arguments... arguments)
 {
     fire(arguments...);
@@ -46,6 +53,24 @@ Connection Signal<Arguments...>::connect(Signal & signal) const
 }
 
 template <typename... Arguments>
+Connection Signal<Arguments...>::connect(Function & func) const
+{
+    // Save callback function
+    Function function = func;
+
+    // Connect to signal
+    return this->connect([function](Arguments... arguments)
+    {
+        // Set arguments
+        std::vector<Variant> params;
+        buildParams(params, arguments...);
+
+        // Call function
+        const_cast<Function &>(function).call(params);
+    });
+}
+
+template <typename... Arguments>
 Connection Signal<Arguments...>::onFire(std::function<void()> callback) const
 {
     return connect([callback](Arguments...)
@@ -72,7 +97,7 @@ void Signal<Arguments...>::fire(Arguments... arguments) const
     if (m_blocked) {
         return;
     }
-    
+
     for (auto & pair : m_callbacks)
     {
         Callback callback = pair.second;
@@ -84,6 +109,26 @@ template <typename... Arguments>
 void Signal<Arguments...>::disconnectId(Connection::Id id) const
 {
     m_callbacks.erase(id);
+}
+
+template <typename... Arguments>
+template <typename Type, typename... Args>
+void Signal<Arguments...>::buildParams(std::vector<Variant> & params, Type param, Args... args)
+{
+    params.push_back(Variant(param));
+    buildParams(params, args...);
+}
+
+template <typename... Arguments>
+template <typename Type>
+void Signal<Arguments...>::buildParams(std::vector<Variant> & params, Type param)
+{
+    params.push_back(Variant(param));
+}
+
+template <typename... Arguments>
+void Signal<Arguments...>::buildParams(std::vector<Variant> & params)
+{
 }
 
 

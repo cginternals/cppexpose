@@ -11,6 +11,10 @@ namespace cppexpose
 {
 
 
+class Object;
+class Function;
+
+
 /**
 *  @brief
 *    Abstract base class for signals
@@ -29,9 +33,22 @@ public:
 
     /**
     *  @brief
+    *    Constructor that registers the signal at a parent object
+    *
+    *  @param[in] parent
+    *    Parent object (must NOT be null!)
+    *  @param[in] name
+    *    Name (must NOT be empty!)
+    */
+    AbstractSignal(Object * parent, const std::string & name);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~AbstractSignal();
+
+//    virtual Connection connect(Function & func) const;
 
 
 protected:

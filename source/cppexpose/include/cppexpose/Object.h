@@ -244,6 +244,7 @@ public:
     *    If the object has ownership of the property, it will be deleted.
     */
     bool removeProperty(AbstractVar * property);
+    //@}
 
     //@{
     /**
@@ -260,6 +261,7 @@ public:
     Function * function(const std::string & name);
     //@}
 
+    //@{
     /**
     *  @brief
     *    Add (export) static function
@@ -299,6 +301,121 @@ public:
     */
     template <class Type, typename RetType, typename... Args>
     void addFunction(const std::string & name, Type * obj, RetType (Type::*fn)(Args...) const);
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Get signals
+    *
+    *  @return
+    *    Signal map
+    */
+    const std::unordered_map<std::string, AbstractSignal *> & signals() const;
+
+    /**
+    *  @brief
+    *    Check if signal exists
+    *
+    *  @param[in] name
+    *    Name of signal
+    *
+    *  @return
+    *    'true' if signal exists, else 'false'
+    */
+    bool signalExists(const std::string & name) const;
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Get signal by name
+    *
+    *  @param[in] name
+    *    Signal name
+    *
+    *  @return
+    *    Signal (can be null)
+    */
+    const AbstractSignal * signal(const std::string & name) const;
+    AbstractSignal * signal(const std::string & name);
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Add signal to object
+    *
+    *  @param[in] name
+    *    Signal name
+    *  @param[in] signal
+    *    Signal (must NOT be null!)
+    *
+    *  @return
+    *    Pointer to the signal
+    *
+    *  @remarks
+    *    Adds the given signal to the object.
+    *
+    *    The name of the signal must be valid and unique to the object.
+    *    The object will not take ownership over the signal.
+    */
+    AbstractSignal * addSignal(const std::string & name, AbstractSignal * signal);
+
+    /**
+    *  @brief
+    *    Add signal to object
+    *
+    *  @param[in] name
+    *    Signal name
+    *  @param[in] signal
+    *    Signal
+    *
+    *  @return
+    *    Pointer to the signal
+    *
+    *  @remarks
+    *    Adds the given signal to the object and transfers ownership
+    *    of the signal to the object.
+    */
+    AbstractSignal * addSignal(const std::string & name, std::unique_ptr<AbstractSignal> && signal);
+
+    /**
+    *  @brief
+    *    Create and add signal to object
+    *
+    *  @param[in] name
+    *    Name of the new signal
+    *  @param[in] args
+    *    Signal constructor arguments
+    *
+    *  @return
+    *    Pointer to the signal
+    *
+    *  @remarks
+    *    Creates a signal of the given type with the given arguments and adds it to the object.
+    *    The name of the signal must be valid and unique to the object.
+    *    The object will take ownership over the signal.
+    */
+    template <typename Type, typename... Args>
+    bool createSignal(const std::string & name, Args&&... args);
+
+    /**
+    *  @brief
+    *    Remove signal from object
+    *
+    *  @param[in] signal
+    *    Signal (must NOT be null!)
+    *
+    *  @return
+    *    'true' if the signal has been removed from the object, else 'false'
+    *
+    *  @remarks
+    *    If the specified signal does not belong to the object,
+    *    this function will do nothing and return 'false'.
+    *    If the object has ownership of the signal, it will be deleted.
+    */
+    bool removeSignal(AbstractSignal * signal);
     //@}
 
     // Casting
@@ -372,8 +489,10 @@ protected:
     //@}
 
 protected:
-    std::unordered_map<std::string, AbstractVar *>                m_properties;    ///< Map of names and properties
-    std::unordered_map<std::string, std::unique_ptr<AbstractVar>> m_ownProperties; ///< Properties that are owned by the object
+    std::unordered_map<std::string, AbstractVar *>                   m_properties;    ///< Map of names and properties
+    std::unordered_map<std::string, std::unique_ptr<AbstractVar>>    m_ownProperties; ///< Properties that are owned by the object
+    std::unordered_map<std::string, AbstractSignal *>                m_signals;       ///< Map of names and signals
+    std::unordered_map<std::string, std::unique_ptr<AbstractSignal>> m_ownSignals;    ///< Signals that are owned by the object
 };
 
 

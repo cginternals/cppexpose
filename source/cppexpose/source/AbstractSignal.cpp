@@ -1,6 +1,8 @@
 
 #include <cppexpose/AbstractSignal.h>
 
+#include <cppexpose/Object.h>
+
 
 namespace cppexpose
 {
@@ -9,6 +11,15 @@ namespace cppexpose
 AbstractSignal::AbstractSignal()
 : m_nextId(1)
 {
+}
+
+AbstractSignal::AbstractSignal(Object * parent, const std::string & name)
+: m_nextId(1)
+{
+    // Register signal in object
+    if (parent && name != "") {
+        parent->addSignal(name, this);
+    }
 }
 
 AbstractSignal::~AbstractSignal()
@@ -34,6 +45,13 @@ void AbstractSignal::disconnect(Connection & connection) const
     m_connections.erase(connection.id());
     disconnectId(connection.id());
 }
+
+/*
+Connection AbstractSignal::connect(Function & func) const
+{
+    return createConnection();
+}
+*/
 
 
 } // namespace cppexpose

@@ -15,6 +15,10 @@
 class MyObject : public cppexpose::Object
 {
 public:
+    // Signal
+    cppexpose::Signal<int> numberFound;
+
+    // Properties
     cppexpose::Var<std::string> String;
     cppexpose::Var<int>         Int;
     cppexpose::Var<float>       Float;
@@ -30,6 +34,8 @@ protected:
     void test(int a, float b);
     void setFunction(const cppexpose::Variant & func);
     void callFunction();
+    void emitSignal();
+    void connect(const std::string & name, const cppexpose::Variant & func);
 
 
 protected:
