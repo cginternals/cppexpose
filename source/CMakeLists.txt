@@ -18,10 +18,6 @@ add_subdirectory(cppexpose-plugin)
 add_subdirectory(cppexpose-script)
 add_subdirectory(cppexpose-js)
 
-# External libraries
-set(IDE_FOLDER "Externals")
-add_subdirectory(externals)
-
 # Examples
 set(IDE_FOLDER "Examples")
 add_subdirectory(examples)
