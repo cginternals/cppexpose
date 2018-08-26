@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppassist/memory/make_unique.inl>
+#include <cppassist/memory/make_unique.h>
 
 
 namespace cppexpose

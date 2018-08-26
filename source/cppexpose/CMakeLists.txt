@@ -55,73 +55,109 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/template_helpers.h
-    ${include_path}/function_helpers.h
-
     ${include_path}/cppexpose.h
-    ${include_path}/JSON.h
+
+    ${include_path}/ordered_includes.h
+
+    ${include_path}/template_helpers.h
+    ${include_path}/template_helpers.hh
+    ${include_path}/function_helpers.h
+    ${include_path}/function_helpers.hh
 
     ${include_path}/AbstractTyped.h
+    ${include_path}/AbstractTyped.hh
     ${include_path}/AbstractTyped.inl
     ${include_path}/AbstractTypedNumber.h
+    ${include_path}/AbstractTypedNumber.hh
     ${include_path}/AbstractTypedNumber.inl
     ${include_path}/AbstractVar.h
+    ${include_path}/AbstractVar.hh
     ${include_path}/Array.h
+    ${include_path}/Array.hh
     ${include_path}/Array.inl
     ${include_path}/Object.h
+    ${include_path}/Object.hh
     ${include_path}/Object.inl
     ${include_path}/PropertyContainer.h
+    ${include_path}/PropertyContainer.hh
     ${include_path}/TypedArray.h
+    ${include_path}/TypedArray.hh
     ${include_path}/TypedArray.inl
     ${include_path}/TypedArrayPointer.h
+    ${include_path}/TypedArrayPointer.hh
     ${include_path}/TypedArrayPointer.inl
     ${include_path}/TypedBool.h
+    ${include_path}/TypedBool.hh
     ${include_path}/TypedBool.inl
     ${include_path}/TypedEnum.h
+    ${include_path}/TypedEnum.hh
     ${include_path}/TypedEnum.inl
     ${include_path}/TypedFloatingPoint.h
+    ${include_path}/TypedFloatingPoint.hh
     ${include_path}/TypedFloatingPoint.inl
     ${include_path}/TypedFunction.h
+    ${include_path}/TypedFunction.hh
     ${include_path}/TypedFunction.inl
     ${include_path}/TypedGeneric.h
+    ${include_path}/TypedGeneric.hh
     ${include_path}/TypedGeneric.inl
     ${include_path}/TypedObjectPointer.h
+    ${include_path}/TypedObjectPointer.hh
     ${include_path}/TypedObjectPointer.inl
     ${include_path}/TypedPointer.h
+    ${include_path}/TypedPointer.hh
     ${include_path}/TypedPointer.inl
     ${include_path}/TypedSignedIntegral.h
+    ${include_path}/TypedSignedIntegral.hh
     ${include_path}/TypedSignedIntegral.inl
     ${include_path}/TypedString.h
+    ${include_path}/TypedString.hh
     ${include_path}/TypedString.inl
     ${include_path}/TypedUnsignedIntegral.h
+    ${include_path}/TypedUnsignedIntegral.hh
     ${include_path}/TypedUnsignedIntegral.inl
     ${include_path}/ValueStorage.h
+    ${include_path}/ValueStorage.hh
     ${include_path}/ValueStorage.inl
     ${include_path}/Var.h
+    ${include_path}/Var.hh
     ${include_path}/Var.inl
     ${include_path}/Variant.h
+    ${include_path}/Variant.hh
     ${include_path}/Variant.inl
     ${include_path}/VarType.h
+    ${include_path}/VarType.hh
 
     ${include_path}/Function.h
+    ${include_path}/Function.hh
     ${include_path}/AbstractFunction.h
+    ${include_path}/AbstractFunction.hh
     ${include_path}/StaticFunction.h
+    ${include_path}/StaticFunction.hh
     ${include_path}/StaticFunction.inl
     ${include_path}/MemberFunction.h
+    ${include_path}/MemberFunction.hh
     ${include_path}/MemberFunction.inl
     ${include_path}/ConstMemberFunction.h
+    ${include_path}/ConstMemberFunction.hh
     ${include_path}/ConstMemberFunction.inl
 
     ${include_path}/AbstractSignal.h
+    ${include_path}/AbstractSignal.hh
     ${include_path}/Connection.h
+    ${include_path}/Connection.hh
     ${include_path}/ScopedConnection.h
+    ${include_path}/ScopedConnection.hh
     ${include_path}/Signal.h
+    ${include_path}/Signal.hh
     ${include_path}/Signal.inl
+
+    ${include_path}/JSON.h
+    ${include_path}/JSON.hh
 )
 
 set(sources
     ${source_path}/cppexpose.cpp
-    ${source_path}/JSON.cpp
 
     ${source_path}/AbstractVar.cpp
     ${source_path}/Array.cpp
@@ -135,6 +171,8 @@ set(sources
     ${source_path}/AbstractSignal.cpp
     ${source_path}/Connection.cpp
     ${source_path}/ScopedConnection.cpp
+
+    ${source_path}/JSON.cpp
 )
 
 # Group source files
