@@ -14,6 +14,9 @@ namespace cppexpose
 {
 
 
+class Function;
+
+
 /**
 *  @brief
 *    Object (container of properties)
@@ -241,6 +244,21 @@ public:
     *    If the object has ownership of the property, it will be deleted.
     */
     bool removeProperty(AbstractVar * property);
+
+    //@{
+    /**
+    *  @brief
+    *    Get function by name
+    *
+    *  @param[in] name
+    *    Function name
+    *
+    *  @return
+    *    Function (can be null)
+    */
+    const Function * function(const std::string & name) const;
+    Function * function(const std::string & name);
+    //@}
 
     /**
     *  @brief

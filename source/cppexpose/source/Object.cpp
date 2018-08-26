@@ -232,6 +232,42 @@ bool Object::removeProperty(AbstractVar * property)
     return true;
 }
 
+const Function * Object::function(const std::string & name) const
+{
+    // Get property
+    auto * prop = property(name);
+    if (!prop) {
+        return nullptr;
+    }
+
+    // Check if it is a function
+    if (prop->type() != VarType::Function) {
+        return nullptr;
+    }
+
+    // Get pointer to function
+    auto * funcProp = prop->asTyped<const Var<Function> *>();
+    return funcProp->get();
+}
+
+Function * Object::function(const std::string & name)
+{
+    // Get property
+    auto * prop = property(name);
+    if (!prop) {
+        return nullptr;
+    }
+
+    // Check if it is a function
+    if (prop->type() != VarType::Function) {
+        return nullptr;
+    }
+
+    // Get pointer to function
+    auto * funcProp = prop->asTyped<Var<Function> *>();
+    return funcProp->get();
+}
+
 const AbstractVar * Object::innermost() const
 {
     return this;

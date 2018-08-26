@@ -62,8 +62,10 @@ int main(int, char * [])
     std::cout << "script: " << var->toString() << std::endl;
 
     // Get test function
-    Var<Function> & func = *obj.property("test")->asTyped<Var<Function> *>();
-    func->call(std::vector<Variant>());
+    auto * func = obj.function("test");
+    if (func) {
+        func->call(std::vector<Variant>());
+    }
 
     // Start interactive command console
     while (char * line = linenoise("> ")) {
