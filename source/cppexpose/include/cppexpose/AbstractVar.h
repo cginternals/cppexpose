@@ -29,6 +29,7 @@ public:
     Signal<> beforeDestroy; ///< Called before a property is destroyed
 
 public:
+    //@{
     /**
     *  @brief
     *    Constructor
@@ -110,9 +111,63 @@ public:
     */
     template <typename Type>
     Type convert() const;
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Cast variable to a specific type
+    *
+    *  @return
+    *    Pointer to the variable
+    *
+    *  @remarks
+    *    You should never cast an AbstractVar directly (see explanation
+    *    in function innermost()). Use this function if you have a
+    *    pointer to an AbstractVar and need to cast it to a specific
+    *    type. This function does not check if the type you specifiy
+    *    is correct, so you need to be sure what type the variable is,
+    *    for example by using typeName(). This is analogous to a
+    *    static_cast on the AbstractVar.
+    */
+    template <typename Type>
+    Type asTyped();
+
+    template <typename Type>
+    Type asTyped() const;
+    //@}
+
+    // Casting
+
+    //@{
+    /**
+    *  @brief
+    *    Get pointer to the innermost variable
+    *
+    *  @return
+    *    Pointer to the innermost variable, or null
+    *
+    *  @remarks
+    *    Before casting an AbstractVar to a specific type,
+    *    for example after using typeName() to determine the
+    *    type of the variable, you must make sure that you
+    *    are accessing the actual AbstractVar that holds the
+    *    data. There might be instances in between, e.g.,
+    *    a Variant. This function will return a pointer to
+    *    the innermost variable, which can safely be cast
+    *    to the concrete variable type.
+    *
+    *    The process described above is implemented in
+    *    AbstractVar::asTyped<>, which should be used for
+    *    convenience.
+    */
+    virtual const AbstractVar * innermost() const = 0;
+    virtual AbstractVar * innermost() = 0;
+    //@}
 
     // Replication
 
+    //@{
     /**
     *  @brief
     *    Create a copy of the typed value
@@ -520,6 +575,7 @@ protected:
     *    the property might be rejected when added to the parent.
     */
     void registerProperty(PropertyContainer * parent, const std::string & name);
+    //@}
 
 
 protected:

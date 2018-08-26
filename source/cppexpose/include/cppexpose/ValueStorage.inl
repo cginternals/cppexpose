@@ -46,6 +46,18 @@ ValueStorage<Type>::~ValueStorage()
 }
 
 template <typename Type>
+const AbstractVar * ValueStorage<Type>::innermost() const
+{
+    return this;
+}
+
+template <typename Type>
+AbstractVar * ValueStorage<Type>::innermost()
+{
+    return this;
+}
+
+template <typename Type>
 std::unique_ptr<AbstractVar> ValueStorage<Type>::clone() const
 {
     return std::unique_ptr<AbstractVar>(new Var<Type>(this->value()));

@@ -151,6 +151,16 @@ Variant & Variant::operator =(std::unique_ptr<AbstractVar> && value)
     return *this;
 }
 
+const AbstractVar * Variant::innermost() const
+{
+    return m_value.get();
+}
+
+AbstractVar * Variant::innermost()
+{
+    return m_value.get();
+}
+
 std::unique_ptr<AbstractVar> Variant::clone() const
 {
     if (m_value) return m_value->clone();

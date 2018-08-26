@@ -213,6 +213,16 @@ bool Array::remove(AbstractVar * property)
     return true;
 }
 
+const AbstractVar * Array::innermost() const
+{
+    return this;
+}
+
+AbstractVar * Array::innermost()
+{
+    return this;
+}
+
 std::unique_ptr<AbstractVar> Array::clone() const
 {
     return std::unique_ptr<AbstractVar>(new Array(*this));

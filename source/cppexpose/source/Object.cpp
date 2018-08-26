@@ -232,6 +232,16 @@ bool Object::removeProperty(AbstractVar * property)
     return true;
 }
 
+const AbstractVar * Object::innermost() const
+{
+    return this;
+}
+
+AbstractVar * Object::innermost()
+{
+    return this;
+}
+
 std::unique_ptr<AbstractVar> Object::clone() const
 {
     return std::unique_ptr<AbstractVar>(new Object(*this));

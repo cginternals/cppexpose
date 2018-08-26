@@ -35,10 +35,16 @@ void MyObject::test(int a, float b)
 
 void MyObject::setFunction(const Variant & func)
 {
+    // Example usage:
+    //   script.obj.setFunction(function(){print('hallo!');});
+    //   script.obj.callFunction();
+
     if (func.type() == VarType::Function) {
-        // [TODO] This will most probably not work yet
         std::cout << "Setting function." << std::endl;
-        m_func = func.convert<Function>();
+        m_func = func.asTyped<const Var<Function> *>()->value();
+
+        // [TODO] Would be nice if this worked, too
+        //m_func = func.convert<Function>();
     } else {
         std::cout << "Parameter is not a function." << std::endl;
     }

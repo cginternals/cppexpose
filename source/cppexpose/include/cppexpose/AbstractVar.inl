@@ -24,5 +24,17 @@ Type AbstractVar::convert() const
     return var.value();
 }
 
+template <typename Type>
+Type AbstractVar::asTyped()
+{
+    return static_cast<Type>(this->innermost());
+}
+
+template <typename Type>
+Type AbstractVar::asTyped() const
+{
+    return static_cast<Type>(this->innermost());
+}
+
 
 } // namespace cppexpose

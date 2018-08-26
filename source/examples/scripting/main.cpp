@@ -61,6 +61,12 @@ int main(int, char * [])
     var = var->resolve("parent.parent");
     std::cout << "script: " << var->toString() << std::endl;
 
+    // Get test function
+    const AbstractVar * prop = obj.property("test");
+    std::cout << prop->typeName() << std::endl;
+    Function f = prop->asTyped<const Var<Function> *>()->value();
+    f.call(std::vector<Variant>());
+
     // Start interactive command console
     while (char * line = linenoise("> ")) {
         // Get command

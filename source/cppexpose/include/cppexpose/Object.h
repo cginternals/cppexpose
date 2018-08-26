@@ -283,6 +283,10 @@ public:
     void addFunction(const std::string & name, Type * obj, RetType (Type::*fn)(Args...) const);
     //@}
 
+    // Casting
+    virtual const AbstractVar * innermost() const override;
+    virtual AbstractVar * innermost() override;
+
     // Replication
     virtual std::unique_ptr<AbstractVar> clone() const override;
     virtual std::unique_ptr<AbstractVar> move() override;
