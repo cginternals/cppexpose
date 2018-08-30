@@ -2,11 +2,14 @@
 #include <cppexpose-xml/XML.h>
 
 #include <fstream>
-#include <iostream>
+#include <sstream>
 
 #include <pugixml/pugixml.hpp>
 
 #include <cppexpose-xml/Element.h>
+
+
+using namespace cppexpose;
 
 
 namespace cppexpose_xml
@@ -15,12 +18,21 @@ namespace cppexpose_xml
 
 Element parseDocument(const pugi::xml_document & document);
 Element parseElement(const pugi::xml_node & element);
+void saveElement(pugi::xml_node & node, const Element & element);
 
 
-std::string XML::stringify(const Element &)
+std::string XML::stringify(const Element & element)
 {
-    // [TODO]
-    return "";
+    // Create XML document
+    pugi::xml_document document;
+    saveElement(document, element);
+
+    // Convert to XML
+    std::stringstream ss;
+    document.print(ss);
+
+    // Output XML
+    return ss.str();
 }
 
 Element XML::load(const std::string & filename)
@@ -121,6 +133,42 @@ Element parseElement(const pugi::xml_node & node)
 
     // Return element
     return std::move(element);
+}
+
+void saveElement(pugi::xml_node & node, const Element & element)
+{
+    // Element
+    if (!element.name.value().empty()) {
+        // Create child node
+        pugi::xml_node childNode = node.append_child(element.name.value().c_str());
+
+        // Save attributes
+        for (auto it : element.properties()) {
+            // Get property
+            auto name = it.first;
+            auto prop = it.second;
+
+            // Ignore "name", "text", "children", and all functions
+            if (name != "name" && name != "text" && name != "children" && prop->type() != VarType::Function) {
+                // Add attribute
+                auto attr = childNode.append_attribute(name.c_str());
+                attr.set_value(prop->toString().c_str());
+            }
+        }
+
+        // Save child elements
+        for (size_t i=0; i<element.children.size(); i++) {
+            auto * child = static_cast<const Element *>(element.children.at(i));
+            saveElement(childNode, *child);
+        }
+    }
+
+    // Text
+    else if (!element.text.value().empty()) {
+        // Create child node
+        pugi::xml_node childNode = node.append_child(pugi::node_pcdata);
+        childNode.text().set(element.text.value().c_str());
+    }
 }
 
 

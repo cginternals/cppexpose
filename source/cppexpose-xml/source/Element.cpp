@@ -28,6 +28,16 @@ Element::Element(const Element & element)
         const AbstractVar * child = element.children.at(i);
         children.push(std::move(child->clone()));
     }
+
+    // Copy properties
+    for (auto it : element.properties()) {
+        auto name = it.first;
+        auto prop = it.second;
+
+        if (name != "name" && name != "text" && name != "children") {
+            addProperty(name, std::move(prop->clone()));
+        }
+    }
 }
 
 Element::Element(Element && element)
@@ -40,6 +50,16 @@ Element::Element(Element && element)
     for (size_t i=0; i<element.children.size(); i++) {
         auto * child = static_cast<Element *>(element.children.at(i));
         children.push(std::move(child->move()));
+    }
+
+    // Move properties
+    for (auto it : element.properties()) {
+        auto name = it.first;
+        auto prop = it.second;
+
+        if (name != "name" && name != "text" && name != "children") {
+            addProperty(name, std::move(prop->move()));
+        }
     }
 }
 

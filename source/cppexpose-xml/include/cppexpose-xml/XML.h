@@ -31,7 +31,7 @@ public:
     *  @return
     *    XML string
     */
-    std::string stringify(const Element & root);
+    static std::string stringify(const Element & root);
 
     /**
     *  @brief

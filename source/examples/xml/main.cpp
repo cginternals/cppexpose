@@ -75,15 +75,18 @@ static std::string xml = R"(
 
 int main(int, char * [])
 {
+    // Parse XML document
     Element root = XML::parse(xml);
 
+    // Stringify to XML
+    std::cout << XML::stringify(root) << std::endl;
+
+    // Done
+    return 0;
+
+    // Create scripting engine
     cppexpose_js::Engine engine;
     engine.addGlobalObject("xml", &root);
-
-    /*
-    Variant result = engine.evaluate("xml.children[1].children[0].children[0].text");
-    std::cout << result.toString() << std::endl;
-    */
 
     // Load history
     linenoiseHistoryLoad("history.txt");
