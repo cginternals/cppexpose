@@ -80,6 +80,11 @@ int main(int, char * [])
     cppexpose_js::Engine engine;
     engine.addGlobalObject("xml", &root);
 
+    /*
+    Variant result = engine.evaluate("xml.children[1].children[0].children[0].text");
+    std::cout << result.toString() << std::endl;
+    */
+
     // Load history
     linenoiseHistoryLoad("history.txt");
 

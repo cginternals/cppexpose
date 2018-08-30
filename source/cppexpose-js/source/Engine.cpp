@@ -325,6 +325,12 @@ void Engine::pushToDukStack(const AbstractVar & value)
         }
     }
 
+    else if (value.isFunction())
+    {
+        // [TODO]
+        duk_push_undefined(m_context);
+    }
+
     else
     {
         warning() << "Unknown variant type found: " << value.typeName();
