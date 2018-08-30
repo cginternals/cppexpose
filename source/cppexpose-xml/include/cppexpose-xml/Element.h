@@ -35,9 +35,31 @@ public:
 
     /**
     *  @brief
+    *    Copy Constructor
+    *
+    *  @param[in] element
+    *    Element that will be copied
+    */
+    Element(const Element & element);
+
+    /**
+    *  @brief
+    *    Move Constructor
+    *
+    *  @param[in] element
+    *    Element that will be moved
+    */
+    Element(Element && element);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~Element();
+
+    // Replication
+    virtual std::unique_ptr<AbstractVar> clone() const override;
+    virtual std::unique_ptr<AbstractVar> move() override;
 };
 
 
