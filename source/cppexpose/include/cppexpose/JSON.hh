@@ -19,7 +19,7 @@ class Array;
 
 /**
 *  @brief
-*    JSON tools
+*    JSON import/export
 */
 class CPPEXPOSE_API JSON
 {
@@ -38,7 +38,7 @@ public:
 public:
     /**
     *  @brief
-    *    Parse JSON from string
+    *    Save data to JSON
     *
     *  @param[in] root
     *    Typed value

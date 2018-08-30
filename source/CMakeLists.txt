@@ -17,6 +17,7 @@ add_subdirectory(cppexpose)
 add_subdirectory(cppexpose-plugin)
 add_subdirectory(cppexpose-script)
 add_subdirectory(cppexpose-js)
+add_subdirectory(cppexpose-xml)
 
 # Examples
 set(IDE_FOLDER "Examples")
