@@ -10,12 +10,12 @@
 #include <cppexpose/Connection.hh>
 #include <cppexpose/ScopedConnection.hh>
 
-#include <cppexpose/VarType.hh>
+#include <cppexpose/VarType.h>
 #include <cppexpose/AbstractVar.hh>
 
 #include <cppexpose/Variant.hh>
 
-#include <cppexpose/function_helpers.hh>
+#include <cppexpose/function_helpers.h>
 
 #include <cppexpose/AbstractFunction.hh>
 #include <cppexpose/Function.hh>
@@ -40,8 +40,8 @@
 #include <cppexpose/TypedUnsignedIntegral.hh>
 #include <cppexpose/TypedString.hh>
 
-#include <cppexpose/template_helpers.hh>
-#include <cppexpose/GetTyped.hh>
+#include <cppexpose/template_helpers.h>
+#include <cppexpose/GetTyped.h>
 #include <cppexpose/Var.hh>
 
 #include <cppexpose/Object.hh>

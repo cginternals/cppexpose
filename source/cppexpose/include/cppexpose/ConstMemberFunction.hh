@@ -4,7 +4,7 @@
 
 #include <cppexpose/AbstractFunction.hh>
 #include <cppexpose/Variant.hh>
-#include <cppexpose/function_helpers.hh>
+#include <cppexpose/function_helpers.h>
 
 
 namespace cppexpose

@@ -3,7 +3,7 @@
 
 
 #include <cppexpose/ValueStorage.hh>
-#include <cppexpose/GetTyped.hh>
+#include <cppexpose/GetTyped.h>
 
 
 namespace cppexpose

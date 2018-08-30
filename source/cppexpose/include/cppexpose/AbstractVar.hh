@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include <cppexpose/VarType.hh>
+#include <cppexpose/VarType.h>
 #include <cppexpose/Signal.hh>
 
 

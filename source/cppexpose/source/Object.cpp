@@ -55,7 +55,7 @@ Object::Object(Object && obj)
         std::string name = it.first;
         AbstractVar * var = it.second;
 
-        // Do not copy functions, as they are dependent on the instance
+        // Do not copy functions, as they may be dependent on the instance
         if (var->type() == VarType::Function) {
             continue;
         }

@@ -56,13 +56,11 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${include_path}/cppexpose.h
-
     ${include_path}/ordered_includes.h
 
-    ${include_path}/template_helpers.h
-    ${include_path}/template_helpers.hh
     ${include_path}/function_helpers.h
-    ${include_path}/function_helpers.hh
+    ${include_path}/template_helpers.h
+    ${include_path}/GetTyped.h
 
     ${include_path}/AbstractTyped.h
     ${include_path}/AbstractTyped.hh
@@ -126,7 +124,6 @@ set(headers
     ${include_path}/Variant.hh
     ${include_path}/Variant.inl
     ${include_path}/VarType.h
-    ${include_path}/VarType.hh
 
     ${include_path}/Function.h
     ${include_path}/Function.hh
