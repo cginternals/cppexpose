@@ -2,6 +2,12 @@
 #pragma once
 
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4505) // 'identifier': unreferenced local function has been removed
+#endif
+
+
 namespace cppexpose
 {
 
@@ -88,3 +94,8 @@ void Signal<Arguments...>::disconnectId(Connection::Id id) const
 
 
 } // namespace cppexpose
+
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

@@ -5,6 +5,12 @@
 #include <cppassist/memory/make_unique.h>
 
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4100) // 'identifier': unreferenced formal parameter
+#endif
+
+
 namespace cppexpose
 {
 
@@ -42,3 +48,8 @@ Variant MemberFunction<T, RET, Arguments...>::callMethod(helper::Seq<I...>, cons
 
 
 } // namespace cppexpose
+
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

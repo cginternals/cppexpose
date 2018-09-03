@@ -2,6 +2,12 @@
 #pragma once
 
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4127) // conditional expression is constant
+#endif
+
+
 namespace cppexpose
 {
 
@@ -32,3 +38,8 @@ bool TypedFloatingPoint<T, BASE>::isFloatingPoint() const
 
 
 } // namespace cppexpose
+
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
