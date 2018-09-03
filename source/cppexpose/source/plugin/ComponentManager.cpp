@@ -245,12 +245,12 @@ bool ComponentManager::loadLibrary(const std::string & filePath, bool reload)
 void ComponentManager::unloadLibrary(PluginLibrary * library)
 {
     // Check if library is loaded
-    auto it = std::find_if(m_librariesByFilePath.begin(), m_librariesByFilePath.end(),
+    auto libIt = std::find_if(m_librariesByFilePath.begin(), m_librariesByFilePath.end(),
         [library](const std::pair<const std::string, std::unique_ptr<PluginLibrary>> & item)
         {
             return item.second.get() == library;
         });
-    if (it == m_librariesByFilePath.end())
+    if (libIt == m_librariesByFilePath.end())
     {
         return;
     }
@@ -270,7 +270,7 @@ void ComponentManager::unloadLibrary(PluginLibrary * library)
     }
 
     // Unload plugin library
-    m_librariesByFilePath.erase(it);
+    m_librariesByFilePath.erase(libIt);
 }
 
 void ComponentManager::addComponent(AbstractComponent * component)

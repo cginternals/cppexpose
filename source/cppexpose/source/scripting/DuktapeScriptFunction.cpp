@@ -38,7 +38,7 @@ Variant DuktapeScriptFunction::call(const std::vector<Variant> & args)
     }
 
     // Call function
-    duk_int_t error = duk_pcall(m_context, args.size());
+    duk_int_t error = duk_pcall(m_context, static_cast<duk_int_t>(args.size()));
 
     // Check for error
     if (error)

@@ -32,7 +32,7 @@ int main(int, char * [])
     // Set properties directly
     obj.String.setValue("Modified");
     obj.Int.setValue(111);
-    obj.Float.setValue(23.42);
+    obj.Float.setValue(23.42f);
     obj.print();
 
     // Register callback on property changes
@@ -76,13 +76,13 @@ int main(int, char * [])
 
     for (int i=1; i<=4; i++)
     {
-        std::string name = "sub" + cppassist::string::toString<int>(i);
-        auto sub = cppassist::make_unique<Object>(name);
+        std::string subName = "sub" + cppassist::string::toString<int>(i);
+        auto sub = cppassist::make_unique<Object>(subName);
 
         for (int j=1; j<=4; j++)
         {
-            std::string name = "value" + cppassist::string::toString<int>(j);
-            sub->createDynamicProperty<int>(name, i * 10 + j);
+            std::string valName = "value" + cppassist::string::toString<int>(j);
+            sub->createDynamicProperty<int>(valName, i * 10 + j);
         }
 
         sub->removeProperty(sub->property("value2"));
