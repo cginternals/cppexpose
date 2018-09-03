@@ -107,8 +107,8 @@ TEST_F(PropertyTest, ArraySet)
     auto getter = [&value](){return value;};
     auto setter = [&value](const std::array<int, 4> & arr){value = arr;};
 
-    auto elementGetter = [&value](const int & index) -> int {return value[index];};
-    auto elementSetter = [&value](const int & index, const int & val){value[index] = val;};
+    auto elementGetter = [&value](const size_t & index) -> int {return value[index];};
+    auto elementSetter = [&value](const size_t & index, const int & val){value[index] = val;};
 
     auto prop = cppassist::make_unique<Property<std::array<int, 4>>>("Property", &object, getter, setter, elementGetter, elementSetter);
 
