@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include <cppassist/string/manipulation.h>
-#include <cppassist/memory/make_unique.inl>
+#include <cppassist/memory/make_unique.h>
 
 
 namespace cppexpose
