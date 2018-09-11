@@ -57,19 +57,22 @@ std::string escapeString(const std::string & in)
     return out;
 }
 
-std::string jsonStringify(const Variant & root, bool beautify, const std::string & indent)
+std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool beautify, const std::string & indent)
 {
     // Variant is an object
     if (root.isVariantMap())
     {
         // Quick output: {} if empty
-        if (root.asMap()->empty()) return "{}";
+        if (root.asMap()->empty()){
+            stream << "{}";
+            return stream;
+        }
 
         // Begin output
-        std::string json = "{"; // [TODO] maybe a stringstream can be more performant
+        stream << "{";
 
         if (beautify)
-            json += "\n";
+            stream << "\n";
 
         // Add all variables
         bool first = true;
@@ -77,7 +80,7 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
         {
             // Add separator (",")
             if (!first)
-                json += beautify ? ",\n" : ",";
+                stream << (beautify ? ",\n" : ",");
             else
                 first = false;
 
@@ -86,33 +89,35 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
             const cppexpose::Variant & var = it.second;
 
             // Get value
-            std::string value;
+            std::stringstream value;
             if (var.isVariantMap() || var.isVariantArray())
             {
-                value = jsonStringify(var, beautify, indent + "    ");
+                jsonStringify(value, var, beautify, indent + "    ");
             }
             else if (var.isNull())
             {
-                value = "null";
+                value << "null";
             }
             else
             {
-                value = escapeString(jsonStringify(var, beautify, ""));
+                std::stringstream unescaped;
+                jsonStringify(unescaped, var, beautify, "");
+                auto escaped = escapeString(unescaped.str());
 
                 if (var.hasType<std::string>())
-                {
-                    value = "\"" + value + "\"";
-                }
+                    value << "\"" << escaped << "\"";
+                else
+                    value << escaped;
             }
 
             // Add value to JSON
-            json += (beautify ? (indent + "    \"" + name + "\": " + value) : ("\"" + name + "\":" + value));
+            stream << (beautify ? (indent + "    \"" + name + "\": " + value.str()) : ("\"" + name + "\":" + value.str()));
         }
 
         // Finish JSON
-        json += (beautify ? "\n" + indent + "}" : "}");
+        stream << (beautify ? "\n" + indent + "}" : "}");
 
-        return json;
+        return stream;
     }
 
     // Variant is an array
@@ -120,11 +125,14 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
     {
         // Quick output: [] if empty
         if (root.asArray()->empty())
-            return "[]";
+        {
+            stream << "[]";
+            return stream;
+        }
 
         // Begin output
-        std::string json = "["; // [TODO] maybe a stringstream can be more performant
-        if (beautify) json += "\n";
+        stream << "[";
+        if (beautify) stream << "\n";
 
         // Add all elements
         bool first = true;
@@ -132,50 +140,54 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
         {
             // Add separator (",")
             if (!first)
-                json += beautify ? ",\n" : ",";
+                stream << (beautify ? ",\n" : ",");
             else
                 first = false;
 
             // Get value
-            std::string value;
+            std::stringstream value;
             if (var.isVariantMap() || var.isVariantArray())
             {
-                value = jsonStringify(var, beautify, indent + "    ");
+                jsonStringify(value, var, beautify, indent + "    ");
             }
             else if (var.isNull())
             {
-                value = "null";
+                value << "null";
             }
             else
             {
-                value = escapeString(jsonStringify(var, beautify, ""));
+                std::stringstream unescaped;
+                jsonStringify(unescaped, var, beautify, "");
+                auto escaped = escapeString(unescaped.str());
 
                 if (var.hasType<std::string>())
-                {
-                    value = "\"" + value + "\"";
-                }
+                    value << "\"" << escaped << "\"";
+                else
+                    value << escaped;
             }
 
             // Add value to JSON
-            json += (beautify ? (indent + "    " + value) : value);
+            stream << (beautify ? (indent + "    " + value.str()) : value.str());
         }
 
         // Finish JSON
-        json += (beautify ? "\n" + indent + "]" : "]");
+        stream << (beautify ? "\n" + indent + "]" : "]");
 
-        return json;
+        return stream;
     }
 
     // Primitive data types
     else if (root.canConvert<std::string>())
     {
-        return root.toString();
+        stream << root.toString();
+        return stream;
     }
 
     // Invalid type for JSON output
     else
     {
-        return "null";
+        stream << "null";
+        return stream;
     }
 }
 
@@ -415,7 +427,9 @@ namespace cppexpose
 
 std::string JSON::stringify(const Variant & root, JSON::OutputMode outputMode)
 {
-    return jsonStringify(root, outputMode == Beautify, "");
+    std::stringstream stream;
+    jsonStringify(stream, root, outputMode == Beautify, "");
+    return stream.str();
 }
 
 bool JSON::load(Variant & root, const std::string & filename)
