@@ -35,7 +35,7 @@ public:
 public:
     /**
     *  @brief
-    *    Parse JSON from string
+    *    Linearize JSON to string
     *
     *  @param[in] root
     *    Variant value
@@ -46,6 +46,19 @@ public:
     *    JSON string
     */
     static std::string stringify(const Variant & root, OutputMode outputMode = Compact);
+
+    /**
+    *  @brief
+    *    Linearize JSON to string
+    *
+    *  @param[in] stream
+    *    Stream to write results to
+    *  @param[in] root
+    *    Variant value
+    *  @param[in] outputMode
+    *    JSON output mode
+    */
+    static void stringify(std::ostream & stream, const Variant & root, OutputMode outputMode = Compact);
 
     /**
     *  @brief

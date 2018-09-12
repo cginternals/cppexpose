@@ -68,7 +68,7 @@ std::string jsonStringifyPrimitive(const Variant & value)
     return "null";
 }
 
-std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool beautify, const std::string & indent)
+void jsonStringify(std::ostream & stream, const Variant & root, bool beautify, const std::string & indent)
 {
     // Variant is an object
     if (root.isVariantMap())
@@ -76,7 +76,7 @@ std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool b
         // Quick output: {} if empty
         if (root.asMap()->empty()){
             stream << "{}";
-            return stream;
+            return;
         }
 
         // Begin output
@@ -127,7 +127,7 @@ std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool b
 
         stream << "}";
 
-        return stream;
+        return;
     }
 
     // Variant is an array
@@ -137,7 +137,7 @@ std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool b
         if (root.asArray()->empty())
         {
             stream << "[]";
-            return stream;
+            return;
         }
 
         // Begin output
@@ -182,12 +182,11 @@ std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool b
 
         stream << "]";
 
-        return stream;
+        return;
     }
 
     // Primitive data types
     stream << jsonStringifyPrimitive(root);
-    return stream;
 }
 
 Tokenizer createJSONTokenizer()
@@ -429,6 +428,11 @@ std::string JSON::stringify(const Variant & root, JSON::OutputMode outputMode)
     std::stringstream stream;
     jsonStringify(stream, root, outputMode == Beautify, "");
     return stream.str();
+}
+
+void JSON::stringify(std::ostream & stream, const Variant & root, JSON::OutputMode outputMode)
+{
+    jsonStringify(stream, root, outputMode == Beautify, "");
 }
 
 bool JSON::load(Variant & root, const std::string & filename)
