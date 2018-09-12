@@ -60,7 +60,7 @@ struct CPPEXPOSE_TEMPLATE_API value_accessor : public std::enable_if<Condition::
 *  @see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
 */
 template <typename Condition, typename Type = void>
-using EnableIf = typename value_accessor<Condition, Type>::type; 
+using EnableIf = typename value_accessor<Condition, Type>::type;
 
 template <typename Condition>
 struct CPPEXPOSE_TEMPLATE_API Neg : public neg<Condition::value> {};
@@ -86,18 +86,18 @@ struct CPPEXPOSE_TEMPLATE_API isIntegral : public And<std::is_integral<Type>::va
 
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isUnsignedIntegral : public And<std::is_integral<Type>::value,
-                                       std::is_unsigned<Type>::value, 
+                                       std::is_unsigned<Type>::value,
                                        Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isSignedIntegral : public And<std::is_integral<Type>::value,
-                                     std::is_signed<Type>::value, 
+                                     std::is_signed<Type>::value,
                                      Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isFloatingPoint : public And<std::is_floating_point<Type>::value,
                                     Neg<std::is_same<Type, long double>>::value> {};
-                                    
+
 template <typename Type>
 struct CPPEXPOSE_TEMPLATE_API isPlain : public And<Neg<std::is_reference<Type>>::value,
                             Neg<std::is_const<Type>>::value,

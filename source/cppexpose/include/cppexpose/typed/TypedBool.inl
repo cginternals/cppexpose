@@ -31,7 +31,7 @@ bool TypedBool<T, BASE>::isBool() const
 template <typename T, typename BASE>
 std::string TypedBool<T, BASE>::toString() const
 {
-    return this->value() ? "true" : "false"; 
+    return this->value() ? "true" : "false";
 }
 
 template <typename T, typename BASE>

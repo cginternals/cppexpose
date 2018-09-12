@@ -13,7 +13,7 @@ public:
     : Object(name)
     {
     }
-    
+
     const Type & constgetterconst() const
     {
         return m_var;

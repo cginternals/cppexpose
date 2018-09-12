@@ -5,7 +5,7 @@
 #include <cppexpose/signal/Connection.h>
 
 
-namespace cppexpose 
+namespace cppexpose
 {
 
 
