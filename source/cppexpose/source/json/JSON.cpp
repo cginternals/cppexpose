@@ -57,6 +57,17 @@ std::string escapeString(const std::string & in)
     return out;
 }
 
+std::string jsonStringifyPrimitive(const Variant & value)
+{
+    if (value.canConvert<std::string>())
+    {
+        return value.toString();
+    }
+
+    // Invalid type for JSON output
+    return "null";
+}
+
 std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool beautify, const std::string & indent)
 {
     // Variant is an object
@@ -88,34 +99,33 @@ std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool b
             const std::string & name       = it.first;
             const cppexpose::Variant & var = it.second;
 
-            // Get value
-            std::stringstream value;
+            // Add variable name
+            if (beautify)
+                stream << indent << "    \"" << name << "\": ";
+            else
+                stream << "\"" << name << "\":";
+
+            // Add variable value
             if (var.isVariantMap() || var.isVariantArray())
             {
-                jsonStringify(value, var, beautify, indent + "    ");
-            }
-            else if (var.isNull())
-            {
-                value << "null";
+                jsonStringify(stream, var, beautify, indent + "    ");
             }
             else
             {
-                std::stringstream unescaped;
-                jsonStringify(unescaped, var, beautify, "");
-                auto escaped = escapeString(unescaped.str());
+                auto escaped = escapeString(jsonStringifyPrimitive(var));
 
                 if (var.hasType<std::string>())
-                    value << "\"" << escaped << "\"";
+                    stream << "\"" << escaped << "\"";
                 else
-                    value << escaped;
+                    stream << escaped;
             }
-
-            // Add value to JSON
-            stream << (beautify ? (indent + "    \"" + name + "\": " + value.str()) : ("\"" + name + "\":" + value.str()));
         }
 
         // Finish JSON
-        stream << (beautify ? "\n" + indent + "}" : "}");
+        if (beautify)
+            stream << "\n" << indent;
+
+        stream << "}";
 
         return stream;
     }
@@ -132,7 +142,9 @@ std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool b
 
         // Begin output
         stream << "[";
-        if (beautify) stream << "\n";
+
+        if (beautify)
+            stream << "\n";
 
         // Add all elements
         bool first = true;
@@ -144,51 +156,38 @@ std::ostream & jsonStringify(std::ostream & stream, const Variant & root, bool b
             else
                 first = false;
 
-            // Get value
-            std::stringstream value;
+            // Add indent
+            if (beautify)
+                stream << indent << "    ";
+
+            // Add next value
             if (var.isVariantMap() || var.isVariantArray())
             {
-                jsonStringify(value, var, beautify, indent + "    ");
-            }
-            else if (var.isNull())
-            {
-                value << "null";
+                jsonStringify(stream, var, beautify, indent + "    ");
             }
             else
             {
-                std::stringstream unescaped;
-                jsonStringify(unescaped, var, beautify, "");
-                auto escaped = escapeString(unescaped.str());
+                auto escaped = escapeString(jsonStringifyPrimitive(var));
 
                 if (var.hasType<std::string>())
-                    value << "\"" << escaped << "\"";
+                    stream << "\"" << escaped << "\"";
                 else
-                    value << escaped;
+                    stream << escaped;
             }
-
-            // Add value to JSON
-            stream << (beautify ? (indent + "    " + value.str()) : value.str());
         }
 
         // Finish JSON
-        stream << (beautify ? "\n" + indent + "]" : "]");
+        if (beautify)
+            stream << "\n" << indent;
+
+        stream << "]";
 
         return stream;
     }
 
     // Primitive data types
-    else if (root.canConvert<std::string>())
-    {
-        stream << root.toString();
-        return stream;
-    }
-
-    // Invalid type for JSON output
-    else
-    {
-        stream << "null";
-        return stream;
-    }
+    stream << jsonStringifyPrimitive(root);
+    return stream;
 }
 
 Tokenizer createJSONTokenizer()
