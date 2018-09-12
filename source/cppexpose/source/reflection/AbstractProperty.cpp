@@ -54,6 +54,14 @@ void AbstractProperty::setName(const std::string & name)
     m_name = name;
 }
 
+std::string AbstractProperty::qualifiedName(const Object * root) const
+{
+    if (root == this || m_parent == nullptr)
+        return m_name;
+
+    return m_parent->qualifiedName(root) + "." + m_name;
+}
+
 Object * AbstractProperty::parent() const
 {
     return m_parent;

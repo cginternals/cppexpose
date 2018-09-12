@@ -148,6 +148,21 @@ TEST_F(PropertyTest, stringSet)
     ASSERT_TRUE(callbackVar);
 }
 
+TEST_F(PropertyTest, qualifiedName)
+{
+    Object root("root");
+    Object child("child");
+
+    root.addProperty(&child);
+
+    auto rootProp = cppassist::make_unique<Property<int>>("prop", &root, [](){return 0;}, [](const int &){});
+    auto childProp = cppassist::make_unique<Property<int>>("prop", &child, [](){return 0;}, [](const int &){});
+
+    EXPECT_EQ("root.prop", rootProp->qualifiedName());
+    EXPECT_EQ("root.child.prop", childProp->qualifiedName());
+    EXPECT_EQ("child.prop", childProp->qualifiedName(&child));
+}
+
 TEST_F(PropertyTest, conversionTest_int)
 {
     Object object;
