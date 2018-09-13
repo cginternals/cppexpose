@@ -1,11 +1,10 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/reflection/Property.h>
-
 #include <cppexpose/function/StaticFunction.h>
 #include <cppexpose/function/MemberFunction.h>
 #include <cppexpose/function/ConstMemberFunction.h>
+#include <cppexpose/reflection/Property.h>
 
 
 namespace cppexpose

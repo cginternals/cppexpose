@@ -4,8 +4,8 @@
 
 #include <sstream>
 
-#include <cppassist/string/manipulation.h>
 #include <cppassist/memory/make_unique.h>
+#include <cppassist/string/manipulation.h>
 
 
 namespace cppexpose

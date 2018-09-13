@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include <cppassist/string/conversion.h>
 #include <cppassist/memory/make_unique.h>
+#include <cppassist/string/conversion.h>
 
 
 using namespace cppexpose;

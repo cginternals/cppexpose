@@ -5,11 +5,11 @@
 #include <algorithm>
 #include <string>
 
-#include <cppassist/logging/logging.h>
-#include <cppassist/string/regex.h>
 #include <cppassist/fs/readfile.h>
+#include <cppassist/logging/logging.h>
 #include <cppassist/string/conversion.h>
 #include <cppassist/string/manipulation.h>
+#include <cppassist/string/regex.h>
 
 
 namespace

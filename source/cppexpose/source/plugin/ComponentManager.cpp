@@ -7,20 +7,20 @@
 #ifdef WIN32
     #include <Windows.h>
 #else
+    #include <dirent.h>
     #include <dlfcn.h>
     #include <libgen.h>
-    #include <dirent.h>
 #endif
 
+#include <cppassist/fs/directorytraversal.h>
+#include <cppassist/fs/FilePath.h>
+#include <cppassist/fs/SystemInfo.h>
 #include <cppassist/logging/logging.h>
 #include <cppassist/string/manipulation.h>
-#include <cppassist/fs/SystemInfo.h>
-#include <cppassist/fs/FilePath.h>
-#include <cppassist/fs/directorytraversal.h>
 
+#include <cppexpose/plugin/AbstractComponent.h>
 #include <cppexpose/plugin/ComponentRegistry.h>
 #include <cppexpose/plugin/PluginLibrary.h>
-#include <cppexpose/plugin/AbstractComponent.h>
 
 
 namespace cppexpose

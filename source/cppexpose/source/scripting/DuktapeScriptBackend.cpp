@@ -6,8 +6,8 @@
 #include <cppexpose/reflection/Object.h>
 #include <cppexpose/scripting/ScriptContext.h>
 
-#include "DuktapeScriptFunction.h"
 #include "DuktapeObjectWrapper.h"
+#include "DuktapeScriptFunction.h"
 
 
 using namespace cppassist;

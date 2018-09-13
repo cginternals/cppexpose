@@ -4,9 +4,9 @@
 #ifdef WIN32
     #include <Windows.h>
 #else
+    #include <dirent.h>
     #include <dlfcn.h>
     #include <libgen.h>
-    #include <dirent.h>
 #endif
 
 #include <cppassist/logging/logging.h>

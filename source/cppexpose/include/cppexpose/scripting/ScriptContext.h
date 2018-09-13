@@ -3,8 +3,8 @@
 
 
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 
 #include <cppexpose/signal/Signal.h>
 

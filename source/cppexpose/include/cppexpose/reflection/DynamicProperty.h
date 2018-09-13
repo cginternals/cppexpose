@@ -4,8 +4,8 @@
 
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/reflection/AbstractProperty.h>
-#include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/signal/Signal.h>
+#include <cppexpose/typed/DirectValue.h>
 
 
 namespace cppexpose

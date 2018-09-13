@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/function/AbstractFunction.h>

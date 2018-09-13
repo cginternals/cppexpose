@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include <string>
 #include <memory>
+#include <string>
 #include <typeinfo>
 
 #include <cppexpose/typed/TypeInterface.h>
