@@ -1,10 +1,11 @@
 
+#include <cppexpose/cppexpose.h>
+
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include <cppexpose/cppexpose-version.h>
-
-#include <cppexpose/cppexpose.h>
 
 
 namespace cppexpose

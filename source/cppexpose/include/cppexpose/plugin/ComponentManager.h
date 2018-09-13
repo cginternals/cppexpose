@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/plugin/ComponentHelpers.h>

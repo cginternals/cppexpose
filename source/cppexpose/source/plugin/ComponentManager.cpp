@@ -18,8 +18,6 @@
 #include <cppassist/fs/FilePath.h>
 #include <cppassist/fs/directorytraversal.h>
 
-#include <cppassist/logging/logging.h>
-
 #include <cppexpose/plugin/ComponentRegistry.h>
 #include <cppexpose/plugin/PluginLibrary.h>
 #include <cppexpose/plugin/AbstractComponent.h>

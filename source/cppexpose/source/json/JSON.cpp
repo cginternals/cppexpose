@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-#include <cppassist/string/conversion.h>
 #include <cppassist/logging/logging.h>
 
 #include <cppexpose/base/Tokenizer.h>

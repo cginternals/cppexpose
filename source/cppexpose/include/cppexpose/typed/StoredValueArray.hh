@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <memory>
+#include <functional>
+
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/GetTyped.hh>
 

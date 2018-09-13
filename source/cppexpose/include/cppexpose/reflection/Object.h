@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <unordered_map>
-#include <algorithm>
 
 #include <cppexpose/signal/Signal.h>
 #include <cppexpose/typed/AbstractTyped.h>

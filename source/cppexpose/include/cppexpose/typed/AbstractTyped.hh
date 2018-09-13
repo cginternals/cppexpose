@@ -3,8 +3,8 @@
 
 
 #include <string>
-#include <vector>
 #include <memory>
+#include <typeinfo>
 
 #include <cppexpose/typed/TypeInterface.h>
 

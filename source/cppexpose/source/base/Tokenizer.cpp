@@ -1,11 +1,9 @@
 
 #include <cppexpose/base/Tokenizer.h>
 
-#include <stdlib.h>
+#include <cmath>
 #include <algorithm>
 #include <string>
-#include <fstream>
-#include <cmath>
 
 #include <cppassist/logging/logging.h>
 #include <cppassist/string/regex.h>
@@ -117,7 +115,7 @@ bool Tokenizer::loadDocument(const std::string & filename)
 {
     m_document.clear();
 
-    if (!cppassist::fs::readFile(filename, m_document))
+    if (!fs::readFile(filename, m_document))
     {
         // Could not open file
         return false;
@@ -532,7 +530,7 @@ const std::string & Tokenizer::matchStandaloneStrings() const
     // Check if any of the standalone strings matches at the current position
     for (const auto & str : m_standalones)
     {
-        if (cppassist::string::hasPrefix(laString, str))
+        if (string::hasPrefix(laString, str))
         {
             return str;
         }
@@ -625,7 +623,7 @@ Variant Tokenizer::decodeNumber(const Token & token) const
 double Tokenizer::decodeDouble(const Token & token) const
 {
     std::string buffer(token.begin, token.end-token.begin);
-    return cppassist::string::fromString<double>(buffer);
+    return string::fromString<double>(buffer);
 }
 
 std::string Tokenizer::decodeString(const Token & token) const

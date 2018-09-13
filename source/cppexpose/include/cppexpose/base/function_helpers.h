@@ -3,7 +3,7 @@
 
 
 #include <vector>
-#include <type_traits>
+#include <string>
 #include <functional>
 
 #include <cppexpose/variant/Variant.h>

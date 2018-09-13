@@ -1,9 +1,8 @@
 
 #include <cppexpose/reflection/Object.h>
 
-#include <cassert>
+#include <algorithm>
 #include <typeinfo>
-
 #include <unordered_set>
 
 #include <cppassist/string/manipulation.h>

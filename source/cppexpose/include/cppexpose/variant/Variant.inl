@@ -2,9 +2,6 @@
 #pragma once
 
 
-#include <typeinfo>
-
-#include <cppexpose/base/template_helpers.h>
 #include <cppexpose/typed/DirectValue.hh>
 
 

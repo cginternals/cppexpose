@@ -1,10 +1,10 @@
 
 #include <cppexpose/scripting/example/TreeNode.h>
 
+#include <iostream>
+
 #include <cppassist/string/conversion.h>
 #include <cppassist/memory/make_unique.h>
-
-#include <iostream>
 
 
 using namespace cppexpose;

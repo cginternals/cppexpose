@@ -2,9 +2,9 @@
 #pragma once
 
 
-#include "duktape-1.4.0/duktape.h"
-
 #include <cppexpose/function/AbstractFunction.h>
+
+#include "duktape-1.4.0/duktape.h"
 
 
 namespace cppexpose

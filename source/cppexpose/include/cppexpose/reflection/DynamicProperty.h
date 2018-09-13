@@ -4,7 +4,7 @@
 
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/reflection/AbstractProperty.h>
-#include <cppexpose/typed/StoredValue.h>
+#include <cppexpose/typed/DirectValue.h>
 #include <cppexpose/signal/Signal.h>
 
 
