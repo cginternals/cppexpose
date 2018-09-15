@@ -72,7 +72,7 @@ void Signal<Arguments...>::fire(Arguments... arguments) const
     if (m_blocked) {
         return;
     }
-    
+
     for (auto & pair : m_callbacks)
     {
         Callback callback = pair.second;

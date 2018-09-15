@@ -380,7 +380,7 @@ void Tokenizer::skipWhitespace()
     while (m_current != m_end)
     {
         char c = nextChar();
- 
+
         if (charIn(c, m_whitespace)) {
             readChar();
         } else {
