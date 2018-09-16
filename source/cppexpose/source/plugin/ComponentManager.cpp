@@ -120,6 +120,7 @@ void ComponentManager::removePluginPath(const std::string & path)
 
 void ComponentManager::scanPlugins(const std::string & suffix, bool reload)
 {
+    static const auto libExtension = "." + cpplocate::libExtension();
     // Log scan
     cppassist::info() << "Scanning for plugins";
 
@@ -128,14 +129,14 @@ void ComponentManager::scanPlugins(const std::string & suffix, bool reload)
     {
         cppfs::FileHandle handle = cppfs::fs::open(path);
 
-        handle.traverse([this, &suffix, &reload](cppfs::FileHandle h) {
+        handle.traverse([this, &path, &suffix, &reload](cppfs::FileHandle h) {
             auto filePath = cppfs::FilePath(h.path());
 
             const std::string extension = filePath.extension();
             const std::string baseName = filePath.baseName();
 
             // Check if file is a library and and library name corresponds to search criteria
-            if (extension == cpplocate::libExtension() && (suffix.empty() || cppassist::string::hasSuffix(baseName, suffix)))
+            if (extension == libExtension && (suffix.empty() || cppassist::string::hasSuffix(baseName, suffix)))
             {
                 // Log plugin library
                 cppassist::info() << "Loading plugins from '" + h.path() + "'";
@@ -149,7 +150,7 @@ void ComponentManager::scanPlugins(const std::string & suffix, bool reload)
                 cppassist::debug() << "Skipping '" + h.path() + "'";
             }
 
-            return true; // no semantics for now
+            return h.path() == path; // don't recurse
         });
     }
 }

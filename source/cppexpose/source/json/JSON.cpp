@@ -10,17 +10,13 @@
 #include <cppexpose/variant/Variant.h>
 
 
-using namespace cppassist;
-using namespace cppexpose;
-
-
 namespace
 {
 
 
-bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer);
-bool readArray(Variant & root, Tokenizer & tokenizer);
-bool readObject(Variant & root, Tokenizer & tokenizer);
+bool readValue(cppexpose::Variant & value, cppexpose::Tokenizer::Token & token, cppexpose::Tokenizer & tokenizer);
+bool readArray(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer);
+bool readObject(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer);
 
 
 const char * const g_hexdig = "0123456789ABCDEF";
@@ -57,7 +53,7 @@ std::string escapeString(const std::string & in)
     return out;
 }
 
-std::string jsonStringifyPrimitive(const Variant & value)
+std::string jsonStringifyPrimitive(const cppexpose::Variant & value)
 {
     if (value.canConvert<std::string>())
     {
@@ -68,7 +64,7 @@ std::string jsonStringifyPrimitive(const Variant & value)
     return "null";
 }
 
-void jsonStringify(std::ostream & stream, const Variant & root, bool beautify, const std::string & indent)
+void jsonStringify(std::ostream & stream, const cppexpose::Variant & root, bool beautify, const std::string & indent)
 {
     // Variant is an object
     if (root.isVariantMap())
@@ -189,18 +185,18 @@ void jsonStringify(std::ostream & stream, const Variant & root, bool beautify, c
     stream << jsonStringifyPrimitive(root);
 }
 
-Tokenizer createJSONTokenizer()
+cppexpose::Tokenizer createJSONTokenizer()
 {
     // Create tokenizer for JSON
-    Tokenizer tokenizer;
+    cppexpose::Tokenizer tokenizer;
 
     tokenizer.setOptions(
-        Tokenizer::OptionParseStrings
-      | Tokenizer::OptionParseNumber
-      | Tokenizer::OptionParseBoolean
-      | Tokenizer::OptionParseNull
-      | Tokenizer::OptionCStyleComments
-      | Tokenizer::OptionCppStyleComments
+        cppexpose::Tokenizer::OptionParseStrings
+      | cppexpose::Tokenizer::OptionParseNumber
+      | cppexpose::Tokenizer::OptionParseBoolean
+      | cppexpose::Tokenizer::OptionParseNull
+      | cppexpose::Tokenizer::OptionCStyleComments
+      | cppexpose::Tokenizer::OptionCppStyleComments
     );
 
     tokenizer.setQuotationMarks("\"");
@@ -209,7 +205,7 @@ Tokenizer createJSONTokenizer()
     return tokenizer;
 }
 
-bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
+bool readValue(cppexpose::Variant & value, cppexpose::Tokenizer::Token & token, cppexpose::Tokenizer & tokenizer)
 {
     if (token.content == "{")
     {
@@ -221,10 +217,10 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
         return readArray(value, tokenizer);
     }
 
-    else if (token.type == Tokenizer::TokenString ||
-             token.type == Tokenizer::TokenNumber ||
-             token.type == Tokenizer::TokenBoolean ||
-             token.type == Tokenizer::TokenNull)
+    else if (token.type == cppexpose::Tokenizer::TokenString ||
+             token.type == cppexpose::Tokenizer::TokenNumber ||
+             token.type == cppexpose::Tokenizer::TokenBoolean ||
+             token.type == cppexpose::Tokenizer::TokenNull)
     {
         value = token.value;
         return true;
@@ -242,13 +238,13 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
     }
 }
 
-bool readArray(Variant & root, Tokenizer & tokenizer)
+bool readArray(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer)
 {
     // Create array
-    root = Variant::array();
+    root = cppexpose::Variant::array();
 
     // Read next token
-    Tokenizer::Token token = tokenizer.parseToken();
+    cppexpose::Tokenizer::Token token = tokenizer.parseToken();
 
     // Empty array?
     if (token.content == "]")
@@ -260,8 +256,8 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
     while (true)
     {
         // Add new value to array
-        root.asArray()->push_back(Variant());
-        Variant & value = (*root.asArray())[root.asArray()->size() - 1];
+        root.asArray()->push_back(cppexpose::Variant());
+        cppexpose::Variant & value = (*root.asArray())[root.asArray()->size() - 1];
 
         // Read value
         if (!readValue(value, token, tokenizer))
@@ -300,13 +296,13 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
     return false;
 }
 
-bool readObject(Variant & root, Tokenizer & tokenizer)
+bool readObject(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer)
 {
     // Create object
-    root = Variant::map();
+    root = cppexpose::Variant::map();
 
     // Read next token
-    Tokenizer::Token token = tokenizer.parseToken();
+    cppexpose::Tokenizer::Token token = tokenizer.parseToken();
 
     // Empty object?
     if (token.content == "}")
@@ -318,7 +314,7 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
     while (true)
     {
         // Expect name of field
-        if (token.type != Tokenizer::TokenString)
+        if (token.type != cppexpose::Tokenizer::TokenString)
         {
             cppassist::critical()
                 << "Syntax error: object member name expected. Found '"
@@ -350,8 +346,8 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
         token = tokenizer.parseToken();
 
         // Add new value to object
-        (*root.asMap())[name] = Variant();
-        Variant & value = (*root.asMap())[name];
+        (*root.asMap())[name] = cppexpose::Variant();
+        cppexpose::Variant & value = (*root.asMap())[name];
 
         // Read value
         if (!readValue(value, token, tokenizer))
@@ -390,10 +386,10 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
     return false;
 }
 
-bool readDocument(Variant & root, Tokenizer & tokenizer)
+bool readDocument(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer)
 {
     // The first value in a document must be either an object or an array
-    Tokenizer::Token token = tokenizer.parseToken();
+    cppexpose::Tokenizer::Token token = tokenizer.parseToken();
 
     if (token.content == "{")
     {

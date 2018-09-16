@@ -147,7 +147,7 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant, BASE>
 
 /**
 *  @brief
-*    Type selector for cppassist::FilePath
+*    Type selector for cppfs::FilePath
 */
 template <typename BASE>
 struct CPPEXPOSE_TEMPLATE_API GetTyped<cppfs::FilePath, BASE>
@@ -157,7 +157,7 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<cppfs::FilePath, BASE>
 
 /**
 *  @brief
-*    Type selector for const cppassist::FilePath
+*    Type selector for const cppfs::FilePath
 */
 template <typename BASE>
 struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppfs::FilePath, BASE>

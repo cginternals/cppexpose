@@ -27,9 +27,6 @@ const std::string  emptyString = "";
 } // namespace
 
 
-using namespace cppassist;
-
-
 namespace cppexpose
 {
 
@@ -550,7 +547,7 @@ std::string Tokenizer::matchNumber() const
     std::string match = "";
 
     // Was there a floating point number?
-    if (string::extractNext(m_current, m_end, format, match) > m_current)
+    if (cppassist::string::extractNext(m_current, m_end, format, match) > m_current)
     {
         return match;
     }
@@ -599,7 +596,7 @@ Variant Tokenizer::decodeNumber(const Token & token) const
 
         if (c < '0' || c > '9')
         {
-            critical()
+            cppassist::critical()
                 << "'"
                 << std::string(token.begin, token.end-token.begin)
                 << "' is not a number.";
@@ -649,7 +646,7 @@ std::string Tokenizer::decodeString(const Token & token) const
         {
             if (current == end)
             {
-                warning() << "Empty escape sequence in string";
+                cppassist::warning() << "Empty escape sequence in string";
                 return decoded;
             }
 
@@ -678,7 +675,7 @@ std::string Tokenizer::decodeString(const Token & token) const
 
                 default:
                 {
-                    critical() << "Bad escape sequence in string";
+                    cppassist::critical() << "Bad escape sequence in string";
                     return "";
                 }
             }
@@ -703,7 +700,7 @@ bool Tokenizer::decodeUnicodeCodePoint(const char * & current, const char * end,
     {
         // surrogate pairs
         if (end - current < 6) {
-            critical() << "Additional six characters expected to parse unicode surrogate pair.";
+            cppassist::critical() << "Additional six characters expected to parse unicode surrogate pair.";
             return false;
         }
 
@@ -716,7 +713,7 @@ bool Tokenizer::decodeUnicodeCodePoint(const char * & current, const char * end,
                 return false;
             }
         } else {
-            critical() << "Expecting another \\u token to begin the second half of a unicode surrogate pair";
+            cppassist::critical() << "Expecting another \\u token to begin the second half of a unicode surrogate pair";
             return false;
         }
     }
@@ -728,7 +725,7 @@ bool Tokenizer::decodeUnicodeEscapeSequence(const char * & current, const char *
 {
     if (end - current < 4)
     {
-        critical() << "Bad unicode escape sequence in string: four digits expected.";
+        cppassist::critical() << "Bad unicode escape sequence in string: four digits expected.";
         return false;
     }
 
@@ -746,7 +743,7 @@ bool Tokenizer::decodeUnicodeEscapeSequence(const char * & current, const char *
         } else if (c >= 'A' && c <= 'F') {
             unicode += c - 'A' + 10;
         } else {
-            critical() << "Bad unicode escape sequence in string: hexadecimal digit expected.";
+            cppassist::critical() << "Bad unicode escape sequence in string: hexadecimal digit expected.";
             return false;
         }
     }

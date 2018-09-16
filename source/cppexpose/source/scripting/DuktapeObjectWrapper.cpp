@@ -8,9 +8,6 @@
 #include "DuktapeScriptBackend.h"
 
 
-using namespace cppassist;
-
-
 namespace cppexpose
 {
 
@@ -442,7 +439,7 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
     }
 
     // No valid function found
-    warning() << "Error: No valid function pointer found." << std::endl;
+    cppassist::warning() << "Error: No valid function pointer found." << std::endl;
     return DUK_RET_ERROR;
 }
 
