@@ -10,10 +10,6 @@
 #include "MyObject.h"
 
 
-using namespace cppexpose;
-using namespace cppassist;
-
-
 int main(int, char * [])
 {
     // Create object and print its initial contents
@@ -24,7 +20,7 @@ int main(int, char * [])
     std::cout << "Properties:" << std::endl;
     for (auto it : obj.properties())
     {
-        AbstractProperty * property = it.second;
+        cppexpose::AbstractProperty * property = it.second;
         std::cout << "- " << property->name() << " (" << property->typeName() << ")" << std::endl;
     }
     std::cout << std::endl;
@@ -42,7 +38,7 @@ int main(int, char * [])
     });
 
     // Get property by name
-    AbstractProperty * property = obj.property("int");
+    cppexpose::AbstractProperty * property = obj.property("int");
 
     // Set property value from different data types
     property->fromLongLong(-10);
@@ -51,7 +47,7 @@ int main(int, char * [])
     property->fromBool(1);
     property->fromString("Hallo");
     property->fromString("123");
-    property->fromVariant(Variant(2));
+    property->fromVariant(cppexpose::Variant(2));
     std::cout << std::endl;
 
     // Set enum values
@@ -60,24 +56,24 @@ int main(int, char * [])
     std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
     obj.MyMood.fromString("Happy");
     std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
-    obj.MyMood.fromVariant(Variant(-1));
+    obj.MyMood.fromVariant(cppexpose::Variant(-1));
     std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
     obj.MyMood.fromULongLong(0);
     std::cout << "mood = "  << (int)obj.getMood() << " (" << obj.MyMood.toString() << ")" << std::endl;
     std::cout << std::endl;
 
     // Serialize object properties
-    Variant values = obj.toVariant();
-    std::cout << values.toJSON(JSON::Beautify) << std::endl;
+    cppexpose::Variant values = obj.toVariant();
+    std::cout << values.toJSON(cppexpose::JSON::Beautify) << std::endl;
     std::cout << std::endl;
 
     // Create object with sub-objects and dynamic properties
-    auto root = cppassist::make_unique<Object>();
+    auto root = cppassist::make_unique<cppexpose::Object>();
 
     for (int i=1; i<=4; i++)
     {
         std::string subName = "sub" + cppassist::string::toString<int>(i);
-        auto sub = cppassist::make_unique<Object>(subName);
+        auto sub = cppassist::make_unique<cppexpose::Object>(subName);
 
         for (int j=1; j<=4; j++)
         {
@@ -92,7 +88,7 @@ int main(int, char * [])
     }
 
     values = root->toVariant();
-    std::cout << values.toJSON(JSON::Beautify) << std::endl;
+    std::cout << values.toJSON(cppexpose::JSON::Beautify) << std::endl;
     std::cout << std::endl;
 
     // Exit

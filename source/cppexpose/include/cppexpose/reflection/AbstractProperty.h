@@ -76,6 +76,21 @@ public:
 
     /**
     *  @brief
+    *    Get qualified name
+    *
+    *  @param[in] relativeRoot (optional)
+    *    Root object for relative name resolution
+    *
+    *  @return
+    *    Qualified name
+    *
+    *  @remark
+    *    Returns ablosute qualified name if \a relativeRoot is not found in ancestral hierarchy
+    */
+    std::string qualifiedName(const Object * relativeRoot = nullptr) const;
+
+    /**
+    *  @brief
     *    Get parent object
     *
     *  @return

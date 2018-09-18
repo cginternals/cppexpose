@@ -86,18 +86,18 @@ TEST_F(StoredValueTest, typesBool)
 
     auto store = StoredValue<bool>([&value](){return value;}, [&value](const bool & val){value = val;});
 
-	bool trueTest = store.isBool();
-	ASSERT_TRUE(trueTest);
+    bool trueTest = store.isBool();
+    ASSERT_TRUE(trueTest);
 
-	bool falseTest = store.isEnum()
-		|| store.isNumber()
-		|| store.isString()
-		|| store.isIntegral()
-		|| store.isUnsignedIntegral()
-		|| store.isSignedIntegral()
-		|| store.isFloatingPoint()
-		|| store.isArray();
-	ASSERT_FALSE(falseTest);
+    bool falseTest = store.isEnum()
+        || store.isNumber()
+        || store.isString()
+        || store.isIntegral()
+        || store.isUnsignedIntegral()
+        || store.isSignedIntegral()
+        || store.isFloatingPoint()
+        || store.isArray();
+    ASSERT_FALSE(falseTest);
 
     ASSERT_TRUE(store.value());
 }
@@ -110,20 +110,20 @@ TEST_F(StoredValueTest, typesSignedIntegral)
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
 
-	bool trueTest = store.isNumber() 
-		&& store.isIntegral() 
-		&& store.isSignedIntegral();
-	ASSERT_TRUE(trueTest);
+    bool trueTest = store.isNumber()
+        && store.isIntegral()
+        && store.isSignedIntegral();
+    ASSERT_TRUE(trueTest);
 
-	bool falseTest = store.isBool()
-		|| store.isEnum()
-		|| store.isString()
-		|| store.isUnsignedIntegral()
-		|| store.isFloatingPoint()
-		|| store.isArray();
-	ASSERT_FALSE(falseTest);
+    bool falseTest = store.isBool()
+        || store.isEnum()
+        || store.isString()
+        || store.isUnsignedIntegral()
+        || store.isFloatingPoint()
+        || store.isArray();
+    ASSERT_FALSE(falseTest);
 
-	ASSERT_EQ(value, store.value());
+    ASSERT_EQ(value, store.value());
 }
 
 TEST_F(StoredValueTest, typesUnsignedIntegral)
@@ -133,21 +133,21 @@ TEST_F(StoredValueTest, typesUnsignedIntegral)
     curType value{};
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
- 
-	bool trueTest = store.isNumber()
-		&& store.isIntegral()
-		&& store.isUnsignedIntegral();
-	ASSERT_TRUE(trueTest);
 
-	bool falseTest = store.isBool()
-		|| store.isEnum()
-		|| store.isString()
-		|| store.isSignedIntegral()
-		|| store.isFloatingPoint()
-		|| store.isArray();
-	ASSERT_FALSE(falseTest);
-	
-	ASSERT_EQ(value, store.value());
+    bool trueTest = store.isNumber()
+        && store.isIntegral()
+        && store.isUnsignedIntegral();
+    ASSERT_TRUE(trueTest);
+
+    bool falseTest = store.isBool()
+        || store.isEnum()
+        || store.isString()
+        || store.isSignedIntegral()
+        || store.isFloatingPoint()
+        || store.isArray();
+    ASSERT_FALSE(falseTest);
+
+    ASSERT_EQ(value, store.value());
 }
 
 
@@ -159,18 +159,18 @@ TEST_F(StoredValueTest, typesString)
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
 
-	bool trueTest = store.isString();
-	ASSERT_TRUE(trueTest);
+    bool trueTest = store.isString();
+    ASSERT_TRUE(trueTest);
 
-	bool falseTest = store.isBool()
-		|| store.isEnum()
-		|| store.isNumber()
-		|| store.isIntegral()
-		|| store.isUnsignedIntegral()
-		|| store.isSignedIntegral()
-		|| store.isFloatingPoint()
-		|| store.isArray();
-	ASSERT_FALSE(falseTest);
+    bool falseTest = store.isBool()
+        || store.isEnum()
+        || store.isNumber()
+        || store.isIntegral()
+        || store.isUnsignedIntegral()
+        || store.isSignedIntegral()
+        || store.isFloatingPoint()
+        || store.isArray();
+    ASSERT_FALSE(falseTest);
 
     ASSERT_EQ(value, store.value());
 }
@@ -182,21 +182,21 @@ TEST_F(StoredValueTest, typesFloat)
     curType value{};
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const curType & val){value = val;});
-   
-	bool trueTest = store.isNumber()
-		&& store.isFloatingPoint();
-	ASSERT_TRUE(trueTest);
 
-	bool falseTest = store.isBool()
-		|| store.isEnum()
-		|| store.isString()
-		|| store.isIntegral()
-		|| store.isSignedIntegral()
-		|| store.isUnsignedIntegral()
-		|| store.isArray();
-	ASSERT_FALSE(falseTest);
-	
-	ASSERT_EQ(value, store.value());
+    bool trueTest = store.isNumber()
+        && store.isFloatingPoint();
+    ASSERT_TRUE(trueTest);
+
+    bool falseTest = store.isBool()
+        || store.isEnum()
+        || store.isString()
+        || store.isIntegral()
+        || store.isSignedIntegral()
+        || store.isUnsignedIntegral()
+        || store.isArray();
+    ASSERT_FALSE(falseTest);
+
+    ASSERT_EQ(value, store.value());
 }
 
 TEST_F(StoredValueTest, typesArray)
@@ -207,17 +207,17 @@ TEST_F(StoredValueTest, typesArray)
 
     auto store = StoredValue<curType>([&value](){return value;}, [&value](const size_t & index) -> int {return value[index];});
 
-	bool trueTest = store.isArray();
-	ASSERT_TRUE(trueTest);
+    bool trueTest = store.isArray();
+    ASSERT_TRUE(trueTest);
 
-	bool falseTest = store.isBool()
-		|| store.isEnum()
-		|| store.isNumber()
-		|| store.isString()
-		|| store.isIntegral()
-		|| store.isUnsignedIntegral()
-		|| store.isSignedIntegral()
-		|| store.isFloatingPoint();
-	ASSERT_FALSE(falseTest);
+    bool falseTest = store.isBool()
+        || store.isEnum()
+        || store.isNumber()
+        || store.isString()
+        || store.isIntegral()
+        || store.isUnsignedIntegral()
+        || store.isSignedIntegral()
+        || store.isFloatingPoint();
+    ASSERT_FALSE(falseTest);
     ASSERT_EQ(value, store.value());
 }

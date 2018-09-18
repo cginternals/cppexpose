@@ -10,17 +10,13 @@
 #include <cppexpose/variant/Variant.h>
 
 
-using namespace cppassist;
-using namespace cppexpose;
-
-
 namespace
 {
 
 
-bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer);
-bool readArray(Variant & root, Tokenizer & tokenizer);
-bool readObject(Variant & root, Tokenizer & tokenizer);
+bool readValue(cppexpose::Variant & value, cppexpose::Tokenizer::Token & token, cppexpose::Tokenizer & tokenizer);
+bool readArray(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer);
+bool readObject(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer);
 
 
 const char * const g_hexdig = "0123456789ABCDEF";
@@ -57,19 +53,33 @@ std::string escapeString(const std::string & in)
     return out;
 }
 
-std::string jsonStringify(const Variant & root, bool beautify, const std::string & indent)
+std::string jsonStringifyPrimitive(const cppexpose::Variant & value)
+{
+    if (value.canConvert<std::string>())
+    {
+        return value.toString();
+    }
+
+    // Invalid type for JSON output
+    return "null";
+}
+
+void jsonStringify(std::ostream & stream, const cppexpose::Variant & root, bool beautify, const std::string & indent)
 {
     // Variant is an object
     if (root.isVariantMap())
     {
         // Quick output: {} if empty
-        if (root.asMap()->empty()) return "{}";
+        if (root.asMap()->empty()){
+            stream << "{}";
+            return;
+        }
 
         // Begin output
-        std::string json = "{"; // [TODO] maybe a stringstream can be more performant
+        stream << "{";
 
         if (beautify)
-            json += "\n";
+            stream << "\n";
 
         // Add all variables
         bool first = true;
@@ -77,7 +87,7 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
         {
             // Add separator (",")
             if (!first)
-                json += beautify ? ",\n" : ",";
+                stream << (beautify ? ",\n" : ",");
             else
                 first = false;
 
@@ -85,34 +95,35 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
             const std::string & name       = it.first;
             const cppexpose::Variant & var = it.second;
 
-            // Get value
-            std::string value;
+            // Add variable name
+            if (beautify)
+                stream << indent << "    \"" << name << "\": ";
+            else
+                stream << "\"" << name << "\":";
+
+            // Add variable value
             if (var.isVariantMap() || var.isVariantArray())
             {
-                value = jsonStringify(var, beautify, indent + "    ");
-            }
-            else if (var.isNull())
-            {
-                value = "null";
+                jsonStringify(stream, var, beautify, indent + "    ");
             }
             else
             {
-                value = escapeString(jsonStringify(var, beautify, ""));
+                auto escaped = escapeString(jsonStringifyPrimitive(var));
 
                 if (var.hasType<std::string>())
-                {
-                    value = "\"" + value + "\"";
-                }
+                    stream << "\"" << escaped << "\"";
+                else
+                    stream << escaped;
             }
-
-            // Add value to JSON
-            json += (beautify ? (indent + "    \"" + name + "\": " + value) : ("\"" + name + "\":" + value));
         }
 
         // Finish JSON
-        json += (beautify ? "\n" + indent + "}" : "}");
+        if (beautify)
+            stream << "\n" << indent;
 
-        return json;
+        stream << "}";
+
+        return;
     }
 
     // Variant is an array
@@ -120,11 +131,16 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
     {
         // Quick output: [] if empty
         if (root.asArray()->empty())
-            return "[]";
+        {
+            stream << "[]";
+            return;
+        }
 
         // Begin output
-        std::string json = "["; // [TODO] maybe a stringstream can be more performant
-        if (beautify) json += "\n";
+        stream << "[";
+
+        if (beautify)
+            stream << "\n";
 
         // Add all elements
         bool first = true;
@@ -132,65 +148,55 @@ std::string jsonStringify(const Variant & root, bool beautify, const std::string
         {
             // Add separator (",")
             if (!first)
-                json += beautify ? ",\n" : ",";
+                stream << (beautify ? ",\n" : ",");
             else
                 first = false;
 
-            // Get value
-            std::string value;
+            // Add indent
+            if (beautify)
+                stream << indent << "    ";
+
+            // Add next value
             if (var.isVariantMap() || var.isVariantArray())
             {
-                value = jsonStringify(var, beautify, indent + "    ");
-            }
-            else if (var.isNull())
-            {
-                value = "null";
+                jsonStringify(stream, var, beautify, indent + "    ");
             }
             else
             {
-                value = escapeString(jsonStringify(var, beautify, ""));
+                auto escaped = escapeString(jsonStringifyPrimitive(var));
 
                 if (var.hasType<std::string>())
-                {
-                    value = "\"" + value + "\"";
-                }
+                    stream << "\"" << escaped << "\"";
+                else
+                    stream << escaped;
             }
-
-            // Add value to JSON
-            json += (beautify ? (indent + "    " + value) : value);
         }
 
         // Finish JSON
-        json += (beautify ? "\n" + indent + "]" : "]");
+        if (beautify)
+            stream << "\n" << indent;
 
-        return json;
+        stream << "]";
+
+        return;
     }
 
     // Primitive data types
-    else if (root.canConvert<std::string>())
-    {
-        return root.toString();
-    }
-
-    // Invalid type for JSON output
-    else
-    {
-        return "null";
-    }
+    stream << jsonStringifyPrimitive(root);
 }
 
-Tokenizer createJSONTokenizer()
+cppexpose::Tokenizer createJSONTokenizer()
 {
     // Create tokenizer for JSON
-    Tokenizer tokenizer;
+    cppexpose::Tokenizer tokenizer;
 
     tokenizer.setOptions(
-        Tokenizer::OptionParseStrings
-      | Tokenizer::OptionParseNumber
-      | Tokenizer::OptionParseBoolean
-      | Tokenizer::OptionParseNull
-      | Tokenizer::OptionCStyleComments
-      | Tokenizer::OptionCppStyleComments
+        cppexpose::Tokenizer::OptionParseStrings
+      | cppexpose::Tokenizer::OptionParseNumber
+      | cppexpose::Tokenizer::OptionParseBoolean
+      | cppexpose::Tokenizer::OptionParseNull
+      | cppexpose::Tokenizer::OptionCStyleComments
+      | cppexpose::Tokenizer::OptionCppStyleComments
     );
 
     tokenizer.setQuotationMarks("\"");
@@ -199,7 +205,7 @@ Tokenizer createJSONTokenizer()
     return tokenizer;
 }
 
-bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
+bool readValue(cppexpose::Variant & value, cppexpose::Tokenizer::Token & token, cppexpose::Tokenizer & tokenizer)
 {
     if (token.content == "{")
     {
@@ -211,10 +217,10 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
         return readArray(value, tokenizer);
     }
 
-    else if (token.type == Tokenizer::TokenString ||
-             token.type == Tokenizer::TokenNumber ||
-             token.type == Tokenizer::TokenBoolean ||
-             token.type == Tokenizer::TokenNull)
+    else if (token.type == cppexpose::Tokenizer::TokenString ||
+             token.type == cppexpose::Tokenizer::TokenNumber ||
+             token.type == cppexpose::Tokenizer::TokenBoolean ||
+             token.type == cppexpose::Tokenizer::TokenNull)
     {
         value = token.value;
         return true;
@@ -232,13 +238,13 @@ bool readValue(Variant & value, Tokenizer::Token & token, Tokenizer & tokenizer)
     }
 }
 
-bool readArray(Variant & root, Tokenizer & tokenizer)
+bool readArray(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer)
 {
     // Create array
-    root = Variant::array();
+    root = cppexpose::Variant::array();
 
     // Read next token
-    Tokenizer::Token token = tokenizer.parseToken();
+    cppexpose::Tokenizer::Token token = tokenizer.parseToken();
 
     // Empty array?
     if (token.content == "]")
@@ -250,8 +256,8 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
     while (true)
     {
         // Add new value to array
-        root.asArray()->push_back(Variant());
-        Variant & value = (*root.asArray())[root.asArray()->size() - 1];
+        root.asArray()->push_back(cppexpose::Variant());
+        cppexpose::Variant & value = (*root.asArray())[root.asArray()->size() - 1];
 
         // Read value
         if (!readValue(value, token, tokenizer))
@@ -290,13 +296,13 @@ bool readArray(Variant & root, Tokenizer & tokenizer)
     return false;
 }
 
-bool readObject(Variant & root, Tokenizer & tokenizer)
+bool readObject(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer)
 {
     // Create object
-    root = Variant::map();
+    root = cppexpose::Variant::map();
 
     // Read next token
-    Tokenizer::Token token = tokenizer.parseToken();
+    cppexpose::Tokenizer::Token token = tokenizer.parseToken();
 
     // Empty object?
     if (token.content == "}")
@@ -308,7 +314,7 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
     while (true)
     {
         // Expect name of field
-        if (token.type != Tokenizer::TokenString)
+        if (token.type != cppexpose::Tokenizer::TokenString)
         {
             cppassist::critical()
                 << "Syntax error: object member name expected. Found '"
@@ -340,8 +346,8 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
         token = tokenizer.parseToken();
 
         // Add new value to object
-        (*root.asMap())[name] = Variant();
-        Variant & value = (*root.asMap())[name];
+        (*root.asMap())[name] = cppexpose::Variant();
+        cppexpose::Variant & value = (*root.asMap())[name];
 
         // Read value
         if (!readValue(value, token, tokenizer))
@@ -380,10 +386,10 @@ bool readObject(Variant & root, Tokenizer & tokenizer)
     return false;
 }
 
-bool readDocument(Variant & root, Tokenizer & tokenizer)
+bool readDocument(cppexpose::Variant & root, cppexpose::Tokenizer & tokenizer)
 {
     // The first value in a document must be either an object or an array
-    Tokenizer::Token token = tokenizer.parseToken();
+    cppexpose::Tokenizer::Token token = tokenizer.parseToken();
 
     if (token.content == "{")
     {
@@ -415,7 +421,14 @@ namespace cppexpose
 
 std::string JSON::stringify(const Variant & root, JSON::OutputMode outputMode)
 {
-    return jsonStringify(root, outputMode == Beautify, "");
+    std::stringstream stream;
+    jsonStringify(stream, root, outputMode == Beautify, "");
+    return stream.str();
+}
+
+void JSON::stringify(std::ostream & stream, const Variant & root, JSON::OutputMode outputMode)
+{
+    jsonStringify(stream, root, outputMode == Beautify, "");
 }
 
 bool JSON::load(Variant & root, const std::string & filename)

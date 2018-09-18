@@ -14,9 +14,12 @@
 
 #include <cppassist/logging/logging.h>
 #include <cppassist/string/manipulation.h>
-#include <cppassist/fs/SystemInfo.h>
-#include <cppassist/fs/FilePath.h>
-#include <cppassist/fs/directorytraversal.h>
+
+#include <cpplocate/cpplocate.h>
+
+#include <cppfs/FilePath.h>
+#include <cppfs/FileHandle.h>
+#include <cppfs/fs.h>
 
 #include <cppassist/logging/logging.h>
 
@@ -71,7 +74,7 @@ void ComponentManager::addPluginPath(const std::string & path, PluginPathType ty
     }
 
     // Remove slash
-    const std::string p = cppassist::FilePath(path).path();
+    const std::string p = cppfs::FilePath(path).fullPath();
 
     // Check if plugin path is already in the list
     const std::vector<std::string>::const_iterator it = std::find(m_paths.cbegin(), m_paths.cend(), p);
@@ -94,7 +97,7 @@ void ComponentManager::addPluginPath(const std::string & path, PluginPathType ty
 void ComponentManager::removePluginPath(const std::string & path)
 {
     // Remove slash
-    const std::string p = cppassist::FilePath(path).path();
+    const std::string p = cppfs::FilePath(path).fullPath();
 
     // Remove path from list
     {
@@ -117,32 +120,38 @@ void ComponentManager::removePluginPath(const std::string & path)
 
 void ComponentManager::scanPlugins(const std::string & suffix, bool reload)
 {
+    static const auto libExtension = "." + cpplocate::libExtension();
     // Log scan
     cppassist::info() << "Scanning for plugins";
 
     // List files in all plugin paths
-    const std::vector<std::string> files = cppassist::fs::getFiles(m_paths, false);
-    for (const std::string & file : files)
+    for (const auto & path : m_paths)
     {
-        // Split filename
-        auto filepath = cppassist::FilePath(file);
-        std::string extension = filepath.extension();
-        std::string baseName  = filepath.baseName();
+        cppfs::FileHandle handle = cppfs::fs::open(path);
 
-        // Check if file is a library and and library name corresponds to search criteria
-        if (extension == cppassist::SystemInfo::libExtension() && (suffix.empty() || cppassist::string::hasSuffix(baseName, suffix)))
-        {
-            // Log plugin library
-            cppassist::info() << "Loading plugins from '" + file + "'";
+        handle.traverse([this, &path, &suffix, &reload](cppfs::FileHandle h) {
+            auto filePath = cppfs::FilePath(h.path());
 
-            // Load plugin library
-            loadLibrary(file, reload);
-        }
-        else
-        {
-            // Skipped
-            cppassist::debug() << "Skipping '" + file + "'";
-        }
+            const std::string extension = filePath.extension();
+            const std::string baseName = filePath.baseName();
+
+            // Check if file is a library and and library name corresponds to search criteria
+            if (extension == libExtension && (suffix.empty() || cppassist::string::hasSuffix(baseName, suffix)))
+            {
+                // Log plugin library
+                cppassist::info() << "Loading plugins from '" + h.path() + "'";
+
+                // Load plugin library
+                loadLibrary(h.path(), reload);
+            }
+            else
+            {
+                // Skipped
+                cppassist::debug() << "Skipping '" + h.path() + "'";
+            }
+
+            return h.path() == path; // don't recurse
+        });
     }
 }
 
