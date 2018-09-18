@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <cppassist/fs/FilePath.h>
+#include <cppfs/FilePath.h>
 
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/base/template_helpers.h>
@@ -147,22 +147,22 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Variant, BASE>
 
 /**
 *  @brief
-*    Type selector for cppassist::FilePath
+*    Type selector for cppfs::FilePath
 */
 template <typename BASE>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppassist::FilePath, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppfs::FilePath, BASE>
 {
-    using Type = TypedFilePath<cppassist::FilePath, BASE>;
+    using Type = TypedFilePath<cppfs::FilePath, BASE>;
 };
 
 /**
 *  @brief
-*    Type selector for const cppassist::FilePath
+*    Type selector for const cppfs::FilePath
 */
 template <typename BASE>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath, BASE>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppfs::FilePath, BASE>
 {
-    using Type = TypedFilePath<const cppassist::FilePath, BASE>;
+    using Type = TypedFilePath<const cppfs::FilePath, BASE>;
 };
 
 

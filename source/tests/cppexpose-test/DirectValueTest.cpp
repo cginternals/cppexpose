@@ -78,18 +78,18 @@ TEST_F(DirectValueTest, typesBool)
 
     auto val = DirectValue<bool>(value);
 
-	bool trueTest = val.isBool();
-	ASSERT_TRUE(trueTest);
+    bool trueTest = val.isBool();
+    ASSERT_TRUE(trueTest);
 
-	bool falseTest = val.isEnum()
-		|| val.isNumber()
-		|| val.isString()
-		|| val.isIntegral()
-		|| val.isUnsignedIntegral()
-		|| val.isSignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
+    bool falseTest = val.isEnum()
+        || val.isNumber()
+        || val.isString()
+        || val.isIntegral()
+        || val.isUnsignedIntegral()
+        || val.isSignedIntegral()
+        || val.isFloatingPoint()
+        || val.isArray();
+    ASSERT_FALSE(falseTest);
 
     ASSERT_TRUE(val.value());
 }
@@ -101,46 +101,46 @@ TEST_F(DirectValueTest, typesSignedIntegral)
     curType value{};
 
     auto val = DirectValue<curType>(value);
-    
-	bool trueTest = val.isNumber()
-		&& val.isIntegral()
-		&& val.isSignedIntegral();
-	ASSERT_TRUE(trueTest);
 
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isString()
-		|| val.isUnsignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
-	
-	ASSERT_EQ(value, val.value());
+    bool trueTest = val.isNumber()
+        && val.isIntegral()
+        && val.isSignedIntegral();
+    ASSERT_TRUE(trueTest);
+
+    bool falseTest = val.isBool()
+        || val.isEnum()
+        || val.isString()
+        || val.isUnsignedIntegral()
+        || val.isFloatingPoint()
+        || val.isArray();
+    ASSERT_FALSE(falseTest);
+
+    ASSERT_EQ(value, val.value());
 }
 
 
 TEST_F(DirectValueTest, typesUnsignedIntegral)
 {
     using curType = unsigned int;
-	
+
     curType value{};
 
     auto val = DirectValue<curType>(value);
 
-	bool trueTest = val.isNumber()
-		&& val.isIntegral()
-		&& val.isUnsignedIntegral();
-	ASSERT_TRUE(trueTest);
+    bool trueTest = val.isNumber()
+        && val.isIntegral()
+        && val.isUnsignedIntegral();
+    ASSERT_TRUE(trueTest);
 
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isString()
-		|| val.isSignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
-	
-	ASSERT_EQ(value, val.value());
+    bool falseTest = val.isBool()
+        || val.isEnum()
+        || val.isString()
+        || val.isSignedIntegral()
+        || val.isFloatingPoint()
+        || val.isArray();
+    ASSERT_FALSE(falseTest);
+
+    ASSERT_EQ(value, val.value());
 }
 
 
@@ -152,18 +152,18 @@ TEST_F(DirectValueTest, typesString)
 
     auto val = DirectValue<curType>(value);
 
-	bool trueTest = val.isString();
-	ASSERT_TRUE(trueTest);
+    bool trueTest = val.isString();
+    ASSERT_TRUE(trueTest);
 
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isNumber()
-		|| val.isIntegral()
-		|| val.isUnsignedIntegral()
-		|| val.isSignedIntegral()
-		|| val.isFloatingPoint()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
+    bool falseTest = val.isBool()
+        || val.isEnum()
+        || val.isNumber()
+        || val.isIntegral()
+        || val.isUnsignedIntegral()
+        || val.isSignedIntegral()
+        || val.isFloatingPoint()
+        || val.isArray();
+    ASSERT_FALSE(falseTest);
 
     ASSERT_EQ(value, val.value());
 }
@@ -175,19 +175,19 @@ TEST_F(DirectValueTest, typesFloat)
     curType value{};
 
     auto val = DirectValue<curType>(value);
-	
-	bool trueTest = val.isNumber()
-		&& val.isFloatingPoint();
-	ASSERT_TRUE(trueTest);
 
-	bool falseTest = val.isBool()
-		|| val.isEnum()
-		|| val.isString()
-		|| val.isIntegral()
-		|| val.isUnsignedIntegral()
-		|| val.isSignedIntegral()
-		|| val.isArray();
-	ASSERT_FALSE(falseTest);
+    bool trueTest = val.isNumber()
+        && val.isFloatingPoint();
+    ASSERT_TRUE(trueTest);
+
+    bool falseTest = val.isBool()
+        || val.isEnum()
+        || val.isString()
+        || val.isIntegral()
+        || val.isUnsignedIntegral()
+        || val.isSignedIntegral()
+        || val.isArray();
+    ASSERT_FALSE(falseTest);
 
     ASSERT_EQ(value, val.value());
 }

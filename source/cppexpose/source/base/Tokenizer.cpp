@@ -25,9 +25,6 @@ const std::string  emptyString = "";
 } // namespace
 
 
-using namespace cppassist;
-
-
 namespace cppexpose
 {
 
@@ -115,7 +112,7 @@ bool Tokenizer::loadDocument(const std::string & filename)
 {
     m_document.clear();
 
-    if (!fs::readFile(filename, m_document))
+    if (!cppassist::fs::readFile(filename, m_document))
     {
         // Could not open file
         return false;
@@ -378,7 +375,7 @@ void Tokenizer::skipWhitespace()
     while (m_current != m_end)
     {
         char c = nextChar();
- 
+
         if (charIn(c, m_whitespace)) {
             readChar();
         } else {
@@ -530,7 +527,7 @@ const std::string & Tokenizer::matchStandaloneStrings() const
     // Check if any of the standalone strings matches at the current position
     for (const auto & str : m_standalones)
     {
-        if (string::hasPrefix(laString, str))
+        if (cppassist::string::hasPrefix(laString, str))
         {
             return str;
         }
@@ -548,7 +545,7 @@ std::string Tokenizer::matchNumber() const
     std::string match = "";
 
     // Was there a floating point number?
-    if (string::extractNext(m_current, m_end, format, match) > m_current)
+    if (cppassist::string::extractNext(m_current, m_end, format, match) > m_current)
     {
         return match;
     }
@@ -597,7 +594,7 @@ Variant Tokenizer::decodeNumber(const Token & token) const
 
         if (c < '0' || c > '9')
         {
-            critical()
+            cppassist::critical()
                 << "'"
                 << std::string(token.begin, token.end-token.begin)
                 << "' is not a number.";
@@ -623,7 +620,7 @@ Variant Tokenizer::decodeNumber(const Token & token) const
 double Tokenizer::decodeDouble(const Token & token) const
 {
     std::string buffer(token.begin, token.end-token.begin);
-    return string::fromString<double>(buffer);
+    return cppassist::string::fromString<double>(buffer);
 }
 
 std::string Tokenizer::decodeString(const Token & token) const
@@ -647,7 +644,7 @@ std::string Tokenizer::decodeString(const Token & token) const
         {
             if (current == end)
             {
-                warning() << "Empty escape sequence in string";
+                cppassist::warning() << "Empty escape sequence in string";
                 return decoded;
             }
 
@@ -676,7 +673,7 @@ std::string Tokenizer::decodeString(const Token & token) const
 
                 default:
                 {
-                    critical() << "Bad escape sequence in string";
+                    cppassist::critical() << "Bad escape sequence in string";
                     return "";
                 }
             }
@@ -701,7 +698,7 @@ bool Tokenizer::decodeUnicodeCodePoint(const char * & current, const char * end,
     {
         // surrogate pairs
         if (end - current < 6) {
-            critical() << "Additional six characters expected to parse unicode surrogate pair.";
+            cppassist::critical() << "Additional six characters expected to parse unicode surrogate pair.";
             return false;
         }
 
@@ -714,7 +711,7 @@ bool Tokenizer::decodeUnicodeCodePoint(const char * & current, const char * end,
                 return false;
             }
         } else {
-            critical() << "Expecting another \\u token to begin the second half of a unicode surrogate pair";
+            cppassist::critical() << "Expecting another \\u token to begin the second half of a unicode surrogate pair";
             return false;
         }
     }
@@ -726,7 +723,7 @@ bool Tokenizer::decodeUnicodeEscapeSequence(const char * & current, const char *
 {
     if (end - current < 4)
     {
-        critical() << "Bad unicode escape sequence in string: four digits expected.";
+        cppassist::critical() << "Bad unicode escape sequence in string: four digits expected.";
         return false;
     }
 
@@ -744,7 +741,7 @@ bool Tokenizer::decodeUnicodeEscapeSequence(const char * & current, const char *
         } else if (c >= 'A' && c <= 'F') {
             unicode += c - 'A' + 10;
         } else {
-            critical() << "Bad unicode escape sequence in string: hexadecimal digit expected.";
+            cppassist::critical() << "Bad unicode escape sequence in string: hexadecimal digit expected.";
             return false;
         }
     }

@@ -9,10 +9,6 @@
 #include <cppexpose/variant/Variant.h>
 
 
-using namespace cppassist;
-using namespace cppexpose;
-
-
 static std::string json = R"(
 { // Beginning
     /* Some type of glossary,
@@ -53,14 +49,14 @@ int main(int, char * [])
     std::cout << std::endl;
 
     // Initialize tokenizer
-    Tokenizer tokenizer;
+    cppexpose::Tokenizer tokenizer;
     tokenizer.setOptions(
-        Tokenizer::OptionParseStrings
-      | Tokenizer::OptionParseNumber
-      | Tokenizer::OptionCStyleComments
-      | Tokenizer::OptionCppStyleComments
-      | Tokenizer::OptionShellStyleComments
-      | Tokenizer::OptionIncludeComments
+        cppexpose::Tokenizer::OptionParseStrings
+      | cppexpose::Tokenizer::OptionParseNumber
+      | cppexpose::Tokenizer::OptionCStyleComments
+      | cppexpose::Tokenizer::OptionCppStyleComments
+      | cppexpose::Tokenizer::OptionShellStyleComments
+      | cppexpose::Tokenizer::OptionIncludeComments
     );
     tokenizer.setQuotationMarks("\"'");
     tokenizer.setStandalones( { "+==", "+=" } );
@@ -68,11 +64,11 @@ int main(int, char * [])
 
     // Parse document
     tokenizer.setDocument(json);
-    Tokenizer::Token token = tokenizer.parseToken();
-    while (token.type != Tokenizer::TokenEndOfStream)
+    cppexpose::Tokenizer::Token token = tokenizer.parseToken();
+    while (token.type != cppexpose::Tokenizer::TokenEndOfStream)
     {
         std::cout
-            << "[" << string::toString(token.line) << ", " << string::toString(token.column) << "] "
+            << "[" << cppassist::string::toString(token.line) << ", " << cppassist::string::toString(token.column) << "] "
             << token.content
             << std::endl;
 
@@ -81,15 +77,15 @@ int main(int, char * [])
     std::cout << std::endl;
 
     // Load JSON to variant
-    Variant obj;
-    JSON::parse(obj, json);
+    cppexpose::Variant obj;
+    cppexpose::JSON::parse(obj, json);
 
     // Print variant as compact JSON
-    std::cout << JSON::stringify(obj) << std::endl;
+    std::cout << cppexpose::JSON::stringify(obj) << std::endl;
     std::cout << std::endl;
 
     // Print variant as beautified JSON
-    std::cout << JSON::stringify(obj, JSON::Beautify) << std::endl;
+    std::cout << cppexpose::JSON::stringify(obj, cppexpose::JSON::Beautify) << std::endl;
     std::cout << std::endl;
 
     // Exit application

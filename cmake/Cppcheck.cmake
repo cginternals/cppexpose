@@ -8,9 +8,7 @@ function(perform_cppcheck check_target target)
         COMMAND
             ${cppcheck_EXECUTABLE}
                 "$<$<BOOL:${includes}>:-I$<JOIN:${includes},\t-I>>"
-                --check-config
-                --enable=warning,performance,portability,information,missingInclude
-                --quiet
+                --enable=all
                 --std=c++11
                 --verbose
                 --suppress=missingIncludeSystem
@@ -21,6 +19,7 @@ function(perform_cppcheck check_target target)
     set_target_properties(${check_target}
         PROPERTIES
         FOLDER "Maintenance"
+        EXCLUDE_FROM_DEFAULT_BUILD 1
     )
     
     add_dependencies(${check_target} ${target})

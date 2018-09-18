@@ -8,9 +8,6 @@
 #include "DuktapeScriptBackend.h"
 
 
-using namespace cppassist;
-
-
 namespace cppexpose
 {
 
@@ -281,7 +278,7 @@ duk_ret_t DuktapeObjectWrapper::getPropertyValue(duk_context * context)
     duk_get_prop_string(context, -1, s_duktapeObjectPointerKey);
     auto objWrapper = static_cast<DuktapeObjectWrapper *>( duk_get_pointer(context, -1) );
     duk_pop_2(context);
-    
+
     // Assume that the wrapper exists, otherwise the backend is in an inconsistent state
     assert(objWrapper != nullptr);
 
@@ -356,14 +353,14 @@ duk_ret_t DuktapeObjectWrapper::setPropertyValue(duk_context * context)
 
     // Assume that the property exists, otherwise the backend is in an inconsistent state
     assert(property != nullptr);
-    
+
     // Bail if propery is read-only
     if (property->isReadOnly())
     {
         // Does not return
         duk_error(context, DUK_ERR_TYPE_ERROR, "property '%s' is read-only", propName.c_str());
     }
-    
+
     // Set property value
     try
     {
@@ -442,7 +439,7 @@ duk_ret_t DuktapeObjectWrapper::callObjectFunction(duk_context * context)
     }
 
     // No valid function found
-    warning() << "Error: No valid function pointer found." << std::endl;
+    cppassist::warning() << "Error: No valid function pointer found." << std::endl;
     return DUK_RET_ERROR;
 }
 

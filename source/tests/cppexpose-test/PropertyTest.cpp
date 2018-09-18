@@ -20,7 +20,7 @@ class PropertyTest : public testing::Test
 public:
     PropertyTest()
     {
-    }    
+    }
 };
 
 template <typename T>
@@ -30,10 +30,10 @@ public:
     TypeTester();
     void testType(Property<T> & var, std::vector<memberFunc<T>> trueFuncs);
     void testType(Property<T> & var, memberFunc<T> trueFunc);
-    
+
 protected:
     std::vector<memberFunc<T>> methods;
-};    
+};
 
 template <typename T>
 TypeTester<T>::TypeTester()
@@ -71,14 +71,14 @@ TEST_F(PropertyTest, boolSet)
 {
     Object object;
     bool callbackVar = false;
-    
+
     auto callback = [&callbackVar](const bool& newVal){
         ASSERT_FALSE(newVal);
         callbackVar = true;
     };
-    
+
     bool value = true;
-    
+
     auto get = [&value] ()
     {
         return value;
@@ -90,11 +90,11 @@ TEST_F(PropertyTest, boolSet)
     };
 
     auto prop = cppassist::make_unique<Property<bool>>("Property", &object, get, set);
-    
+
     prop->valueChanged.connect(callback);
-    
+
     prop->setValue(false);
-    
+
     ASSERT_FALSE(prop->toBool());
     ASSERT_TRUE(callbackVar);
 }
@@ -121,14 +121,14 @@ TEST_F(PropertyTest, stringSet)
 {
     Object object;
     bool callbackVar = false;
-    
+
     auto callback = [&callbackVar](const std::string &)
     {
         callbackVar = true;
     };
-    
+
     std::string value = "foo";
-    
+
     auto get = [&value] ()
     {
         return value;
@@ -140,11 +140,11 @@ TEST_F(PropertyTest, stringSet)
     };
 
     auto prop = cppassist::make_unique<Property<std::string>>("Property", &object, get, set);
-    
+
     prop->valueChanged.connect(callback);
-    
+
     prop->setValue("bar");
-    
+
     ASSERT_EQ("bar", prop->toString());
     ASSERT_TRUE(callbackVar);
 }
@@ -167,11 +167,11 @@ TEST_F(PropertyTest, qualifiedName)
 TEST_F(PropertyTest, conversionTest_int)
 {
     Object object;
-    
+
     int intVar = 0;
-    
+
     auto intProp = cppassist::make_unique<Property<int>>("intProperty", &object, [&](){return intVar;}, [](const int&){});
-    
+
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
     ASSERT_EQ(intVar, intProp->toULongLong());
@@ -181,11 +181,11 @@ TEST_F(PropertyTest, conversionTest_int)
 TEST_F(PropertyTest, conversionTest_negative_int)
 {
     Object object;
-    
+
     int intVar = -3;
-    
+
     auto intProp = cppassist::make_unique<Property<int>>("intProperty", &object, [&](){return intVar;}, [](const int&){});
-    
+
     ASSERT_DOUBLE_EQ(intVar, intProp->toDouble());
     ASSERT_EQ(intVar, intProp->toLongLong());
     ASSERT_EQ(intVar, intProp->toULongLong());
@@ -222,7 +222,7 @@ TEST_F(PropertyTest, typesBool)
     TypeTester<bool> tester;
     Object object;
     bool value = true;
-    
+
     auto get = [&value] ()
     {
         return value;
@@ -245,12 +245,12 @@ TEST_F(PropertyTest, typesBool)
 TEST_F(PropertyTest, typesSignedIntegral)
 {
     using curType = int;
-    
+
     TypeTester<curType> tester;
     Object object;
-    
+
     curType value{};
-    
+
     auto get = [&value] ()
     {
         return value;
@@ -260,9 +260,9 @@ TEST_F(PropertyTest, typesSignedIntegral)
     {
         value = val;
     };
-    
+
     auto prop = Property<curType>("Property", &object, get, set);
-    
+
     tester.testType(prop, {&Property<curType>::isIntegral, &Property<curType>::isNumber, &Property<curType>::isSignedIntegral});
     ASSERT_EQ(value, prop.toLongLong());
 }
@@ -270,38 +270,38 @@ TEST_F(PropertyTest, typesSignedIntegral)
 TEST_F(PropertyTest, typesUnsignedIntegral)
 {
     using curType = unsigned int;
-    
+
     TypeTester<curType> tester;
     Object object;
-    
+
     curType value{};
-    
+
     auto get = [&value] ()
     {
         return value;
     };
-    
+
     auto set = [&value] (const curType & val)
     {
         value = val;
     };
-    
+
     auto prop = Property<curType>("Property", &object, get, set);
-    
+
     tester.testType(prop, {&Property<curType>::isIntegral, &Property<curType>::isNumber, &Property<curType>::isUnsignedIntegral});
     ASSERT_EQ(value, prop.toLongLong());
 }
 
 
 TEST_F(PropertyTest, typesString)
-{ 
+{
     using curType = std::string;
-    
+
     TypeTester<curType> tester;
     Object object;
-    
+
     curType value = "test";
-    
+
     auto get = [&value] ()
     {
         return value;
@@ -311,9 +311,9 @@ TEST_F(PropertyTest, typesString)
     {
         value = val;
     };
-    
+
     auto prop = Property<curType>("Property", &object, get, set);
-    
+
     tester.testType(prop, &Property<curType>::isString);
     ASSERT_EQ(value, prop.toString());
 }
@@ -321,24 +321,24 @@ TEST_F(PropertyTest, typesString)
 TEST_F(PropertyTest, typesFloat)
 {
     using curType = float;
-    
+
     TypeTester<curType> tester;
     Object object;
-    
+
     curType value{};
-    
+
     auto get = [&value] ()
     {
         return value;
     };
-    
+
     auto set = [&value] (const curType & val)
     {
         value = val;
     };
-    
+
     auto prop = Property<curType>("Property", &object, get, set);
-    
+
     tester.testType(prop, {&Property<curType>::isNumber, &Property<curType>::isFloatingPoint});
     ASSERT_EQ(value, prop.toLongLong());
 }

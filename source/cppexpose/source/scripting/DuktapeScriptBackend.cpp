@@ -10,9 +10,6 @@
 #include "DuktapeScriptFunction.h"
 
 
-using namespace cppassist;
-
-
 namespace cppexpose
 {
 
@@ -251,8 +248,8 @@ Variant DuktapeScriptBackend::fromDukStack(duk_idx_t index)
     }
 
     // Unknown type
-    warning() << "Unknown type found: " << duk_get_type(m_context, index) << std::endl;
-    warning() << "Duktape stack dump:" << std::endl;
+    cppassist::warning() << "Unknown type found: " << duk_get_type(m_context, index) << std::endl;
+    cppassist::warning() << "Duktape stack dump:" << std::endl;
     duk_dump_context_stderr(m_context);
     return Variant();
 }
@@ -322,7 +319,7 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
 
     else
     {
-        warning() << "Unknown variant type found: " << value.type().name();
+        cppassist::warning() << "Unknown variant type found: " << value.type().name();
         duk_push_undefined(m_context);
     }
 }

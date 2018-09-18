@@ -24,10 +24,10 @@ public:
     variantTest()
     {
     }
-    
+
     virtual void SetUp() override;
 
-    
+
 protected:
     std::vector<memberFunc> methods;
 };
@@ -69,49 +69,49 @@ void testType(Variant & var, memberFunc trueFunc, const std::vector<memberFunc> 
 TEST_F(variantTest, constructorBool)
 {
     const bool b = true;
-    
+
     auto var = Variant(b);
-    
+
     testType(var, &Variant::isBool, methods);
-    ASSERT_TRUE(var.toBool());    
+    ASSERT_TRUE(var.toBool());
 }
 
 TEST_F(variantTest, constructorString)
 {
     const std::string str = "test";
-    
+
     auto var = Variant(str);
-    
+
     testType(var, &Variant::isString, methods);
     ASSERT_EQ(str, var.toString());
 }
 
 TEST_F(variantTest, constructorSignedIntegral)
 {
-   int i = -10;
-    
-   auto var = Variant(i);
-   
-   testType(var, {&Variant::isIntegral, &Variant::isNumber, &Variant::isSignedIntegral}, methods);
-   ASSERT_EQ(i, var.toLongLong());
+    int i = -10;
+
+    auto var = Variant(i);
+
+    testType(var, {&Variant::isIntegral, &Variant::isNumber, &Variant::isSignedIntegral}, methods);
+    ASSERT_EQ(i, var.toLongLong());
 }
 
 TEST_F(variantTest, constructorUnsignedIntegral)
 {
-   unsigned int i = 10;
-    
-   auto var = Variant(i);
-   
-   testType(var, {&Variant::isIntegral, &Variant::isNumber, &Variant::isUnsignedIntegral}, methods);
-   ASSERT_EQ(i, var.toLongLong());
+    unsigned int i = 10;
+
+    auto var = Variant(i);
+
+    testType(var, {&Variant::isIntegral, &Variant::isNumber, &Variant::isUnsignedIntegral}, methods);
+    ASSERT_EQ(i, var.toLongLong());
 }
 
 TEST_F(variantTest, constructorFloat)
 {
     float f = 100.0f;
-    
+
     auto var = Variant(f);
-    
+
     testType(var, {&Variant::isNumber, &Variant::isFloatingPoint}, methods);
     ASSERT_EQ(f, var.toDouble());
 }
@@ -119,14 +119,14 @@ TEST_F(variantTest, constructorFloat)
 TEST_F(variantTest, constructorEmpty)
 {
     auto var = Variant();
-    
+
     testType(var, &Variant::isNull, methods);
 }
 
 TEST_F(variantTest, constructorVariantArray)
 {
     auto var = Variant(VariantArray());
-    
+
     testType(var, &Variant::isVariantArray, methods);
 
     std::vector<int> testVector;
@@ -144,24 +144,24 @@ TEST_F(variantTest, constructorVariantArray)
 TEST_F(variantTest, staticConstructorVariantArray)
 {
     auto var = Variant::array();
-    
+
     testType(var, &Variant::isVariantArray, methods);
-    
+
     var = Variant::array(100u);
-    
+
     testType(var, &Variant::isVariantArray, methods);
 }
 
 TEST_F(variantTest, constructorVariantMap)
 {
     auto var = Variant(VariantMap());
-    
+
     testType(var, &Variant::isVariantMap, methods);
 }
 
 TEST_F(variantTest, staticConstructorVariantMap)
 {
     auto var = Variant::map();
-    
+
     testType(var, &Variant::isVariantMap, methods);
 }
