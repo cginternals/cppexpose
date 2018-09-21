@@ -59,7 +59,19 @@ std::string escapeString(const std::string & in)
     return out;
 }
 
-std::string jsonStringify(const AbstractVar & root, bool beautify, const std::string & indent)
+std::string getStringValue(const AbstractVar & value)
+{
+    // Primitive data types
+    if (value.canConvertToString())
+    {
+        return value.toString();
+    }
+
+    // Invalid type for JSON output
+    return "null";
+}
+
+void jsonStringify(std::ostream & stream, const AbstractVar & root, bool beautify, const std::string & indent)
 {
     // Value is an object
     if (root.isObject())
@@ -68,13 +80,15 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
         const Object & obj = *root.asObject();
 
         // Quick output: {} if empty
-        if (obj.empty()) return "{}";
+        if (obj.empty()) {
+            stream << "{}";
+            return;
+        }
 
         // Begin output
-        std::stringstream ss;
-        ss << "{";
+        stream << "{";
         if (beautify) {
-            ss << "\n";
+            stream << "\n";
         }
 
         // Add all variables
@@ -88,38 +102,42 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
 
             // Add separator (",")
             if (!first) {
-                ss << (beautify ? ",\n" : ",");
+                stream << (beautify ? ",\n" : ",");
             } else {
                 first = false;
             }
 
-            // Get value
-            std::string value;
-            if (prop->isObject() || prop->isArray())
-            {
-                value = jsonStringify(*prop, beautify, indent + "    ");
-            }
-            else if (prop->isNull())
-            {
-                value = "null";
-            }
-            else
-            {
-                value = escapeString(jsonStringify(*prop, beautify, ""));
-
-                if (prop->isString())
-                {
-                    value = "\"" + value + "\"";
-                }
+            // Add name to JSON
+            if (beautify) {
+                stream << indent << "    \"" << name << "\": ";
+            } else {
+                stream << "\"" << name << "\":";
             }
 
             // Add value to JSON
-            ss << (beautify ? (indent + "    \"" + name + "\": " + value) : ("\"" + name + "\":" + value));
+            if (prop->isObject() || prop->isArray())
+            {
+                jsonStringify(stream, *prop, beautify, indent + "    ");
+            }
+            else if (prop->isNull())
+            {
+                stream << "null";
+            }
+            else
+            {
+                auto escaped = escapeString(getStringValue(*prop));
+
+                if (prop->isString()) {
+                    stream << "\"" << escaped << "\"";
+                } else {
+                    stream << escaped;
+                }
+            }
+
         }
 
         // Finish JSON
-        ss << (beautify ? "\n" + indent + "}" : "}");
-        return ss.str();
+        stream << (beautify ? "\n" + indent + "}" : "}");
     }
 
     // Variant is an array
@@ -130,14 +148,14 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
 
         // Quick output: [] if empty
         if (array.empty()) {
-            return "[]";
+            stream << "[]";
+            return;
         }
 
         // Begin output
-        std::stringstream ss;
-        ss << "[";
+        stream << "[";
         if (beautify) {
-            ss << "\n";
+            stream << "\n";
         }
 
         // Add all elements
@@ -150,50 +168,45 @@ std::string jsonStringify(const AbstractVar & root, bool beautify, const std::st
 
             // Add separator (",")
             if (!first)
-                ss << (beautify ? ",\n" : ",");
+                stream << (beautify ? ",\n" : ",");
             else
                 first = false;
+
+            // Add indentation to JSON
+            if (beautify) {
+                stream << indent << "    ";
+            }
 
             // Get value
             std::string value;
             if (prop->isObject() || prop->isArray())
             {
-                value = jsonStringify(*prop, beautify, indent + "    ");
+                jsonStringify(stream, *prop, beautify, indent + "    ");
             }
             else if (prop->isNull())
             {
-                value = "null";
+                stream << "null";
             }
             else
             {
-                value = escapeString(jsonStringify(*prop, beautify, ""));
+                auto escaped = escapeString(getStringValue(*prop));
 
-                if (prop->isString())
-                {
-                    value = "\"" + value + "\"";
+                if (prop->isString()) {
+                    stream << "\"" << escaped << "\"";
+                } else {
+                    stream << escaped;
                 }
             }
-
-            // Add value to JSON
-            ss << (beautify ? (indent + "    " + value) : value);
         }
 
         // Finish JSON
-        ss << (beautify ? "\n" + indent + "]" : "]");
-
-        return ss.str();
+        stream << (beautify ? "\n" + indent + "]" : "]");
     }
 
     // Primitive data types
-    else if (root.canConvertToString())
-    {
-        return root.toString();
-    }
-
-    // Invalid type for JSON output
     else
     {
-        return "null";
+        stream << getStringValue(root);
     }
 }
 
@@ -485,7 +498,15 @@ namespace cppexpose
 
 std::string JSON::stringify(const AbstractVar & root, JSON::OutputMode outputMode)
 {
-    return jsonStringify(root, outputMode == Beautify, "");
+    std::stringstream ss;
+    jsonStringify(ss, root, outputMode == Beautify, "");
+
+    return ss.str();
+}
+
+void JSON::stringify(std::ostream & stream, const AbstractVar & root, OutputMode outputMode)
+{
+    jsonStringify(stream, root, outputMode == Beautify, "");
 }
 
 Variant JSON::load(const std::string & filename)

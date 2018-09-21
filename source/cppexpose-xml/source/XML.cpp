@@ -21,18 +21,24 @@ Element parseElement(const pugi::xml_node & element);
 void saveElement(pugi::xml_node & node, const Element & element);
 
 
-std::string XML::stringify(const Element & element)
+std::string XML::stringify(const Element & root)
 {
-    // Create XML document
-    pugi::xml_document document;
-    saveElement(document, element);
-
     // Convert to XML
     std::stringstream ss;
-    document.print(ss);
+    stringify(ss, root);
 
     // Output XML
     return ss.str();
+}
+
+void XML::stringify(std::ostream & stream, const Element & root)
+{
+    // Create XML document
+    pugi::xml_document document;
+    saveElement(document, root);
+
+    // Convert to XML
+    document.print(stream);
 }
 
 Element XML::load(const std::string & filename)

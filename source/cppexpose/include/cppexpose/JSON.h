@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <ostream>
 
 #include <cppexpose/cppexpose_api.h>
 
@@ -49,6 +50,19 @@ public:
     *    JSON string
     */
     static std::string stringify(const AbstractVar & root, OutputMode outputMode = Compact);
+
+    /**
+    *  @brief
+    *    Save data to JSON
+    *
+    *  @param[in] stream
+    *    Stream to write results to
+    *  @param[in] root
+    *    Typed value
+    *  @param[in] outputMode
+    *    JSON output mode
+    */
+    static void stringify(std::ostream & stream, const AbstractVar & root, OutputMode outputMode = Compact);
 
     /**
     *  @brief

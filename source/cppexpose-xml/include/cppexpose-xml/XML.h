@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <ostream>
 
 #include <cppexpose-xml/cppexpose-xml_api.h>
 
@@ -32,6 +33,17 @@ public:
     *    XML string
     */
     static std::string stringify(const Element & root);
+
+    /**
+    *  @brief
+    *    Save data to XML
+    *
+    *  @param[in] stream
+    *    Stream to write results to
+    *  @param[in] root
+    *    XML element
+    */
+    static void stringify(std::ostream & stream, const Element & root);
 
     /**
     *  @brief
