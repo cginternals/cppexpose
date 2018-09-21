@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <ostream>
 #include <string>
 
 #include <cppexpose/cppexpose_api.h>
