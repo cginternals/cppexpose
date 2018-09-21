@@ -1,8 +1,16 @@
 
 # This config script tries to locate the project either in its source tree
 # or from an install location.
-# 
+#
 # Please adjust the list of submodules to search for.
+
+
+# Find dependencies
+# - cppfs must searched for before MODULE_NAMES declaration, otherwise it
+#   cppfs-config.cmake overwrites the variable MODULE_NAMES
+include(CMakeFindDependencyMacro)
+find_dependency(cppassist)
+find_dependency(cppfs)
 
 
 # List of modules
