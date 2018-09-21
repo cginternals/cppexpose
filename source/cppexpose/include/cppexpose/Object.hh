@@ -7,7 +7,7 @@
 #include <string>
 
 #include <cppexpose/PropertyContainer.hh>
-#include <cppexpose/Signal.hh>
+#include <cppexpose/Signal.h>
 
 
 namespace cppexpose

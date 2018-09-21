@@ -5,7 +5,7 @@
 #include <type_traits>
 
 #include <cppexpose/AbstractVar.hh>
-#include <cppexpose/Signal.hh>
+#include <cppexpose/Signal.h>
 
 
 namespace cppexpose

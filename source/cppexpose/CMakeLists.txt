@@ -126,31 +126,21 @@ set(headers
     ${include_path}/VarType.h
 
     ${include_path}/Function.h
-    ${include_path}/Function.hh
     ${include_path}/AbstractFunction.h
-    ${include_path}/AbstractFunction.hh
     ${include_path}/StaticFunction.h
-    ${include_path}/StaticFunction.hh
     ${include_path}/StaticFunction.inl
     ${include_path}/MemberFunction.h
-    ${include_path}/MemberFunction.hh
     ${include_path}/MemberFunction.inl
     ${include_path}/ConstMemberFunction.h
-    ${include_path}/ConstMemberFunction.hh
     ${include_path}/ConstMemberFunction.inl
 
     ${include_path}/AbstractSignal.h
-    ${include_path}/AbstractSignal.hh
     ${include_path}/Connection.h
-    ${include_path}/Connection.hh
     ${include_path}/ScopedConnection.h
-    ${include_path}/ScopedConnection.hh
     ${include_path}/Signal.h
-    ${include_path}/Signal.hh
     ${include_path}/Signal.inl
 
     ${include_path}/JSON.h
-    ${include_path}/JSON.hh
 )
 
 set(sources

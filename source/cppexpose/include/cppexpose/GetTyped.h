@@ -5,7 +5,7 @@
 #include <cppassist/fs/FilePath.h>
 
 #include <cppexpose/template_helpers.h>
-#include <cppexpose/Function.hh>
+#include <cppexpose/Function.h>
 #include <cppexpose/TypedGeneric.hh>
 #include <cppexpose/TypedBool.hh>
 #include <cppexpose/TypedString.hh>

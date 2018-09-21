@@ -5,10 +5,10 @@
 // Include all headers
 #include <cppexpose/cppexpose_api.h>
 
-#include <cppexpose/AbstractSignal.hh>
-#include <cppexpose/Signal.hh>
-#include <cppexpose/Connection.hh>
-#include <cppexpose/ScopedConnection.hh>
+#include <cppexpose/AbstractSignal.h>
+#include <cppexpose/Signal.h>
+#include <cppexpose/Connection.h>
+#include <cppexpose/ScopedConnection.h>
 
 #include <cppexpose/VarType.h>
 #include <cppexpose/AbstractVar.hh>
@@ -17,11 +17,11 @@
 
 #include <cppexpose/function_helpers.h>
 
-#include <cppexpose/AbstractFunction.hh>
-#include <cppexpose/Function.hh>
-#include <cppexpose/StaticFunction.hh>
-#include <cppexpose/MemberFunction.hh>
-#include <cppexpose/ConstMemberFunction.hh>
+#include <cppexpose/AbstractFunction.h>
+#include <cppexpose/Function.h>
+#include <cppexpose/StaticFunction.h>
+#include <cppexpose/MemberFunction.h>
+#include <cppexpose/ConstMemberFunction.h>
 
 #include <cppexpose/PropertyContainer.hh>
 #include <cppexpose/AbstractTyped.hh>
@@ -47,16 +47,8 @@
 #include <cppexpose/Object.hh>
 #include <cppexpose/Array.hh>
 
-#include <cppexpose/JSON.hh>
-
 
 // Include all implementations
-
-#include <cppexpose/StaticFunction.inl>
-#include <cppexpose/MemberFunction.inl>
-#include <cppexpose/ConstMemberFunction.inl>
-
-#include <cppexpose/Signal.inl>
 
 #include <cppexpose/AbstractVar.inl>
 #include <cppexpose/AbstractTyped.inl>

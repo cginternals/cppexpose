@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cppexpose/Variant.hh>
+
+
 namespace cppexpose
 {
 

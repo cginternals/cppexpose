@@ -6,7 +6,7 @@
 #include <string>
 
 #include <cppexpose/VarType.h>
-#include <cppexpose/Signal.hh>
+#include <cppexpose/Signal.h>
 
 
 namespace cppexpose
