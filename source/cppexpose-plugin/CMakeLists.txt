@@ -5,6 +5,7 @@
 
 find_package(cpplocate REQUIRED)
 find_package(cppassist REQUIRED)
+find_package(cppfs     REQUIRED)
 
 set(ADDITIONAL_LIBRARIES)
 set(ADDITIONAL_INCLUDES)
@@ -181,6 +182,7 @@ target_link_libraries(${target}
     PUBLIC
     ${DEFAULT_LIBRARIES}
     cppassist::cppassist
+    cppfs::cppfs
     cppexpose::cppexpose
 
     INTERFACE
