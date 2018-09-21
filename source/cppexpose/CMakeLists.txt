@@ -5,6 +5,7 @@
 
 find_package(cpplocate REQUIRED)
 find_package(cppassist REQUIRED)
+find_package(cppfs     REQUIRED)
 
 set(ADDITIONAL_LIBRARIES)
 set(ADDITIONAL_INCLUDES)
@@ -90,6 +91,9 @@ set(headers
     ${include_path}/TypedEnum.h
     ${include_path}/TypedEnum.hh
     ${include_path}/TypedEnum.inl
+    ${include_path}/TypedFilePath.h
+    ${include_path}/TypedFilePath.hh
+    ${include_path}/TypedFilePath.inl
     ${include_path}/TypedFloatingPoint.h
     ${include_path}/TypedFloatingPoint.hh
     ${include_path}/TypedFloatingPoint.inl
@@ -266,6 +270,7 @@ target_link_libraries(${target}
     PUBLIC
     ${DEFAULT_LIBRARIES}
     cppassist::cppassist
+    cppfs::cppfs
 
     INTERFACE
 )

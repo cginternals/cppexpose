@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include <cppfs/FilePath.h>
+
 #include <cppexpose/Object.h>
 #include <cppexpose/Var.h>
 
@@ -21,6 +23,7 @@ public:
     cppexpose::Var<Mood>               MyMood;
     cppexpose::Var<std::array<int, 3>> Array;
     cppexpose::Var<void *>             Pointer;
+    cppexpose::Var<cppfs::FilePath>    Filename;
 
 public:
     MyObject();
