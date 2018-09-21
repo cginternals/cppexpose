@@ -2,8 +2,6 @@
 #pragma once
 
 
-#include <cppassist/fs/FilePath.h>
-
 #include <cppexpose/template_helpers.h>
 #include <cppexpose/Function.h>
 #include <cppexpose/TypedGeneric.hh>
@@ -18,7 +16,6 @@
 #include <cppexpose/TypedArrayPointer.hh>
 #include <cppexpose/TypedArray.hh>
 #include <cppexpose/TypedFunction.hh>
-//#include <cppexpose/TypedFilePath.hh>
 
 
 namespace cppexpose
@@ -247,30 +244,6 @@ struct CPPEXPOSE_TEMPLATE_API GetTyped<Function>
 {
     using VarType = TypedFunction<Function>;
 };
-
-/**
-*  @brief
-*    Type selector for cppassist::FilePath
-*/
-/*
-template <>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<cppassist::FilePath>
-{
-    using VarType = TypedFilePath<cppassist::FilePath>;
-};
-*/
-
-/**
-*  @brief
-*    Type selector for const cppassist::FilePath
-*/
-/*
-template <>
-struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppassist::FilePath>
-{
-    using VarType = TypedFilePath<const cppassist::FilePath>;
-};
-*/
 
 
 } // namespace cppexpose
