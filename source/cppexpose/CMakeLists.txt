@@ -88,6 +88,9 @@ set(headers
     ${include_path}/TypedBool.h
     ${include_path}/TypedBool.hh
     ${include_path}/TypedBool.inl
+    ${include_path}/TypedColor.h
+    ${include_path}/TypedColor.hh
+    ${include_path}/TypedColor.inl
     ${include_path}/TypedEnum.h
     ${include_path}/TypedEnum.hh
     ${include_path}/TypedEnum.inl
@@ -144,6 +147,7 @@ set(headers
     ${include_path}/Signal.h
     ${include_path}/Signal.inl
 
+    ${include_path}/Color.h
     ${include_path}/JSON.h
 )
 
@@ -163,6 +167,7 @@ set(sources
     ${source_path}/Connection.cpp
     ${source_path}/ScopedConnection.cpp
 
+    ${source_path}/Color.cpp
     ${source_path}/JSON.cpp
 )
 

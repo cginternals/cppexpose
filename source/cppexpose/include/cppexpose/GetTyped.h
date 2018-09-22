@@ -5,6 +5,7 @@
 #include <cppfs/FilePath.h>
 
 #include <cppexpose/template_helpers.h>
+#include <cppexpose/Color.h>
 #include <cppexpose/Function.h>
 #include <cppexpose/TypedGeneric.hh>
 #include <cppexpose/TypedBool.hh>
@@ -19,6 +20,7 @@
 #include <cppexpose/TypedArray.hh>
 #include <cppexpose/TypedFunction.hh>
 #include <cppexpose/TypedFilePath.hh>
+#include <cppexpose/TypedColor.hh>
 
 
 namespace cppexpose
@@ -266,6 +268,26 @@ template <>
 struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppfs::FilePath>
 {
     using VarType = TypedFilePath<const cppfs::FilePath>;
+};
+
+/**
+*  @brief
+*    Type selector for cppexpose::Color
+*/
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<cppexpose::Color>
+{
+    using VarType = TypedColor<cppexpose::Color>;
+};
+
+/**
+*  @brief
+*    Type selector for const cppexpose::Color
+*/
+template <>
+struct CPPEXPOSE_TEMPLATE_API GetTyped<const cppexpose::Color>
+{
+    using VarType = TypedColor<const cppexpose::Color>;
 };
 
 

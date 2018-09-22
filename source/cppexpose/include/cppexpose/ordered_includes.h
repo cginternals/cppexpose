@@ -40,6 +40,7 @@
 #include <cppexpose/TypedUnsignedIntegral.hh>
 #include <cppexpose/TypedString.hh>
 #include <cppexpose/TypedFilePath.hh>
+#include <cppexpose/TypedColor.hh>
 
 #include <cppexpose/template_helpers.h>
 #include <cppexpose/GetTyped.h>
@@ -67,6 +68,7 @@
 #include <cppexpose/TypedUnsignedIntegral.inl>
 #include <cppexpose/TypedString.inl>
 #include <cppexpose/TypedFilePath.inl>
+#include <cppexpose/TypedColor.inl>
 #include <cppexpose/ValueStorage.inl>
 #include <cppexpose/Var.inl>
 
