@@ -157,6 +157,10 @@ public:
     */
     virtual ~ValueStorage();
 
+    // Casting
+    virtual const AbstractVar * innermost() const override;
+    virtual AbstractVar * innermost() override;
+
     // Replication
     virtual std::unique_ptr<AbstractVar> clone() const override;
 
