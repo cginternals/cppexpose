@@ -3,6 +3,8 @@
 
 #include <sstream>
 
+#include <cpplocate/string/conversion.h>
+
 #include <cppassist/string/conversion.h>
 #include <cppassist/logging/logging.h>
 #include <cppassist/tokenizer/Tokenizer.h>
@@ -99,6 +101,7 @@ void jsonStringify(std::ostream & stream, const AbstractVar & root, bool beautif
             std::string   name = it.first;
             AbstractVar * prop = it.second;
             if (!prop) continue;
+            if (prop->isFunction()) continue;
 
             // Add separator (",")
             if (!first) {
@@ -165,6 +168,7 @@ void jsonStringify(std::ostream & stream, const AbstractVar & root, bool beautif
             // Get property
             auto * prop = array.at(i);
             if (!prop) continue;
+            if (prop->isFunction()) continue;
 
             // Add separator (",")
             if (!first)
