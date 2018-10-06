@@ -79,7 +79,7 @@ bool TypedBool<Type>::isEnum() const
 template <typename Type>
 bool TypedBool<Type>::isString() const
 {
-    return true;
+    return false;
 }
 
 template <typename Type>

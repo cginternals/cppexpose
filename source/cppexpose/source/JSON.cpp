@@ -3,8 +3,6 @@
 
 #include <sstream>
 
-#include <cpplocate/string/conversion.h>
-
 #include <cppassist/string/conversion.h>
 #include <cppassist/logging/logging.h>
 #include <cppassist/tokenizer/Tokenizer.h>
