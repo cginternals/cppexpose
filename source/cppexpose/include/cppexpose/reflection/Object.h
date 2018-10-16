@@ -2,18 +2,19 @@
 #pragma once
 
 
-#include <vector>
 #include <unordered_map>
-#include <algorithm>
+#include <vector>
 
-#include <cppexpose/signal/Signal.h>
-#include <cppexpose/typed/AbstractTyped.h>
 #include <cppexpose/reflection/DynamicProperty.h>
 #include <cppexpose/reflection/Method.h>
+#include <cppexpose/signal/Signal.h>
 
 
 namespace cppexpose
 {
+
+
+class AbstractTyped;
 
 
 /**

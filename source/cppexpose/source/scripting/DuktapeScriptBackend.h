@@ -2,9 +2,9 @@
 #pragma once
 
 
-#include <string>
-#include <memory>
 #include <map>
+#include <memory>
+#include <string>
 
 #include <cppexpose/cppexpose_features.h>
 #include <cppexpose/scripting/AbstractScriptBackend.h>

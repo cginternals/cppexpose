@@ -3,6 +3,7 @@
 
 #include <gmock/gmock.h>
 
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
 
 

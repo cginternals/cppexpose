@@ -3,8 +3,8 @@
 
 
 #include <cppexpose/reflection/AbstractProperty.h>
-#include <cppexpose/typed/StoredValue.h>
 #include <cppexpose/signal/Signal.h>
+#include <cppexpose/typed/StoredValue.h>
 
 
 namespace cppexpose

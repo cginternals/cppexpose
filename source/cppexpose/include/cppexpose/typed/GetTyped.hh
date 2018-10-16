@@ -6,16 +6,16 @@
 
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/base/template_helpers.h>
-#include <cppexpose/typed/TypedGeneric.hh>
-#include <cppexpose/typed/TypedBool.hh>
-#include <cppexpose/typed/TypedString.hh>
-#include <cppexpose/typed/TypedSignedIntegral.hh>
-#include <cppexpose/typed/TypedUnsignedIntegral.hh>
-#include <cppexpose/typed/TypedFloatingPoint.hh>
-#include <cppexpose/typed/TypedEnum.hh>
 #include <cppexpose/typed/TypedArray.hh>
-#include <cppexpose/typed/TypedVariant.hh>
+#include <cppexpose/typed/TypedBool.hh>
+#include <cppexpose/typed/TypedEnum.hh>
 #include <cppexpose/typed/TypedFilePath.hh>
+#include <cppexpose/typed/TypedFloatingPoint.hh>
+#include <cppexpose/typed/TypedGeneric.hh>
+#include <cppexpose/typed/TypedSignedIntegral.hh>
+#include <cppexpose/typed/TypedString.hh>
+#include <cppexpose/typed/TypedUnsignedIntegral.hh>
+#include <cppexpose/typed/TypedVariant.hh>
 
 
 namespace cppexpose

@@ -1,5 +1,4 @@
 
-#pragma once
 #include <cppassist/memory/make_unique.h>
 
 

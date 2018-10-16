@@ -1,10 +1,4 @@
 
-#pragma once
-
-
-#include <cppexpose/reflection/Object.h>
-
-
 namespace cppexpose
 {
 

@@ -4,9 +4,9 @@
 
 #include <vector>
 
-#include "duktape-1.4.0/duktape.h"
-
 #include <cppexpose/signal/ScopedConnection.h>
+
+#include "duktape-1.4.0/duktape.h"
 
 
 namespace cppexpose

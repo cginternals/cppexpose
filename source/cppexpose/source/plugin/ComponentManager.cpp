@@ -7,13 +7,10 @@
 #ifdef WIN32
     #include <Windows.h>
 #else
+    #include <dirent.h>
     #include <dlfcn.h>
     #include <libgen.h>
-    #include <dirent.h>
 #endif
-
-#include <cppassist/logging/logging.h>
-#include <cppassist/string/manipulation.h>
 
 #include <cpplocate/cpplocate.h>
 
@@ -22,10 +19,11 @@
 #include <cppfs/fs.h>
 
 #include <cppassist/logging/logging.h>
+#include <cppassist/string/manipulation.h>
 
+#include <cppexpose/plugin/AbstractComponent.h>
 #include <cppexpose/plugin/ComponentRegistry.h>
 #include <cppexpose/plugin/PluginLibrary.h>
-#include <cppexpose/plugin/AbstractComponent.h>
 
 
 namespace cppexpose

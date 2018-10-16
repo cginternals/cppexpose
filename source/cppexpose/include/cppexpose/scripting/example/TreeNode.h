@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <memory>
+
 #include <cppexpose/reflection/Object.h>
 #include <cppexpose/reflection/Property.h>
 

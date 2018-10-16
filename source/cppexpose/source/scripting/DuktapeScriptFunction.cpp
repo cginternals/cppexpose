@@ -3,8 +3,8 @@
 
 #include <cppassist/memory/make_unique.h>
 
-#include <cppexpose/variant/Variant.h>
 #include <cppexpose/scripting/ScriptContext.h>
+#include <cppexpose/variant/Variant.h>
 
 #include "DuktapeScriptBackend.h"
 

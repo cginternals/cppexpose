@@ -3,6 +3,7 @@
 
 
 #include <functional>
+#include <memory>
 
 #include <cppexpose/cppexpose_api.h>
 #include <cppexpose/typed/GetTyped.hh>

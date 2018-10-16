@@ -1,17 +1,15 @@
 
 #include <cppexpose/base/Tokenizer.h>
 
-#include <stdlib.h>
+#include <cmath>
 #include <algorithm>
 #include <string>
-#include <fstream>
-#include <cmath>
 
-#include <cppassist/logging/logging.h>
-#include <cppassist/string/regex.h>
 #include <cppassist/fs/readfile.h>
+#include <cppassist/logging/logging.h>
 #include <cppassist/string/conversion.h>
 #include <cppassist/string/manipulation.h>
+#include <cppassist/string/regex.h>
 
 
 namespace

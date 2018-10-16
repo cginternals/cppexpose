@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include <cppexpose/cppexpose_api.h>
 #include <cppexpose/variant/Variant.h>
 
 

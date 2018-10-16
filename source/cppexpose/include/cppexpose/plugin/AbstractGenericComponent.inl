@@ -1,7 +1,4 @@
 
-#pragma once
-
-
 namespace cppexpose
 {
 

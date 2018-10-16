@@ -2,12 +2,13 @@
 #pragma once
 
 
+#include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <map>
 
-#include <cppexpose/signal/Signal.h>
 #include <cppexpose/plugin/ComponentHelpers.h>
+#include <cppexpose/signal/Signal.h>
 
 
 namespace cppexpose

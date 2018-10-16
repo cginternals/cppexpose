@@ -2,8 +2,9 @@
 #pragma once
 
 
-#include <string>
+#include <memory>
 #include <set>
+#include <string>
 
 #include <cppexpose/signal/Signal.h>
 
