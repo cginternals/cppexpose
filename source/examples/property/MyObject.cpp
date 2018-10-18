@@ -15,7 +15,7 @@ MyObject::MyObject(const std::string & name)
 , MyMood("mood",   this, this, &MyObject::getMood,   &MyObject::setMood)
 , m_string("Hello")
 , m_int(1)
-, m_float(0.1)
+, m_float(0.1f)
 , m_mood(Mood::Sad)
 {
 }

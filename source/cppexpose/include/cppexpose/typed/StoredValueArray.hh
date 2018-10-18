@@ -22,8 +22,8 @@ struct CPPEXPOSE_TEMPLATE_API ArrayValueFunctions
 {
     typedef T (Obj::*getter) () const;
     typedef void (Obj::*setter) (const T &);
-    typedef ElementType (Obj::*elementGetter) (int) const;
-    typedef void (Obj::*elementSetter) (int, const ElementType &);
+    typedef ElementType (Obj::*elementGetter) (size_t) const;
+    typedef void (Obj::*elementSetter) (size_t, const ElementType &);
 };
 
 
@@ -55,8 +55,8 @@ public:
     StoredValueArray(
         std::function<T ()> getter
       , std::function<void(const T &)> setter
-      , std::function<ElementType (int)> elementGetter
-      , std::function<void(int, const ElementType &)> elementSetter
+      , std::function<ElementType (size_t)> elementGetter
+      , std::function<void(size_t, const ElementType &)> elementSetter
     );
 
     /**
@@ -119,15 +119,15 @@ protected:
     */
     StoredValueArray(
         std::function<T ()> getter
-      , std::function<ElementType (int)> elementGetter
+      , std::function<ElementType (size_t)> elementGetter
     );
 
 
 protected:
-    std::function<T ()>                           m_getter;        ///< Function to get the value
-    std::function<void(const T &)>                m_setter;        ///< Function to set the value
-    std::function<ElementType (int)>              m_elementGetter; ///< Function to get an array element
-    std::function<void(int, const ElementType &)> m_elementSetter; ///< Function to set an array element
+    std::function<T ()>                              m_getter;        ///< Function to get the value
+    std::function<void(const T &)>                   m_setter;        ///< Function to set the value
+    std::function<ElementType (size_t)>              m_elementGetter; ///< Function to get an array element
+    std::function<void(size_t, const ElementType &)> m_elementSetter; ///< Function to set an array element
 };
 
 

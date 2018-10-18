@@ -261,11 +261,11 @@ void DuktapeScriptBackend::pushToDukStack(const Variant & value)
     }
 
     else if (value.isUnsignedIntegral()) {
-        duk_push_number(m_context, value.toULongLong());
+        duk_push_number(m_context, static_cast<duk_double_t>(value.toULongLong()));
     }
 
     else if (value.isSignedIntegral() || value.isIntegral()) {
-        duk_push_number(m_context, value.toLongLong());
+        duk_push_number(m_context, static_cast<duk_double_t>(value.toLongLong()));
     }
 
     else if (value.isFloatingPoint()) {

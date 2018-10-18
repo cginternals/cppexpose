@@ -11,8 +11,8 @@ template <typename T, typename BASE>
 StoredValueArray<T, BASE>::StoredValueArray(
     std::function<T ()> getter
   , std::function<void(const T &)> setter
-  , std::function<ElementType (int)> elementGetter
-  , std::function<void(int, const ElementType &)> elementSetter)
+  , std::function<ElementType (size_t)> elementGetter
+  , std::function<void(size_t, const ElementType &)> elementSetter)
 : m_getter(getter)
 , m_setter(setter)
 , m_elementGetter(elementGetter)
@@ -44,12 +44,12 @@ StoredValueArray<T, BASE>::StoredValueArray(
         (obj->*setter)(value);
     };
 
-    m_elementGetter = [obj, elementGetter] (int index) -> ElementType
+    m_elementGetter = [obj, elementGetter] (size_t index) -> ElementType
     {
         return (obj->*elementGetter)(index);
     };
 
-    m_elementSetter = [obj, elementSetter] (int index, const ElementType & value)
+    m_elementSetter = [obj, elementSetter] (size_t index, const ElementType & value)
     {
         (obj->*elementSetter)(index, value);
     };
@@ -112,7 +112,7 @@ StoredValueArray<T, BASE>::StoredValueArray()
 template <typename T, typename BASE>
 StoredValueArray<T, BASE>::StoredValueArray(
     std::function<T ()> getter
-  , std::function<ElementType (int)> elementGetter)
+  , std::function<ElementType (size_t)> elementGetter)
 : m_getter(getter)
 , m_elementGetter(elementGetter)
 {
@@ -143,7 +143,7 @@ StoredValueArray<const T, BASE>::StoredValueArray(
         return (obj->*getter)();
     };
 
-    this->m_elementGetter = [obj, elementGetter] (int index) -> typename StoredValueArray<T, BASE>::ElementType
+    this->m_elementGetter = [obj, elementGetter] (size_t index) -> typename StoredValueArray<T, BASE>::ElementType
     {
         return (obj->*elementGetter)(index);
     };
