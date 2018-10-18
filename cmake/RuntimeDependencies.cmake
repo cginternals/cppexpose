@@ -20,10 +20,12 @@ if(OPTION_SELF_CONTAINED)
 
         find_file(DLLS_CPPASSIST cppassist.dll)
         find_file(DLLS_CPPLCOATE cpplocate.dll)
+        find_file(DLLS_CPPFS cppfs.dll)
 
         set(DLLS
             ${DLLS_CPPASSIST}
             ${DLLS_CPPLCOATE}
+            ${DLLS_CPPFS}
         )
         set(PLATFORMS
             ${DLLS_WIN}
