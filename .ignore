@@ -1,0 +1,2 @@
+source/tests/googletest/*
+source/cppexpose/source/scripting/duktape-1.4.0/*
