@@ -2,7 +2,7 @@
 
 <br><a href="https://github.com/cginternals/cppexpose/"><img src="https://raw.githubusercontent.com/cginternals/cppexpose/master/cppexpose-logo.svg?sanitize=true" width="50%"></a>
 
-```cppexpose``` is a cross-platform C++11 library that provides tools for introspection of types,
+*cppexpose* is a cross-platform C++11 library that provides tools for introspection of types,
 properties, and classes. This allows for a C++ program to expose its interfaces into
 runtime, making it possible to, e.g., create automatic GUI representations for interfaces,
 or to expose them into a scripting environment.
