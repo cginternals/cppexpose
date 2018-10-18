@@ -74,6 +74,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
 
         /wd4251       # -> disable warning: 'identifier': class 'type' needs to have dll-interface to be used by clients of class 'type2'
         /wd4592       # -> disable warning: 'identifier': symbol will be dynamically initialized (implementation limitation)
+        /wd4505       # -> disable warning: 'function' : unreferenced local function has been removed
         # /wd4201     # -> disable warning: nonstandard extension used: nameless struct/union (caused by GLM)
         # /wd4127     # -> disable warning: conditional expression is constant (caused by Qt)
         
