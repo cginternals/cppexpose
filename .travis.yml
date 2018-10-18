@@ -17,6 +17,7 @@ matrix:
           packages:
           - cppcheck
           - clang-tidy-3.8
+          - libcpplocate-dev
           - libcppassist-dev
 
     - os: linux
@@ -29,6 +30,7 @@ matrix:
           packages:
           - cppcheck
           - clang-tidy-3.8
+          - libcpplocate-dev
           - libcppassist-dev
 
     - os: linux
@@ -46,6 +48,7 @@ matrix:
           - g++-5
           - cppcheck
           - clang-tidy-3.8
+          - libcpplocate-dev
           - libcppassist-dev
 
     - os: linux
@@ -63,6 +66,7 @@ matrix:
           - g++-5
           - cppcheck
           - clang-tidy-3.8
+          - libcpplocate-dev
           - libcppassist-dev
 
 before_install:
