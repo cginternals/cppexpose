@@ -28,7 +28,7 @@ public:
     , Float ("float",  this, this, &MyObject::getFloat,  &MyObject::setFloat)
     , m_string("Hallo")
     , m_int(100)
-    , m_float(23.42)
+    , m_float(23.42f)
     {
         addFunction("print",        this, &MyObject::print);
         addFunction("test",         this, &MyObject::test);

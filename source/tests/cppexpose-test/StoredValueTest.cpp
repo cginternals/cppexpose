@@ -52,7 +52,7 @@ TEST_F(StoredValueTest, arrayGet)
     std::array<int, 4> value { {1, 2, 3, 4} };
 
     auto store = StoredValue<std::array<int, 4>>([&value](){return value;},
-    [&value](const int & index) -> int
+    [&value](const size_t & index) -> int
     {
         return value[index];}
     );
@@ -70,8 +70,8 @@ TEST_F(StoredValueTest, arraySet)
     auto getter = [&value](){return value;};
     auto setter = [&value](const std::array<int, 4> & arr){value = arr;};
 
-    auto elementGetter = [&value](const int & index) -> int {return value[index];};
-    auto elementSetter = [&value](const int & index, const int & val){value[index] = val;};
+    auto elementGetter = [&value](const size_t & index) -> int {return value[index];};
+    auto elementSetter = [&value](const size_t & index, const int & val){value[index] = val;};
 
     auto store = StoredValue<std::array<int, 4>>(getter, setter, elementGetter, elementSetter);
 
@@ -205,7 +205,7 @@ TEST_F(StoredValueTest, typesArray)
 
     curType value{};
 
-    auto store = StoredValue<curType>([&value](){return value;}, [&value](const int & index) -> int {return value[index];});
+    auto store = StoredValue<curType>([&value](){return value;}, [&value](const size_t & index) -> int {return value[index];});
 
     bool trueTest = store.isArray();
     ASSERT_TRUE(trueTest);

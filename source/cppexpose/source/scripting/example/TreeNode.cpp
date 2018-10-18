@@ -36,9 +36,9 @@ int TreeNode::getId() const
     return m_id;
 }
 
-void TreeNode::setId(const int & id)
+void TreeNode::setId(const int & newID)
 {
-    m_id = id;
+    m_id = newID;
 }
 
 void TreeNode::expand()
