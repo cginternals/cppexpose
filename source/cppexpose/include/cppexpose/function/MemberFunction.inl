@@ -42,4 +42,3 @@ Variant MemberFunction<T, RET, Arguments...>::callMethod(helper::Seq<I...>, cons
 
 
 } // namespace cppexpose
-
