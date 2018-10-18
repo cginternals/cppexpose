@@ -19,6 +19,7 @@ matrix:
           - clang-tidy-3.8
           - libcpplocate-dev
           - libcppassist-dev
+          - libcppfs-dev
 
     - os: linux
       compiler: clang
@@ -32,6 +33,7 @@ matrix:
           - clang-tidy-3.8
           - libcpplocate-dev
           - libcppassist-dev
+          - libcppfs-dev
 
     - os: linux
       compiler: gcc
@@ -50,6 +52,7 @@ matrix:
           - clang-tidy-3.8
           - libcpplocate-dev
           - libcppassist-dev
+          - libcppfs-dev
 
     - os: linux
       compiler: gcc
@@ -68,6 +71,7 @@ matrix:
           - clang-tidy-3.8
           - libcpplocate-dev
           - libcppassist-dev
+          - libcppfs-dev
 
 before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then export CMAKE_OPTIONS="$CMAKE_OPTIONS"; fi
