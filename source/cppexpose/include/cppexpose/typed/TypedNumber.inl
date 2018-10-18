@@ -5,12 +5,6 @@
 #include <cppassist/string/conversion.h>
 
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4800) // 'type': forcing value to bool 'true' or 'false'
-#endif
-
-
 namespace cppexpose
 {
 
@@ -98,8 +92,3 @@ bool TypedNumber<T, BASE>::fromDouble(double value)
 
 
 } // namespace cppexpose
-
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
