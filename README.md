@@ -9,8 +9,9 @@ or to expose them into a scripting environment.
 
 ![GitHub release](https://img.shields.io/github/release/cginternals/cppexpose.svg)
 [![Travis](https://img.shields.io/travis/cginternals/cppexpose/master.svg?style=flat&logo=travis)](https://travis-ci.org/cginternals/cppexpose)
-[![Appveyor](https://img.shields.io/appveyor/ci/scheibel/cppexpose/master.svg?style=flat&logo=appveyor)](https://ci.appveyor.com/project/scheibel/cppexpose/branch/master)
 [![Tokei](https://tokei.rs/b1/github/cginternals/cppexpose)](https://github.com/Aaronepower/tokei)
+[![Tokei](https://tokei.rs/b1/github/cginternals/cppexpose?category=comments)](https://github.com/Aaronepower/tokei)
+
 
 The implementation is based on standard C++ templates and does not use language extensions
 or macros, making it typesafe and usable with any C++11 compliant toolchain. Also, no meta
