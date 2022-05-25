@@ -58,8 +58,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update
 RUN apt install -y --no-install-recommends cmake
 
+WORKDIR $PROJECT_DIR
+
 COPY --from=cppexpose-build $WORKSPACE/cpplocate $WORKSPACE/cpplocate
 COPY --from=cppexpose-build $WORKSPACE/cppfs $WORKSPACE/cppfs
 COPY --from=cppexpose-build $WORKSPACE/cppassist $WORKSPACE/cppassist
 
 COPY --from=cppexpose-build $WORKSPACE/$PROJECT_NAME-install $WORKSPACE/$PROJECT_NAME
+
+ENV LD_LIBRARY_PATH=$WORKSPACE/cpplocate/lib:$WORKSPACE/cppfs/lib:$WORKSPACE/cppassist/lib
