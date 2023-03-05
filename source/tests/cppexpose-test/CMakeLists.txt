@@ -73,7 +73,7 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
-    gmock-dev
+    googletest::googletest
     cppassist::cppassist
     ${META_PROJECT_NAME}::cppexpose
 )
